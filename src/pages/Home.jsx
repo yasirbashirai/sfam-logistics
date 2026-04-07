@@ -13,118 +13,119 @@ const iconMap = { Truck, Boxes, Snowflake, PackageOpen, Route, Zap }
 export default function Home() {
   return (
     <>
-      {/* ============ 1. CENTERED CINEMATIC HERO ============ */}
-      <section className="relative min-h-screen flex items-center justify-center pt-40 pb-20 overflow-hidden">
-        {/* Background image */}
-        <div className="absolute inset-0">
-          <img src={IMG.handshake} alt="SFam Logistics partnership" className="w-full h-full object-cover scale-105" />
-          <div className="absolute inset-0 hero-overlay" />
-          <div className="absolute inset-0 grid-bg opacity-60" />
+      {/* ============ 1. PROFESSIONAL HERO ============ */}
+      <section className="relative min-h-[100vh] flex items-center pt-40 pb-16 overflow-hidden bg-brand-navy">
+        {/* Split background: left content, right image */}
+        <div className="absolute inset-0 lg:left-1/2">
+          <img src={IMG.peterbiltHighway} alt="SFam Logistics Peterbilt on highway" className="w-full h-full object-cover" />
+          <div className="absolute inset-0 bg-gradient-to-r from-brand-navy via-brand-navy/40 to-transparent lg:via-brand-navy/0" />
+          <div className="absolute inset-0 lg:hidden bg-brand-navy/85" />
         </div>
-        {/* Floating orbs */}
-        <div className="absolute top-1/4 -right-40 w-[600px] h-[600px] bg-orange-400/15 rounded-full blur-3xl animate-orb pointer-events-none" />
-        <div className="absolute bottom-0 -left-40 w-[500px] h-[500px] bg-orange-400/10 rounded-full blur-3xl animate-orb pointer-events-none" style={{ animationDelay: '5s' }} />
+        {/* Subtle accents */}
+        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-orange-400 via-orange-500 to-transparent" />
+        <div className="absolute -bottom-20 -left-40 w-[500px] h-[500px] bg-orange-400/8 rounded-full blur-3xl pointer-events-none" />
 
-        {/* Floating side cards (decorative) */}
-        <div className="hidden lg:block absolute left-8 top-1/3 float-card z-10">
-          <div className="glass-navy p-5 max-w-[200px]">
-            <div className="flex items-center gap-2 mb-2"><div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" /><span className="text-[10px] uppercase tracking-widest text-emerald-400 font-bold">Live Now</span></div>
-            <div className="font-display italic font-black text-xl text-orange-400"><CountUp end={47} /> Loads</div>
-            <div className="text-xs text-white/60">In transit right now</div>
-          </div>
-        </div>
-        <div className="hidden lg:block absolute right-8 top-1/3 float-card-delay z-10">
-          <div className="glass-navy p-5 max-w-[200px]">
-            <div className="flex gap-1 mb-2">{[...Array(5)].map((_,i)=><Star key={i} className="w-3 h-3 fill-orange-400 text-orange-400" />)}</div>
-            <div className="font-display italic font-black text-2xl text-orange-400">4.9<span className="text-base text-white/50">/5</span></div>
-            <div className="text-xs text-white/60">From 500+ carriers</div>
-          </div>
-        </div>
-        <div className="hidden lg:block absolute left-12 bottom-32 float-card-delay z-10">
-          <div className="glass-navy p-5 max-w-[200px]">
-            <Truck className="w-6 h-6 text-orange-400 mb-2" />
-            <div className="font-display italic font-black text-xl text-orange-400">98% On-Time</div>
-            <div className="text-xs text-white/60">Across all lanes</div>
-          </div>
-        </div>
-        <div className="hidden lg:block absolute right-12 bottom-32 float-card z-10">
-          <div className="glass-navy p-5 max-w-[200px]">
-            <DollarSign className="w-6 h-6 text-orange-400 mb-2" />
-            <div className="font-display italic font-black text-xl text-orange-400">Same-Day Pay</div>
-            <div className="text-xs text-white/60">For carriers</div>
-          </div>
-        </div>
-
-        {/* CENTERED CONTENT */}
-        <div className="container-x relative text-center z-20 max-w-5xl">
-          <Reveal>
-            <div className="badge mb-6 mx-auto">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-              FMCSA Licensed • BMC-84 Bonded • Bothell, WA
-            </div>
-          </Reveal>
-          <Reveal delay={150}>
-            <h1 className="font-display italic font-black text-7xl sm:text-8xl lg:text-[10rem] leading-[0.85] text-shadow tracking-tighter">
-              <span className="text-white">We Know</span><br />
-              <span className="text-white">The </span><span className="shimmer-text">Road.</span>
-            </h1>
-            <div className="mt-6 text-2xl sm:text-3xl text-white/85 font-display italic font-light">Because we&apos;ve been on it.</div>
-          </Reveal>
-          <Reveal delay={300}>
-            <p className="mt-8 text-xl text-white/80 max-w-2xl mx-auto leading-relaxed">
-              Built by drivers, trusted by shippers. Nationwide freight brokerage with the kind of communication and respect only real road experience can teach.
-            </p>
-          </Reveal>
-          <Reveal delay={450}>
-            <div className="mt-10 flex flex-wrap gap-4 justify-center">
-              <Link to="/quote" className="btn-3d text-base !px-9 !py-4">Get an Instant Quote <ArrowRight className="w-5 h-5" /></Link>
-              <Link to="/carrier-onboarding" className="btn-ghost text-base !px-9 !py-4">Become a Carrier</Link>
-            </div>
-          </Reveal>
-
-          {/* === HORIZONTAL QUOTE FORM BAR === */}
-          <Reveal delay={600}>
-            <div className="mt-14 relative max-w-5xl mx-auto">
-              <div className="absolute -inset-4 bg-orange-400/25 blur-3xl rounded-3xl" />
-              <form action="/quote" className="relative glass-strong neon-border p-3 grid grid-cols-1 lg:grid-cols-12 gap-3 items-center text-left">
-                <div className="lg:col-span-2 px-3">
-                  <div className="text-[10px] uppercase tracking-widest text-orange-400 font-bold">Origin</div>
-                  <div className="relative mt-1">
-                    <MapPin className="absolute left-0 top-1/2 -translate-y-1/2 w-4 h-4 text-orange-400" />
-                    <input className="bg-transparent border-0 pl-6 w-full text-sm font-bold focus:outline-none placeholder:text-white/30" placeholder="ZIP code" />
-                  </div>
-                </div>
-                <div className="hidden lg:block w-px h-12 bg-white/10" />
-                <div className="lg:col-span-2 px-3">
-                  <div className="text-[10px] uppercase tracking-widest text-orange-400 font-bold">Destination</div>
-                  <div className="relative mt-1">
-                    <MapPin className="absolute left-0 top-1/2 -translate-y-1/2 w-4 h-4 text-orange-400" />
-                    <input className="bg-transparent border-0 pl-6 w-full text-sm font-bold focus:outline-none placeholder:text-white/30" placeholder="ZIP code" />
-                  </div>
-                </div>
-                <div className="hidden lg:block w-px h-12 bg-white/10" />
-                <div className="lg:col-span-2 px-3">
-                  <div className="text-[10px] uppercase tracking-widest text-orange-400 font-bold">Freight Type</div>
-                  <select className="bg-transparent border-0 w-full text-sm font-bold focus:outline-none mt-1 cursor-pointer text-white/85"><option className="bg-brand-navy">FTL</option><option className="bg-brand-navy">LTL</option><option className="bg-brand-navy">Reefer</option><option className="bg-brand-navy">Flatbed</option></select>
-                </div>
-                <div className="hidden lg:block w-px h-12 bg-white/10" />
-                <div className="lg:col-span-2 px-3">
-                  <div className="text-[10px] uppercase tracking-widest text-orange-400 font-bold">Weight (lbs)</div>
-                  <input className="bg-transparent border-0 w-full text-sm font-bold focus:outline-none mt-1 placeholder:text-white/30" placeholder="0 lbs" />
-                </div>
-                <Link to="/quote" className="btn-primary lg:col-span-2 w-full !py-4">Get Quote <ArrowRight className="w-4 h-4" /></Link>
-              </form>
-              <div className="flex items-center justify-center gap-6 mt-6 text-xs text-white/50">
-                <span className="flex items-center gap-2"><CheckCircle2 className="w-3 h-3 text-emerald-400" /> No signup required</span>
-                <span className="flex items-center gap-2"><CheckCircle2 className="w-3 h-3 text-emerald-400" /> 30-min response</span>
-                <span className="flex items-center gap-2"><CheckCircle2 className="w-3 h-3 text-emerald-400" /> 100% free</span>
+        <div className="container-x relative grid lg:grid-cols-12 gap-12 items-center z-10">
+          {/* LEFT — content */}
+          <div className="lg:col-span-7">
+            <Reveal>
+              <div className="inline-flex items-center gap-3 mb-8">
+                <div className="h-px w-12 bg-orange-400" />
+                <span className="text-xs uppercase tracking-[0.3em] text-orange-400 font-bold">Nationwide Freight Brokerage</span>
               </div>
-            </div>
-          </Reveal>
-        </div>
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 text-white/40 text-xs flex flex-col items-center gap-2 animate-pulse z-10">
-          <span className="tracking-widest uppercase">Scroll</span>
-          <div className="w-px h-12 bg-gradient-to-b from-orange-400 to-transparent" />
+            </Reveal>
+            <Reveal delay={120}>
+              <h1 className="font-display italic font-black text-5xl sm:text-6xl lg:text-7xl xl:text-[5.5rem] leading-[0.95] tracking-tight">
+                <span className="text-white block">Reliable Freight,</span>
+                <span className="text-white block">Delivered With</span>
+                <span className="text-orange-400 block">Honest Hands.</span>
+              </h1>
+            </Reveal>
+            <Reveal delay={240}>
+              <p className="mt-8 text-lg lg:text-xl text-white/70 max-w-xl leading-relaxed">
+                SFam Logistics LLC is a Bothell-based freight brokerage built by drivers. We coordinate FTL, LTL, reefer, flatbed, and dedicated freight across all 48 states — with the kind of communication only real road experience teaches.
+              </p>
+            </Reveal>
+            <Reveal delay={360}>
+              <div className="mt-10 flex flex-wrap gap-4">
+                <Link to="/quote" className="btn-primary !px-9 !py-4">Request a Quote <ArrowRight className="w-5 h-5" /></Link>
+                <Link to="/carrier-onboarding" className="btn-ghost !px-9 !py-4">Drive For Us</Link>
+              </div>
+            </Reveal>
+            <Reveal delay={480}>
+              <div className="mt-12 flex items-center gap-8 pt-8 border-t border-white/10">
+                <div>
+                  <div className="text-3xl font-display italic font-black text-orange-400"><CountUp end={10} suffix="+" /></div>
+                  <div className="text-[10px] text-white/50 uppercase tracking-widest font-bold mt-1">Years on Road</div>
+                </div>
+                <div className="h-12 w-px bg-white/10" />
+                <div>
+                  <div className="text-3xl font-display italic font-black text-orange-400"><CountUp end={500} suffix="+" /></div>
+                  <div className="text-[10px] text-white/50 uppercase tracking-widest font-bold mt-1">Carriers</div>
+                </div>
+                <div className="h-12 w-px bg-white/10" />
+                <div>
+                  <div className="text-3xl font-display italic font-black text-orange-400"><CountUp end={48} /></div>
+                  <div className="text-[10px] text-white/50 uppercase tracking-widest font-bold mt-1">States</div>
+                </div>
+                <div className="h-12 w-px bg-white/10 hidden sm:block" />
+                <div className="hidden sm:block">
+                  <div className="text-3xl font-display italic font-black text-orange-400">98<span className="text-xl">%</span></div>
+                  <div className="text-[10px] text-white/50 uppercase tracking-widest font-bold mt-1">On-Time</div>
+                </div>
+              </div>
+            </Reveal>
+          </div>
+
+          {/* RIGHT — Pro quote card */}
+          <div className="lg:col-span-5">
+            <Reveal delay={300}>
+              <div className="relative">
+                <div className="absolute -inset-4 bg-orange-400/20 blur-3xl rounded-3xl" />
+                <div className="relative bg-brand-navy/95 backdrop-blur-2xl border border-orange-400/30 rounded-2xl shadow-2xl shadow-black/60 overflow-hidden">
+                  <div className="bg-gradient-to-r from-orange-400 to-orange-500 px-7 py-5 flex items-center justify-between">
+                    <div>
+                      <div className="text-[10px] text-brand-navy/70 uppercase tracking-[0.2em] font-bold">Free Quote Engine</div>
+                      <div className="font-display italic font-black text-2xl text-brand-navy">30-Minute Response</div>
+                    </div>
+                    <Phone className="w-8 h-8 text-brand-navy" />
+                  </div>
+                  <form action="/quote" className="p-7 space-y-4">
+                    <div className="grid grid-cols-2 gap-3">
+                      <div>
+                        <label className="text-[10px] uppercase tracking-widest text-white/50 font-bold">Origin</label>
+                        <div className="relative mt-1">
+                          <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-orange-400" />
+                          <input className="input !pl-10" placeholder="ZIP" />
+                        </div>
+                      </div>
+                      <div>
+                        <label className="text-[10px] uppercase tracking-widest text-white/50 font-bold">Destination</label>
+                        <div className="relative mt-1">
+                          <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-orange-400" />
+                          <input className="input !pl-10" placeholder="ZIP" />
+                        </div>
+                      </div>
+                    </div>
+                    <div>
+                      <label className="text-[10px] uppercase tracking-widest text-white/50 font-bold">Freight Type</label>
+                      <select className="select mt-1" defaultValue=""><option value="" disabled>Select equipment...</option><option>Full Truckload (FTL)</option><option>LTL</option><option>Reefer</option><option>Flatbed</option><option>Expedited</option></select>
+                    </div>
+                    <div>
+                      <label className="text-[10px] uppercase tracking-widest text-white/50 font-bold">Estimated Weight</label>
+                      <input className="input mt-1" placeholder="lbs" />
+                    </div>
+                    <Link to="/quote" className="btn-primary w-full !py-4 !text-base">Get Free Quote <ArrowRight className="w-5 h-5" /></Link>
+                  </form>
+                  <div className="px-7 pb-6 pt-2 grid grid-cols-3 gap-2 text-center">
+                    {[['🔒', 'Secure'], ['⚡', '30 min'], ['💯', 'Free']].map(([e, t]) => (
+                      <div key={t} className="text-[10px] text-white/40 uppercase tracking-widest font-bold flex flex-col items-center gap-1"><span className="text-base">{e}</span> {t}</div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </Reveal>
+          </div>
         </div>
       </section>
 
