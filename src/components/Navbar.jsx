@@ -10,8 +10,8 @@ const links = [
   { to: '/about', label: 'About' },
   { to: '/services', label: 'Services', mega: true },
   { to: '/track', label: 'Track Load' },
-  { to: '/carrier-onboarding', label: 'For Carriers' },
-  { to: '/agent-opportunities', label: 'For Agents' },
+  { to: '/carrier-onboarding', label: 'Carriers' },
+  { to: '/agent-opportunities', label: 'Agents' },
   { to: '/blog', label: 'Insights' },
   { to: '/contact', label: 'Contact' }
 ]
