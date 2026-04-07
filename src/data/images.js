@@ -3,8 +3,9 @@
 const u = (id, w = 1600) => `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=${w}&q=80`
 
 export const IMG = {
-  // Hero / brand
-  ownTruck:      '/images/truck-hero.jpg',                  // user's own truck photo
+  // Hero / brand (user's own photos — never replaced by stock)
+  ownTruck:      '/images/truck-hero.jpg',
+  handshake:     '/images/handshake-driver.jpg',            // user's branded handshake
   heroHighway:   u('1543465077-db45d34b88a5'),              // highway perspective
   heroDusk:      u('1494412519320-aa613dfb7738'),           // truck at dusk
   heroFleet:     u('1601584115197-04ecc0da31d7'),           // fleet of trucks
@@ -31,7 +32,7 @@ export const IMG = {
   laptopMap:     u('1551288049-bebda4e38f71'),              // laptop with map
   trackingScreen:u('1460925895917-afdab827c52f'),           // analytics screen
   // People / partnership
-  handshake:     u('1556761175-b413da4baf72'),              // handshake
+  partnership:   u('1556761175-b413da4baf72'),              // partnership
   driverWave:    u('1547036967-23d11aacaee0'),              // driver waving
   carriersBg:    u('1601584115197-04ecc0da31d7'),           // carriers backdrop
   // Misc

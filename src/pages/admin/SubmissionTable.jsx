@@ -86,12 +86,36 @@ export default function SubmissionTable({ bucket, title, columns }) {
             <button onClick={() => setView(null)} className="absolute top-4 right-4 p-2 rounded-lg bg-white/5 hover:bg-red-500/20"><X className="w-4 h-4" /></button>
             <h2 className="font-display font-bold text-2xl mb-6">Submission Details</h2>
             <dl className="space-y-3">
-              {Object.entries(view).map(([k, v]) => (
-                <div key={k} className="grid grid-cols-3 gap-4 py-2 border-b border-white/5">
-                  <dt className="text-xs uppercase tracking-wider text-white/50">{k}</dt>
-                  <dd className="col-span-2 text-sm break-words">{typeof v === 'object' ? JSON.stringify(v, null, 2) : String(v)}</dd>
-                </div>
-              ))}
+              {Object.entries(view).map(([k, v]) => {
+                if (v == null || v === '') return null
+                // Render uploaded files / resume as download links
+                if ((k === 'uploadedFiles' || k === 'resumeFile') && v) {
+                  const files = Array.isArray(v) ? v : [v]
+                  return (
+                    <div key={k} className="py-2 border-b border-white/5">
+                      <dt className="text-xs uppercase tracking-wider text-orange-400 font-bold mb-2">📎 {k === 'resumeFile' ? 'Resume' : 'Uploaded Documents'}</dt>
+                      <div className="space-y-2">
+                        {files.map((f, i) => f && (
+                          <a key={i} href={f.url || '#'} target="_blank" rel="noopener" className="flex items-center gap-3 p-3 rounded-xl bg-orange-400/10 border border-orange-400/30 hover:bg-orange-400/20 transition">
+                            <Download className="w-4 h-4 text-orange-400" />
+                            <div className="flex-1 min-w-0">
+                              <div className="text-sm font-bold truncate">{f.name}</div>
+                              <div className="text-xs text-white/50">{Math.round((f.size || 0) / 1024)} KB</div>
+                            </div>
+                            <span className="text-xs text-orange-300 font-bold">DOWNLOAD</span>
+                          </a>
+                        ))}
+                      </div>
+                    </div>
+                  )
+                }
+                return (
+                  <div key={k} className="grid grid-cols-3 gap-4 py-2 border-b border-white/5">
+                    <dt className="text-xs uppercase tracking-wider text-white/50">{k}</dt>
+                    <dd className="col-span-2 text-sm break-words">{typeof v === 'object' ? JSON.stringify(v, null, 2) : String(v)}</dd>
+                  </div>
+                )
+              })}
             </dl>
             <button onClick={() => exportPdf(view)} className="btn-primary mt-6"><Download className="w-4 h-4" /> Export as PDF</button>
           </div>

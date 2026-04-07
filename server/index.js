@@ -44,6 +44,53 @@ db.exec(`CREATE TABLE IF NOT EXISTS loads (
   created_at TEXT NOT NULL
 )`)
 
+// === SEED 5 DEMO RECORDS PER TABLE (only if empty) ===
+const seedRow = (table, payload) => {
+  db.prepare(`INSERT INTO ${table} (id, created_at, status, payload) VALUES (?, ?, ?, ?)`).run(
+    crypto.randomUUID(), new Date().toISOString(), payload._status || 'new', JSON.stringify(payload)
+  )
+}
+
+if (db.prepare('SELECT COUNT(*) as c FROM quotes').get().c === 0) {
+  ;[
+    { name: 'Marcus Thompson', company: 'Pacific Foods Inc', email: 'marcus@pacfoods.com', phone: '206-555-0142', originCity: 'Seattle, WA', originZip: '98101', destCity: 'Los Angeles, CA', destZip: '90001', freightType: 'Full Truckload (FTL)', equipment: 'Reefer', weight: '38000', commodity: 'Frozen seafood', hazmat: false, _status: 'new' },
+    { name: 'Jennifer Liu', company: 'Northwest Manufacturing', email: 'jliu@nwmfg.com', phone: '425-555-0188', originCity: 'Portland, OR', originZip: '97201', destCity: 'Dallas, TX', destZip: '75201', freightType: 'Full Truckload (FTL)', equipment: 'Dry Van', weight: '42000', commodity: 'Industrial parts', hazmat: false, _status: 'contacted' },
+    { name: 'David Kim', company: 'Westside Distribution LLC', email: 'david@westsidedist.com', phone: '503-555-0167', originCity: 'San Francisco, CA', originZip: '94102', destCity: 'Chicago, IL', destZip: '60601', freightType: 'LTL', equipment: 'Dry Van', weight: '4500', pallets: '6', commodity: 'Electronics', hazmat: false, _status: 'approved' },
+    { name: 'Sarah Mendez', company: 'Mendez Produce Co', email: 'sarah@mendezproduce.com', phone: '602-555-0103', originCity: 'Phoenix, AZ', originZip: '85001', destCity: 'Denver, CO', destZip: '80202', freightType: 'Full Truckload (FTL)', equipment: 'Reefer', weight: '36000', commodity: 'Fresh produce', hazmat: false, _status: 'new' },
+    { name: 'Roberto Chen', company: 'Lone Star Building Supply', email: 'rchen@lonestar.com', phone: '713-555-0145', originCity: 'Houston, TX', originZip: '77002', destCity: 'Atlanta, GA', destZip: '30301', freightType: 'Full Truckload (FTL)', equipment: 'Flatbed', weight: '44000', commodity: 'Steel beams', hazmat: false, _status: 'contacted' }
+  ].forEach(p => seedRow('quotes', p))
+}
+
+if (db.prepare('SELECT COUNT(*) as c FROM carriers').get().c === 0) {
+  ;[
+    { company: 'Pacific Trans LLC', mc: 'MC-987654', dot: '3214567', contactName: 'James Rodriguez', email: 'jr@pacifictrans.com', phone: '206-555-0211', city: 'Tacoma', state: 'WA', zip: '98401', fleetSize: '6-15 trucks', equipmentTypes: ['Dry Van', 'Reefer'], lanes: 'PNW to CA, OTR', _status: 'approved' },
+    { company: 'Southern Hauling Co', mc: 'MC-876543', dot: '2987654', contactName: 'Tasha Brooks', email: 'tasha@southernhauling.com', phone: '404-555-0322', city: 'Atlanta', state: 'GA', zip: '30301', fleetSize: '2-5 trucks', equipmentTypes: ['Dry Van', 'Flatbed'], lanes: 'Southeast to Midwest', _status: 'approved' },
+    { company: 'Mountain West Express', mc: 'MC-765432', dot: '2876543', contactName: 'Carlos Mendoza', email: 'carlos@mwexpress.com', phone: '801-555-0433', city: 'Salt Lake City', state: 'UT', zip: '84101', fleetSize: '16-50 trucks', equipmentTypes: ['Reefer', 'Dry Van'], lanes: 'Mountain region, West coast', _status: 'new' },
+    { company: 'Lone Star Logistics', mc: 'MC-654321', dot: '2765432', contactName: 'Mike Reeves', email: 'mike@lonestarlog.com', phone: '214-555-0544', city: 'Dallas', state: 'TX', zip: '75201', fleetSize: '50+ trucks', equipmentTypes: ['Dry Van', 'Flatbed', 'Step Deck'], lanes: 'TX triangle, nationwide', _status: 'approved' },
+    { company: 'Northeast Cartage Inc', mc: 'MC-543210', dot: '2654321', contactName: 'Linda Petrov', email: 'linda@necartage.com', phone: '617-555-0655', city: 'Boston', state: 'MA', zip: '02101', fleetSize: '6-15 trucks', equipmentTypes: ['Dry Van', 'Power Only'], lanes: 'Northeast corridor', _status: 'contacted' }
+  ].forEach(p => seedRow('carriers', p))
+}
+
+if (db.prepare('SELECT COUNT(*) as c FROM agents').get().c === 0) {
+  ;[
+    { name: 'Rachel Sanchez', email: 'rachel.s@email.com', phone: '512-555-0701', city: 'Austin', state: 'TX', yearsExperience: '5-10 years', currentCompany: 'BigBox Logistics', bookOfBusiness: 'Medium (6-20 accounts)', monthlyRevenue: '$120,000', specialties: ['Dry Van', 'Reefer'], whyJoin: 'Looking for a brokerage that respects agents and pays fairly.', _status: 'contacted' },
+    { name: 'Tom Jackson', email: 'tom.j@email.com', phone: '404-555-0712', city: 'Atlanta', state: 'GA', yearsExperience: '3-5 years', currentCompany: 'Echo Global', bookOfBusiness: 'Small (1-5 active accounts)', monthlyRevenue: '$45,000', specialties: ['Flatbed', 'Specialized'], whyJoin: 'Want better tech and same-day pay.', _status: 'new' },
+    { name: 'Linda Kowalski', email: 'linda.k@email.com', phone: '312-555-0723', city: 'Chicago', state: 'IL', yearsExperience: '10+ years', currentCompany: 'TQL', bookOfBusiness: 'Large (20+ accounts)', monthlyRevenue: '$280,000', specialties: ['Dry Van', 'LTL', 'Intermodal'], whyJoin: 'Tired of corporate culture, want autonomy.', _status: 'approved' },
+    { name: 'Marcus Wong', email: 'marcus.w@email.com', phone: '714-555-0734', city: 'Anaheim', state: 'CA', yearsExperience: '1-3 years', currentCompany: 'Coyote Logistics', bookOfBusiness: 'None yet', monthlyRevenue: '$15,000', specialties: ['Dry Van'], whyJoin: 'Ready to go independent and build my book.', _status: 'new' },
+    { name: 'Diana Patel', email: 'diana.p@email.com', phone: '732-555-0745', city: 'Newark', state: 'NJ', yearsExperience: '5-10 years', currentCompany: 'CH Robinson', bookOfBusiness: 'Medium (6-20 accounts)', monthlyRevenue: '$95,000', specialties: ['Reefer', 'Cross Border'], whyJoin: 'Looking for a smaller, more nimble brokerage.', _status: 'contacted' }
+  ].forEach(p => seedRow('agents', p))
+}
+
+if (db.prepare('SELECT COUNT(*) as c FROM contacts').get().c === 0) {
+  ;[
+    { name: 'Alan Foster', email: 'afoster@example.com', phone: '253-555-0801', subject: 'Question about LTL rates', message: 'Hi, we have weekly LTL shipments from Seattle to Boise. Can you provide pricing?', _status: 'new' },
+    { name: 'Maria Gomez', email: 'mgomez@example.com', phone: '619-555-0812', subject: 'Carrier setup question', message: 'How long does carrier onboarding typically take?', _status: 'contacted' },
+    { name: 'Brian Wells', email: 'bwells@example.com', phone: '702-555-0823', subject: 'Reefer load — urgent', message: 'Need a reefer Vegas to Sacramento by Friday. Please advise.', _status: 'approved' },
+    { name: 'Jessica Tran', email: 'jtran@example.com', phone: '503-555-0834', subject: 'Agent inquiry', message: 'Hi I have 8 years of brokerage experience. Are you still recruiting agents in Oregon?', _status: 'new' },
+    { name: 'Kevin Park', email: 'kpark@example.com', phone: '425-555-0845', subject: 'Long-term contract', message: 'We move 200+ loads/month and looking for a new primary brokerage. Can we set up a meeting?', _status: 'new' }
+  ].forEach(p => seedRow('contacts', p))
+}
+
 // Seed demo loads if empty
 const loadCount = db.prepare('SELECT COUNT(*) as c FROM loads').get().c
 if (loadCount === 0) {
