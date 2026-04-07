@@ -20,7 +20,7 @@ export default function BlogPost() {
         </div>
         <h1 className="font-display font-bold text-4xl sm:text-5xl lg:text-6xl leading-[1.05] mb-6">{post.title}</h1>
         <p className="text-xl text-white/70 mb-10">{post.excerpt}</p>
-        <div className="aspect-video rounded-3xl bg-gradient-to-br from-orange-500/30 via-pink-500/20 to-purple-600/30 grid place-items-center text-9xl font-display font-bold gradient-text mb-10">
+        <div className="aspect-video rounded-3xl bg-gradient-to-br from-orange-400/30 via-orange-500/20 to-orange-600/30 grid place-items-center text-9xl font-display font-bold gradient-text mb-10">
           {post.tag[0]}
         </div>
         <div className="prose prose-invert max-w-none text-white/80 leading-relaxed text-lg whitespace-pre-line">

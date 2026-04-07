@@ -4,10 +4,10 @@ import { useSubmissions } from '../../context/SubmissionsContext.jsx'
 export default function Dashboard() {
   const { data } = useSubmissions()
   const stats = [
-    { i: FileText, l: 'Quote Requests', n: data.quotes.length, c: 'from-orange-500 to-pink-500' },
-    { i: Truck, l: 'Carriers', n: data.carriers.length, c: 'from-cyan-500 to-blue-600' },
-    { i: Users, l: 'Agents', n: data.agents.length, c: 'from-purple-500 to-pink-500' },
-    { i: MessageSquare, l: 'Contacts', n: data.contacts.length, c: 'from-emerald-500 to-cyan-500' }
+    { i: FileText, l: 'Quote Requests', n: data.quotes.length, c: 'from-orange-400 to-orange-600' },
+    { i: Truck, l: 'Carriers', n: data.carriers.length, c: 'from-orange-400 to-orange-600' },
+    { i: Users, l: 'Agents', n: data.agents.length, c: 'from-orange-400 to-orange-600' },
+    { i: MessageSquare, l: 'Contacts', n: data.contacts.length, c: 'from-emerald-500 to-emerald-700' }
   ]
   const recent = [
     ...data.quotes.slice(0, 5).map(x => ({ ...x, type: 'Quote', label: `${x.originCity || '?'} → ${x.destCity || '?'}` })),

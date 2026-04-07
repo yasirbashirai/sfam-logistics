@@ -22,7 +22,7 @@ export default function Login() {
       <Orbs />
       <div className="container-x relative max-w-md mx-auto">
         <div className="text-center mb-8">
-          <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-orange-500 via-pink-500 to-purple-600 grid place-items-center mx-auto mb-4"><Truck className="w-8 h-8" /></div>
+          <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-orange-400 to-orange-600 grid place-items-center mx-auto mb-4"><Truck className="w-8 h-8" /></div>
           <h1 className="font-display font-bold text-4xl">Admin Portal</h1>
           <p className="text-white/60 mt-2">Sign in to manage submissions</p>
         </div>

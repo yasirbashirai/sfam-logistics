@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react'
 import { ArrowRight, ArrowLeft, CheckCircle2, Calculator, MapPin, Package, User } from 'lucide-react'
 import { PageHero, Orbs } from '../components/Section.jsx'
 import { useSubmissions } from '../context/SubmissionsContext.jsx'
+import { haversineMiles, lookupZip } from '../data/zips.js'
 
 const STEPS = ['Lane', 'Freight', 'Contact', 'Review']
 
@@ -19,16 +20,27 @@ export default function Quote() {
   })
   const set = (k, v) => setForm(f => ({ ...f, [k]: v }))
 
-  // simple estimate calculator (purely indicative)
+  // Real haversine-based estimate using ZIP centroid lookup
   const estimate = useMemo(() => {
     const w = parseFloat(form.weight) || 0
-    const baseRate = form.freightType.includes('LTL') ? 0.42 : 2.35 // $/mile rough
-    const distance = form.originZip && form.destZip ? Math.abs(parseInt(form.originZip) - parseInt(form.destZip)) % 2500 + 250 : 0
-    let total = form.freightType.includes('LTL') ? Math.max(125, w * 0.18) + distance * 0.6 : distance * baseRate
+    const realDist = haversineMiles(form.originZip, form.destZip)
+    const distance = realDist || 0
+    const matched = realDist !== null
+    const baseRate = form.freightType.includes('LTL') ? 0.55 : 2.45
+    let total = form.freightType.includes('LTL') ? Math.max(150, w * 0.22) + distance * 0.65 : distance * baseRate + 250
     if (form.equipment === 'Reefer') total *= 1.18
     if (form.equipment === 'Flatbed') total *= 1.12
+    if (form.equipment === 'Step Deck') total *= 1.15
     if (form.hazmat) total *= 1.15
-    return { distance: Math.round(distance), low: Math.round(total * 0.92), high: Math.round(total * 1.12) }
+    if (form.freightType === 'Expedited') total *= 1.35
+    return {
+      distance: Math.round(distance),
+      low: Math.round(total * 0.92),
+      high: Math.round(total * 1.12),
+      matched,
+      originName: lookupZip(form.originZip),
+      destName: lookupZip(form.destZip)
+    }
   }, [form])
 
   const next = () => setStep(s => Math.min(s + 1, STEPS.length - 1))
@@ -55,7 +67,7 @@ export default function Quote() {
               {STEPS.map((label, i) => (
                 <div key={label} className="flex items-center flex-1 last:flex-initial">
                   <div className={`flex items-center gap-3 ${i <= step ? '' : 'opacity-40'}`}>
-                    <div className={`w-10 h-10 rounded-full grid place-items-center font-bold text-sm ${i < step ? 'bg-emerald-500' : i === step ? 'bg-gradient-to-br from-orange-500 to-purple-600' : 'bg-white/10'}`}>
+                    <div className={`w-10 h-10 rounded-full grid place-items-center font-bold text-sm ${i < step ? 'bg-emerald-500' : i === step ? 'bg-gradient-to-br from-orange-400 to-orange-600' : 'bg-white/10'}`}>
                       {i < step ? <CheckCircle2 className="w-5 h-5" /> : i + 1}
                     </div>
                     <span className="hidden sm:block text-sm font-semibold">{label}</span>
