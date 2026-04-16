@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Search, Truck, MapPin, CheckCircle2, Clock, Package, Navigation } from 'lucide-react'
+import PageMeta from '../components/PageMeta.jsx'
 import { PageHero, Orbs } from '../components/Section.jsx'
 
 const demoLoads = {
@@ -53,6 +54,7 @@ export default function Track() {
 
   return (
     <>
+      <PageMeta title="Track Your Shipment" description="Track your freight shipment in real-time with SFam Logistics. Enter your load reference, BOL, or PO number for live status updates from pickup to delivery." />
       <PageHero eyebrow="Load Tracking" title={<>Track Your <span className="text-orange-400">Shipment</span></>} subtitle="Real-time visibility from pickup to POD. Enter your SFam tracking number below." />
 
       <section className="section pt-0">

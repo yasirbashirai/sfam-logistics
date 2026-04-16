@@ -1,5 +1,6 @@
 import { Link, useParams, Navigate } from 'react-router-dom'
 import { ArrowRight, CheckCircle2, Truck, Boxes, Snowflake, PackageOpen, Route, Zap, ArrowLeft, Phone, ShieldCheck, Clock, Award, Star } from 'lucide-react'
+import PageMeta from '../../components/PageMeta.jsx'
 import { PageHero, Orbs } from '../../components/Section.jsx'
 import Reveal from '../../components/Reveal.jsx'
 import { services } from '../../data/site.js'
@@ -33,6 +34,7 @@ export default function ServiceDetail() {
 
   return (
     <>
+      <PageMeta title={`${service.name} — Freight Services`} description={`${service.long} SFam Logistics — FMCSA authorized freight broker, MC 1810116, USDOT 4555943.`} />
       <PageHero eyebrow="Service" title={service.name} subtitle={service.short} image={heroImg}>
         <Link to="/quote" className="btn-primary">Request a Quote <ArrowRight className="w-5 h-5" /></Link>
         <Link to="/services" className="btn-ghost"><ArrowLeft className="w-4 h-4" /> All Services</Link>
@@ -83,9 +85,9 @@ export default function ServiceDetail() {
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
               { i: ShieldCheck, t: 'Fully Insured', d: 'Cargo and liability coverage on every shipment.' },
-              { i: Clock, t: 'On-Time Delivery', d: '98% on-time performance across all lanes.' },
+              { i: Clock, t: 'On-Time Focus', d: 'Realistic scheduling and proactive issue resolution.' },
               { i: Award, t: 'Driver-Vetted', d: 'Only the best carriers — vetted by people who drove.' },
-              { i: Star, t: '4.9/5 Rated', d: 'Trusted by hundreds of shippers nationwide.' }
+              { i: Star, t: 'FMCSA Licensed', d: 'Fully authorized property broker with BMC-84 bond.' }
             ].map(({ i: Icon, t, d }, idx) => (
               <Reveal key={t} delay={idx * 100}>
                 <div className="glass p-6 hover:border-orange-400/40 hover:-translate-y-1 transition group">

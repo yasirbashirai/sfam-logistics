@@ -1,5 +1,6 @@
 import { useState, useMemo } from 'react'
 import { ArrowRight, ArrowLeft, CheckCircle2, Calculator, MapPin, Package, User } from 'lucide-react'
+import PageMeta from '../components/PageMeta.jsx'
 import { PageHero, Orbs } from '../components/Section.jsx'
 import { useSubmissions } from '../context/SubmissionsContext.jsx'
 import { haversineMiles, lookupZip } from '../data/zips.js'
@@ -56,7 +57,8 @@ export default function Quote() {
 
   return (
     <>
-      <PageHero eyebrow="Request a Quote" title={<>Get Pricing in <span className="gradient-text">Minutes</span></>} subtitle="A 4-step quote form with live rate estimator. Most quotes returned within 30 minutes during business hours." />
+      <PageMeta title="Get a Free Freight Quote" description="Request a free freight quote from SFam Logistics. FTL, LTL, reefer, flatbed, and expedited shipping. 30-minute response during business hours. Live rate estimator included." />
+      <PageHero eyebrow="Request a Quote" title={<>Get Pricing in <span className="gradient-text">Minutes</span></>} subtitle="A 4-step quote form with live rate estimator. Most quotes returned within 30 minutes during business hours. After hours? We'll respond first thing the next business day." />
 
       <section className="section pt-0">
         <Orbs />

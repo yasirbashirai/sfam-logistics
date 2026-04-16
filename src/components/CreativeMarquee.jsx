@@ -8,10 +8,10 @@ const items = [
   { i: Clock, t: '24/7 Dispatch' },
   { i: Truck, t: 'Driver Built' },
   { i: DollarSign, t: 'Same-Day Pay' },
-  { i: Star, t: '4.9★ Rated' },
   { i: Globe, t: '48 States' },
-  { i: Gauge, t: '98% On-Time' },
-  { i: Heart, t: '10+ Years on the Road' }
+  { i: Heart, t: '10+ Years on the Road' },
+  { i: Star, t: 'MC 1810116' },
+  { i: Gauge, t: 'USDOT 4555943' }
 ]
 
 export default function CreativeMarquee() {

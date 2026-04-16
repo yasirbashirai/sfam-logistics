@@ -33,16 +33,12 @@ export default function Footer() {
           <div>
             <Link to="/" className="flex items-center gap-3 mb-5">
               <img src="/images/sfam-logo.jpg" alt="SFam Logistics" className="w-14 h-14 rounded-xl ring-2 ring-orange-400/40" />
-              <div>
-                <div className="font-display font-bold text-xl">SFam <span className="text-orange-400">Logistics</span></div>
-                <div className="text-[10px] text-white/40 tracking-widest uppercase">LLC • Bothell, WA</div>
-              </div>
             </Link>
             <p className="text-white/60 text-sm leading-relaxed italic">&ldquo;{company.tagline}&rdquo;</p>
             <div className="flex gap-3 mt-5">
-              <a href={company.social.facebook} className="w-10 h-10 grid place-items-center rounded-full bg-white/5 border border-white/10 hover:bg-orange-400 hover:border-orange-400 hover:text-brand-navy transition" aria-label="Facebook"><Facebook className="w-4 h-4" /></a>
-              <a href={company.social.twitter} className="w-10 h-10 grid place-items-center rounded-full bg-white/5 border border-white/10 hover:bg-orange-400 hover:border-orange-400 hover:text-brand-navy transition" aria-label="X"><Twitter className="w-4 h-4" /></a>
-              <a href={company.social.instagram} className="w-10 h-10 grid place-items-center rounded-full bg-white/5 border border-white/10 hover:bg-orange-400 hover:border-orange-400 hover:text-brand-navy transition" aria-label="Instagram"><Instagram className="w-4 h-4" /></a>
+              <a href={company.social.facebook} target="_blank" rel="noopener noreferrer" className="w-10 h-10 grid place-items-center rounded-full bg-white/5 border border-white/10 hover:bg-orange-400 hover:border-orange-400 hover:text-brand-navy transition" aria-label="Facebook"><Facebook className="w-4 h-4" /></a>
+              <a href={company.social.twitter} target="_blank" rel="noopener noreferrer" className="w-10 h-10 grid place-items-center rounded-full bg-white/5 border border-white/10 hover:bg-orange-400 hover:border-orange-400 hover:text-brand-navy transition" aria-label="X"><Twitter className="w-4 h-4" /></a>
+              <a href={company.social.instagram} target="_blank" rel="noopener noreferrer" className="w-10 h-10 grid place-items-center rounded-full bg-white/5 border border-white/10 hover:bg-orange-400 hover:border-orange-400 hover:text-brand-navy transition" aria-label="Instagram"><Instagram className="w-4 h-4" /></a>
             </div>
           </div>
 
@@ -76,7 +72,7 @@ export default function Footer() {
         </div>
 
         <div className="mt-14 pt-6 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-white/40">
-          <p>© {new Date().getFullYear()} SFam Logistics LLC. All rights reserved. FMCSA Authorized Property Broker.</p>
+          <p>© {new Date().getFullYear()} SFam Logistics LLC. All rights reserved. FMCSA Authorized Property Broker. MC 1810116 • USDOT 4555943</p>
           <div className="flex gap-5">
             <Link to="/privacy" className="hover:text-orange-300">Privacy Policy</Link>
             <Link to="/terms" className="hover:text-orange-300">Terms of Service</Link>

@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { CheckCircle2, Upload, Truck, ShieldCheck, FileText, Camera, DollarSign, Phone, Clock, Heart, Star, ArrowRight, Wallet, Headphones } from 'lucide-react'
+import PageMeta from '../components/PageMeta.jsx'
 import { PageHero, Orbs } from '../components/Section.jsx'
 import Reveal from '../components/Reveal.jsx'
 import { useSubmissions, uploadFiles } from '../context/SubmissionsContext.jsx'
@@ -43,6 +44,7 @@ export default function CarrierOnboarding() {
 
   return (
     <>
+      <PageMeta title="Carrier Onboarding — Haul for SFam Logistics" description="Join SFam Logistics carrier network. Same-day pay options through OTR Solutions, fair market rates, 24/7 dispatch, and driver respect. Apply and get approved in 24 hours." />
       <PageHero eyebrow="Carrier Onboarding" title={<>Haul For <span className="text-orange-400">SFam Logistics</span></>} subtitle="Fast pay. Fair rates. Real respect. Join our vetted carrier network in 24 hours." image={IMG.heroFleet} />
 
       {/* ===== 1. WHY HAUL FOR SFAM ===== */}
@@ -164,34 +166,16 @@ export default function CarrierOnboarding() {
         </div>
       </section>
 
-      {/* ===== 3. CARRIER TESTIMONIALS ===== */}
+      {/* ===== 3. FOUNDING PARTNERS MESSAGE ===== */}
       <section className="section bg-gradient-to-b from-transparent via-brand-navy3/30 to-transparent">
-        <div className="container-x">
+        <div className="container-x max-w-3xl">
           <Reveal>
-            <div className="text-center max-w-2xl mx-auto mb-14">
-              <div className="badge mb-4 mx-auto">From Drivers</div>
-              <h2 className="font-display italic font-black text-5xl">What Carriers <span className="text-orange-400">Tell Us</span></h2>
-              <div className="divider-glow w-32 mx-auto mt-6" />
+            <div className="glass-strong neon-border p-10 lg:p-14 text-center">
+              <div className="text-5xl mb-6">🤝</div>
+              <h2 className="font-display italic font-black text-3xl mb-6">Join Our <span className="text-orange-400">Growing Network</span></h2>
+              <p className="text-white/80 text-xl italic leading-relaxed">&ldquo;We are just getting started — and we are building our reputation one load and one relationship at a time. Be one of our founding partners.&rdquo;</p>
             </div>
           </Reveal>
-          <div className="grid md:grid-cols-3 gap-6">
-            {[
-              { n: 'Mike R.', r: 'Owner-Operator, TX', q: 'I\'ve hauled for SFam for 8 months. They pay fast, communicate clearly, and never argue about detention. Best broker I work with.' },
-              { n: 'Carlos M.', r: '5-truck Fleet, CA', q: 'Same-day pay is a game changer. SFam treats my drivers like humans. We prioritize their loads now.' },
-              { n: 'Tasha B.', r: 'OTR Driver, GA', q: 'When I had a breakdown on I-10, dispatch found me parking and re-scheduled the delivery. They actually care.' }
-            ].map((t, i) => (
-              <Reveal key={t.n} delay={i * 120}>
-                <div className="glass-strong p-7 h-full">
-                  <div className="flex gap-1 mb-4">{[...Array(5)].map((_, i) => <Star key={i} className="w-4 h-4 fill-orange-400 text-orange-400" />)}</div>
-                  <p className="text-white/80 italic mb-5">&ldquo;{t.q}&rdquo;</p>
-                  <div className="pt-4 border-t border-white/10">
-                    <div className="font-display italic font-bold">{t.n}</div>
-                    <div className="text-xs text-white/50">{t.r}</div>
-                  </div>
-                </div>
-              </Reveal>
-            ))}
-          </div>
         </div>
       </section>
 

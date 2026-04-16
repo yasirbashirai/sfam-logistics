@@ -1,18 +1,19 @@
 import { Link } from 'react-router-dom'
 import { ArrowRight, Truck, Boxes, Snowflake, PackageOpen, Route, Zap, ShieldCheck, Clock, Award, Globe2, Users, TrendingUp, CheckCircle2, Star, Phone, MapPin, Quote as QuoteIcon, DollarSign, Headphones, FileCheck, Wallet, Gauge, MessageSquare, Briefcase, Target, Eye, Heart, Calendar, FileText } from 'lucide-react'
+import PageMeta from '../components/PageMeta.jsx'
 import { services } from '../data/site.js'
 import IMG from '../data/images.js'
 import CountUp from '../components/CountUp.jsx'
 import Reveal from '../components/Reveal.jsx'
 import USAMap from '../components/USAMap.jsx'
 import CreativeMarquee from '../components/CreativeMarquee.jsx'
-import Carousel from '../components/Carousel.jsx'
 
 const iconMap = { Truck, Boxes, Snowflake, PackageOpen, Route, Zap }
 
 export default function Home() {
   return (
     <>
+      <PageMeta title="Nationwide Freight Brokerage" description="SFam Logistics LLC — FMCSA-authorized freight brokerage in Bothell, WA. FTL, LTL, reefer, flatbed, dedicated, and expedited freight across 48 states. MC 1810116 • USDOT 4555943. Built by drivers, trusted by shippers." />
       {/* ============ 1. PROFESSIONAL HERO ============ */}
       <section className="relative min-h-[100vh] flex items-center pt-40 pb-16 overflow-hidden bg-brand-navy">
         {/* Split background: left content, right image */}
@@ -60,18 +61,18 @@ export default function Home() {
                 </div>
                 <div className="h-12 w-px bg-white/10" />
                 <div>
-                  <div className="text-3xl font-display italic font-black text-orange-400"><CountUp end={500} suffix="+" /></div>
-                  <div className="text-[10px] text-white/50 uppercase tracking-widest font-bold mt-1">Carriers</div>
-                </div>
-                <div className="h-12 w-px bg-white/10" />
-                <div>
                   <div className="text-3xl font-display italic font-black text-orange-400"><CountUp end={48} /></div>
                   <div className="text-[10px] text-white/50 uppercase tracking-widest font-bold mt-1">States</div>
                 </div>
+                <div className="h-12 w-px bg-white/10" />
+                <div>
+                  <div className="text-3xl font-display italic font-black text-orange-400">24/7</div>
+                  <div className="text-[10px] text-white/50 uppercase tracking-widest font-bold mt-1">Dispatch</div>
+                </div>
                 <div className="h-12 w-px bg-white/10 hidden sm:block" />
                 <div className="hidden sm:block">
-                  <div className="text-3xl font-display italic font-black text-orange-400">98<span className="text-xl">%</span></div>
-                  <div className="text-[10px] text-white/50 uppercase tracking-widest font-bold mt-1">On-Time</div>
+                  <div className="text-3xl font-display italic font-black text-orange-400">FMCSA</div>
+                  <div className="text-[10px] text-white/50 uppercase tracking-widest font-bold mt-1">Licensed</div>
                 </div>
               </div>
             </Reveal>
@@ -87,6 +88,7 @@ export default function Home() {
                     <div>
                       <div className="text-[10px] text-brand-navy/70 uppercase tracking-[0.2em] font-bold">Free Quote Engine</div>
                       <div className="font-display italic font-black text-2xl text-brand-navy">30-Minute Response</div>
+                      <div className="text-[10px] text-brand-navy/70 font-semibold mt-0.5">After hours? We'll respond first thing the next business day.</div>
                     </div>
                     <Phone className="w-8 h-8 text-brand-navy" />
                   </div>
@@ -222,8 +224,8 @@ export default function Home() {
                   <div className="text-white/70 text-sm">From the cab to the corner office.</div>
                 </div>
                 <div className="absolute top-6 right-6 glass-navy p-4">
-                  <div className="text-3xl font-display italic font-black text-orange-400">98%</div>
-                  <div className="text-[10px] text-white/70 uppercase tracking-widest">On-Time</div>
+                  <div className="text-3xl font-display italic font-black text-orange-400">FMCSA</div>
+                  <div className="text-[10px] text-white/70 uppercase tracking-widest">Licensed</div>
                 </div>
               </div>
             </div>
@@ -321,25 +323,52 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ============ 7. STATS BAR ============ */}
+      {/* ============ 7. TRUSTED PARTNERS ============ */}
       <section className="py-24 relative overflow-hidden bg-gradient-to-r from-brand-navy via-brand-navy3 to-brand-navy">
         <div className="absolute inset-0 grid-bg opacity-50" />
         <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[1000px] h-[400px] bg-orange-400/10 blur-3xl rounded-full" />
-        <div className="container-x relative grid grid-cols-2 lg:grid-cols-4 gap-8">
-          {[
-            { i: TrendingUp, n: 98, suf: '%', l: 'On-Time Delivery' },
-            { i: Users, n: 500, suf: '+', l: 'Active Carriers' },
-            { i: Truck, n: 12000, suf: '+', l: 'Loads Moved' },
-            { i: Star, n: 49, suf: '/50', l: 'Customer Rating' }
-          ].map(({ i: Icon, n, suf, l }, idx) => (
-            <Reveal key={l} delay={idx * 100}>
-              <div className="text-center group">
-                <div className="w-20 h-20 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-orange-400 to-orange-600 grid place-items-center shadow-2xl shadow-orange-500/30 group-hover:scale-110 group-hover:rotate-6 transition"><Icon className="w-10 h-10 text-brand-navy" /></div>
-                <div className="text-5xl sm:text-6xl font-display italic font-black text-orange-400"><CountUp end={n} suffix={suf} /></div>
-                <div className="text-xs text-white/60 uppercase tracking-[0.2em] mt-2 font-bold">{l}</div>
-              </div>
-            </Reveal>
-          ))}
+        <div className="container-x relative">
+          <Reveal>
+            <div className="text-center mb-14">
+              <div className="badge mb-4 mx-auto">Our Partners</div>
+              <h2 className="font-display italic font-black text-5xl sm:text-6xl">Powered By <span className="text-orange-400">Industry Leaders</span></h2>
+              <div className="divider-glow w-32 mx-auto mt-6" />
+              <p className="mt-6 text-white/70 text-lg max-w-2xl mx-auto">We partner with the best in the business to deliver reliable, efficient, and transparent freight solutions.</p>
+            </div>
+          </Reveal>
+          <div className="grid md:grid-cols-3 gap-8">
+            {[
+              { name: 'AscendTMS', desc: 'Transportation Management System', detail: 'Our TMS platform for load management, carrier tracking, and operations efficiency.', logo: '/images/partners/ascendtms.svg' },
+              { name: 'DAT', desc: 'Load Board & Market Data', detail: 'America\'s largest load board network for real-time freight matching and rate intelligence.', logo: '/images/partners/dat.svg' },
+              { name: 'OTR Solutions', desc: 'Factoring Partner', detail: 'Our trusted factoring partner providing same-day pay options for carriers.', logo: '/images/partners/otr.svg' }
+            ].map((p, idx) => (
+              <Reveal key={p.name} delay={idx * 120}>
+                <div className="glass-strong p-8 text-center hover:border-orange-400/40 transition group h-full flex flex-col items-center">
+                  <div className="w-24 h-24 rounded-2xl bg-white/10 grid place-items-center mb-6 group-hover:scale-110 transition overflow-hidden p-4">
+                    <span className="font-display italic font-black text-xl text-orange-400">{p.name}</span>
+                  </div>
+                  <h3 className="font-display italic font-black text-2xl mb-1">{p.name}</h3>
+                  <div className="text-xs text-orange-400 uppercase tracking-widest font-bold mb-3">{p.desc}</div>
+                  <p className="text-sm text-white/60">{p.detail}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+          <Reveal delay={400}>
+            <div className="mt-12 grid grid-cols-2 lg:grid-cols-4 gap-6 text-center">
+              {[
+                { l: 'Years on Road', v: '10+' },
+                { l: 'States Covered', v: '48' },
+                { l: 'Dispatch', v: '24/7' },
+                { l: 'FMCSA Licensed', v: '✓' }
+              ].map(s => (
+                <div key={s.l} className="glass p-5">
+                  <div className="text-3xl font-display italic font-black text-orange-400">{s.v}</div>
+                  <div className="text-[10px] text-white/50 uppercase tracking-widest mt-1 font-bold">{s.l}</div>
+                </div>
+              ))}
+            </div>
+          </Reveal>
         </div>
       </section>
 
@@ -442,24 +471,23 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ============ 11. TESTIMONIALS CAROUSEL ============ */}
+      {/* ============ 11. FOUNDING PARTNERS ============ */}
       <section className="section bg-gradient-to-b from-transparent via-brand-navy3/40 to-transparent">
         <div className="container-x max-w-4xl">
           <Reveal>
-            <div className="text-center mb-16">
-              <div className="badge mb-4 mx-auto">Real Voices</div>
-              <h2 className="font-display italic font-black text-5xl sm:text-6xl">What Partners <span className="text-orange-400">Say About Us</span></h2>
-              <div className="divider-glow w-32 mx-auto mt-6" />
+            <div className="text-center">
+              <div className="badge mb-4 mx-auto">Be Part of Something New</div>
+              <h2 className="font-display italic font-black text-5xl sm:text-6xl mb-8">Building Our <span className="text-orange-400">Reputation</span></h2>
+              <div className="divider-glow w-32 mx-auto mb-10" />
+              <div className="glass-strong neon-border p-12 lg:p-16">
+                <div className="text-6xl mb-6">🤝</div>
+                <p className="text-white/90 text-2xl lg:text-3xl leading-relaxed italic font-display font-light">&ldquo;We are just getting started — and we are building our reputation one load and one relationship at a time. Be one of our founding partners.&rdquo;</p>
+                <div className="mt-10 flex flex-wrap gap-4 justify-center">
+                  <Link to="/quote" className="btn-primary !px-8 !py-4">Get a Quote <ArrowRight className="w-5 h-5" /></Link>
+                  <Link to="/carrier-onboarding" className="btn-ghost !px-8 !py-4">Partner With Us</Link>
+                </div>
+              </div>
             </div>
-          </Reveal>
-          <Reveal delay={200}>
-            <Carousel items={[
-              { n: 'Marcus T.', r: 'Owner-Operator • 12 years OTR', q: 'SFam pays fast and they communicate. As a driver, that\'s all I ask. Best broker I\'ve worked with this year — bar none.' },
-              { n: 'Jennifer L.', r: 'Logistics Manager, Pacific Foods', q: 'They actually answer the phone at 6am. We\'ve moved 40+ loads with them and zero issues. They feel like an extension of our team.' },
-              { n: 'David K.', r: 'VP Operations, Northwest Manufacturing', q: 'Their rates are fair, the trucks show up on time, and the team treats our freight like it\'s theirs. Highly recommend.' },
-              { n: 'Sarah M.', r: 'Carrier Owner, 8-truck Fleet', q: 'I\'ve worked with brokers for 15 years. SFam is the only one that pays quick-pay reliably and never argues about detention.' },
-              { n: 'Roberto C.', r: 'Plant Manager, Texas Distribution', q: 'When we had a hot load to LA on a Sunday, SFam had a truck under our load in 90 minutes. Real 24/7 dispatch.' }
-            ]} />
           </Reveal>
         </div>
       </section>

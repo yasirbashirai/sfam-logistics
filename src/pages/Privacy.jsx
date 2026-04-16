@@ -1,8 +1,10 @@
 import { PageHero } from '../components/Section.jsx'
+import PageMeta from '../components/PageMeta.jsx'
 
 export default function Privacy() {
   return (
     <>
+      <PageMeta title="Privacy Policy" description="SFam Logistics LLC privacy policy — how we collect, use, and protect your personal information. FMCSA-authorized freight brokerage." />
       <PageHero eyebrow="Legal" title="Privacy Policy" subtitle="How SFam Logistics LLC collects, uses, and protects your information." />
       <section className="section pt-0">
         <div className="container-x max-w-3xl space-y-6 text-white/70 leading-relaxed">

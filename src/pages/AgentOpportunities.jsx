@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { CheckCircle2, Upload, DollarSign, Briefcase, TrendingUp, Users, Award, Star, Phone, ArrowRight } from 'lucide-react'
+import PageMeta from '../components/PageMeta.jsx'
 import { PageHero, Orbs } from '../components/Section.jsx'
 import Reveal from '../components/Reveal.jsx'
 import { useSubmissions, uploadFiles } from '../context/SubmissionsContext.jsx'
@@ -40,6 +41,7 @@ export default function AgentOpportunities() {
 
   return (
     <>
+      <PageMeta title="Independent Freight Agent Opportunities" description="Join SFam Logistics as an independent freight agent. 70/30+ commission splits, AscendTMS access, full back-office support, and same-day pay options through OTR Solutions." />
       <PageHero eyebrow="Join Our Team" title={<>Independent Freight <span className="text-orange-400">Agent Opportunities</span></>} subtitle="Own your book. Set your hours. Get the back-office support and tech you need to scale." image={IMG.teamMeeting} />
 
       {/* ===== 1. WHY SFAM ===== */}

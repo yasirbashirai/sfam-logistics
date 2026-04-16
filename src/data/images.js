@@ -11,15 +11,16 @@ const femaleDriver     = '/images/female-driver.jpg'      // female SFam driver 
 const dispatchTeam     = '/images/dispatch-team.jpg'      // SFam dispatch office team
 const opsTablet        = '/images/ops-tablet.jpg'         // operations / route planning tablet
 const flatbedLA        = '/images/flatbed-la.jpg'         // flatbed steel coils, LA skyline
-const reeferLoading    = '/images/reefer-loading.jpg'     // SFam reefer at cold storage
+const reeferLoading    = '/images/reefer-branded.jpg'      // SFam branded reefer at cold storage dock
 const dryvanLoading    = '/images/dryvan-loading.jpg'     // SFam dry van loading dock
 const ltlWarehouse     = '/images/ltl-warehouse.jpg'      // LTL hub, multiple SFam trucks
+const dedicatedBranded = '/images/dedicated-branded.jpg'  // SFam branded dedicated freight warehouse
 
 export const IMG = {
   // Canonical
   peterbiltHighway, ownTruck, truckYardNight, handshake,
   femaleDriver, dispatchTeam, opsTablet,
-  flatbedLA, reeferLoading, dryvanLoading, ltlWarehouse,
+  flatbedLA, reeferLoading, dryvanLoading, ltlWarehouse, dedicatedBranded,
 
   // === Aliases (legacy keys → local files) ===
   // Hero variants
@@ -41,7 +42,7 @@ export const IMG = {
   ltlPallets: dryvanLoading,
   reeferTrailer: reeferLoading,
   flatbedLoad: flatbedLA,
-  dedicatedFleet: ltlWarehouse,
+  dedicatedFleet: dedicatedBranded,
   expeditedVan: ownTruck,
   warehouseLoad: dryvanLoading,
   shippingPort: ltlWarehouse,

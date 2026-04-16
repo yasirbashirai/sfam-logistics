@@ -42,7 +42,7 @@ export default function Navbar() {
           <div className="flex items-center gap-6">
             <span className="flex items-center gap-2"><MapPin className="w-3 h-3 text-orange-400" /> Bothell, WA</span>
             <span className="flex items-center gap-2"><Clock className="w-3 h-3 text-orange-400" /> Mon–Fri • 8AM–5PM PST</span>
-            <span className="flex items-center gap-2 text-orange-300 font-semibold"><ShieldCheck className="w-3 h-3" /> FMCSA Authorized • BMC-84 Bonded • USDOT Licensed</span>
+            <span className="flex items-center gap-2 text-orange-300 font-semibold"><ShieldCheck className="w-3 h-3" /> FMCSA Authorized • MC 1810116 • USDOT 4555943 • BMC-84 Bonded</span>
           </div>
           <div className="flex gap-5 items-center">
             <a href="mailto:info@sfamlogistics.com" className="hover:text-orange-300 flex items-center gap-1.5"><Mail className="w-3 h-3" /> info@sfamlogistics.com</a>
@@ -61,10 +61,6 @@ export default function Navbar() {
             <div className="relative">
               <div className="absolute -inset-1 bg-orange-400/40 blur-xl opacity-0 group-hover:opacity-100 transition duration-500" />
               <img src="/images/sfam-logo.jpg" alt="SFam Logistics" className="relative h-16 w-16 rounded-xl object-cover ring-2 ring-orange-400/30 group-hover:ring-orange-400 transition duration-300 group-hover:scale-105" />
-            </div>
-            <div className="leading-none">
-              <div className="font-display italic font-black text-2xl text-white tracking-tight">SFam<span className="text-orange-400">.</span></div>
-              <div className="text-[9px] text-orange-300 tracking-[0.25em] uppercase font-bold mt-1">Logistics LLC</div>
             </div>
           </Link>
 

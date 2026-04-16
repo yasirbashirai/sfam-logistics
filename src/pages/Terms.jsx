@@ -1,8 +1,10 @@
 import { PageHero } from '../components/Section.jsx'
+import PageMeta from '../components/PageMeta.jsx'
 
 export default function Terms() {
   return (
     <>
+      <PageMeta title="Terms of Service" description="SFam Logistics LLC terms of service — governing the use of our website and freight brokerage services." />
       <PageHero eyebrow="Legal" title="Terms of Service" subtitle="The terms that govern use of the SFam Logistics website and brokerage services." />
       <section className="section pt-0">
         <div className="container-x max-w-3xl space-y-6 text-white/70 leading-relaxed">

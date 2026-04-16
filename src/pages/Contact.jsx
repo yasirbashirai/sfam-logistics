@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Mail, Phone, MapPin, Clock, CheckCircle2, MessageSquare, Truck, Users, ArrowRight } from 'lucide-react'
+import PageMeta from '../components/PageMeta.jsx'
 import { PageHero, Orbs } from '../components/Section.jsx'
 import Reveal from '../components/Reveal.jsx'
 import { useSubmissions } from '../context/SubmissionsContext.jsx'
@@ -15,6 +16,7 @@ export default function Contact() {
 
   return (
     <>
+      <PageMeta title="Contact Us" description="Contact SFam Logistics LLC — toll-free 1 (888) 698-5556, email info@sfamlogistics.com. Headquarters: 19125 North Creek Parkway Suite 120, Bothell, WA 98011. Mon-Fri 8AM-5PM PST." />
       <PageHero eyebrow="Contact Us" title={<>Let&apos;s <span className="text-orange-400">Talk Freight</span></>} subtitle="Phone, email, or message form — we answer fast." image={IMG.dispatchDesk} />
 
       {/* ===== 1. CONTACT INFO + FORM ===== */}

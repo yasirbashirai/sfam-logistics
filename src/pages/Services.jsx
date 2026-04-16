@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { ArrowRight, Truck, Boxes, Snowflake, PackageOpen, Route, Zap, ShieldCheck, Clock, Phone, CheckCircle2 } from 'lucide-react'
+import PageMeta from '../components/PageMeta.jsx'
 import { PageHero, Orbs } from '../components/Section.jsx'
 import Reveal from '../components/Reveal.jsx'
 import { services } from '../data/site.js'
@@ -11,6 +12,7 @@ const imageKeys = ['ftlTruck', 'ltlPallets', 'reeferTrailer', 'flatbedLoad', 'de
 export default function Services() {
   return (
     <>
+      <PageMeta title="Freight Services — FTL, LTL, Reefer, Flatbed, Dedicated" description="SFam Logistics offers Full Truckload, LTL, Refrigerated, Flatbed, Dedicated Freight, and Expedited shipping services across 48 states. Vetted carriers, 24/7 dispatch, live tracking." />
       <PageHero eyebrow="Our Services" title={<>Freight Solutions <span className="text-orange-400">For Every Lane</span></>} subtitle="From a single LTL pallet to dedicated weekly truckload capacity, we coordinate it all — backed by vetted carriers and 24/7 communication." image={IMG.heroHighway} />
 
       {/* ===== 1. SERVICES GRID WITH IMAGES ===== */}

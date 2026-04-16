@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
-import { Target, Eye, Heart, Award, Truck, Users, ArrowRight, CheckCircle2, Calendar, MapPin, Phone, Star } from 'lucide-react'
+import { Target, Eye, Heart, Award, Truck, Users, ArrowRight, CheckCircle2, Calendar, MapPin, Phone, Star, ShieldCheck, Briefcase, Globe2 } from 'lucide-react'
+import PageMeta from '../components/PageMeta.jsx'
 import { PageHero, Orbs } from '../components/Section.jsx'
 import Reveal from '../components/Reveal.jsx'
 import CountUp from '../components/CountUp.jsx'
@@ -8,20 +9,24 @@ import IMG from '../data/images.js'
 export default function About() {
   return (
     <>
-      <PageHero eyebrow="About SFam Logistics" title={<>Built On The Road. <span className="text-orange-400">Powered By Trust.</span></>} subtitle="A Washington-based freight brokerage built on over 10 years of real experience behind the wheel and in the industry." image={IMG.heroDusk} />
+      <PageMeta title="About Us — Our Story, Mission & Values" description="Learn about SFam Logistics LLC — founded on over a decade of Class A CDL experience. Our mission: deliver freight solutions with precision, accountability, and respect. FMCSA authorized, MC 1810116, USDOT 4555943." />
+      <PageHero eyebrow="About SFam Logistics" title={<>Built On Experience. <span className="text-orange-400">Designed For Excellence.</span></>} subtitle="SFAM Logistics LLC was founded with a clear purpose: to elevate the standard of freight brokerage." image={IMG.heroDusk} />
 
-      {/* ===== 1. STORY ===== */}
+      {/* ===== 1. OUR STORY ===== */}
       <section className="section">
         <Orbs />
         <div className="container-x relative grid lg:grid-cols-2 gap-14 items-center">
           <Reveal>
             <div className="badge mb-4">Our Story</div>
-            <h2 className="font-display italic font-black text-5xl mb-6">From The Driver&apos;s Seat <br /><span className="text-orange-400">To Your Loading Dock</span></h2>
+            <h2 className="font-display italic font-black text-5xl mb-6">Built on Experience. <br /><span className="text-orange-400">Designed for Excellence.</span></h2>
             <div className="divider-glow w-32 mb-6" />
             <div className="space-y-5 text-white/75 text-lg leading-relaxed">
-              <p>SFam Logistics LLC was founded by a former truck driver who spent years on the road and saw firsthand how broken the brokerage industry can be. Bad communication, unrealistic schedules, surprise detention disputes, and brokers who didn&apos;t understand what it actually takes to deliver a load.</p>
-              <p>We&apos;re different because we&apos;ve lived it. Every load we move is handled with a clear plan, direct communication, and respect for the people who actually drive the trucks.</p>
-              <p>Headquartered in Bothell, Washington, we serve shippers and carriers across all 48 contiguous states — and we&apos;re growing through a network of independent freight agents who share our values.</p>
+              <p>SFAM Logistics LLC was founded with a clear purpose: to elevate the standard of freight brokerage.</p>
+              <p>Our foundation is built on over a decade of real-industry experience behind the wheel of a Class A CDL truck. This perspective provides a rare advantage in an industry where critical decisions are often made far from the realities of the road.</p>
+              <p>SFAM Logistics LLC is a licensed, FMCSA-authorized freight brokerage serving clients across North America. We are a privately held organization, strategically structured for long-term growth, operational stability, and disciplined execution.</p>
+              <p>We approach logistics with precision and intention. Every load, every lane, and every relationship is managed with a focus on reliability, efficiency, and accountability.</p>
+              <p>Our model is built for the future — combining strong brokerage operations today with a clear path toward asset-based capabilities. The result is a logistics partner positioned to deliver consistency at scale without compromising service quality.</p>
+              <p className="text-orange-300 font-semibold italic">What started in the cab of a truck is now building toward something much greater.</p>
             </div>
           </Reveal>
           <Reveal delay={200}>
@@ -45,9 +50,9 @@ export default function About() {
         <div className="container-x grid grid-cols-2 lg:grid-cols-4 gap-8 text-center">
           {[
             { n: 10, suf: '+', l: 'Years on the Road' },
-            { n: 500, suf: '+', l: 'Active Carriers' },
-            { n: 12000, suf: '+', l: 'Loads Moved' },
-            { n: 48, suf: '', l: 'States Covered' }
+            { n: 48, suf: '', l: 'States Covered' },
+            { n: 24, suf: '/7', l: 'Dispatch Coverage' },
+            { n: 100, suf: '%', l: 'FMCSA Compliant' }
           ].map((s, i) => (
             <Reveal key={s.l} delay={i * 100}>
               <div className="text-5xl lg:text-6xl font-display italic font-black text-orange-400"><CountUp end={s.n} suffix={s.suf} /></div>
@@ -57,42 +62,149 @@ export default function About() {
         </div>
       </section>
 
-      {/* ===== 3. MISSION VISION VALUES ===== */}
+      {/* ===== 3. FOR SHIPPERS ===== */}
+      <section className="section">
+        <div className="container-x grid lg:grid-cols-2 gap-14 items-center">
+          <Reveal>
+            <div>
+              <div className="badge mb-4">For Shippers</div>
+              <h2 className="font-display italic font-black text-5xl mb-6">A Higher Standard of <br /><span className="text-orange-400">Freight Management</span></h2>
+              <div className="divider-glow w-32 mb-6" />
+              <div className="space-y-4 text-white/75 text-lg leading-relaxed">
+                <p>At SFAM Logistics LLC, we understand that your freight is more than a shipment — it is a critical component of your business performance.</p>
+                <p>We provide tailored logistics solutions designed to ensure consistency, visibility, and execution at the highest level. Our approach prioritizes proactive communication, realistic scheduling, and disciplined carrier selection to minimize disruption and maximize reliability.</p>
+                <p>What sets us apart is perspective. We understand how decisions made at the brokerage level impact real-world execution, and we manage every load accordingly — with precision and accountability.</p>
+              </div>
+              <div className="mt-8 space-y-3">
+                <h3 className="font-display italic font-black text-xl text-orange-400 mb-3">What You Can Expect</h3>
+                {[
+                  'Strategic capacity sourcing through a vetted carrier network',
+                  'Accurate scheduling and proactive issue resolution',
+                  'Clear, consistent communication at every stage of transit',
+                  'A long-term partnership approach focused on operational efficiency'
+                ].map(item => (
+                  <div key={item} className="flex gap-3 items-start">
+                    <CheckCircle2 className="w-5 h-5 text-orange-400 shrink-0 mt-0.5" />
+                    <span className="text-white/75">{item}</span>
+                  </div>
+                ))}
+              </div>
+              <p className="text-white/75 text-lg mt-6 font-semibold italic">We are not simply moving freight — we are protecting your timelines, your reputation, and your bottom line.</p>
+            </div>
+          </Reveal>
+          <Reveal delay={200}>
+            <div className="relative">
+              <div className="absolute -inset-6 bg-orange-400/20 blur-3xl rounded-3xl" />
+              <div className="relative rounded-3xl overflow-hidden border-2 border-orange-400/30 aspect-square">
+                <img src={IMG.dispatchDesk} alt="Dispatch operations" className="w-full h-full object-cover" />
+                <div className="absolute inset-0 bg-gradient-to-t from-brand-navy/80 to-transparent" />
+              </div>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ===== 4. FOR CARRIERS ===== */}
+      <section className="section bg-gradient-to-b from-transparent via-brand-navy3/30 to-transparent">
+        <div className="container-x grid lg:grid-cols-2 gap-14 items-center">
+          <Reveal delay={200}>
+            <div className="relative">
+              <div className="absolute -inset-6 bg-orange-400/20 blur-3xl rounded-3xl" />
+              <div className="relative rounded-3xl overflow-hidden border-2 border-orange-400/30 aspect-square">
+                <img src={IMG.handshake} alt="Driver partnership" className="w-full h-full object-cover" />
+                <div className="absolute inset-0 bg-gradient-to-t from-brand-navy/80 to-transparent" />
+              </div>
+            </div>
+          </Reveal>
+          <Reveal>
+            <div>
+              <div className="badge mb-4">For Carriers</div>
+              <h2 className="font-display italic font-black text-5xl mb-6">Built by a Driver. <br /><span className="text-orange-400">Designed for Your Success.</span></h2>
+              <div className="divider-glow w-32 mb-6" />
+              <div className="space-y-4 text-white/75 text-lg leading-relaxed">
+                <p>SFAM Logistics LLC was built with a deep understanding of what it means to be on the road.</p>
+                <p>We recognize the challenges carriers face because we have experienced them firsthand. That insight shapes how we operate — prioritizing fairness, transparency, and respect in every interaction.</p>
+                <p>We work with carriers who value professionalism and consistency, and in return, we provide clear expectations, responsive communication, and dependable freight opportunities.</p>
+              </div>
+              <div className="mt-8 space-y-3">
+                <h3 className="font-display italic font-black text-xl text-orange-400 mb-3">What You Can Expect</h3>
+                {[
+                  'Realistic pickup and delivery schedules',
+                  'Transparent load details with no last-minute surprises',
+                  'Prompt communication and professional support',
+                  'Long-term working relationships — not transactional exchanges'
+                ].map(item => (
+                  <div key={item} className="flex gap-3 items-start">
+                    <CheckCircle2 className="w-5 h-5 text-orange-400 shrink-0 mt-0.5" />
+                    <span className="text-white/75">{item}</span>
+                  </div>
+                ))}
+              </div>
+              <p className="text-white/75 text-lg mt-6 font-semibold italic">We do not view carriers as commodities. We view them as essential partners in delivering excellence.</p>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ===== 5. MISSION VISION VALUES ===== */}
       <section className="section">
         <div className="container-x">
           <Reveal>
-            <div className="text-center max-w-2xl mx-auto mb-14">
+            <div className="text-center max-w-2xl mx-auto mb-6">
               <div className="badge mb-4 mx-auto">What Drives Us</div>
               <h2 className="font-display italic font-black text-5xl">Mission. Vision. <span className="text-orange-400">Values.</span></h2>
               <div className="divider-glow w-32 mx-auto mt-6" />
             </div>
           </Reveal>
-          <div className="grid md:grid-cols-3 gap-6">
-            {[
-              { i: Target, t: 'Our Mission', d: 'Move freight with accountability and respect — for both the shipper and the driver. Clear communication, realistic scheduling, and doing what we say we\'re going to do.' },
-              { i: Eye, t: 'Our Vision', d: 'To be the freight broker that drivers actually want to haul for, and that shippers actually trust. Built one load — and one relationship — at a time.' },
-              { i: Heart, t: 'Our Values', d: 'Honesty over hype. Communication over silence. Driver respect over rate cutting. Long-term partnerships over one-off transactions.' }
-            ].map(({ i: Icon, t, d }, idx) => (
-              <Reveal key={t} delay={idx * 120}>
-                <div className="glass-strong p-8 h-full hover:border-orange-400/40 transition group">
-                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-orange-400 to-orange-600 grid place-items-center mb-6 group-hover:scale-110 group-hover:rotate-3 transition shadow-lg shadow-orange-500/30"><Icon className="w-8 h-8 text-brand-navy" /></div>
-                  <h3 className="font-display italic font-black text-2xl mb-3">{t}</h3>
-                  <p className="text-white/70 leading-relaxed">{d}</p>
-                </div>
-              </Reveal>
-            ))}
+          <div className="grid md:grid-cols-2 gap-6 mb-6">
+            <Reveal delay={100}>
+              <div className="glass-strong p-8 h-full hover:border-orange-400/40 transition group">
+                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-orange-400 to-orange-600 grid place-items-center mb-6 group-hover:scale-110 group-hover:rotate-3 transition shadow-lg shadow-orange-500/30"><Target className="w-8 h-8 text-brand-navy" /></div>
+                <h3 className="font-display italic font-black text-2xl mb-3">Our Mission</h3>
+                <p className="text-white/70 leading-relaxed text-lg">To deliver freight solutions with precision, accountability, and respect — setting a higher standard for service across the logistics industry.</p>
+              </div>
+            </Reveal>
+            <Reveal delay={200}>
+              <div className="glass-strong p-8 h-full hover:border-orange-400/40 transition group">
+                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-orange-400 to-orange-600 grid place-items-center mb-6 group-hover:scale-110 group-hover:rotate-3 transition shadow-lg shadow-orange-500/30"><Eye className="w-8 h-8 text-brand-navy" /></div>
+                <h3 className="font-display italic font-black text-2xl mb-3">Our Vision</h3>
+                <p className="text-white/70 leading-relaxed text-lg">To become a premier transportation and logistics partner across North America, known for operational excellence, trusted relationships, and scalable, long-term solutions.</p>
+              </div>
+            </Reveal>
           </div>
+          <Reveal delay={300}>
+            <div className="glass-strong p-8 hover:border-orange-400/40 transition group">
+              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-orange-400 to-orange-600 grid place-items-center mb-6 group-hover:scale-110 group-hover:rotate-3 transition shadow-lg shadow-orange-500/30"><Heart className="w-8 h-8 text-brand-navy" /></div>
+              <h3 className="font-display italic font-black text-2xl mb-5">Our Values</h3>
+              <div className="grid sm:grid-cols-2 gap-6">
+                {[
+                  { t: 'Excellence in Execution', d: 'Every load is managed with discipline and attention to detail.' },
+                  { t: 'Integrity Without Compromise', d: 'We do what we say, every time.' },
+                  { t: 'Respect for the Industry', d: 'From dock to driver, every role matters.' },
+                  { t: 'Partnership First', d: 'We build relationships that drive mutual, long-term success.' }
+                ].map(v => (
+                  <div key={v.t} className="flex gap-3 items-start">
+                    <CheckCircle2 className="w-5 h-5 text-orange-400 shrink-0 mt-0.5" />
+                    <div>
+                      <div className="font-display italic font-bold text-lg text-white">{v.t}</div>
+                      <div className="text-white/60 text-sm">{v.d}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </Reveal>
         </div>
       </section>
 
-      {/* ===== 4. WHAT MAKES US DIFFERENT ===== */}
+      {/* ===== 6. WHAT MAKES US DIFFERENT ===== */}
       <section className="section bg-gradient-to-b from-transparent via-brand-navy3/30 to-transparent">
         <div className="container-x grid lg:grid-cols-2 gap-14 items-center">
           <Reveal>
             <div className="relative">
               <div className="absolute -inset-6 bg-orange-400/20 blur-3xl rounded-3xl" />
               <div className="relative rounded-3xl overflow-hidden border-2 border-orange-400/30 aspect-square">
-                <img src={IMG.handshake} alt="Partnership" className="w-full h-full object-cover" />
+                <img src={IMG.opsTablet} alt="Operations" className="w-full h-full object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-t from-brand-navy/80 to-transparent" />
               </div>
             </div>
@@ -104,7 +216,7 @@ export default function About() {
               <div className="divider-glow w-32 mb-6" />
               <div className="space-y-4">
                 {[
-                  { i: Award, t: 'Real Road Experience', d: 'A decade behind the wheel translates to better load planning and realistic schedules.' },
+                  { i: Award, t: 'Real Road Experience', d: 'Over a decade behind the wheel translates to better load planning and realistic schedules.' },
                   { i: Users, t: 'True Relationships', d: 'We build long-term partnerships with shippers and carriers — not transactional one-offs.' },
                   { i: Truck, t: 'Driver Respect', d: 'Fast pay, fair rates, honest communication. Carriers haul for us because we earn it.' },
                   { i: Heart, t: 'Total Accountability', d: 'When we say it\'ll happen, it happens. When it doesn\'t, we own it and we fix it.' }
@@ -123,7 +235,7 @@ export default function About() {
         </div>
       </section>
 
-      {/* ===== 5. TIMELINE ===== */}
+      {/* ===== 7. TIMELINE ===== */}
       <section className="section">
         <div className="container-x">
           <Reveal>
@@ -153,7 +265,36 @@ export default function About() {
         </div>
       </section>
 
-      {/* ===== 6. CTA ===== */}
+      {/* ===== 8. CREDENTIALS ===== */}
+      <section className="section bg-gradient-to-b from-transparent via-brand-navy3/30 to-transparent">
+        <div className="container-x">
+          <Reveal>
+            <div className="text-center max-w-2xl mx-auto mb-12">
+              <div className="badge mb-4 mx-auto">Credentials</div>
+              <h2 className="font-display italic font-black text-5xl">Licensed. Bonded. <span className="text-orange-400">Insured.</span></h2>
+              <div className="divider-glow w-32 mx-auto mt-6" />
+            </div>
+          </Reveal>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              { i: ShieldCheck, t: 'FMCSA Authorized', d: 'Licensed property broker' },
+              { i: Briefcase, t: 'MC 1810116', d: 'Docket Number' },
+              { i: Globe2, t: 'USDOT 4555943', d: 'DOT Registration' },
+              { i: Award, t: 'BMC-84 Bonded', d: 'Surety bond coverage' }
+            ].map(({ i: Icon, t, d }, idx) => (
+              <Reveal key={t} delay={idx * 100}>
+                <div className="glass-strong p-6 text-center hover:border-orange-400/40 transition group">
+                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-orange-400 to-orange-600 grid place-items-center mb-4 mx-auto group-hover:scale-110 transition"><Icon className="w-7 h-7 text-brand-navy" /></div>
+                  <div className="font-display italic font-black text-xl mb-1">{t}</div>
+                  <div className="text-sm text-white/60">{d}</div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ===== 9. CTA ===== */}
       <section className="section pt-0">
         <div className="container-x">
           <div className="relative glass-strong neon-border p-12 text-center overflow-hidden">

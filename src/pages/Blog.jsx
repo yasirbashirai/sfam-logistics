@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { ArrowRight, Clock, Search } from 'lucide-react'
+import PageMeta from '../components/PageMeta.jsx'
 import { PageHero, Orbs } from '../components/Section.jsx'
 import Reveal from '../components/Reveal.jsx'
 import { blogPosts } from '../data/site.js'
@@ -18,6 +19,7 @@ export default function Blog() {
 
   return (
     <>
+      <PageMeta title="Blog & Freight Industry Insights" description="Freight industry insights from SFam Logistics. Guides for shippers, carriers, and freight agents — covering FTL vs LTL, carrier vetting, freight broker selection, and agent opportunities." />
       <PageHero eyebrow="Blog & Resources" title={<>Insights From <span className="text-orange-400">The Road</span></>} subtitle="Practical guides for shippers, carriers, and freight agents — written by people who've actually moved the load." image={IMG.cityLights} />
 
       {/* ===== 1. FEATURED ===== */}
