@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { ArrowRight, Truck, Boxes, Snowflake, PackageOpen, Route, Zap, ShieldCheck, Clock, Phone, CheckCircle2 } from 'lucide-react'
+// CheckCircle2 used in equipment bullet list
 import PageMeta from '../components/PageMeta.jsx'
 import { PageHero, Orbs } from '../components/Section.jsx'
 import Reveal from '../components/Reveal.jsx'
@@ -12,8 +13,8 @@ const imageKeys = ['ftlTruck', 'ltlPallets', 'reeferTrailer', 'flatbedLoad', 'de
 export default function Services() {
   return (
     <>
-      <PageMeta title="Freight Services — FTL, LTL, Reefer, Flatbed, Dedicated" description="SFam Logistics offers Full Truckload, LTL, Refrigerated, Flatbed, Dedicated Freight, and Expedited shipping services across 48 states. Vetted carriers, 24/7 dispatch, live tracking." />
-      <PageHero eyebrow="Our Services" title={<>Freight Solutions <span className="text-orange-400">For Every Lane</span></>} subtitle="From a single LTL pallet to dedicated weekly truckload capacity, we coordinate it all — backed by vetted carriers and 24/7 communication." image={IMG.heroHighway} />
+      <PageMeta title="Logistics Services — FTL, LTL, Reefer, Flatbed, Dedicated" description="SFam Logistics offers Full Truckload, LTL, Refrigerated, Flatbed, Dedicated Freight, and Expedited shipping services across the United States. Vetted carriers, 24/7 dispatch, live tracking." />
+      <PageHero eyebrow="Logistics Services" title={<>Freight Solutions <span className="text-orange-400">For Every Lane</span></>} subtitle="From a single LTL pallet to dedicated weekly truckload capacity, we coordinate it all — backed by vetted carriers and 24/7 communication." image={IMG.heroHighway} />
 
       {/* ===== 1. SERVICES GRID WITH IMAGES ===== */}
       <section className="section">
@@ -48,7 +49,7 @@ export default function Services() {
           <Reveal>
             <div className="text-center max-w-2xl mx-auto mb-14">
               <div className="badge mb-4 mx-auto">The SFam Standard</div>
-              <h2 className="font-display italic font-black text-5xl">Service That <span className="text-orange-400">Actually Shows Up.</span></h2>
+              <h2 className="font-display italic font-black text-3xl">Service That <span className="text-orange-400">Actually Shows Up.</span></h2>
               <div className="divider-glow w-32 mx-auto mt-6" />
             </div>
           </Reveal>
@@ -71,38 +72,26 @@ export default function Services() {
         </div>
       </section>
 
-      {/* ===== 3. EQUIPMENT GALLERY ===== */}
-      <section className="section">
-        <div className="container-x">
+      {/* ===== 3. EQUIPMENT NETWORK ===== */}
+      <section className="section-light">
+        <div className="container-x max-w-3xl">
           <Reveal>
-            <div className="text-center max-w-2xl mx-auto mb-14">
-              <div className="badge mb-4 mx-auto">Equipment Network</div>
-              <h2 className="font-display italic font-black text-5xl">Right Equipment. <span className="text-orange-400">Right Lane.</span></h2>
-              <div className="divider-glow w-32 mx-auto mt-6" />
+            <div className="text-center mb-8">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-navy/10 border border-brand-navy/20 text-brand-navy text-xs font-bold uppercase tracking-[0.15em] mb-3 mx-auto">Equipment Network</div>
+              <h2 className="font-display italic font-black text-3xl text-brand-navy">Right Equipment. <span className="text-orange-500">Right Lane.</span></h2>
+              <div className="h-0.5 w-24 mx-auto mt-4 bg-gradient-to-r from-transparent via-brand-navy to-transparent" />
             </div>
           </Reveal>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {[
-              { img: IMG.ftlTruck, t: 'Dry Van' },
-              { img: IMG.reeferTrailer, t: 'Reefer' },
-              { img: IMG.flatbedLoad, t: 'Flatbed' },
-              { img: IMG.dedicatedFleet, t: 'Step Deck' },
-              { img: IMG.expeditedVan, t: 'Sprinter Van' },
-              { img: IMG.ltlPallets, t: 'LTL Pallets' },
-              { img: IMG.warehouseLoad, t: 'Power Only' },
-              { img: IMG.shippingPort, t: 'Intermodal' }
-            ].map((e, i) => (
-              <Reveal key={e.t} delay={i * 60}>
-                <div className="relative aspect-square rounded-2xl overflow-hidden group border border-white/10 hover:border-orange-400/50 transition">
-                  <img src={e.img} alt={e.t} className="w-full h-full object-cover zoom-img" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-brand-navy via-brand-navy/40 to-transparent" />
-                  <div className="absolute bottom-4 left-4 right-4">
-                    <div className="font-display italic font-black text-lg">{e.t}</div>
-                  </div>
+          <Reveal delay={100}>
+            <div className="grid sm:grid-cols-2 gap-x-8 gap-y-2">
+              {['Dry Van', 'Reefer', 'Flatbed', 'Step Deck', 'Sprinter Van', 'LTL Pallets', 'Power Only', 'Intermodal'].map(eq => (
+                <div key={eq} className="flex items-center gap-2 py-2 border-b border-brand-light3">
+                  <CheckCircle2 className="w-4 h-4 text-orange-500 shrink-0" />
+                  <span className="text-brand-navy/80 text-sm font-medium">{eq}</span>
                 </div>
-              </Reveal>
-            ))}
-          </div>
+              ))}
+            </div>
+          </Reveal>
         </div>
       </section>
 
@@ -112,7 +101,7 @@ export default function Services() {
           <div className="relative glass-strong neon-border p-12 text-center overflow-hidden">
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-96 bg-orange-400/20 blur-3xl rounded-full" />
             <div className="relative">
-              <h2 className="font-display italic font-black text-5xl mb-4">Need A <span className="text-orange-400">Custom Solution?</span></h2>
+              <h2 className="font-display italic font-black text-3xl mb-4">Need A <span className="text-orange-400">Custom Solution?</span></h2>
               <p className="text-white/70 mb-8 max-w-xl mx-auto text-lg">Tell us about your freight. We&apos;ll build the right plan and quote it in under 30 minutes.</p>
               <div className="flex flex-wrap gap-4 justify-center">
                 <Link to="/quote" className="btn-primary !px-9 !py-4">Request a Quote <ArrowRight className="w-5 h-5" /></Link>

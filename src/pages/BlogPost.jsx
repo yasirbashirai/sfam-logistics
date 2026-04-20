@@ -20,7 +20,7 @@ export default function BlogPost() {
           <span className="flex items-center gap-1 text-white/50"><Clock className="w-3 h-3" /> {post.readMin} min read</span>
           <span className="text-white/50">{post.date}</span>
         </div>
-        <h1 className="font-display font-bold text-4xl sm:text-5xl lg:text-6xl leading-[1.05] mb-6">{post.title}</h1>
+        <h1 className="font-display font-bold text-2xl sm:text-3xl lg:text-4xl leading-[1.05] mb-6">{post.title}</h1>
         <p className="text-xl text-white/70 mb-10">{post.excerpt}</p>
         <div className="aspect-video rounded-3xl bg-gradient-to-br from-orange-400/30 via-orange-500/20 to-orange-600/30 grid place-items-center text-9xl font-display font-bold gradient-text mb-10">
           {post.tag[0]}

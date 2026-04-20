@@ -196,5 +196,52 @@ app.get('/api/loads/:tracking', (req, res) => {
   res.json({ ...row, events: JSON.parse(row.events || '[]') })
 })
 
+// === CONFIRMATION EMAIL (quote/application submissions) ===
+app.post('/api/send-confirmation', async (req, res) => {
+  const { to, name, type } = req.body
+  if (!to) return res.status(400).json({ error: 'Email required' })
+
+  const subjects = {
+    'quote': 'SFam Logistics — Quote Request Received',
+    'carrier-application': 'SFam Logistics — Carrier Application Received',
+    'agent-application': 'SFam Logistics — Agent Application Received',
+    'contact': 'SFam Logistics — Message Received'
+  }
+
+  const bodies = {
+    'quote': `Dear ${name || 'Valued Customer'},\n\nThank you for submitting your quote request with SFam Logistics LLC.\n\nOur team has received your request and will respond within 30 minutes during business hours (Mon–Fri, 8AM–5PM PST). If submitted after hours, we will respond first thing the next business day.\n\nFor urgent needs, please call us directly at 1 (888) 698-5556.\n\nBest regards,\nSFam Logistics LLC\ninfo@sfamlogistics.com\n1 (888) 698-5556`,
+    'carrier-application': `Dear ${name || 'Valued Carrier'},\n\nThank you for submitting your carrier application with SFam Logistics LLC.\n\nYour application has been received and our team will review your authority, insurance, and documentation. Most carriers are approved within 24 hours.\n\nFor questions, please call us at 1 (888) 698-5556 or email info@sfamlogistics.com.\n\nBest regards,\nSFam Logistics LLC`,
+    'agent-application': `Dear ${name || 'Valued Applicant'},\n\nThank you for submitting your agent application with SFam Logistics LLC.\n\nYour application has been received. Our recruiting team will review your information and reach out within 48 hours.\n\nFor questions, please call us at 1 (888) 698-5556 or email info@sfamlogistics.com.\n\nBest regards,\nSFam Logistics LLC`,
+    'contact': `Dear ${name || 'Valued Customer'},\n\nThank you for contacting SFam Logistics LLC.\n\nYour message has been received. We will respond within 1 business hour during business hours (Mon–Fri, 8AM–5PM PST).\n\nFor urgent freight needs, please call us at 1 (888) 698-5556.\n\nBest regards,\nSFam Logistics LLC`
+  }
+
+  const subject = subjects[type] || subjects['contact']
+  const body = bodies[type] || bodies['contact']
+
+  if (transporter) {
+    try {
+      await transporter.sendMail({
+        from: process.env.SMTP_FROM || 'no-reply@sfamlogistics.com',
+        to,
+        subject,
+        text: body
+      })
+    } catch (e) { console.error('Confirmation email failed:', e.message) }
+  } else {
+    console.log(`[CONFIRMATION] Would send to ${to}: ${subject}`)
+  }
+
+  res.json({ ok: true })
+})
+
+// === LIVE AGENT REQUEST (from chatbot) ===
+app.post('/api/live-agent-request', async (req, res) => {
+  const { visitorName, visitorEmail, timestamp } = req.body
+  const alertBody = `A website visitor has requested to speak with a live agent.\n\nName: ${visitorName}\nEmail: ${visitorEmail}\nTime: ${timestamp}\n\nPlease reach out to them as soon as possible.`
+
+  await sendAlert('Live Agent Request — Website Visitor', alertBody)
+  res.json({ ok: true })
+})
+
 const PORT = process.env.PORT || 4000
 app.listen(PORT, () => console.log(`✅ SFam API running on http://localhost:${PORT}`))

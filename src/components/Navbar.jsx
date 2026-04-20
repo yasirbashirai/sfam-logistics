@@ -7,9 +7,9 @@ const iconMap = { Truck, Boxes, Snowflake, PackageOpen, Route, Zap }
 
 const links = [
   { to: '/', label: 'Home' },
-  { to: '/about', label: 'About' },
-  { to: '/services', label: 'Services', mega: true },
-  { to: '/track', label: 'Track Load' },
+  { to: '/about', label: 'About Us' },
+  { to: '/services', label: 'Logistics Services', mega: true },
+  { to: '/track', label: 'Track Shipment' },
   { to: '/carrier-onboarding', label: 'Carriers' },
   { to: '/agent-opportunities', label: 'Agents' },
   { to: '/blog', label: 'Insights' },

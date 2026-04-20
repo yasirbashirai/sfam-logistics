@@ -20,6 +20,8 @@ export default function CarrierOnboarding() {
   const setFile = (k, file) => setForm(f => ({ ...f, files: { ...f.files, [k]: file } }))
   const toggleEq = (eq) => setForm(f => ({ ...f, equipmentTypes: f.equipmentTypes.includes(eq) ? f.equipmentTypes.filter(x => x !== eq) : [...f.equipmentTypes, eq] }))
 
+  const [showPopup, setShowPopup] = useState(false)
+
   const submit = async (e) => {
     e.preventDefault()
     setSubmitting(true)
@@ -27,16 +29,39 @@ export default function CarrierOnboarding() {
     const uploaded = filesToUpload.length ? await uploadFiles(filesToUpload) : []
     await add('carriers', { ...form, uploadedFiles: uploaded, files: undefined })
     setSubmitting(false); setDone(true)
+    setShowPopup(true)
+    setTimeout(() => setShowPopup(false), 5000)
     window.scrollTo({ top: 0, behavior: 'smooth' })
+
+    // Send automated confirmation email
+    if (form.email) {
+      try {
+        await fetch('/api/send-confirmation', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            to: form.email,
+            name: form.contactName,
+            type: 'carrier-application'
+          })
+        })
+      } catch {}
+    }
   }
 
   if (done) return (
     <section className="min-h-[80vh] flex items-center pt-32 pb-20 relative overflow-hidden">
       <Orbs />
+      {showPopup && (
+        <div className="fixed top-24 right-6 z-[100] bg-emerald-600 text-white px-6 py-4 rounded-xl shadow-2xl animate-fade-up flex items-center gap-3">
+          <CheckCircle2 className="w-5 h-5" />
+          <span className="text-sm font-semibold">Your application has been received! A confirmation has been sent to your email.</span>
+        </div>
+      )}
       <div className="container-x relative max-w-2xl mx-auto text-center">
-        <div className="w-24 h-24 rounded-full bg-gradient-to-br from-emerald-500 to-emerald-700 grid place-items-center mx-auto mb-6"><CheckCircle2 className="w-12 h-12" /></div>
-        <h1 className="font-display italic font-black text-5xl mb-4">Welcome Aboard!</h1>
-        <p className="text-white/70 text-lg mb-8">Your carrier application has been received. Our team will verify your authority and insurance and reach out within 24 hours.</p>
+        <div className="w-20 h-20 rounded-full bg-gradient-to-br from-emerald-500 to-emerald-700 grid place-items-center mx-auto mb-5"><CheckCircle2 className="w-10 h-10" /></div>
+        <h1 className="font-display italic font-black text-3xl mb-3">Welcome Aboard!</h1>
+        <p className="text-white/70 mb-6">Your carrier application has been received. A confirmation has been sent to your email. Our team will verify your authority and insurance and reach out within 24 hours.</p>
         <a href="/" className="btn-primary">Back to Home</a>
       </div>
     </section>
@@ -53,7 +78,7 @@ export default function CarrierOnboarding() {
           <Reveal>
             <div className="text-center max-w-2xl mx-auto mb-14">
               <div className="badge mb-4 mx-auto">Why Drivers Love Us</div>
-              <h2 className="font-display italic font-black text-5xl">A Broker That <span className="text-orange-400">Pays Fast.</span></h2>
+              <h2 className="font-display italic font-black text-3xl">A Broker That <span className="text-orange-400">Pays Fast.</span></h2>
               <div className="divider-glow w-32 mx-auto mt-6" />
               <p className="mt-6 text-white/70 text-lg">Stop chasing checks. Stop waiting on hold. We treat carriers like the partners they are.</p>
             </div>
@@ -84,7 +109,7 @@ export default function CarrierOnboarding() {
           <Reveal>
             <div className="text-center max-w-2xl mx-auto mb-12">
               <div className="badge mb-4 mx-auto">Application</div>
-              <h2 className="font-display italic font-black text-5xl">Sign Up <span className="text-orange-400">In Minutes</span></h2>
+              <h2 className="font-display italic font-black text-3xl">Sign Up <span className="text-orange-400">In Minutes</span></h2>
               <div className="divider-glow w-32 mx-auto mt-6" />
             </div>
           </Reveal>
@@ -171,7 +196,7 @@ export default function CarrierOnboarding() {
         <div className="container-x max-w-3xl">
           <Reveal>
             <div className="glass-strong neon-border p-10 lg:p-14 text-center">
-              <div className="text-5xl mb-6">🤝</div>
+              <div className="text-3xl mb-6">🤝</div>
               <h2 className="font-display italic font-black text-3xl mb-6">Join Our <span className="text-orange-400">Growing Network</span></h2>
               <p className="text-white/80 text-xl italic leading-relaxed">&ldquo;We are just getting started — and we are building our reputation one load and one relationship at a time. Be one of our founding partners.&rdquo;</p>
             </div>
@@ -185,7 +210,7 @@ export default function CarrierOnboarding() {
           <Reveal>
             <div className="text-center mb-10">
               <div className="badge mb-3 mx-auto">FAQ</div>
-              <h2 className="font-display italic font-black text-5xl">Carrier <span className="text-orange-400">Questions</span></h2>
+              <h2 className="font-display italic font-black text-3xl">Carrier <span className="text-orange-400">Questions</span></h2>
               <div className="divider-glow w-32 mx-auto mt-6" />
             </div>
           </Reveal>

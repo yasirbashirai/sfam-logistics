@@ -8,7 +8,7 @@ const items = [
   { i: Clock, t: '24/7 Dispatch' },
   { i: Truck, t: 'Driver Built' },
   { i: DollarSign, t: 'Same-Day Pay' },
-  { i: Globe, t: '48 States' },
+  { i: Globe, t: 'Nationwide' },
   { i: Heart, t: '10+ Years on the Road' },
   { i: Star, t: 'MC 1810116' },
   { i: Gauge, t: 'USDOT 4555943' }

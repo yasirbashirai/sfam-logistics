@@ -28,7 +28,7 @@ export default function ServiceDetail() {
   const faqs = [
     { q: `How fast can I get a ${service.name} quote?`, a: 'Most quotes return within 30 minutes during business hours. Urgent loads can be priced within 10 minutes by phone.' },
     { q: 'Do you offer cargo insurance?', a: 'Yes — all our carriers carry cargo insurance and we name our shippers as additional insured on file.' },
-    { q: 'What lanes do you cover?', a: 'All 48 contiguous states with deep capacity in PNW, California, Texas, Midwest, and Southeast corridors.' },
+    { q: 'What lanes do you cover?', a: 'Nationwide coverage across the United States with deep capacity in PNW, California, Texas, Midwest, and Southeast corridors.' },
     { q: 'Are there any hidden fees?', a: 'Never. Our quotes are all-in. Any accessorial costs are disclosed upfront before you confirm.' }
   ]
 
@@ -78,7 +78,7 @@ export default function ServiceDetail() {
           <Reveal>
             <div className="text-center max-w-2xl mx-auto mb-14">
               <div className="badge mb-4 mx-auto">Why Choose SFam</div>
-              <h2 className="font-display italic font-black text-5xl">The Benefits Of <span className="text-orange-400">{service.name}</span></h2>
+              <h2 className="font-display italic font-black text-3xl">The Benefits Of <span className="text-orange-400">{service.name}</span></h2>
               <div className="divider-glow w-32 mx-auto mt-6" />
             </div>
           </Reveal>
@@ -107,7 +107,7 @@ export default function ServiceDetail() {
           <Reveal>
             <div className="text-center max-w-2xl mx-auto mb-14">
               <div className="badge mb-4 mx-auto">How It Works</div>
-              <h2 className="font-display italic font-black text-5xl">Simple. Fast. <span className="text-orange-400">Reliable.</span></h2>
+              <h2 className="font-display italic font-black text-3xl">Simple. Fast. <span className="text-orange-400">Reliable.</span></h2>
               <div className="divider-glow w-32 mx-auto mt-6" />
             </div>
           </Reveal>
@@ -136,7 +136,7 @@ export default function ServiceDetail() {
           <Reveal>
             <div className="text-center mb-12">
               <div className="badge mb-4 mx-auto">FAQ</div>
-              <h2 className="font-display italic font-black text-5xl">Common <span className="text-orange-400">Questions</span></h2>
+              <h2 className="font-display italic font-black text-3xl">Common <span className="text-orange-400">Questions</span></h2>
               <div className="divider-glow w-32 mx-auto mt-6" />
             </div>
           </Reveal>

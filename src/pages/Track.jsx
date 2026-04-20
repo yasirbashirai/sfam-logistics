@@ -54,8 +54,8 @@ export default function Track() {
 
   return (
     <>
-      <PageMeta title="Track Your Shipment" description="Track your freight shipment in real-time with SFam Logistics. Enter your load reference, BOL, or PO number for live status updates from pickup to delivery." />
-      <PageHero eyebrow="Load Tracking" title={<>Track Your <span className="text-orange-400">Shipment</span></>} subtitle="Real-time visibility from pickup to POD. Enter your SFam tracking number below." />
+      <PageMeta title="Track Shipment" description="Track your freight shipment in real-time with SFam Logistics. Enter your load reference, BOL, or PO number for live status updates from pickup to delivery. Powered by AscendTMS." />
+      <PageHero eyebrow="Track Shipment" title={<>Track Your <span className="text-orange-400">Shipment</span></>} subtitle="Real-time visibility from pickup to POD powered by AscendTMS. Enter your SFam tracking number below." />
 
       <section className="section pt-0">
         <Orbs />
@@ -141,10 +141,11 @@ export default function Track() {
           )}
 
           {!load && !err && (
-            <div className="glass p-12 text-center">
-              <Truck className="w-16 h-16 text-orange-400/40 mx-auto mb-4" />
-              <h3 className="font-display font-bold text-2xl mb-2">Track Any Shipment</h3>
-              <p className="text-white/50">Enter your SFam tracking number above to see real-time status, location, and event history.</p>
+            <div className="glass p-10 text-center">
+              <Truck className="w-12 h-12 text-orange-400/40 mx-auto mb-3" />
+              <h3 className="font-display font-bold text-xl mb-2">Track Any Shipment</h3>
+              <p className="text-white/50 text-sm mb-4">Enter your SFam tracking number above to see real-time status, location, and event history.</p>
+              <p className="text-white/30 text-xs">Tracking powered by AscendTMS integration. Real-time carrier updates via CRM.</p>
             </div>
           )}
         </div>

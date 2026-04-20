@@ -17,7 +17,7 @@ export const company = {
 
 export const services = [
   { slug: 'full-truckload', name: 'Full Truckload (FTL)', short: 'Dedicated trailers, faster transit, single-shipment focus.', icon: 'Truck',
-    long: 'When your freight needs the entire trailer, FTL is the fastest, safest, and most cost-effective option. We coordinate dry van, reefer, and flatbed FTL shipments across all 48 contiguous states with vetted carriers and live communication from pickup to delivery.' },
+    long: 'When your freight needs the entire trailer, FTL is the fastest, safest, and most cost-effective option. We coordinate dry van, reefer, and flatbed FTL shipments across the United States with vetted carriers and live communication from pickup to delivery.' },
   { slug: 'less-than-truckload', name: 'Less-Than-Truckload (LTL)', short: 'Pay for the space you use. Smart consolidation nationwide.', icon: 'Boxes',
     long: 'LTL is perfect for shipments between 150 and 15,000 lbs. We work with national LTL carriers to consolidate freight, reduce cost, and keep transit predictable — backed by tracking and proactive updates.' },
   { slug: 'reefer', name: 'Refrigerated (Reefer)', short: 'Temperature-controlled freight from -20°F to +70°F.', icon: 'Snowflake',

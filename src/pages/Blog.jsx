@@ -74,7 +74,7 @@ export default function Blog() {
           <Reveal>
             <div className="text-center mb-12">
               <div className="badge mb-3 mx-auto">Latest Articles</div>
-              <h2 className="font-display italic font-black text-5xl">All <span className="text-orange-400">Insights</span></h2>
+              <h2 className="font-display italic font-black text-3xl">All <span className="text-orange-400">Insights</span></h2>
               <div className="divider-glow w-32 mx-auto mt-6" />
             </div>
           </Reveal>

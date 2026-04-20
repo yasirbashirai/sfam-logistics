@@ -1,56 +1,64 @@
-// SFam Logistics — official branded image library.
+// SFam Logistics — image library.
 // ONLY uses files in /public/images/. No external URLs.
-// 11 unique branded photos. Aliases below remap legacy keys to local images.
+// Uses owner-provided real photos + clean stock truck images.
 
-// === Canonical local files ===
-const peterbiltHighway = '/images/peterbilt-highway.jpg'  // SFam blue Peterbilt cruising — main hero
-const ownTruck         = '/images/truck-hero.jpg'         // original truck on lot
-const truckYardNight   = '/images/truck-yard-night.jpg'   // aerial yard, Vegas at night
-const handshake        = '/images/handshake-driver.jpg'   // owner + driver handshake
-const femaleDriver     = '/images/female-driver.jpg'      // female SFam driver portrait
-const dispatchTeam     = '/images/dispatch-team.jpg'      // SFam dispatch office team
-const opsTablet        = '/images/ops-tablet.jpg'         // operations / route planning tablet
-const flatbedLA        = '/images/flatbed-la.jpg'         // flatbed steel coils, LA skyline
-const reeferLoading    = '/images/reefer-branded.jpg'      // SFam branded reefer at cold storage dock
-const dryvanLoading    = '/images/dryvan-loading.jpg'     // SFam dry van loading dock
-const ltlWarehouse     = '/images/ltl-warehouse.jpg'      // LTL hub, multiple SFam trucks
-const dedicatedBranded = '/images/dedicated-branded.jpg'  // SFam branded dedicated freight warehouse
+// === Owner-provided photos ===
+const truckRedWhite    = '/images/truck-redwhite.jpg'      // Red & white Peterbilt show truck
+const truckSnowRoad    = '/images/truck-snow-road.jpg'     // Trucks on snowy highway
+const trailerLoaded    = '/images/trailer-loaded.jpg'      // Loaded trailer at dock
+const whitePeterbilt   = '/images/white-peterbilt.jpg'     // White Peterbilt cab
+const highwayMountains = '/images/highway-mountains.jpg'   // Highway through mountain pass
+
+// === Clean stock truck images ===
+const whiteFreightliner = '/images/white-freightliner.jpg'  // White Freightliner on highway
+const whiteVolvoSunset  = '/images/white-volvo-sunset.jpg'  // White Volvo trucks at sunset
+const whiteVolvoMotion  = '/images/white-volvo-motion.jpg'  // White Volvo in motion, green fields
+const whitePeterbiltRural = '/images/white-peterbilt-rural.jpg' // White Peterbilt on rural road
+const blueKenworthDesert = '/images/blue-kenworth-desert.jpg'  // Blue Kenworth in desert
+
+// Keep logo reference
+const sfamLogo = '/images/sfam-logo.jpg'
 
 export const IMG = {
-  // Canonical
-  peterbiltHighway, ownTruck, truckYardNight, handshake,
-  femaleDriver, dispatchTeam, opsTablet,
-  flatbedLA, reeferLoading, dryvanLoading, ltlWarehouse, dedicatedBranded,
+  // Owner photos
+  truckRedWhite, truckSnowRoad, trailerLoaded, whitePeterbilt, highwayMountains,
 
-  // === Aliases (legacy keys → local files) ===
+  // Stock images
+  whiteFreightliner, whiteVolvoSunset, whiteVolvoMotion, whitePeterbiltRural, blueKenworthDesert,
+
+  // Logo
+  sfamLogo,
+
+  // === Aliases (used across pages) ===
+
   // Hero variants
-  heroHighway: peterbiltHighway,
-  heroDusk: handshake,
-  heroFleet: truckYardNight,
-  cityLights: truckYardNight,
-  roadMountains: peterbiltHighway,
+  heroHighway: highwayMountains,
+  heroDusk: whiteVolvoSunset,
+  heroFleet: blueKenworthDesert,
+  cityLights: blueKenworthDesert,
+  roadMountains: highwayMountains,
 
-  // People
-  driverPortrait: femaleDriver,
-  cabInterior: peterbiltHighway,
-  teamMeeting: dispatchTeam,
-  dispatchDesk: dispatchTeam,
-  laptopMap: opsTablet,
+  // People / team (replaced branded with clean trucks)
+  driverPortrait: whitePeterbilt,
+  cabInterior: trailerLoaded,
+  teamMeeting: whiteVolvoSunset,
+  dispatchDesk: whiteFreightliner,
+  laptopMap: whitePeterbiltRural,
 
   // Equipment / services
-  ftlTruck: peterbiltHighway,
-  ltlPallets: dryvanLoading,
-  reeferTrailer: reeferLoading,
-  flatbedLoad: flatbedLA,
-  dedicatedFleet: dedicatedBranded,
-  expeditedVan: ownTruck,
-  warehouseLoad: dryvanLoading,
-  shippingPort: ltlWarehouse,
+  ftlTruck: whiteFreightliner,
+  ltlPallets: trailerLoaded,
+  reeferTrailer: whiteVolvoMotion,
+  flatbedLoad: blueKenworthDesert,
+  dedicatedFleet: whiteVolvoSunset,
+  expeditedVan: whitePeterbiltRural,
+  warehouseLoad: trailerLoaded,
+  shippingPort: whiteFreightliner,
 
   // Blog
-  blogShipping: dryvanLoading,
-  blogIndustry: opsTablet,
-  blogCarriers: ltlWarehouse
+  blogShipping: whiteFreightliner,
+  blogIndustry: whitePeterbiltRural,
+  blogCarriers: whiteVolvoSunset
 }
 
 export default IMG

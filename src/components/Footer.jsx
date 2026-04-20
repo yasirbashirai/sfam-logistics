@@ -45,7 +45,7 @@ export default function Footer() {
           <div>
             <h4 className="label mb-5">Company</h4>
             <ul className="space-y-3 text-white/70 text-sm">
-              {[['/about', 'About Us'], ['/services', 'Services'], ['/blog', 'Blog & Insights'], ['/contact', 'Contact'], ['/login', 'Admin Login']].map(([to, label]) => (
+              {[['/about', 'About Us'], ['/services', 'Logistics Services'], ['/track', 'Track Shipment'], ['/blog', 'Blog & Insights'], ['/contact', 'Contact'], ['/login', 'Admin Login']].map(([to, label]) => (
                 <li key={to}><Link to={to} className="hover:text-orange-300 inline-flex items-center gap-2 group"><ArrowRight className="w-3 h-3 opacity-0 -ml-5 group-hover:opacity-100 group-hover:ml-0 transition-all text-orange-400" /> {label}</Link></li>
               ))}
             </ul>
@@ -63,7 +63,8 @@ export default function Footer() {
           <div>
             <h4 className="label mb-5">Get In Touch</h4>
             <ul className="space-y-4 text-white/70 text-sm">
-              <li className="flex gap-3"><MapPin className="w-4 h-4 mt-0.5 text-orange-400 shrink-0" /><span>{company.address}</span></li>
+              <li className="flex gap-3"><MapPin className="w-4 h-4 mt-0.5 text-orange-400 shrink-0" /><span>19125 North Creek Parkway Suite 120,<br />Bothell, WA 98011</span></li>
+              <li className="flex gap-3"><MapPin className="w-4 h-4 mt-0.5 text-orange-400 shrink-0" /><span>10220 3rd Avenue SE,<br />Everett, WA 98208</span></li>
               <li className="flex gap-3"><Phone className="w-4 h-4 mt-0.5 text-orange-400 shrink-0" /><a href={company.phoneHref} className="hover:text-orange-300 font-semibold">{company.phone}</a></li>
               <li className="flex gap-3"><Mail className="w-4 h-4 mt-0.5 text-orange-400 shrink-0" /><a href={`mailto:${company.email}`} className="hover:text-orange-300">{company.email}</a></li>
               <li className="text-white/40 text-xs mt-2 pt-2 border-t border-white/5">{company.hours}</li>
@@ -75,7 +76,7 @@ export default function Footer() {
           <p>© {new Date().getFullYear()} SFam Logistics LLC. All rights reserved. FMCSA Authorized Property Broker. MC 1810116 • USDOT 4555943</p>
           <div className="flex gap-5">
             <Link to="/privacy" className="hover:text-orange-300">Privacy Policy</Link>
-            <Link to="/terms" className="hover:text-orange-300">Terms of Service</Link>
+            <Link to="/terms" className="hover:text-orange-300">Terms</Link>
           </div>
         </div>
       </div>

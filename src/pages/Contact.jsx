@@ -12,11 +12,25 @@ export default function Contact() {
   const [done, setDone] = useState(false)
   const [form, setForm] = useState({ name: '', email: '', phone: '', subject: '', message: '' })
   const set = (k, v) => setForm(f => ({ ...f, [k]: v }))
-  const submit = (e) => { e.preventDefault(); add('contacts', form); setDone(true) }
+  const submit = async (e) => {
+    e.preventDefault()
+    add('contacts', form)
+    setDone(true)
+    // Send confirmation email
+    if (form.email) {
+      try {
+        await fetch('/api/send-confirmation', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ to: form.email, name: form.name, type: 'contact' })
+        })
+      } catch {}
+    }
+  }
 
   return (
     <>
-      <PageMeta title="Contact Us" description="Contact SFam Logistics LLC — toll-free 1 (888) 698-5556, email info@sfamlogistics.com. Headquarters: 19125 North Creek Parkway Suite 120, Bothell, WA 98011. Mon-Fri 8AM-5PM PST." />
+      <PageMeta title="Contact Us" description="Contact SFam Logistics LLC — toll-free 1 (888) 698-5556, email info@sfamlogistics.com. 19125 North Creek Parkway Suite 120, Bothell, WA 98011. Mon-Fri 8AM-5PM PST." />
       <PageHero eyebrow="Contact Us" title={<>Let&apos;s <span className="text-orange-400">Talk Freight</span></>} subtitle="Phone, email, or message form — we answer fast." image={IMG.dispatchDesk} />
 
       {/* ===== 1. CONTACT INFO + FORM ===== */}
@@ -27,10 +41,11 @@ export default function Contact() {
             {[
               { i: Phone, t: 'Phone (Toll Free)', v: company.phone, href: company.phoneHref },
               { i: Mail, t: 'Email', v: company.email, href: `mailto:${company.email}` },
-              { i: MapPin, t: 'Headquarters', v: company.address },
+              { i: MapPin, t: 'Address', v: '19125 North Creek Parkway Suite 120, Bothell, WA 98011' },
+              { i: MapPin, t: 'Address', v: '10220 3rd Avenue SE, Everett, WA 98208' },
               { i: Clock, t: 'Hours', v: company.hours }
-            ].map(({ i: Icon, t, v, href }) => (
-              <div key={t} className="glass-strong p-6 flex gap-4 hover:border-orange-400/40 transition group">
+            ].map(({ i: Icon, t, v, href }, idx) => (
+              <div key={`${t}-${idx}`} className="glass-strong p-6 flex gap-4 hover:border-orange-400/40 transition group">
                 <div className="w-14 h-14 shrink-0 rounded-xl bg-gradient-to-br from-orange-400 to-orange-600 grid place-items-center group-hover:rotate-6 transition"><Icon className="w-6 h-6 text-brand-navy" /></div>
                 <div>
                   <div className="text-xs text-white/50 uppercase tracking-widest mb-1 font-bold">{t}</div>
@@ -73,7 +88,7 @@ export default function Contact() {
           <Reveal>
             <div className="text-center max-w-2xl mx-auto mb-12">
               <div className="badge mb-4 mx-auto">Reach The Right Team</div>
-              <h2 className="font-display italic font-black text-5xl">Who Are You <span className="text-orange-400">Trying To Reach?</span></h2>
+              <h2 className="font-display italic font-black text-3xl">Who Are You <span className="text-orange-400">Trying To Reach?</span></h2>
               <div className="divider-glow w-32 mx-auto mt-6" />
             </div>
           </Reveal>
@@ -102,7 +117,7 @@ export default function Contact() {
           <Reveal>
             <div className="text-center max-w-2xl mx-auto mb-10">
               <div className="badge mb-3 mx-auto">Visit Us</div>
-              <h2 className="font-display italic font-black text-4xl">Our <span className="text-orange-400">Headquarters</span></h2>
+              <h2 className="font-display italic font-black text-2xl">Our <span className="text-orange-400">Location</span></h2>
             </div>
           </Reveal>
           <Reveal delay={150}>
@@ -125,14 +140,13 @@ export default function Contact() {
           <Reveal>
             <div className="text-center mb-10">
               <div className="badge mb-3 mx-auto">FAQ</div>
-              <h2 className="font-display italic font-black text-4xl">Quick <span className="text-orange-400">Answers</span></h2>
+              <h2 className="font-display italic font-black text-2xl">Quick <span className="text-orange-400">Answers</span></h2>
             </div>
           </Reveal>
           <div className="space-y-4">
             {[
               { q: 'How fast do you respond?', a: 'During business hours (Mon–Fri, 8AM–5PM PST), we respond to web inquiries within one hour. Phone calls are answered immediately.' },
-              { q: 'Do you operate after hours?', a: 'Yes — our dispatch team is available 24/7 for active loads, hot loads, and emergency capacity needs.' },
-              { q: 'Where can I reach you in person?', a: 'Our headquarters is at 19125 North Creek Parkway Suite 120, Bothell, WA 98011. Visits by appointment.' }
+              { q: 'Do you operate after hours?', a: 'Yes — our dispatch team is available 24/7 for active loads, hot loads, and emergency capacity needs.' }
             ].map((f, i) => (
               <Reveal key={f.q} delay={i * 80}>
                 <details className="glass p-6 group cursor-pointer hover:border-orange-400/40 transition">

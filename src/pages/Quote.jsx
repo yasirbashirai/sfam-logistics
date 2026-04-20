@@ -47,13 +47,32 @@ export default function Quote() {
   const next = () => setStep(s => Math.min(s + 1, STEPS.length - 1))
   const prev = () => setStep(s => Math.max(s - 1, 0))
 
-  const submit = (e) => {
+  const [showPopup, setShowPopup] = useState(false)
+
+  const submit = async (e) => {
     e.preventDefault()
     add('quotes', { ...form, estimate })
     setDone(true)
+    setShowPopup(true)
+    setTimeout(() => setShowPopup(false), 5000)
+
+    // Send automated confirmation email
+    if (form.email) {
+      try {
+        await fetch('/api/send-confirmation', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            to: form.email,
+            name: form.name,
+            type: 'quote'
+          })
+        })
+      } catch {}
+    }
   }
 
-  if (done) return <SuccessScreen estimate={estimate} />
+  if (done) return <SuccessScreen estimate={estimate} showPopup={showPopup} />
 
   return (
     <>
@@ -199,19 +218,25 @@ function Review({ label, value }) {
     </div>
   )
 }
-function SuccessScreen({ estimate }) {
+function SuccessScreen({ estimate, showPopup }) {
   return (
     <section className="min-h-[80vh] flex items-center pt-32 pb-20 relative overflow-hidden">
       <Orbs />
-      <div className="container-x relative max-w-2xl mx-auto text-center">
-        <div className="w-24 h-24 rounded-full bg-gradient-to-br from-emerald-500 to-emerald-700 grid place-items-center mx-auto mb-6 shadow-2xl shadow-emerald-500/40">
-          <CheckCircle2 className="w-12 h-12" />
+      {showPopup && (
+        <div className="fixed top-24 right-6 z-[100] bg-emerald-600 text-white px-6 py-4 rounded-xl shadow-2xl animate-fade-up flex items-center gap-3">
+          <CheckCircle2 className="w-5 h-5" />
+          <span className="text-sm font-semibold">Thank you for submitting your quote! A confirmation has been sent to your email.</span>
         </div>
-        <h1 className="font-display font-bold text-5xl mb-4">Quote Submitted!</h1>
-        <p className="text-white/70 mb-8">Thanks — we received your request and will respond within 30 minutes during business hours. A copy was also saved to your admin dashboard.</p>
-        <div className="glass-strong p-8 mb-8">
+      )}
+      <div className="container-x relative max-w-2xl mx-auto text-center">
+        <div className="w-20 h-20 rounded-full bg-gradient-to-br from-emerald-500 to-emerald-700 grid place-items-center mx-auto mb-5 shadow-2xl shadow-emerald-500/40">
+          <CheckCircle2 className="w-10 h-10" />
+        </div>
+        <h1 className="font-display font-bold text-4xl mb-3">Quote Submitted!</h1>
+        <p className="text-white/70 mb-6">Thanks — we received your request and will respond within 30 minutes during business hours. A confirmation has been sent to your email.</p>
+        <div className="glass-strong p-6 mb-6">
           <div className="text-xs text-white/50 uppercase tracking-widest mb-1">Indicative Estimate</div>
-          <div className="text-4xl font-display font-bold gradient-text">${estimate.low.toLocaleString()} – ${estimate.high.toLocaleString()}</div>
+          <div className="text-3xl font-display font-bold gradient-text">${estimate.low.toLocaleString()} – ${estimate.high.toLocaleString()}</div>
         </div>
         <a href="/" className="btn-primary">Back to Home</a>
       </div>

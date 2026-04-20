@@ -14,7 +14,10 @@ export default {
           orange3: '#e89829',
           ink: '#06101c',
           ink2: '#0a1626',
-          ink3: '#0d1b2e'
+          ink3: '#0d1b2e',
+          light: '#f7f8fa',
+          light2: '#eef0f4',
+          light3: '#e2e5eb'
         }
       },
       fontFamily: {
