@@ -80,7 +80,7 @@ export default function Navbar() {
                 {/* === MEGA MENU === */}
                 {l.mega && megaOpen && (
                   <div className="absolute top-full left-1/2 -translate-x-1/2 pt-4 w-[820px] z-50">
-                    <div className="bg-brand-navy/98 backdrop-blur-2xl border border-orange-400/30 rounded-2xl shadow-2xl shadow-black/60 p-6 grid grid-cols-3 gap-3">
+                    <div className="bg-[#0d1b2e] border border-orange-400/30 rounded-2xl shadow-2xl shadow-black/60 p-6 grid grid-cols-3 gap-3">
                       {services.map((s, i) => {
                         const Icon = iconMap[s.icon] || Truck
                         return (
