@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { Mail, Phone, MapPin, Clock, CheckCircle2, MessageSquare, Truck, Users, ArrowRight } from 'lucide-react'
 import PageMeta from '../components/PageMeta.jsx'
 import { PageHero, Orbs } from '../components/Section.jsx'
@@ -99,12 +100,12 @@ export default function Contact() {
               { i: MessageSquare, t: 'Join as Agent?', d: 'Speak with our recruiting team about agent opportunities.', cta: 'Apply Now', to: '/agent-opportunities' }
             ].map(({ i: Icon, t, d, cta, to }, idx) => (
               <Reveal key={t} delay={idx * 120}>
-                <a href={to} className="glass-strong p-8 hover:border-orange-400/50 hover:-translate-y-1 transition group block h-full">
+                <Link to={to} className="glass-strong p-8 hover:border-orange-400/50 hover:-translate-y-1 transition group block h-full">
                   <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-orange-400 to-orange-600 grid place-items-center mb-5 group-hover:rotate-6 transition"><Icon className="w-7 h-7 text-brand-navy" /></div>
                   <h3 className="font-display italic font-black text-2xl mb-2">{t}</h3>
                   <p className="text-white/60 mb-5">{d}</p>
                   <span className="inline-flex items-center gap-2 text-orange-400 font-bold uppercase tracking-widest text-xs">{cta} <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition" /></span>
-                </a>
+                </Link>
               </Reveal>
             ))}
           </div>

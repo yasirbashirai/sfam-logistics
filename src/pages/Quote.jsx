@@ -101,7 +101,7 @@ export default function Quote() {
             <form onSubmit={submit} className="glass-strong p-7 lg:p-10">
               {step === 0 && (
                 <div className="space-y-5">
-                  <h3 className="font-display font-bold text-2xl flex items-center gap-3"><MapPin className="w-6 h-6 text-orange-400" /> Lane Details</h3>
+                  <h3 className="font-display italic font-black text-xl flex items-center gap-3"><MapPin className="w-6 h-6 text-orange-400" /> Lane Details</h3>
                   <div className="grid sm:grid-cols-2 gap-4">
                     <Field label="Origin City"><input className="input" value={form.originCity} onChange={e => set('originCity', e.target.value)} required /></Field>
                     <Field label="Origin ZIP"><input className="input" value={form.originZip} onChange={e => set('originZip', e.target.value)} required /></Field>
@@ -115,7 +115,7 @@ export default function Quote() {
 
               {step === 1 && (
                 <div className="space-y-5">
-                  <h3 className="font-display font-bold text-2xl flex items-center gap-3"><Package className="w-6 h-6 text-orange-400" /> Freight Details</h3>
+                  <h3 className="font-display italic font-black text-xl flex items-center gap-3"><Package className="w-6 h-6 text-orange-400" /> Freight Details</h3>
                   <div className="grid sm:grid-cols-2 gap-4">
                     <Field label="Freight Type">
                       <select className="select" value={form.freightType} onChange={e => set('freightType', e.target.value)}>
@@ -141,7 +141,7 @@ export default function Quote() {
 
               {step === 2 && (
                 <div className="space-y-5">
-                  <h3 className="font-display font-bold text-2xl flex items-center gap-3"><User className="w-6 h-6 text-orange-400" /> Contact Information</h3>
+                  <h3 className="font-display italic font-black text-xl flex items-center gap-3"><User className="w-6 h-6 text-orange-400" /> Contact Information</h3>
                   <div className="grid sm:grid-cols-2 gap-4">
                     <Field label="Full Name"><input className="input" value={form.name} onChange={e => set('name', e.target.value)} required /></Field>
                     <Field label="Company"><input className="input" value={form.company} onChange={e => set('company', e.target.value)} required /></Field>
@@ -154,7 +154,7 @@ export default function Quote() {
 
               {step === 3 && (
                 <div className="space-y-5">
-                  <h3 className="font-display font-bold text-2xl">Review &amp; Submit</h3>
+                  <h3 className="font-display italic font-black text-xl">Review &amp; Submit</h3>
                   <div className="grid sm:grid-cols-2 gap-4 text-sm">
                     <Review label="Origin" value={`${form.originCity}, ${form.originZip}`} />
                     <Review label="Destination" value={`${form.destCity}, ${form.destZip}`} />
@@ -185,7 +185,7 @@ export default function Quote() {
           <aside className="glass p-7 h-fit lg:sticky lg:top-28">
             <div className="flex items-center gap-3 mb-5">
               <Calculator className="w-6 h-6 text-orange-400" />
-              <h3 className="font-display font-bold text-xl">Live Estimate</h3>
+              <h3 className="font-display italic font-black text-lg">Live Estimate</h3>
             </div>
             <div className="text-4xl font-display font-bold gradient-text mb-2">${estimate.low.toLocaleString()}</div>
             <div className="text-sm text-white/50 mb-5">to ${estimate.high.toLocaleString()}</div>
@@ -232,7 +232,7 @@ function SuccessScreen({ estimate, showPopup }) {
         <div className="w-20 h-20 rounded-full bg-gradient-to-br from-emerald-500 to-emerald-700 grid place-items-center mx-auto mb-5 shadow-2xl shadow-emerald-500/40">
           <CheckCircle2 className="w-10 h-10" />
         </div>
-        <h1 className="font-display font-bold text-4xl mb-3">Quote Submitted!</h1>
+        <h1 className="font-display italic font-black text-3xl mb-3">Quote Submitted!</h1>
         <p className="text-white/70 mb-6">Thanks — we received your request and will respond within 30 minutes during business hours. A confirmation has been sent to your email.</p>
         <div className="glass-strong p-6 mb-6">
           <div className="text-xs text-white/50 uppercase tracking-widest mb-1">Indicative Estimate</div>

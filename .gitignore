@@ -8,3 +8,4 @@ server/sfam.db
 server/sfam.db-*
 server/uploads/*
 !server/uploads/.gitkeep
+.vercel

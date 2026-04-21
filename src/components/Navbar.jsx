@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
-import { Menu, X, Phone, Mail, MapPin, Clock, ShieldCheck, ChevronDown, Truck, Boxes, Snowflake, PackageOpen, Route, Zap, ArrowRight, Search } from 'lucide-react'
+import { Menu, X, Phone, Mail, MapPin, Clock, ShieldCheck, ChevronDown, Truck, Boxes, Snowflake, PackageOpen, Route, Zap, ArrowRight } from 'lucide-react'
 import { services } from '../data/site.js'
 
 const iconMap = { Truck, Boxes, Snowflake, PackageOpen, Route, Zap }

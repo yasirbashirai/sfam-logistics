@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
-import { MessageCircle, X, Send, Bot, User, AlertCircle, CheckCircle2 } from 'lucide-react'
+import { MessageCircle, X, Send, Bot, User } from 'lucide-react'
 
 const faqs = [
   { q: 'How do I get a quote?', a: 'Click "Get a Quote" in the menu or visit our quote page. Fill out the 4-step form with your origin, destination, freight type, and contact info. Most quotes are returned within 30 minutes during business hours (Mon–Fri, 8AM–5PM PST). After hours? We\'ll respond first thing the next business day.' },

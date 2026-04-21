@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { ArrowRight, Truck, Boxes, Snowflake, PackageOpen, Route, Zap, ShieldCheck, Clock, Award, Users, TrendingUp, CheckCircle2, Phone, MapPin, DollarSign, Headphones, Heart } from 'lucide-react'
+import { ArrowRight, Truck, Boxes, Snowflake, PackageOpen, Route, Zap, ShieldCheck, Clock, Award, Users, TrendingUp, CheckCircle2, Phone, MapPin } from 'lucide-react'
 import PageMeta from '../components/PageMeta.jsx'
 import { services } from '../data/site.js'
 import IMG from '../data/images.js'
@@ -83,29 +83,29 @@ export default function Home() {
                   </div>
                   <Phone className="w-7 h-7 text-brand-navy" />
                 </div>
-                <form action="/quote" className="p-6 space-y-3">
+                <div className="p-6 space-y-3">
                   <div className="grid grid-cols-2 gap-2">
                     <div>
                       <label className="text-[9px] uppercase tracking-widest text-white/50 font-bold">Origin</label>
                       <div className="relative mt-1">
                         <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-orange-400" />
-                        <input className="input !pl-9 !py-2.5 text-sm" placeholder="ZIP" />
+                        <input className="input !pl-9 !py-2.5 text-sm" placeholder="ZIP" readOnly onFocus={() => window.location.href='/quote'} />
                       </div>
                     </div>
                     <div>
                       <label className="text-[9px] uppercase tracking-widest text-white/50 font-bold">Destination</label>
                       <div className="relative mt-1">
                         <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-orange-400" />
-                        <input className="input !pl-9 !py-2.5 text-sm" placeholder="ZIP" />
+                        <input className="input !pl-9 !py-2.5 text-sm" placeholder="ZIP" readOnly onFocus={() => window.location.href='/quote'} />
                       </div>
                     </div>
                   </div>
                   <div>
                     <label className="text-[9px] uppercase tracking-widest text-white/50 font-bold">Freight Type</label>
-                    <select className="select mt-1 !py-2.5 text-sm" defaultValue=""><option value="" disabled>Select equipment...</option><option>Full Truckload (FTL)</option><option>LTL</option><option>Reefer</option><option>Flatbed</option><option>Expedited</option></select>
+                    <select className="select mt-1 !py-2.5 text-sm" defaultValue="" onFocus={() => window.location.href='/quote'}><option value="" disabled>Select equipment...</option><option>Full Truckload (FTL)</option><option>LTL</option><option>Reefer</option><option>Flatbed</option><option>Expedited</option></select>
                   </div>
                   <Link to="/quote" className="btn-primary w-full !py-3 text-sm">Get Free Quote <ArrowRight className="w-4 h-4" /></Link>
-                </form>
+                </div>
               </div>
             </div>
           </Reveal>

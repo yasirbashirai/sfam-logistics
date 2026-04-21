@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { CheckCircle2, Upload, Truck, ShieldCheck, FileText, Camera, DollarSign, Phone, Clock, Heart, Star, ArrowRight, Wallet, Headphones } from 'lucide-react'
+import { CheckCircle2, Upload, Truck, ShieldCheck, FileText, Camera, DollarSign, Phone, Heart, Wallet, Headphones } from 'lucide-react'
 import PageMeta from '../components/PageMeta.jsx'
 import { PageHero, Orbs } from '../components/Section.jsx'
 import Reveal from '../components/Reveal.jsx'

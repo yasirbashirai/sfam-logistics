@@ -122,7 +122,7 @@ export default function Track() {
 
               {/* Timeline */}
               <div className="glass-strong p-8">
-                <h3 className="font-display font-bold text-xl mb-6 flex items-center gap-3"><Navigation className="w-5 h-5 text-orange-400" /> Event Timeline</h3>
+                <h3 className="font-display italic font-black text-lg mb-6 flex items-center gap-3"><Navigation className="w-5 h-5 text-orange-400" /> Event Timeline</h3>
                 <div className="relative">
                   <div className="absolute left-5 top-0 bottom-0 w-px bg-gradient-to-b from-orange-400 via-orange-400/40 to-transparent" />
                   {load.events.slice().reverse().map((ev, i) => (
@@ -143,7 +143,7 @@ export default function Track() {
           {!load && !err && (
             <div className="glass p-10 text-center">
               <Truck className="w-12 h-12 text-orange-400/40 mx-auto mb-3" />
-              <h3 className="font-display font-bold text-xl mb-2">Track Any Shipment</h3>
+              <h3 className="font-display italic font-black text-lg mb-2">Track Any Shipment</h3>
               <p className="text-white/50 text-sm mb-4">Enter your SFam tracking number above to see real-time status, location, and event history.</p>
               <p className="text-white/30 text-xs">Tracking powered by AscendTMS integration. Real-time carrier updates via CRM.</p>
             </div>

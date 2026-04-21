@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom'
 import { ArrowRight, Truck, Boxes, Snowflake, PackageOpen, Route, Zap, ShieldCheck, Clock, Phone, CheckCircle2 } from 'lucide-react'
-// CheckCircle2 used in equipment bullet list
 import PageMeta from '../components/PageMeta.jsx'
 import { PageHero, Orbs } from '../components/Section.jsx'
 import Reveal from '../components/Reveal.jsx'

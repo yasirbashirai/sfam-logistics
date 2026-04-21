@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { Target, Eye, Heart, Award, Truck, Users, ArrowRight, CheckCircle2, ShieldCheck, Briefcase, Globe2 } from 'lucide-react'
+import { Target, Eye, Heart, Award, ArrowRight, CheckCircle2, ShieldCheck, Briefcase, Globe2 } from 'lucide-react'
 import PageMeta from '../components/PageMeta.jsx'
 import { PageHero } from '../components/Section.jsx'
 import Reveal from '../components/Reveal.jsx'

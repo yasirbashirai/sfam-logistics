@@ -130,7 +130,6 @@ export default function AgentOpportunities() {
 
       {/* ===== 3. APPLICATION ===== */}
       <section className="section-white">
-        <Orbs />
         <div className="container-x relative max-w-4xl">
           <Reveal>
             <div className="text-center mb-10">
