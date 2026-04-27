@@ -39,14 +39,21 @@ export default function Track() {
 
   const search = async (e) => {
     e?.preventDefault()
+    const q = tracking.trim().toUpperCase()
     setErr(''); setLoad(null); setLoading(true)
     try {
       // Try backend first
-      const r = await fetch(`/api/loads/${tracking.trim().toUpperCase()}`)
+      const r = await fetch(`/api/loads/${q}`)
       if (r.ok) { setLoad(await r.json()); setLoading(false); return }
     } catch {}
-    // Fallback to demo data
-    const demo = demoLoads[tracking.trim().toUpperCase()]
+    // Fallback: shipments admin saved locally (when running on Vercel without backend)
+    try {
+      const local = JSON.parse(localStorage.getItem('sfam_loads_v1') || '[]')
+      const hit = local.find(l => (l.tracking_number || '').toUpperCase() === q)
+      if (hit) { setLoad(hit); setLoading(false); return }
+    } catch {}
+    // Final fallback: hardcoded demo data
+    const demo = demoLoads[q]
     if (demo) setLoad(demo)
     else setErr('Tracking number not found. Try SFAM-2026-0001 or SFAM-2026-0002.')
     setLoading(false)

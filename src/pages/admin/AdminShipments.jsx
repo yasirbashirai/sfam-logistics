@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Plus, Trash2, Edit3, X, Truck, MapPin, Clock, Save, ListPlus, AlertTriangle, RefreshCw } from 'lucide-react'
+import { Plus, Trash2, Edit3, X, Truck, MapPin, Clock, Save, ListPlus, Database } from 'lucide-react'
 
 const STATUS_OPTIONS = ['Booked', 'Picked Up', 'In Transit', 'Out for Delivery', 'Delivered', 'On Hold', 'Cancelled']
 
@@ -15,22 +15,78 @@ const empty = {
   events: []
 }
 
+// localStorage helpers — used as fallback when /api/loads is unreachable
+// (e.g. on Vercel where the Express server isn't deployed)
+const STORAGE_KEY = 'sfam_loads_v1'
+const SEED_LOADS = [
+  {
+    id: 'seed-1',
+    tracking_number: 'SFAM-2026-0001',
+    status: 'In Transit',
+    origin: 'Seattle, WA',
+    destination: 'Los Angeles, CA',
+    carrier: 'Pacific Trans LLC',
+    pickup_date: '2026-04-05',
+    delivery_date: '2026-04-09',
+    current_location: 'Sacramento, CA',
+    events: [
+      { time: '2026-04-05 08:30', event: 'Picked up', location: 'Seattle, WA' },
+      { time: '2026-04-05 19:45', event: 'In transit', location: 'Portland, OR' },
+      { time: '2026-04-06 11:20', event: 'In transit', location: 'Redding, CA' },
+      { time: '2026-04-07 09:00', event: 'Currently here', location: 'Sacramento, CA' }
+    ],
+    created_at: '2026-04-05T08:30:00.000Z'
+  },
+  {
+    id: 'seed-2',
+    tracking_number: 'SFAM-2026-0002',
+    status: 'Delivered',
+    origin: 'Dallas, TX',
+    destination: 'Atlanta, GA',
+    carrier: 'Southern Hauling Co',
+    pickup_date: '2026-04-01',
+    delivery_date: '2026-04-03',
+    current_location: 'Atlanta, GA',
+    events: [
+      { time: '2026-04-01 07:00', event: 'Picked up', location: 'Dallas, TX' },
+      { time: '2026-04-02 14:30', event: 'In transit', location: 'Birmingham, AL' },
+      { time: '2026-04-03 10:15', event: 'Delivered', location: 'Atlanta, GA' }
+    ],
+    created_at: '2026-04-01T07:00:00.000Z'
+  }
+]
+
+const readLocal = () => {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY)
+    if (raw) return JSON.parse(raw)
+  } catch {}
+  // First time: seed
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(SEED_LOADS))
+  return [...SEED_LOADS]
+}
+const writeLocal = (rows) => localStorage.setItem(STORAGE_KEY, JSON.stringify(rows))
+const uid = () => (crypto?.randomUUID?.() || `local-${Date.now()}-${Math.random().toString(36).slice(2)}`)
+
 export default function AdminShipments() {
   const [loads, setLoads] = useState([])
-  const [editing, setEditing] = useState(null) // shipment object or "new"
+  const [editing, setEditing] = useState(null)
   const [search, setSearch] = useState('')
   const [eventForm, setEventForm] = useState({ event: '', location: '', current_location: '', status: '' })
   const [loading, setLoading] = useState(true)
-  const [backendOnline, setBackendOnline] = useState(true)
+  const [demoMode, setDemoMode] = useState(false) // true when running off localStorage
 
   const load = async () => {
     try {
       const r = await fetch('/api/loads')
       if (!r.ok) throw new Error('bad status')
-      setLoads(await r.json())
-      setBackendOnline(true)
+      const apiRows = await r.json()
+      setLoads(apiRows)
+      setDemoMode(false)
     } catch {
-      setBackendOnline(false)
+      // Backend unreachable — fall back to localStorage
+      setLoads(readLocal())
+      setDemoMode(true)
     }
     setLoading(false)
   }
@@ -41,53 +97,99 @@ export default function AdminShipments() {
   const save = async () => {
     if (!editing) return
     if (!editing.tracking_number) { alert('Tracking number is required'); return }
-    try {
-      const r = editing._isNew
-        ? await fetch('/api/loads', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(editing) })
-        : await fetch(`/api/loads/${editing.id}`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(editing) })
-      if (!r.ok) throw new Error('bad status')
-      setEditing(null)
-      load()
-    } catch {
-      alert('Could not save — the backend API is unreachable.\n\nMake sure the API server is running:\n  npm run dev:all\n\n(That runs both the Vite dev server and the Express API on port 4000.)')
-      setBackendOnline(false)
+
+    if (!demoMode) {
+      try {
+        const r = editing._isNew
+          ? await fetch('/api/loads', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(editing) })
+          : await fetch(`/api/loads/${editing.id}`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(editing) })
+        if (!r.ok) throw new Error('bad status')
+        setEditing(null)
+        load()
+        return
+      } catch {
+        setDemoMode(true) // fall through to local save
+      }
     }
+
+    // Local (demo) save
+    const rows = readLocal()
+    if (editing._isNew) {
+      const row = { ...editing, id: uid(), created_at: new Date().toISOString() }
+      delete row._isNew
+      rows.unshift(row)
+    } else {
+      const idx = rows.findIndex(r => r.id === editing.id)
+      if (idx >= 0) rows[idx] = { ...rows[idx], ...editing }
+    }
+    writeLocal(rows)
+    setLoads(rows)
+    setEditing(null)
   }
 
   const remove = async (id) => {
     if (!confirm('Delete this shipment?')) return
-    try {
-      const r = await fetch(`/api/loads/${id}`, { method: 'DELETE' })
-      if (!r.ok) throw new Error('bad status')
-      load()
-    } catch {
-      alert('Could not delete — the backend API is unreachable. Run: npm run dev:all')
-      setBackendOnline(false)
+    if (!demoMode) {
+      try {
+        const r = await fetch(`/api/loads/${id}`, { method: 'DELETE' })
+        if (!r.ok) throw new Error('bad status')
+        load()
+        return
+      } catch {
+        setDemoMode(true)
+      }
     }
+    const rows = readLocal().filter(r => r.id !== id)
+    writeLocal(rows)
+    setLoads(rows)
   }
 
   const addEvent = async () => {
     if (!editing || editing._isNew || !eventForm.event) return
-    try {
-      const r = await fetch(`/api/loads/${editing.id}/event`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(eventForm)
-      })
-      if (!r.ok) throw new Error('bad status')
-      setEventForm({ event: '', location: '', current_location: '', status: '' })
-      load()
-      // refresh editing
-      const rAll = await fetch('/api/loads')
-      if (rAll.ok) {
-        const all = await rAll.json()
-        const found = all.find(l => l.id === editing.id)
-        if (found) setEditing(found)
-      }
-    } catch {
-      alert('Could not log event — the backend API is unreachable. Run: npm run dev:all')
-      setBackendOnline(false)
+    const newEvent = {
+      time: new Date().toISOString().replace('T', ' ').slice(0, 16),
+      event: eventForm.event,
+      location: eventForm.location || editing.current_location || ''
     }
+
+    if (!demoMode) {
+      try {
+        const r = await fetch(`/api/loads/${editing.id}/event`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(eventForm)
+        })
+        if (!r.ok) throw new Error('bad status')
+        setEventForm({ event: '', location: '', current_location: '', status: '' })
+        load()
+        const rAll = await fetch('/api/loads')
+        if (rAll.ok) {
+          const all = await rAll.json()
+          const found = all.find(l => l.id === editing.id)
+          if (found) setEditing(found)
+        }
+        return
+      } catch {
+        setDemoMode(true)
+      }
+    }
+
+    // Local: append event, update derived fields
+    const rows = readLocal()
+    const idx = rows.findIndex(r => r.id === editing.id)
+    if (idx >= 0) {
+      const updated = {
+        ...rows[idx],
+        events: [...(rows[idx].events || []), newEvent],
+        current_location: eventForm.current_location || rows[idx].current_location,
+        status: eventForm.status || rows[idx].status
+      }
+      rows[idx] = updated
+      writeLocal(rows)
+      setLoads(rows)
+      setEditing(updated)
+    }
+    setEventForm({ event: '', location: '', current_location: '', status: '' })
   }
 
   return (
@@ -104,22 +206,12 @@ export default function AdminShipments() {
         </div>
       </div>
 
-      {!backendOnline && !loading && (
-        <div className="mb-6 p-4 rounded-2xl bg-red-500/10 border border-red-400/30 flex items-start gap-3">
-          <AlertTriangle className="w-5 h-5 text-red-300 shrink-0 mt-0.5" />
-          <div className="text-sm flex-1">
-            <div className="font-bold text-red-200">Backend API is offline</div>
-            <div className="text-white/70 mt-1">
-              Shipments, live chat, and tracking all need the Express API running on <code className="text-orange-300">localhost:4000</code>.
-              Stop the current dev server and run <code className="text-orange-300 bg-black/30 px-1.5 py-0.5 rounded">npm run dev:all</code> instead — it boots both Vite and the API.
-            </div>
+      {demoMode && !loading && (
+        <div className="mb-6 p-3 rounded-xl bg-orange-400/10 border border-orange-400/30 flex items-center gap-3 text-xs">
+          <Database className="w-4 h-4 text-orange-300 shrink-0" />
+          <div className="text-white/70 flex-1">
+            <span className="font-bold text-orange-200">Demo mode</span> — saving to your browser only. Shipments you add here are visible on this device. To enable multi-device sync and live chat, deploy the Express backend.
           </div>
-          <button
-            onClick={() => { setLoading(true); load() }}
-            className="shrink-0 inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-orange-400/20 hover:bg-orange-400/30 border border-orange-400/40 text-orange-200 text-xs font-bold uppercase tracking-wider"
-          >
-            <RefreshCw className="w-3.5 h-3.5" /> Retry
-          </button>
         </div>
       )}
 

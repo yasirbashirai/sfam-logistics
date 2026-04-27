@@ -11,21 +11,28 @@ export default function AdminChat() {
 function ConversationList() {
   const [conversations, setConversations] = useState([])
   const [loading, setLoading] = useState(true)
+  const [backendOnline, setBackendOnline] = useState(true)
   const nav = useNavigate()
 
   const load = async () => {
     try {
       const r = await fetch('/api/chat/conversations')
-      if (r.ok) setConversations(await r.json())
-    } catch {}
+      if (!r.ok) throw new Error('bad status')
+      setConversations(await r.json())
+      setBackendOnline(true)
+    } catch {
+      setBackendOnline(false)
+    }
     setLoading(false)
   }
 
   useEffect(() => {
     load()
-    const t = setInterval(load, 6000)
+    // Only poll if backend is reachable — avoids spamming 404s on Vercel
+    const t = setInterval(() => { if (backendOnline) load() }, 6000)
     return () => clearInterval(t)
-  }, [])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [backendOnline])
 
   return (
     <div>
@@ -35,11 +42,20 @@ function ConversationList() {
         <p className="text-white/60 mt-2">Visitor messages from the website chatbot. Click a conversation to join.</p>
       </div>
 
+      {!backendOnline && !loading && (
+        <div className="mb-6 p-4 rounded-2xl bg-orange-400/10 border border-orange-400/30 text-sm">
+          <div className="font-bold text-orange-200 mb-1">Live chat needs the Express backend</div>
+          <div className="text-white/70">
+            Two-way live chat can&apos;t run on a static deployment — it needs a long-running Node server. To enable it on production, host <code className="text-orange-300 bg-black/30 px-1.5 py-0.5 rounded">server/index.js</code> on Railway/Render and point the API URL at it. Locally, run <code className="text-orange-300 bg-black/30 px-1.5 py-0.5 rounded">npm run dev:all</code>.
+          </div>
+        </div>
+      )}
+
       <div className="glass-strong overflow-hidden">
         {loading ? (
           <div className="p-12 text-center text-white/40">Loading conversations...</div>
         ) : conversations.length === 0 ? (
-          <div className="p-12 text-center text-white/40">No chat conversations yet. They'll appear here as soon as visitors start chatting.</div>
+          <div className="p-12 text-center text-white/40">{backendOnline ? "No chat conversations yet. They'll appear here as soon as visitors start chatting." : 'No conversations available — backend is offline.'}</div>
         ) : (
           <div className="divide-y divide-white/5">
             {conversations.map(c => (
