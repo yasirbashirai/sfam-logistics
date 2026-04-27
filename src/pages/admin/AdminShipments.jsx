@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Plus, Trash2, Edit3, X, Truck, MapPin, Clock, Save, ListPlus } from 'lucide-react'
+import { Plus, Trash2, Edit3, X, Truck, MapPin, Clock, Save, ListPlus, AlertTriangle } from 'lucide-react'
 
 const STATUS_OPTIONS = ['Booked', 'Picked Up', 'In Transit', 'Out for Delivery', 'Delivered', 'On Hold', 'Cancelled']
 
@@ -21,12 +21,17 @@ export default function AdminShipments() {
   const [search, setSearch] = useState('')
   const [eventForm, setEventForm] = useState({ event: '', location: '', current_location: '', status: '' })
   const [loading, setLoading] = useState(true)
+  const [backendOnline, setBackendOnline] = useState(true)
 
   const load = async () => {
     try {
       const r = await fetch('/api/loads')
-      if (r.ok) setLoads(await r.json())
-    } catch {}
+      if (!r.ok) throw new Error('bad status')
+      setLoads(await r.json())
+      setBackendOnline(true)
+    } catch {
+      setBackendOnline(false)
+    }
     setLoading(false)
   }
   useEffect(() => { load() }, [])
@@ -36,44 +41,52 @@ export default function AdminShipments() {
   const save = async () => {
     if (!editing) return
     if (!editing.tracking_number) { alert('Tracking number is required'); return }
-    if (editing._isNew) {
-      await fetch('/api/loads', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(editing)
-      })
-    } else {
-      await fetch(`/api/loads/${editing.id}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(editing)
-      })
+    try {
+      const r = editing._isNew
+        ? await fetch('/api/loads', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(editing) })
+        : await fetch(`/api/loads/${editing.id}`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(editing) })
+      if (!r.ok) throw new Error('bad status')
+      setEditing(null)
+      load()
+    } catch {
+      alert('Could not save — the backend API is unreachable.\n\nMake sure the API server is running:\n  npm run dev:all\n\n(That runs both the Vite dev server and the Express API on port 4000.)')
+      setBackendOnline(false)
     }
-    setEditing(null)
-    load()
   }
 
   const remove = async (id) => {
     if (!confirm('Delete this shipment?')) return
-    await fetch(`/api/loads/${id}`, { method: 'DELETE' })
-    load()
+    try {
+      const r = await fetch(`/api/loads/${id}`, { method: 'DELETE' })
+      if (!r.ok) throw new Error('bad status')
+      load()
+    } catch {
+      alert('Could not delete — the backend API is unreachable. Run: npm run dev:all')
+      setBackendOnline(false)
+    }
   }
 
   const addEvent = async () => {
     if (!editing || editing._isNew || !eventForm.event) return
-    await fetch(`/api/loads/${editing.id}/event`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(eventForm)
-    })
-    setEventForm({ event: '', location: '', current_location: '', status: '' })
-    load()
-    // refresh editing
-    const r = await fetch('/api/loads')
-    if (r.ok) {
-      const all = await r.json()
-      const found = all.find(l => l.id === editing.id)
-      if (found) setEditing(found)
+    try {
+      const r = await fetch(`/api/loads/${editing.id}/event`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(eventForm)
+      })
+      if (!r.ok) throw new Error('bad status')
+      setEventForm({ event: '', location: '', current_location: '', status: '' })
+      load()
+      // refresh editing
+      const rAll = await fetch('/api/loads')
+      if (rAll.ok) {
+        const all = await rAll.json()
+        const found = all.find(l => l.id === editing.id)
+        if (found) setEditing(found)
+      }
+    } catch {
+      alert('Could not log event — the backend API is unreachable. Run: npm run dev:all')
+      setBackendOnline(false)
     }
   }
 
@@ -90,6 +103,19 @@ export default function AdminShipments() {
           <button onClick={() => setEditing({ ...empty, _isNew: true })} className="btn-primary !py-2 !px-5"><Plus className="w-4 h-4" /> New Shipment</button>
         </div>
       </div>
+
+      {!backendOnline && !loading && (
+        <div className="mb-6 p-4 rounded-2xl bg-red-500/10 border border-red-400/30 flex items-start gap-3">
+          <AlertTriangle className="w-5 h-5 text-red-300 shrink-0 mt-0.5" />
+          <div className="text-sm">
+            <div className="font-bold text-red-200">Backend API is offline</div>
+            <div className="text-white/70 mt-1">
+              Shipments, live chat, and tracking all need the Express API running on <code className="text-orange-300">localhost:4000</code>.
+              Stop the current dev server and run <code className="text-orange-300 bg-black/30 px-1.5 py-0.5 rounded">npm run dev:all</code> instead — it boots both Vite and the API.
+            </div>
+          </div>
+        </div>
+      )}
 
       <div className="glass-strong overflow-hidden">
         {loading ? (

@@ -1,14 +1,30 @@
 import { useState } from 'react'
-import { Trash2, Eye, Download, X } from 'lucide-react'
+import { Trash2, Eye, Download, X, Plus, Save } from 'lucide-react'
 import { useSubmissions } from '../../context/SubmissionsContext.jsx'
 
-export default function SubmissionTable({ bucket, title, columns }) {
-  const { data, remove, update } = useSubmissions()
+export default function SubmissionTable({ bucket, title, columns, formFields = [] }) {
+  const { data, remove, update, add } = useSubmissions()
   const rows = data[bucket]
   const [view, setView] = useState(null)
   const [search, setSearch] = useState('')
+  const [creating, setCreating] = useState(null) // form payload while creating
 
   const filtered = rows.filter(r => JSON.stringify(r).toLowerCase().includes(search.toLowerCase()))
+
+  const startCreate = () => {
+    const blank = {}
+    formFields.forEach(f => { blank[f.key] = '' })
+    setCreating(blank)
+  }
+
+  const saveCreate = async () => {
+    if (!creating) return
+    // Require at least one field to be filled to avoid empty submissions
+    const hasAny = Object.values(creating).some(v => v && String(v).trim())
+    if (!hasAny) { alert('Please fill in at least one field.'); return }
+    await add(bucket, creating)
+    setCreating(null)
+  }
 
   const exportCsv = () => {
     if (!rows.length) return
@@ -38,6 +54,9 @@ export default function SubmissionTable({ bucket, title, columns }) {
         <div className="flex gap-3">
           <input className="input !py-2 max-w-xs" placeholder="Search..." value={search} onChange={e => setSearch(e.target.value)} />
           <button onClick={exportCsv} className="btn-ghost !py-2 text-sm"><Download className="w-4 h-4" /> CSV</button>
+          {formFields.length > 0 && (
+            <button onClick={startCreate} className="btn-primary !py-2 !px-5 text-sm"><Plus className="w-4 h-4" /> New</button>
+          )}
         </div>
       </div>
 
@@ -79,6 +98,52 @@ export default function SubmissionTable({ bucket, title, columns }) {
           </div>
         )}
       </div>
+
+      {creating && (
+        <div className="fixed inset-0 z-50 grid place-items-center bg-black/70 backdrop-blur-sm p-4" onClick={() => setCreating(null)}>
+          <div className="glass-strong max-w-2xl w-full max-h-[90vh] overflow-y-auto p-8 relative" onClick={e => e.stopPropagation()}>
+            <button onClick={() => setCreating(null)} className="absolute top-4 right-4 p-2 rounded-lg bg-white/5 hover:bg-red-500/20"><X className="w-4 h-4" /></button>
+            <h2 className="font-display font-bold text-2xl mb-6 flex items-center gap-3"><Plus className="w-6 h-6 text-orange-400" /> New {title.replace(/s$/, '')}</h2>
+            <div className="grid sm:grid-cols-2 gap-4 mb-6">
+              {formFields.map(f => (
+                <label key={f.key} className={f.full ? 'sm:col-span-2 block' : 'block'}>
+                  <span className="text-[10px] uppercase tracking-widest text-white/50 font-bold">{f.label}</span>
+                  {f.type === 'textarea' ? (
+                    <textarea
+                      value={creating[f.key] || ''}
+                      onChange={e => setCreating({ ...creating, [f.key]: e.target.value })}
+                      placeholder={f.placeholder || ''}
+                      rows={4}
+                      className="input mt-1 !py-2 text-sm"
+                    />
+                  ) : f.type === 'select' ? (
+                    <select
+                      value={creating[f.key] || ''}
+                      onChange={e => setCreating({ ...creating, [f.key]: e.target.value })}
+                      className="select mt-1 !py-2 text-sm"
+                    >
+                      <option value="">— select —</option>
+                      {(f.options || []).map(o => <option key={o} value={o}>{o}</option>)}
+                    </select>
+                  ) : (
+                    <input
+                      type={f.type || 'text'}
+                      value={creating[f.key] || ''}
+                      onChange={e => setCreating({ ...creating, [f.key]: e.target.value })}
+                      placeholder={f.placeholder || ''}
+                      className="input mt-1 !py-2 text-sm"
+                    />
+                  )}
+                </label>
+              ))}
+            </div>
+            <div className="flex gap-3">
+              <button onClick={saveCreate} className="btn-primary !py-2.5"><Save className="w-4 h-4" /> Save</button>
+              <button onClick={() => setCreating(null)} className="btn-ghost !py-2.5">Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {view && (
         <div className="fixed inset-0 z-50 grid place-items-center bg-black/70 backdrop-blur-sm p-4" onClick={() => setView(null)}>

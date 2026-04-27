@@ -60,6 +60,12 @@ export default function Chatbot() {
   const messagesEndRef = useRef(null)
   const lastMsgIdRef = useRef(null)
 
+  // 3 starter chips that show until the visitor sends their first message.
+  // The rest of the FAQ stays "hidden" — surfaced only as placeholder hints
+  // once the user starts typing a matching keyword.
+  const QUICK_STARTERS = [0, 11, 1] // Quote, Track, Carrier
+  const showStarters = messages.length === 1 && !showLiveAgentForm && !agentJoined
+
   // Dynamic placeholder hint based on what user is typing
   const placeholder = useMemo(() => {
     if (!input.trim()) return 'Type a topic to get started...'
@@ -215,6 +221,22 @@ export default function Chatbot() {
                 {m.from === 'user' && <div className="w-6 h-6 shrink-0 rounded-full bg-white/10 grid place-items-center"><User className="w-3 h-3" /></div>}
               </div>
             ))}
+
+            {showStarters && (
+              <div className="pt-1 space-y-1.5">
+                <div className="text-[9px] uppercase tracking-widest text-orange-300/70 font-bold pl-8">Quick start</div>
+                {QUICK_STARTERS.map(idx => (
+                  <button
+                    key={idx}
+                    onClick={() => send(faqs[idx].q)}
+                    className="w-full text-left text-xs px-3 py-2 rounded-xl bg-white/[0.04] hover:bg-orange-400/15 border border-white/10 hover:border-orange-400/40 transition"
+                  >
+                    {faqs[idx].q}
+                  </button>
+                ))}
+                <div className="text-[10px] text-white/40 pl-8 pt-1">Or type a topic — I&apos;ll suggest more as you go.</div>
+              </div>
+            )}
 
             {showLiveAgentForm && (
               <div className="p-3 rounded-xl bg-orange-400/10 border border-orange-400/30 space-y-2">
