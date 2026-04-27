@@ -92,7 +92,7 @@ export default function CarrierOnboarding() {
             ].map(({ i: Icon, t, d }, idx) => (
               <Reveal key={t} delay={idx * 100}>
                 <div className="glass-strong p-7 hover:border-orange-400/40 hover:-translate-y-1 transition group h-full">
-                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-orange-400 to-orange-600 grid place-items-center mb-5 group-hover:rotate-6 transition shadow-lg shadow-orange-500/30"><Icon className="w-7 h-7 text-brand-navy" /></div>
+                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-orange-400 to-orange-600 grid place-items-center mb-5 group-hover:rotate-6 transition shadow-lg shadow-orange-500/30"><Icon className="w-7 h-7 text-white" /></div>
                   <div className="font-display italic font-black text-xl mb-2">{t}</div>
                   <div className="text-sm text-white/60">{d}</div>
                 </div>
@@ -146,7 +146,7 @@ export default function CarrierOnboarding() {
                 <h3 className="font-display italic font-black text-2xl mb-5">Equipment Types</h3>
                 <div className="flex flex-wrap gap-3">
                   {['Dry Van', 'Reefer', 'Flatbed', 'Step Deck', 'Power Only', 'Hotshot', 'Sprinter', 'Tanker'].map(eq => (
-                    <button type="button" key={eq} onClick={() => toggleEq(eq)} className={`px-4 py-2 rounded-full border text-sm font-bold transition ${form.equipmentTypes.includes(eq) ? 'bg-gradient-to-r from-orange-400 to-orange-600 border-transparent text-brand-navy' : 'border-white/15 text-white/70 hover:border-orange-400'}`}>
+                    <button type="button" key={eq} onClick={() => toggleEq(eq)} className={`px-4 py-2 rounded-full border text-sm font-bold transition ${form.equipmentTypes.includes(eq) ? 'bg-gradient-to-r from-orange-400 to-orange-600 border-transparent text-white' : 'border-white/15 text-white/70 hover:border-orange-400'}`}>
                       {form.equipmentTypes.includes(eq) && '✓ '}{eq}
                     </button>
                   ))}

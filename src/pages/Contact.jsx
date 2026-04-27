@@ -47,7 +47,7 @@ export default function Contact() {
               { i: Clock, t: 'Hours', v: company.hours }
             ].map(({ i: Icon, t, v, href }, idx) => (
               <div key={`${t}-${idx}`} className="glass-strong p-6 flex gap-4 hover:border-orange-400/40 transition group">
-                <div className="w-14 h-14 shrink-0 rounded-xl bg-gradient-to-br from-orange-400 to-orange-600 grid place-items-center group-hover:rotate-6 transition"><Icon className="w-6 h-6 text-brand-navy" /></div>
+                <div className="w-14 h-14 shrink-0 rounded-xl bg-gradient-to-br from-orange-400 to-orange-600 grid place-items-center group-hover:rotate-6 transition"><Icon className="w-6 h-6 text-white" /></div>
                 <div>
                   <div className="text-xs text-white/50 uppercase tracking-widest mb-1 font-bold">{t}</div>
                   {href ? <a href={href} className="font-display italic font-bold hover:text-orange-300">{v}</a> : <div className="font-display italic font-bold">{v}</div>}
@@ -95,13 +95,13 @@ export default function Contact() {
           </Reveal>
           <div className="grid md:grid-cols-3 gap-6">
             {[
-              { i: Truck, t: 'Shipping a Load?', d: 'Get an instant quote or talk to our quoting team.', cta: 'Get a Quote', to: '/quote' },
+              { i: Truck, t: 'Shipping a Load?', d: 'Tell our pricing team about your lane, freight, and timeline.', cta: 'Talk to Sales', to: '/quote' },
               { i: Users, t: 'Want to Haul?', d: 'Carrier signup or carrier dispatch support.', cta: 'Become a Carrier', to: '/carrier-onboarding' },
               { i: MessageSquare, t: 'Join as Agent?', d: 'Speak with our recruiting team about agent opportunities.', cta: 'Apply Now', to: '/agent-opportunities' }
             ].map(({ i: Icon, t, d, cta, to }, idx) => (
               <Reveal key={t} delay={idx * 120}>
                 <Link to={to} className="glass-strong p-8 hover:border-orange-400/50 hover:-translate-y-1 transition group block h-full">
-                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-orange-400 to-orange-600 grid place-items-center mb-5 group-hover:rotate-6 transition"><Icon className="w-7 h-7 text-brand-navy" /></div>
+                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-orange-400 to-orange-600 grid place-items-center mb-5 group-hover:rotate-6 transition"><Icon className="w-7 h-7 text-white" /></div>
                   <h3 className="font-display italic font-black text-2xl mb-2">{t}</h3>
                   <p className="text-white/60 mb-5">{d}</p>
                   <span className="inline-flex items-center gap-2 text-orange-400 font-bold uppercase tracking-widest text-xs">{cta} <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition" /></span>

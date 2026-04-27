@@ -1,9 +1,10 @@
 export function PageHero({ eyebrow, title, subtitle, children, image = '/images/truck-hero.jpg' }) {
   return (
-    <section className="relative pt-40 pb-16 overflow-hidden">
+    <section className="relative pt-16 pb-16 overflow-hidden">
       <div className="absolute inset-0">
         <img src={image} alt="" className="w-full h-full object-cover" />
-        <div className="absolute inset-0 bg-gradient-to-b from-brand-navy/95 via-brand-navy/90 to-brand-navy" />
+        {/* Lighter overlay so the photo is visible */}
+        <div className="absolute inset-0 bg-gradient-to-b from-brand-navy/70 via-brand-navy/60 to-brand-navy/85" />
         <div className="absolute inset-0 grid-bg" />
       </div>
       <div className="absolute -top-20 -left-20 w-[400px] h-[400px] bg-orange-400/12 rounded-full blur-3xl animate-orb" />

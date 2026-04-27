@@ -4,7 +4,7 @@
 
 :root { color-scheme: dark; }
 
-html, body { font-family: 'Saira', system-ui, sans-serif; background: #06101c; font-weight: 400; }
+html, body { font-family: 'Saira', system-ui, sans-serif; background: #1c3355; font-weight: 400; color: #ffffff; }
 h1,h2,h3,h4,h5 { font-family: 'Exo 2', system-ui, sans-serif; letter-spacing: -0.01em; font-style: italic; font-weight: 800; }
 .font-display { font-style: italic; }
 .no-italic { font-style: normal !important; }
@@ -81,20 +81,20 @@ h1,h2,h3,h4,h5 { font-family: 'Exo 2', system-ui, sans-serif; letter-spacing: -0
   .input { @apply w-full bg-brand-navy2/60 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:border-orange-400 focus:ring-2 focus:ring-orange-400/20 transition; }
   .select { @apply input appearance-none; }
   .textarea { @apply input min-h-[120px]; }
-  .input-light { @apply w-full bg-brand-light border border-brand-light3 rounded-xl px-4 py-2.5 text-brand-navy placeholder:text-brand-navy/40 focus:outline-none focus:border-orange-400 focus:ring-2 focus:ring-orange-400/20 transition; }
+  .input-light { @apply w-full bg-white/10 border border-white/20 rounded-xl px-4 py-2.5 text-white placeholder:text-white/40 focus:outline-none focus:border-orange-400 focus:ring-2 focus:ring-orange-400/20 transition; }
 
-  .section { @apply py-20 sm:py-28 relative overflow-hidden; }
-  .section-light { @apply py-20 sm:py-28 relative overflow-hidden bg-brand-light text-brand-navy; position: relative; }
-  .section-light .glass { @apply bg-white/80 border-brand-light3; }
-  .section-light .glass-strong { @apply bg-white/90 border-brand-light3; }
-  .section-light .badge { @apply bg-brand-navy/10 border-brand-navy/20 text-brand-navy; }
-  .section-light .divider-glow { background: linear-gradient(90deg, transparent, #0d1b2e, transparent); box-shadow: none; }
-  .section-light .label { @apply text-brand-navy; }
-  .section-white { @apply py-20 sm:py-28 relative overflow-hidden bg-white text-brand-navy; position: relative; }
-  .section-white .glass { @apply bg-brand-light/80 border-brand-light3; }
-  .section-white .glass-strong { @apply bg-brand-light border-brand-light3; }
-  .section-white .badge { @apply bg-brand-navy/10 border-brand-navy/20 text-brand-navy; }
-  .section-white .divider-glow { background: linear-gradient(90deg, transparent, #0d1b2e, transparent); box-shadow: none; }
+  .section { @apply py-20 sm:py-28 relative overflow-hidden bg-brand-navy text-white; }
+  .section-light { @apply py-20 sm:py-28 relative overflow-hidden bg-brand-navy text-white; position: relative; }
+  .section-light .glass { @apply bg-white/[0.06] border-white/15; }
+  .section-light .glass-strong { @apply bg-white/[0.08] border-white/20; }
+  .section-light .badge { @apply bg-orange-400/10 border-orange-400/30 text-orange-300; }
+  .section-light .divider-glow { background: linear-gradient(90deg, transparent, #f5a623, transparent); box-shadow: 0 0 20px #f5a623; }
+  .section-light .label { @apply text-orange-400; }
+  .section-white { @apply py-20 sm:py-28 relative overflow-hidden bg-brand-navy text-white; position: relative; }
+  .section-white .glass { @apply bg-white/[0.06] border-white/15; }
+  .section-white .glass-strong { @apply bg-white/[0.08] border-white/20; }
+  .section-white .badge { @apply bg-orange-400/10 border-orange-400/30 text-orange-300; }
+  .section-white .divider-glow { background: linear-gradient(90deg, transparent, #f5a623, transparent); box-shadow: 0 0 20px #f5a623; }
 
   .text-shadow { text-shadow: 0 2px 30px rgba(0,0,0,0.7), 0 0 100px rgba(245,166,35,0.25); }
 
@@ -112,7 +112,7 @@ h1,h2,h3,h4,h5 { font-family: 'Exo 2', system-ui, sans-serif; letter-spacing: -0
 }
 
 ::-webkit-scrollbar { width: 10px; height: 10px; }
-::-webkit-scrollbar-track { background: #06101c; }
+::-webkit-scrollbar-track { background: #1c3355; }
 ::-webkit-scrollbar-thumb { background: linear-gradient(#f5a623,#e89829); border-radius: 10px; }
 
 .grid-bg {

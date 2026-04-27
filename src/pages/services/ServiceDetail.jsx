@@ -36,7 +36,7 @@ export default function ServiceDetail() {
     <>
       <PageMeta title={`${service.name} — Freight Services`} description={`${service.long} SFam Logistics — FMCSA authorized freight broker, MC 1810116, USDOT 4555943.`} />
       <PageHero eyebrow="Service" title={service.name} subtitle={service.short} image={heroImg}>
-        <Link to="/quote" className="btn-primary">Request a Quote <ArrowRight className="w-5 h-5" /></Link>
+        <a href="tel:+18886985556" className="btn-primary"><Phone className="w-5 h-5" /> Call Dispatch</a>
         <Link to="/services" className="btn-ghost"><ArrowLeft className="w-4 h-4" /> All Services</Link>
       </PageHero>
 
@@ -46,7 +46,7 @@ export default function ServiceDetail() {
         <div className="container-x relative grid lg:grid-cols-3 gap-10">
           <Reveal className="lg:col-span-2">
             <div className="glass-strong p-8 lg:p-12">
-              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-orange-400 to-orange-600 grid place-items-center mb-6"><Icon className="w-8 h-8 text-brand-navy" /></div>
+              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-orange-400 to-orange-600 grid place-items-center mb-6"><Icon className="w-8 h-8 text-white" /></div>
               <h2 className="font-display italic font-black text-4xl mb-5">About {service.name}</h2>
               <div className="divider-glow w-32 mb-6" />
               <p className="text-white/75 leading-relaxed text-lg mb-8">{service.long}</p>
@@ -60,9 +60,9 @@ export default function ServiceDetail() {
           </Reveal>
 
           <aside className="glass p-7 h-fit lg:sticky lg:top-32">
-            <h3 className="font-display italic font-black text-xl mb-4">Get a Quote</h3>
-            <p className="text-white/60 text-sm mb-5">Most quotes returned within 30 minutes during business hours.</p>
-            <Link to="/quote" className="btn-primary w-full">Start Quote</Link>
+            <h3 className="font-display italic font-black text-xl mb-4">Talk to Dispatch</h3>
+            <p className="text-white/60 text-sm mb-5">Live coverage during business hours and after-hours for active loads.</p>
+            <a href="tel:+18886985556" className="btn-primary w-full"><Phone className="w-4 h-4" /> Call Now</a>
             <div className="mt-6 pt-6 border-t border-white/10 text-sm text-white/60 space-y-2">
               <div className="flex items-center gap-2"><Phone className="w-4 h-4 text-orange-400" /> <a href="tel:+18886985556" className="hover:text-orange-300">1 (888) 698-5556</a></div>
               <div>✉️ info@sfamlogistics.com</div>
@@ -91,7 +91,7 @@ export default function ServiceDetail() {
             ].map(({ i: Icon, t, d }, idx) => (
               <Reveal key={t} delay={idx * 100}>
                 <div className="glass p-6 hover:border-orange-400/40 hover:-translate-y-1 transition group">
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-400 to-orange-600 grid place-items-center mb-4 group-hover:rotate-6 transition"><Icon className="w-6 h-6 text-brand-navy" /></div>
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-400 to-orange-600 grid place-items-center mb-4 group-hover:rotate-6 transition"><Icon className="w-6 h-6 text-white" /></div>
                   <div className="font-display italic font-black text-lg mb-1">{t}</div>
                   <div className="text-sm text-white/60">{d}</div>
                 </div>
@@ -170,7 +170,7 @@ export default function ServiceDetail() {
               const I = iconMap[s.icon] || Truck
               return (
                 <Link key={s.slug} to={`/services/${s.slug}`} className="group glass p-6 hover:border-orange-400/50 transition">
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-400 to-orange-600 grid place-items-center mb-4"><I className="w-6 h-6 text-brand-navy" /></div>
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-400 to-orange-600 grid place-items-center mb-4"><I className="w-6 h-6 text-white" /></div>
                   <div className="font-display italic font-black text-lg mb-1">{s.name}</div>
                   <div className="text-xs text-white/50">{s.short}</div>
                 </Link>
@@ -181,7 +181,7 @@ export default function ServiceDetail() {
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-96 bg-orange-400/20 blur-3xl rounded-full" />
             <div className="relative">
               <h2 className="font-display italic font-black text-4xl mb-4">Ready to Move <span className="text-orange-400">{service.name}?</span></h2>
-              <Link to="/quote" className="btn-primary !px-8 !py-4 mt-4">Get a Quote Now <ArrowRight className="w-5 h-5" /></Link>
+              <a href="tel:+18886985556" className="btn-primary !px-8 !py-4 mt-4"><Phone className="w-5 h-5" /> Call Dispatch</a>
             </div>
           </div>
         </div>

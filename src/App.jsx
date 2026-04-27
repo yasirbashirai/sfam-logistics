@@ -4,6 +4,7 @@ import Navbar from './components/Navbar.jsx'
 import ScrollToTop from './components/ScrollToTop.jsx'
 import Footer from './components/Footer.jsx'
 import Chatbot from './components/Chatbot.jsx'
+import CreativeMarquee from './components/CreativeMarquee.jsx'
 import Home from './pages/Home.jsx'
 import About from './pages/About.jsx'
 import Services from './pages/Services.jsx'
@@ -24,6 +25,8 @@ import AdminQuotes from './pages/admin/AdminQuotes.jsx'
 import AdminCarriers from './pages/admin/AdminCarriers.jsx'
 import AdminAgents from './pages/admin/AdminAgents.jsx'
 import AdminContacts from './pages/admin/AdminContacts.jsx'
+import AdminShipments from './pages/admin/AdminShipments.jsx'
+import AdminChat from './pages/admin/AdminChat.jsx'
 import NotFound from './pages/NotFound.jsx'
 
 const Page = ({ children }) => (
@@ -39,10 +42,18 @@ const Page = ({ children }) => (
 
 export default function App() {
   const location = useLocation()
+  const isAdmin = location.pathname.startsWith('/admin')
   return (
-    <div className="min-h-screen flex flex-col bg-brand-ink text-white">
+    <div className="min-h-screen flex flex-col bg-brand-navy text-white">
       <ScrollToTop />
       <Navbar />
+      {/* Marquee sits directly under the header (offset for the fixed nav). Hidden on admin routes. */}
+      {!isAdmin && (
+        <>
+          <div className="md:pt-[8.5rem] pt-24" aria-hidden="true" />
+          <CreativeMarquee />
+        </>
+      )}
       <main className="flex-1">
         <AnimatePresence mode="wait">
           <Routes location={location} key={location.pathname}>
@@ -62,6 +73,9 @@ export default function App() {
             <Route path="/login" element={<Page><Login /></Page>} />
             <Route path="/admin" element={<AdminLayout />}>
               <Route index element={<Dashboard />} />
+              <Route path="shipments" element={<AdminShipments />} />
+              <Route path="chat" element={<AdminChat />} />
+              <Route path="chat/:id" element={<AdminChat />} />
               <Route path="quotes" element={<AdminQuotes />} />
               <Route path="carriers" element={<AdminCarriers />} />
               <Route path="agents" element={<AdminAgents />} />

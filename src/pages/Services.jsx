@@ -29,7 +29,7 @@ export default function Services() {
                     <div className="absolute inset-0 bg-gradient-to-t from-brand-navy via-brand-navy/85 to-brand-navy/40" />
                     <div className="absolute top-4 right-4 text-7xl font-display italic font-black text-orange-400/30">{String(i + 1).padStart(2, '0')}</div>
                     <div className="relative h-full p-7 flex flex-col justify-end">
-                      <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-orange-400 to-orange-600 grid place-items-center mb-4 shadow-lg shadow-orange-500/40 group-hover:scale-110 transition"><Icon className="w-7 h-7 text-brand-navy" /></div>
+                      <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-orange-400 to-orange-600 grid place-items-center mb-4 shadow-lg shadow-orange-500/40 group-hover:scale-110 transition"><Icon className="w-7 h-7 text-white" /></div>
                       <h3 className="font-display italic font-black text-2xl mb-2">{s.name}</h3>
                       <p className="text-white/70 text-sm leading-relaxed mb-4">{s.short}</p>
                       <span className="inline-flex items-center gap-2 text-orange-400 text-xs font-bold uppercase tracking-widest">View details <ArrowRight className="w-3 h-3 group-hover:translate-x-2 transition" /></span>
@@ -61,7 +61,7 @@ export default function Services() {
             ].map(({ i: Icon, t, d }, idx) => (
               <Reveal key={t} delay={idx * 100}>
                 <div className="glass p-6 hover:border-orange-400/40 hover:-translate-y-1 transition">
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-400 to-orange-600 grid place-items-center mb-4"><Icon className="w-6 h-6 text-brand-navy" /></div>
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-400 to-orange-600 grid place-items-center mb-4"><Icon className="w-6 h-6 text-white" /></div>
                   <div className="font-display italic font-black text-xl mb-2">{t}</div>
                   <div className="text-sm text-white/60">{d}</div>
                 </div>
@@ -76,17 +76,17 @@ export default function Services() {
         <div className="container-x max-w-3xl">
           <Reveal>
             <div className="text-center mb-8">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-navy/10 border border-brand-navy/20 text-brand-navy text-xs font-bold uppercase tracking-[0.15em] mb-3 mx-auto">Equipment Network</div>
-              <h2 className="font-display italic font-black text-3xl text-brand-navy">Right Equipment. <span className="text-orange-500">Right Lane.</span></h2>
-              <div className="h-0.5 w-24 mx-auto mt-4 bg-gradient-to-r from-transparent via-brand-navy to-transparent" />
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-orange-400/10 border border-orange-400/30 text-white text-xs font-bold uppercase tracking-[0.15em] mb-3 mx-auto">Equipment Network</div>
+              <h2 className="font-display italic font-black text-3xl text-white">Right Equipment. <span className="text-orange-500">Right Lane.</span></h2>
+              <div className="h-0.5 w-24 mx-auto mt-4 bg-gradient-to-r from-transparent via-orange-400 to-transparent" />
             </div>
           </Reveal>
           <Reveal delay={100}>
             <div className="grid sm:grid-cols-2 gap-x-8 gap-y-2">
               {['Dry Van', 'Reefer', 'Flatbed', 'Step Deck', 'Sprinter Van', 'LTL Pallets', 'Power Only', 'Intermodal'].map(eq => (
-                <div key={eq} className="flex items-center gap-2 py-2 border-b border-brand-light3">
+                <div key={eq} className="flex items-center gap-2 py-2 border-b border-white/15">
                   <CheckCircle2 className="w-4 h-4 text-orange-500 shrink-0" />
-                  <span className="text-brand-navy/80 text-sm font-medium">{eq}</span>
+                  <span className="text-white/85 text-sm font-medium">{eq}</span>
                 </div>
               ))}
             </div>
@@ -103,8 +103,8 @@ export default function Services() {
               <h2 className="font-display italic font-black text-3xl mb-4">Need A <span className="text-orange-400">Custom Solution?</span></h2>
               <p className="text-white/70 mb-8 max-w-xl mx-auto text-lg">Tell us about your freight. We&apos;ll build the right plan and quote it in under 30 minutes.</p>
               <div className="flex flex-wrap gap-4 justify-center">
-                <Link to="/quote" className="btn-primary !px-9 !py-4">Request a Quote <ArrowRight className="w-5 h-5" /></Link>
-                <a href="tel:+18886985556" className="btn-ghost !px-9 !py-4"><Phone className="w-5 h-5" /> Call Us</a>
+                <a href="tel:+18886985556" className="btn-primary !px-9 !py-4"><Phone className="w-5 h-5" /> Call Dispatch</a>
+                <Link to="/contact" className="btn-ghost !px-9 !py-4">Contact Us</Link>
               </div>
             </div>
           </div>

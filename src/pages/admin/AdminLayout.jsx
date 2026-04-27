@@ -1,5 +1,5 @@
 import { NavLink, Outlet, Navigate, useNavigate } from 'react-router-dom'
-import { LayoutDashboard, FileText, Truck, Users, MessageSquare, LogOut, Truck as Logo } from 'lucide-react'
+import { LayoutDashboard, FileText, Truck, Users, MessageSquare, LogOut, Truck as Logo, Package, Headphones } from 'lucide-react'
 
 export default function AdminLayout() {
   const nav = useNavigate()
@@ -7,6 +7,8 @@ export default function AdminLayout() {
 
   const links = [
     { to: '/admin', icon: LayoutDashboard, label: 'Overview', end: true },
+    { to: '/admin/shipments', icon: Package, label: 'Shipments' },
+    { to: '/admin/chat', icon: Headphones, label: 'Live Chat' },
     { to: '/admin/quotes', icon: FileText, label: 'Quote Requests' },
     { to: '/admin/carriers', icon: Truck, label: 'Carriers' },
     { to: '/admin/agents', icon: Users, label: 'Agents' },

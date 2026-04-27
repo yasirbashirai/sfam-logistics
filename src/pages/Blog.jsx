@@ -76,7 +76,7 @@ export default function Blog() {
                 <button
                   key={c}
                   onClick={() => setFilter(c)}
-                  className={`px-4 py-2 rounded-full border text-sm font-bold transition ${filter === c ? 'bg-orange-400 border-orange-400 text-brand-navy' : 'border-white/15 hover:border-orange-400 hover:bg-orange-400/10 hover:text-orange-300'}`}
+                  className={`px-4 py-2 rounded-full border text-sm font-bold transition ${filter === c ? 'bg-orange-400 border-orange-400 text-white' : 'border-white/15 hover:border-orange-400 hover:bg-orange-400/10 hover:text-orange-300'}`}
                 >
                   {c}
                 </button>

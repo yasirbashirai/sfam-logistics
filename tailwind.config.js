@@ -5,19 +5,19 @@ export default {
     extend: {
       colors: {
         brand: {
-          navy: '#0d1b2e',
-          navy2: '#0a1626',
-          navy3: '#142540',
-          navy4: '#1c3358',
+          navy: '#1c3355',
+          navy2: '#243f68',
+          navy3: '#2c4c7c',
+          navy4: '#3a5d92',
           orange: '#f5a623',
           orange2: '#ffb84d',
           orange3: '#e89829',
-          ink: '#06101c',
-          ink2: '#0a1626',
-          ink3: '#0d1b2e',
-          light: '#f7f8fa',
-          light2: '#eef0f4',
-          light3: '#e2e5eb'
+          ink: '#1c3355',
+          ink2: '#1c3355',
+          ink3: '#243f68',
+          light: '#1c3355',
+          light2: '#243f68',
+          light3: '#3a5d92'
         }
       },
       fontFamily: {

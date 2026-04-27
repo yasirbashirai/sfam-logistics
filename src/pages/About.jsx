@@ -14,10 +14,10 @@ export default function About() {
       <section className="section-light">
         <div className="container-x relative max-w-4xl">
           <Reveal>
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-navy/10 border border-brand-navy/20 text-brand-navy text-xs font-bold uppercase tracking-[0.15em] mb-4">Our Story</div>
-            <h2 className="font-display italic font-black text-3xl mb-4 text-brand-navy">Built on Experience. <span className="text-orange-500">Designed for Excellence.</span></h2>
-            <div className="h-0.5 w-24 bg-gradient-to-r from-brand-navy to-transparent mb-5" />
-            <div className="space-y-4 text-brand-navy/75 leading-relaxed">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-orange-400/10 border border-orange-400/30 text-white text-xs font-bold uppercase tracking-[0.15em] mb-4">Our Story</div>
+            <h2 className="font-display italic font-black text-3xl mb-4 text-white">Built on Experience. <span className="text-orange-500">Designed for Excellence.</span></h2>
+            <div className="h-0.5 w-24 bg-gradient-to-r from-orange-400 to-transparent mb-5" />
+            <div className="space-y-4 text-white/80 leading-relaxed">
               <p>SFAM Logistics LLC was founded with a clear purpose: to elevate the standard of freight brokerage.</p>
               <p>Our foundation is built on over a decade of real-industry experience behind the wheel as a Class A CDL truck driver. This perspective provides a rare advantage in an industry where critical decisions are often made far from the realities of the road.</p>
               <p>SFAM Logistics LLC is a licensed, FMCSA-authorized freight brokerage serving clients across North America. We are a privately held organization, strategically structured for long-term growth, operational stability, and disciplined execution.</p>
@@ -69,10 +69,10 @@ export default function About() {
         <div className="container-x max-w-4xl">
           <Reveal>
             <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-navy/10 border border-brand-navy/20 text-brand-navy text-xs font-bold uppercase tracking-[0.15em] mb-3">For Carriers</div>
-              <h2 className="font-display italic font-black text-3xl mb-4 text-brand-navy">Built by a Driver. <span className="text-orange-500">Designed for Your Success.</span></h2>
-              <div className="h-0.5 w-24 bg-gradient-to-r from-brand-navy to-transparent mb-5" />
-              <div className="space-y-3 text-brand-navy/75 leading-relaxed">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-orange-400/10 border border-orange-400/30 text-white text-xs font-bold uppercase tracking-[0.15em] mb-3">For Carriers</div>
+              <h2 className="font-display italic font-black text-3xl mb-4 text-white">Built by a Driver. <span className="text-orange-500">Designed for Your Success.</span></h2>
+              <div className="h-0.5 w-24 bg-gradient-to-r from-orange-400 to-transparent mb-5" />
+              <div className="space-y-3 text-white/80 leading-relaxed">
                 <p>SFAM Logistics LLC was built with a deep understanding of what it means to be on the road.</p>
                 <p>We recognize the challenges carriers face because we have experienced them firsthand. That insight shapes how we operate — prioritizing fairness, transparency, and respect in every interaction.</p>
                 <p>We work with carriers who value professionalism and consistency, and in return, we provide clear expectations, responsive communication, and dependable freight opportunities.</p>
@@ -88,12 +88,12 @@ export default function About() {
                   ].map(item => (
                     <div key={item} className="flex gap-2 items-start">
                       <CheckCircle2 className="w-4 h-4 text-orange-500 shrink-0 mt-0.5" />
-                      <span className="text-brand-navy/75 text-sm">{item}</span>
+                      <span className="text-white/80 text-sm">{item}</span>
                     </div>
                   ))}
                 </div>
               </div>
-              <p className="text-brand-navy/75 mt-5 font-semibold italic">We do not view carriers as commodities. We view them as essential partners in delivering excellence.</p>
+              <p className="text-white/80 mt-5 font-semibold italic">We do not view carriers as commodities. We view them as essential partners in delivering excellence.</p>
             </div>
           </Reveal>
         </div>
@@ -112,14 +112,14 @@ export default function About() {
           <div className="grid md:grid-cols-2 gap-4 mb-4">
             <Reveal delay={100}>
               <div className="bg-white/[0.06] backdrop-blur-xl border border-white/10 rounded-xl p-6 h-full hover:border-orange-400/40 transition">
-                <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-orange-400 to-orange-600 grid place-items-center mb-4"><Target className="w-5 h-5 text-brand-navy" /></div>
+                <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-orange-400 to-orange-600 grid place-items-center mb-4"><Target className="w-5 h-5 text-white" /></div>
                 <h3 className="font-display italic font-black text-lg mb-2">Our Mission</h3>
                 <p className="text-white/70 leading-relaxed text-sm">To deliver freight solutions with precision, accountability, and respect — setting a higher standard for service across the logistics industry.</p>
               </div>
             </Reveal>
             <Reveal delay={200}>
               <div className="bg-white/[0.06] backdrop-blur-xl border border-white/10 rounded-xl p-6 h-full hover:border-orange-400/40 transition">
-                <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-orange-400 to-orange-600 grid place-items-center mb-4"><Eye className="w-5 h-5 text-brand-navy" /></div>
+                <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-orange-400 to-orange-600 grid place-items-center mb-4"><Eye className="w-5 h-5 text-white" /></div>
                 <h3 className="font-display italic font-black text-lg mb-2">Our Vision</h3>
                 <p className="text-white/70 leading-relaxed text-sm">To become a premier transportation and logistics partner across North America, known for operational excellence, trusted relationships, and scalable, long-term solutions.</p>
               </div>
@@ -127,7 +127,7 @@ export default function About() {
           </div>
           <Reveal delay={300}>
             <div className="bg-white/[0.06] backdrop-blur-xl border border-white/10 rounded-xl p-6 hover:border-orange-400/40 transition">
-              <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-orange-400 to-orange-600 grid place-items-center mb-4"><Heart className="w-5 h-5 text-brand-navy" /></div>
+              <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-orange-400 to-orange-600 grid place-items-center mb-4"><Heart className="w-5 h-5 text-white" /></div>
               <h3 className="font-display italic font-black text-lg mb-4">Our Values</h3>
               <div className="grid sm:grid-cols-2 gap-4">
                 {[
@@ -155,9 +155,9 @@ export default function About() {
         <div className="container-x max-w-3xl">
           <Reveal>
             <div className="text-center mb-10">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-navy/10 border border-brand-navy/20 text-brand-navy text-xs font-bold uppercase tracking-[0.15em] mb-3 mx-auto">Our Journey</div>
-              <h2 className="font-display italic font-black text-3xl text-brand-navy">Built <span className="text-orange-500">One Load At A Time</span></h2>
-              <div className="h-0.5 w-24 mx-auto mt-4 bg-gradient-to-r from-transparent via-brand-navy to-transparent" />
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-orange-400/10 border border-orange-400/30 text-white text-xs font-bold uppercase tracking-[0.15em] mb-3 mx-auto">Our Journey</div>
+              <h2 className="font-display italic font-black text-3xl text-white">Built <span className="text-orange-500">One Load At A Time</span></h2>
+              <div className="h-0.5 w-24 mx-auto mt-4 bg-gradient-to-r from-transparent via-orange-400 to-transparent" />
             </div>
           </Reveal>
           <div className="relative">
@@ -170,8 +170,8 @@ export default function About() {
               <Reveal key={m.y} delay={i * 120}>
                 <div className="relative pl-20 pb-8 last:pb-0">
                   <div className="absolute left-0 top-0 w-12 h-12 rounded-xl bg-gradient-to-br from-orange-400 to-orange-600 grid place-items-center text-white font-display italic font-black text-sm shadow-lg shadow-orange-500/30">{m.y}</div>
-                  <h3 className="font-display italic font-black text-lg mb-1 text-brand-navy">{m.t}</h3>
-                  <p className="text-brand-navy/70 text-sm">{m.d}</p>
+                  <h3 className="font-display italic font-black text-lg mb-1 text-white">{m.t}</h3>
+                  <p className="text-white/75 text-sm">{m.d}</p>
                 </div>
               </Reveal>
             ))}
@@ -198,7 +198,7 @@ export default function About() {
             ].map(({ i: Icon, t, d }, idx) => (
               <Reveal key={t} delay={idx * 100}>
                 <div className="bg-white/[0.06] backdrop-blur-xl border border-white/10 rounded-xl p-5 text-center hover:border-orange-400/40 transition">
-                  <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-orange-400 to-orange-600 grid place-items-center mb-3 mx-auto"><Icon className="w-5 h-5 text-brand-navy" /></div>
+                  <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-orange-400 to-orange-600 grid place-items-center mb-3 mx-auto"><Icon className="w-5 h-5 text-white" /></div>
                   <div className="font-display italic font-black text-base mb-1">{t}</div>
                   <div className="text-xs text-white/60">{d}</div>
                 </div>
@@ -211,12 +211,12 @@ export default function About() {
       {/* ===== 7. CTA ===== */}
       <section className="section-white pt-0">
         <div className="container-x max-w-3xl">
-          <div className="bg-brand-light border border-brand-light3 rounded-2xl p-10 text-center">
-            <h2 className="font-display italic font-black text-2xl mb-3 text-brand-navy">Want to <span className="text-orange-500">Work With Us?</span></h2>
-            <p className="text-brand-navy/70 mb-6 max-w-xl mx-auto text-sm">Whether you&apos;re a shipper, carrier, or freight agent — we&apos;d love to hear from you.</p>
+          <div className="bg-white/[0.05] border border-white/15 rounded-2xl p-10 text-center">
+            <h2 className="font-display italic font-black text-2xl mb-3 text-white">Want to <span className="text-orange-500">Work With Us?</span></h2>
+            <p className="text-white/75 mb-6 max-w-xl mx-auto text-sm">Whether you&apos;re a shipper, carrier, or freight agent — we&apos;d love to hear from you.</p>
             <div className="flex flex-wrap gap-3 justify-center">
-              <Link to="/quote" className="inline-flex items-center gap-2 px-7 py-3 rounded-full bg-gradient-to-r from-orange-400 to-orange-500 text-brand-navy font-bold text-sm uppercase tracking-wider hover:-translate-y-0.5 transition">Get a Quote <ArrowRight className="w-4 h-4" /></Link>
-              <Link to="/contact" className="inline-flex items-center gap-2 px-7 py-3 rounded-full border-2 border-brand-navy/30 text-brand-navy text-sm font-bold uppercase tracking-wider hover:bg-brand-navy hover:text-white transition">Contact Us</Link>
+              <Link to="/contact" className="inline-flex items-center gap-2 px-7 py-3 rounded-full bg-gradient-to-r from-orange-400 to-orange-500 text-brand-navy font-bold text-sm uppercase tracking-wider hover:-translate-y-0.5 transition">Contact Us <ArrowRight className="w-4 h-4" /></Link>
+              <a href="tel:+18886985556" className="inline-flex items-center gap-2 px-7 py-3 rounded-full border-2 border-white/30 text-white text-sm font-bold uppercase tracking-wider hover:bg-orange-400 hover:text-brand-navy transition">Call Dispatch</a>
             </div>
           </div>
         </div>

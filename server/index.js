@@ -44,6 +44,25 @@ db.exec(`CREATE TABLE IF NOT EXISTS loads (
   created_at TEXT NOT NULL
 )`)
 
+// Chat conversations (live chat with the website chatbot)
+db.exec(`CREATE TABLE IF NOT EXISTS chat_conversations (
+  id TEXT PRIMARY KEY,
+  visitor_name TEXT,
+  visitor_email TEXT,
+  page TEXT,
+  status TEXT NOT NULL DEFAULT 'open',
+  created_at TEXT NOT NULL,
+  last_message_at TEXT NOT NULL
+)`)
+db.exec(`CREATE TABLE IF NOT EXISTS chat_messages (
+  id TEXT PRIMARY KEY,
+  conversation_id TEXT NOT NULL,
+  sender TEXT NOT NULL,
+  text TEXT NOT NULL,
+  created_at TEXT NOT NULL
+)`)
+db.exec(`CREATE INDEX IF NOT EXISTS idx_chat_messages_convo ON chat_messages(conversation_id, created_at)`)
+
 // === SEED 5 DEMO RECORDS PER TABLE (only if empty) ===
 const seedRow = (table, payload) => {
   db.prepare(`INSERT INTO ${table} (id, created_at, status, payload) VALUES (?, ?, ?, ?)`).run(
@@ -185,7 +204,7 @@ app.post('/api/upload', upload.array('files', 6), (req, res) => {
   res.json({ files })
 })
 
-// Load tracking
+// Load tracking — public read
 app.get('/api/loads', (req, res) => {
   const rows = db.prepare('SELECT * FROM loads ORDER BY created_at DESC').all()
   res.json(rows.map(r => ({ ...r, events: JSON.parse(r.events || '[]') })))
@@ -194,6 +213,143 @@ app.get('/api/loads/:tracking', (req, res) => {
   const row = db.prepare('SELECT * FROM loads WHERE tracking_number = ?').get(req.params.tracking)
   if (!row) return res.status(404).json({ error: 'Not found' })
   res.json({ ...row, events: JSON.parse(row.events || '[]') })
+})
+
+// Load tracking — admin CRUD
+app.post('/api/loads', (req, res) => {
+  const id = crypto.randomUUID()
+  const now = new Date().toISOString()
+  const b = req.body || {}
+  const events = Array.isArray(b.events) ? b.events : []
+  db.prepare(`INSERT INTO loads (id, tracking_number, status, origin, destination, carrier, pickup_date, delivery_date, current_location, events, created_at) VALUES (?,?,?,?,?,?,?,?,?,?,?)`).run(
+    id,
+    b.tracking_number,
+    b.status || 'Booked',
+    b.origin || '',
+    b.destination || '',
+    b.carrier || '',
+    b.pickup_date || '',
+    b.delivery_date || '',
+    b.current_location || '',
+    JSON.stringify(events),
+    now
+  )
+  res.json({ ok: true, id })
+})
+
+app.patch('/api/loads/:id', (req, res) => {
+  const b = req.body || {}
+  const existing = db.prepare('SELECT * FROM loads WHERE id = ?').get(req.params.id)
+  if (!existing) return res.status(404).json({ error: 'Not found' })
+  const merged = {
+    tracking_number: b.tracking_number ?? existing.tracking_number,
+    status: b.status ?? existing.status,
+    origin: b.origin ?? existing.origin,
+    destination: b.destination ?? existing.destination,
+    carrier: b.carrier ?? existing.carrier,
+    pickup_date: b.pickup_date ?? existing.pickup_date,
+    delivery_date: b.delivery_date ?? existing.delivery_date,
+    current_location: b.current_location ?? existing.current_location,
+    events: b.events !== undefined ? JSON.stringify(b.events) : existing.events
+  }
+  db.prepare(`UPDATE loads SET tracking_number=?, status=?, origin=?, destination=?, carrier=?, pickup_date=?, delivery_date=?, current_location=?, events=? WHERE id=?`).run(
+    merged.tracking_number, merged.status, merged.origin, merged.destination, merged.carrier,
+    merged.pickup_date, merged.delivery_date, merged.current_location, merged.events, req.params.id
+  )
+  res.json({ ok: true })
+})
+
+app.post('/api/loads/:id/event', (req, res) => {
+  const row = db.prepare('SELECT * FROM loads WHERE id = ?').get(req.params.id)
+  if (!row) return res.status(404).json({ error: 'Not found' })
+  const events = JSON.parse(row.events || '[]')
+  const ev = {
+    time: req.body.time || new Date().toISOString().replace('T', ' ').slice(0, 16),
+    event: req.body.event || 'Update',
+    location: req.body.location || row.current_location || ''
+  }
+  events.push(ev)
+  const updates = { events: JSON.stringify(events) }
+  if (req.body.current_location) updates.current_location = req.body.current_location
+  if (req.body.status) updates.status = req.body.status
+  const sets = Object.keys(updates).map(k => `${k}=?`).join(',')
+  db.prepare(`UPDATE loads SET ${sets} WHERE id=?`).run(...Object.values(updates), req.params.id)
+  res.json({ ok: true })
+})
+
+app.delete('/api/loads/:id', (req, res) => {
+  db.prepare('DELETE FROM loads WHERE id = ?').run(req.params.id)
+  res.json({ ok: true })
+})
+
+// === LIVE CHAT ===
+app.post('/api/chat/start', async (req, res) => {
+  const id = crypto.randomUUID()
+  const now = new Date().toISOString()
+  const { firstMessage = '', visitorName = null, visitorEmail = null, page = '/' } = req.body || {}
+  db.prepare('INSERT INTO chat_conversations (id, visitor_name, visitor_email, page, status, created_at, last_message_at) VALUES (?,?,?,?,?,?,?)').run(
+    id, visitorName, visitorEmail, page, 'open', now, now
+  )
+  if (firstMessage) {
+    db.prepare('INSERT INTO chat_messages (id, conversation_id, sender, text, created_at) VALUES (?,?,?,?,?)').run(
+      crypto.randomUUID(), id, 'visitor', firstMessage, now
+    )
+  }
+  sendAlert(
+    'New website chat started',
+    `A visitor started a chat conversation.\n\nPage: ${page}\nName: ${visitorName || '(anonymous)'}\nEmail: ${visitorEmail || '(none)'}\nFirst message: ${firstMessage || '(none)'}\n\nJoin live: ${process.env.SITE_URL || 'http://localhost:5173'}/admin/chat/${id}`
+  )
+  res.json({ id })
+})
+
+app.post('/api/chat/:id/message', async (req, res) => {
+  const { sender, text } = req.body || {}
+  if (!sender || !text) return res.status(400).json({ error: 'sender and text required' })
+  const now = new Date().toISOString()
+  const exists = db.prepare('SELECT id FROM chat_conversations WHERE id = ?').get(req.params.id)
+  if (!exists) return res.status(404).json({ error: 'Conversation not found' })
+  db.prepare('INSERT INTO chat_messages (id, conversation_id, sender, text, created_at) VALUES (?,?,?,?,?)').run(
+    crypto.randomUUID(), req.params.id, sender, text, now
+  )
+  db.prepare('UPDATE chat_conversations SET last_message_at = ? WHERE id = ?').run(now, req.params.id)
+  if (sender === 'visitor') {
+    sendAlert(
+      'New chat message from website visitor',
+      `Conversation: ${req.params.id}\n\nMessage:\n${text}\n\nJoin live: ${process.env.SITE_URL || 'http://localhost:5173'}/admin/chat/${req.params.id}`
+    )
+  }
+  res.json({ ok: true })
+})
+
+app.get('/api/chat/:id/messages', (req, res) => {
+  const sinceId = req.query.since
+  let rows
+  if (sinceId) {
+    const sinceRow = db.prepare('SELECT created_at FROM chat_messages WHERE id = ?').get(sinceId)
+    if (sinceRow) {
+      rows = db.prepare('SELECT * FROM chat_messages WHERE conversation_id = ? AND created_at > ? ORDER BY created_at ASC').all(req.params.id, sinceRow.created_at)
+    } else {
+      rows = db.prepare('SELECT * FROM chat_messages WHERE conversation_id = ? ORDER BY created_at ASC').all(req.params.id)
+    }
+  } else {
+    rows = db.prepare('SELECT * FROM chat_messages WHERE conversation_id = ? ORDER BY created_at ASC').all(req.params.id)
+  }
+  res.json(rows)
+})
+
+app.get('/api/chat/conversations', (req, res) => {
+  const rows = db.prepare(`
+    SELECT c.*, (SELECT COUNT(*) FROM chat_messages m WHERE m.conversation_id = c.id) AS message_count
+    FROM chat_conversations c
+    ORDER BY c.last_message_at DESC
+  `).all()
+  res.json(rows)
+})
+
+app.patch('/api/chat/:id', (req, res) => {
+  const { status } = req.body || {}
+  if (status) db.prepare('UPDATE chat_conversations SET status = ? WHERE id = ?').run(status, req.params.id)
+  res.json({ ok: true })
 })
 
 // === CONFIRMATION EMAIL (quote/application submissions) ===
@@ -236,9 +392,14 @@ app.post('/api/send-confirmation', async (req, res) => {
 
 // === LIVE AGENT REQUEST (from chatbot) ===
 app.post('/api/live-agent-request', async (req, res) => {
-  const { visitorName, visitorEmail, timestamp } = req.body
-  const alertBody = `A website visitor has requested to speak with a live agent.\n\nName: ${visitorName}\nEmail: ${visitorEmail}\nTime: ${timestamp}\n\nPlease reach out to them as soon as possible.`
-
+  const { visitorName, visitorEmail, timestamp, conversationId } = req.body
+  if (conversationId) {
+    db.prepare('UPDATE chat_conversations SET visitor_name = COALESCE(?, visitor_name), visitor_email = COALESCE(?, visitor_email), status = ? WHERE id = ?').run(
+      visitorName || null, visitorEmail || null, 'awaiting-agent', conversationId
+    )
+  }
+  const link = conversationId ? `\n\nJoin live: ${process.env.SITE_URL || 'http://localhost:5173'}/admin/chat/${conversationId}` : ''
+  const alertBody = `A website visitor has requested to speak with a live agent.\n\nName: ${visitorName}\nEmail: ${visitorEmail}\nTime: ${timestamp}${link}\n\nPlease reach out to them as soon as possible.`
   await sendAlert('Live Agent Request — Website Visitor', alertBody)
   res.json({ ok: true })
 })

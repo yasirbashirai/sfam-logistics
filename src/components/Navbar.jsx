@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
-import { Menu, X, Phone, Mail, MapPin, Clock, ShieldCheck, ChevronDown, Truck, Boxes, Snowflake, PackageOpen, Route, Zap, ArrowRight } from 'lucide-react'
+import { Menu, X, Phone, Mail, Clock, ChevronDown, Truck, Boxes, Snowflake, PackageOpen, Route, Zap, ArrowRight } from 'lucide-react'
 import { services } from '../data/site.js'
 
 const iconMap = { Truck, Boxes, Snowflake, PackageOpen, Route, Zap }
@@ -38,16 +38,14 @@ export default function Navbar() {
     <>
       {/* === ANNOUNCEMENT BAR === */}
       <div className="hidden md:block fixed top-0 inset-x-0 z-[60] bg-gradient-to-r from-brand-navy via-brand-navy3 to-brand-navy border-b border-orange-400/20 text-xs">
-        <div className="container-x flex items-center justify-between h-10 text-white/70">
-          <div className="flex items-center gap-6">
-            <span className="flex items-center gap-2"><MapPin className="w-3 h-3 text-orange-400" /> Bothell, WA</span>
-            <span className="flex items-center gap-2"><Clock className="w-3 h-3 text-orange-400" /> Mon–Fri • 8AM–5PM PST</span>
-            <span className="flex items-center gap-2 text-orange-300 font-semibold"><ShieldCheck className="w-3 h-3" /> FMCSA Authorized • MC 1810116 • USDOT 4555943 • BMC-84 Bonded</span>
-          </div>
+        <div className="container-x flex items-center justify-end h-10 text-white/80">
           <div className="flex gap-5 items-center">
+            <a href="tel:+18886985556" className="hover:text-orange-300 font-bold text-orange-400 flex items-center gap-1.5"><Phone className="w-3 h-3" /> 1 (888) 698-5556</a>
+            <span className="text-white/20">|</span>
             <a href="mailto:info@sfamlogistics.com" className="hover:text-orange-300 flex items-center gap-1.5"><Mail className="w-3 h-3" /> info@sfamlogistics.com</a>
             <span className="text-white/20">|</span>
-            <a href="tel:+18886985556" className="hover:text-orange-300 font-bold text-orange-400 flex items-center gap-1.5"><Phone className="w-3 h-3" /> 1 (888) 698-5556</a>
+            <span className="flex items-center gap-1.5"><Clock className="w-3 h-3 text-orange-400" /> Mon–Fri • 8AM–5PM PST</span>
+            <span className="text-white/20">|</span>
             <Link to="/login" className="hover:text-orange-300 text-white/40">Admin</Link>
           </div>
         </div>
@@ -95,7 +93,7 @@ export default function Navbar() {
                       })}
                       <div className="col-span-3 mt-2 pt-4 border-t border-white/10 flex items-center justify-between">
                         <span className="text-xs text-white/50">Need a custom solution?</span>
-                        <Link to="/quote" className="text-orange-400 text-xs font-bold uppercase tracking-wider flex items-center gap-1 hover:gap-2 transition-all">Get a quote <ArrowRight className="w-3 h-3" /></Link>
+                        <Link to="/contact" className="text-orange-400 text-xs font-bold uppercase tracking-wider flex items-center gap-1 hover:gap-2 transition-all">Talk to us <ArrowRight className="w-3 h-3" /></Link>
                       </div>
                     </div>
                   </div>

@@ -29,9 +29,9 @@ export default function BlogPost() {
           {post.body}
         </div>
         <div className="mt-14 glass-strong neon-border p-10 text-center">
-          <h3 className="font-display font-bold text-3xl mb-3">Need a Quote?</h3>
-          <p className="text-white/70 mb-6">Get pricing in 30 minutes during business hours.</p>
-          <Link to="/quote" className="btn-primary">Request a Quote</Link>
+          <h3 className="font-display font-bold text-3xl mb-3">Have Questions?</h3>
+          <p className="text-white/70 mb-6">Talk to our team about your lane, freight type, or schedule.</p>
+          <Link to="/contact" className="btn-primary">Contact Us</Link>
         </div>
       </div>
     </article>

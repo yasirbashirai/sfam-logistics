@@ -73,18 +73,18 @@ export default function AgentOpportunities() {
         <div className="container-x max-w-4xl">
           <Reveal>
             <div className="text-center mb-10">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-navy/10 border border-brand-navy/20 text-brand-navy text-xs font-bold uppercase tracking-[0.15em] mb-3 mx-auto">Why Top Agents Join Us</div>
-              <h2 className="font-display italic font-black text-3xl text-brand-navy">Build Your Book. <span className="text-orange-500">Grow Your Income.</span></h2>
-              <div className="h-0.5 w-24 mx-auto mt-4 bg-gradient-to-r from-transparent via-brand-navy to-transparent" />
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-orange-400/10 border border-orange-400/30 text-white text-xs font-bold uppercase tracking-[0.15em] mb-3 mx-auto">Why Top Agents Join Us</div>
+              <h2 className="font-display italic font-black text-3xl text-white">Build Your Book. <span className="text-orange-400">Grow Your Income.</span></h2>
+              <div className="h-0.5 w-24 mx-auto mt-4 bg-gradient-to-r from-transparent via-orange-400 to-transparent" />
             </div>
           </Reveal>
           <Reveal delay={100}>
             <div className="text-center mb-10">
-              <div className="inline-block bg-gradient-to-r from-orange-400 to-orange-500 text-brand-navy rounded-2xl px-10 py-6">
+              <div className="inline-block bg-gradient-to-r from-orange-400 to-orange-500 text-white rounded-2xl px-10 py-6">
                 <div className="text-4xl font-display italic font-black">Up to 75%</div>
                 <div className="text-lg font-bold uppercase tracking-wider">Commissions</div>
               </div>
-              <p className="text-brand-navy/70 mt-4 text-sm max-w-lg mx-auto">We pay commissions weekly even if your customer doesn&apos;t pay us.</p>
+              <p className="text-white/75 mt-4 text-sm max-w-lg mx-auto">We pay commissions weekly even if your customer doesn&apos;t pay us.</p>
             </div>
           </Reveal>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -95,10 +95,10 @@ export default function AgentOpportunities() {
               { i: Users, t: 'Real Support', d: 'Dedicated agent success team. You\'re never alone.' }
             ].map(({ i: Icon, t, d }, idx) => (
               <Reveal key={t} delay={idx * 80}>
-                <div className="bg-white border border-brand-light3 rounded-xl p-5 hover:border-orange-400/40 transition h-full">
+                <div className="bg-white/[0.05] border border-white/15 rounded-xl p-5 hover:border-orange-400/40 transition h-full">
                   <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-orange-400 to-orange-600 grid place-items-center mb-3"><Icon className="w-5 h-5 text-white" /></div>
-                  <div className="font-display italic font-black text-base mb-1 text-brand-navy">{t}</div>
-                  <div className="text-xs text-brand-navy/60">{d}</div>
+                  <div className="font-display italic font-black text-base mb-1 text-white">{t}</div>
+                  <div className="text-xs text-white/65">{d}</div>
                 </div>
               </Reveal>
             ))}
@@ -133,15 +133,15 @@ export default function AgentOpportunities() {
         <div className="container-x relative max-w-4xl">
           <Reveal>
             <div className="text-center mb-10">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-navy/10 border border-brand-navy/20 text-brand-navy text-xs font-bold uppercase tracking-[0.15em] mb-3 mx-auto">Application</div>
-              <h2 className="font-display italic font-black text-3xl text-brand-navy">Apply <span className="text-orange-500">In Minutes</span></h2>
-              <div className="h-0.5 w-24 mx-auto mt-4 bg-gradient-to-r from-transparent via-brand-navy to-transparent" />
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-orange-400/10 border border-orange-400/30 text-white text-xs font-bold uppercase tracking-[0.15em] mb-3 mx-auto">Application</div>
+              <h2 className="font-display italic font-black text-3xl text-white">Apply <span className="text-orange-400">In Minutes</span></h2>
+              <div className="h-0.5 w-24 mx-auto mt-4 bg-gradient-to-r from-transparent via-orange-400 to-transparent" />
             </div>
           </Reveal>
           <div className="grid lg:grid-cols-3 gap-6">
-            <form onSubmit={submit} className="lg:col-span-2 bg-white border border-brand-light3 rounded-2xl p-6 lg:p-8 space-y-6">
+            <form onSubmit={submit} className="lg:col-span-2 bg-white/[0.05] border border-white/15 rounded-2xl p-6 lg:p-8 space-y-6">
               <div>
-                <h3 className="font-display italic font-black text-xl mb-4 text-brand-navy">Contact Information</h3>
+                <h3 className="font-display italic font-black text-xl mb-4 text-white">Contact Information</h3>
                 <div className="grid sm:grid-cols-2 gap-3">
                   <Field label="Full Name *"><input className="input-light" value={form.name} onChange={e => set('name', e.target.value)} required /></Field>
                   <Field label="Email *"><input type="email" className="input-light" value={form.email} onChange={e => set('email', e.target.value)} required /></Field>
@@ -151,7 +151,7 @@ export default function AgentOpportunities() {
                 </div>
               </div>
               <div>
-                <h3 className="font-display italic font-black text-xl mb-4 text-brand-navy">Logistics Experience</h3>
+                <h3 className="font-display italic font-black text-xl mb-4 text-white">Logistics Experience</h3>
                 <div className="grid sm:grid-cols-2 gap-3">
                   <Field label="Years in Brokerage / Logistics">
                     <select className="input-light" value={form.yearsExperience} onChange={e => set('yearsExperience', e.target.value)}>
@@ -167,10 +167,10 @@ export default function AgentOpportunities() {
                   <Field label="Approx Monthly Revenue (USD)"><input className="input-light" placeholder="$" value={form.monthlyRevenue} onChange={e => set('monthlyRevenue', e.target.value)} /></Field>
                 </div>
                 <div className="mt-4">
-                  <span className="text-xs font-bold text-brand-navy/60 uppercase tracking-wider mb-2 block">Specialties</span>
+                  <span className="text-xs font-bold text-white/65 uppercase tracking-wider mb-2 block">Specialties</span>
                   <div className="flex flex-wrap gap-2">
                     {['Dry Van', 'Reefer', 'Flatbed', 'LTL', 'Expedited', 'Intermodal', 'Cross Border', 'Specialized'].map(s => (
-                      <button type="button" key={s} onClick={() => toggleSpec(s)} className={`px-3 py-1.5 rounded-full border text-xs font-bold transition ${form.specialties.includes(s) ? 'bg-gradient-to-r from-orange-400 to-orange-600 border-transparent text-white' : 'border-brand-light3 text-brand-navy/70 hover:border-orange-400'}`}>
+                      <button type="button" key={s} onClick={() => toggleSpec(s)} className={`px-3 py-1.5 rounded-full border text-xs font-bold transition ${form.specialties.includes(s) ? 'bg-gradient-to-r from-orange-400 to-orange-600 border-transparent text-white' : 'border-white/15 text-white/75 hover:border-orange-400'}`}>
                         {form.specialties.includes(s) && '✓ '}{s}
                       </button>
                     ))}
@@ -179,22 +179,22 @@ export default function AgentOpportunities() {
                 <Field label="Why do you want to join SFam Logistics?" className="mt-4"><textarea className="input-light min-h-[80px]" value={form.whyJoin} onChange={e => set('whyJoin', e.target.value)} /></Field>
               </div>
               <div>
-                <h3 className="font-display italic font-black text-xl mb-4 text-brand-navy flex items-center gap-2"><Upload className="w-5 h-5 text-orange-500" /> Resume / Documents</h3>
+                <h3 className="font-display italic font-black text-xl mb-4 text-white flex items-center gap-2"><Upload className="w-5 h-5 text-orange-400" /> Resume / Documents</h3>
                 <label className="block">
-                  <div className="relative bg-brand-light border border-brand-light3 rounded-xl p-4 cursor-pointer hover:border-orange-400/60 transition">
+                  <div className="relative bg-white/[0.05] border border-white/15 rounded-xl p-4 cursor-pointer hover:border-orange-400/60 transition">
                     <input type="file" className="absolute inset-0 opacity-0 cursor-pointer" onChange={e => set('resume', e.target.files?.[0])} accept=".pdf,.doc,.docx" />
                     <div className="flex items-center gap-3">
-                      <Upload className="w-6 h-6 text-orange-500" />
+                      <Upload className="w-6 h-6 text-orange-400" />
                       <div>
                         {form.resume ? (
                           <>
-                            <div className="text-sm font-semibold text-brand-navy">{form.resume.name}</div>
-                            <div className="text-xs text-emerald-600">Ready ({Math.round(form.resume.size / 1024)} KB)</div>
+                            <div className="text-sm font-semibold text-white">{form.resume.name}</div>
+                            <div className="text-xs text-emerald-300">Ready ({Math.round(form.resume.size / 1024)} KB)</div>
                           </>
                         ) : (
                           <>
-                            <div className="text-sm text-brand-navy">Upload Resume</div>
-                            <div className="text-xs text-brand-navy/50">PDF, DOC, DOCX</div>
+                            <div className="text-sm text-white">Upload Resume</div>
+                            <div className="text-xs text-white/50">PDF, DOC, DOCX</div>
                           </>
                         )}
                       </div>
@@ -202,24 +202,24 @@ export default function AgentOpportunities() {
                   </div>
                 </label>
               </div>
-              <button type="submit" disabled={submitting} className="w-full py-3 rounded-full bg-gradient-to-r from-orange-400 to-orange-500 text-brand-navy font-bold text-sm uppercase tracking-wider hover:-translate-y-0.5 transition disabled:opacity-50">{submitting ? 'Submitting...' : <>Submit Application</>}</button>
-              <p className="text-xs text-center text-brand-navy/40">By submitting, you confirm you are applying as an independent contractor — not an employee.</p>
+              <button type="submit" disabled={submitting} className="w-full py-3 rounded-full bg-gradient-to-r from-orange-400 to-orange-500 text-white font-bold text-sm uppercase tracking-wider hover:-translate-y-0.5 transition disabled:opacity-50">{submitting ? 'Submitting...' : <>Submit Application</>}</button>
+              <p className="text-xs text-center text-white/40">By submitting, you confirm you are applying as an independent contractor — not an employee.</p>
             </form>
 
             <aside className="space-y-4">
-              <div className="bg-white border border-brand-light3 rounded-xl p-5">
-                <Award className="w-8 h-8 text-orange-500 mb-3" />
-                <h3 className="font-display italic font-black text-base mb-3 text-brand-navy">Why Choose SFam?</h3>
-                <ul className="space-y-2 text-xs text-brand-navy/70">
+              <div className="bg-white/[0.05] border border-white/15 rounded-xl p-5">
+                <Award className="w-8 h-8 text-orange-400 mb-3" />
+                <h3 className="font-display italic font-black text-base mb-3 text-white">Why Choose SFam?</h3>
+                <ul className="space-y-2 text-xs text-white/75">
                   {['Driver-built leadership', 'Weekly commission pay', 'No territory restrictions', 'Carrier compliance handled', 'Full TMS access', 'Transparent commissions'].map(b => (
-                    <li key={b} className="flex gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-orange-500 mt-0.5 shrink-0" /> {b}</li>
+                    <li key={b} className="flex gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-orange-400 mt-0.5 shrink-0" /> {b}</li>
                   ))}
                 </ul>
               </div>
-              <div className="bg-brand-light border border-brand-light3 rounded-xl p-5">
-                <Phone className="w-6 h-6 text-orange-500 mb-2" />
-                <div className="font-display italic font-black text-sm text-brand-navy">Talk to Recruiting</div>
-                <a href="tel:+18886985556" className="text-orange-500 font-bold text-lg">1 (888) 698-5556</a>
+              <div className="bg-white/[0.05] border border-white/15 rounded-xl p-5">
+                <Phone className="w-6 h-6 text-orange-400 mb-2" />
+                <div className="font-display italic font-black text-sm text-white">Talk to Recruiting</div>
+                <a href="tel:+18886985556" className="text-orange-400 font-bold text-lg">1 (888) 698-5556</a>
               </div>
             </aside>
           </div>
@@ -232,7 +232,7 @@ export default function AgentOpportunities() {
 function Field({ label, children, className = '' }) {
   return (
     <label className={`block ${className}`}>
-      <span className="text-xs font-bold text-brand-navy/60 uppercase tracking-wider mb-1 block">{label}</span>
+      <span className="text-xs font-bold text-white/65 uppercase tracking-wider mb-1 block">{label}</span>
       {children}
     </label>
   )
