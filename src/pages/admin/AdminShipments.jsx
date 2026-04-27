@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Plus, Trash2, Edit3, X, Truck, MapPin, Clock, Save, ListPlus, AlertTriangle } from 'lucide-react'
+import { Plus, Trash2, Edit3, X, Truck, MapPin, Clock, Save, ListPlus, AlertTriangle, RefreshCw } from 'lucide-react'
 
 const STATUS_OPTIONS = ['Booked', 'Picked Up', 'In Transit', 'Out for Delivery', 'Delivered', 'On Hold', 'Cancelled']
 
@@ -107,13 +107,19 @@ export default function AdminShipments() {
       {!backendOnline && !loading && (
         <div className="mb-6 p-4 rounded-2xl bg-red-500/10 border border-red-400/30 flex items-start gap-3">
           <AlertTriangle className="w-5 h-5 text-red-300 shrink-0 mt-0.5" />
-          <div className="text-sm">
+          <div className="text-sm flex-1">
             <div className="font-bold text-red-200">Backend API is offline</div>
             <div className="text-white/70 mt-1">
               Shipments, live chat, and tracking all need the Express API running on <code className="text-orange-300">localhost:4000</code>.
               Stop the current dev server and run <code className="text-orange-300 bg-black/30 px-1.5 py-0.5 rounded">npm run dev:all</code> instead — it boots both Vite and the API.
             </div>
           </div>
+          <button
+            onClick={() => { setLoading(true); load() }}
+            className="shrink-0 inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-orange-400/20 hover:bg-orange-400/30 border border-orange-400/40 text-orange-200 text-xs font-bold uppercase tracking-wider"
+          >
+            <RefreshCw className="w-3.5 h-3.5" /> Retry
+          </button>
         </div>
       )}
 
