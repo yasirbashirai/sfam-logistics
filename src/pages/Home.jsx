@@ -69,8 +69,7 @@ export default function Home() {
               <p className="text-white/80 leading-relaxed mb-4">SFam Logistics LLC is a freight brokerage built by drivers. We coordinate FTL, LTL, reefer, flatbed, and dedicated freight across the United States and North America &mdash; with the kind of communication only real road experience teaches.</p>
               <p className="text-white/80 leading-relaxed mb-6">Our owner spent over a decade behind the wheel before founding SFam. That perspective shows up in every load &mdash; <span className="text-orange-400 font-semibold">realistic schedules, honest communication, fair carrier rates.</span></p>
               <div className="flex flex-wrap gap-3 justify-center lg:justify-start">
-                <Link to="/carrier-onboarding" className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full border-2 border-white/30 text-white text-sm font-bold uppercase tracking-wider hover:bg-orange-400 hover:border-orange-400 hover:text-brand-navy transition">Haul For Us <ArrowRight className="w-3.5 h-3.5" /></Link>
-                <Link to="/agent-opportunities" className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-white/80 text-sm font-bold uppercase tracking-wider hover:text-orange-300 transition">Become an Agent</Link>
+                <Link to="/agent-opportunities" className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full border-2 border-white/30 text-white text-sm font-bold uppercase tracking-wider hover:bg-orange-400 hover:border-orange-400 hover:text-brand-navy transition">Become an Agent <ArrowRight className="w-3.5 h-3.5" /></Link>
               </div>
             </div>
           </Reveal>
