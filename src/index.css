@@ -13,8 +13,7 @@ h1,h2,h3,h4,h5 { font-family: 'Exo 2', system-ui, sans-serif; letter-spacing: -0
   .container-x { @apply max-w-7xl mx-auto px-5 sm:px-8; }
 
   /* === ADVANCED BUTTONS === */
-  /* Consistent min-width keeps buttons visually equal in size regardless of label length, on desktop and mobile */
-  .btn { @apply relative inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full font-bold uppercase tracking-wider text-sm transition-all duration-300 overflow-hidden min-w-[12rem]; }
+  .btn { @apply relative inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full font-bold uppercase tracking-wider text-sm transition-all duration-300 overflow-hidden; }
 
   .btn-primary {
     @apply btn text-brand-navy;
