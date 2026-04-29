@@ -202,19 +202,26 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ============ 7. AGENT RECRUITMENT BANNER — centered ============ */}
+      {/* ============ 7. AGENT RECRUITMENT — image left, text right ============ */}
       <section className="section">
         <div className="container-x">
-          <div className="relative overflow-hidden rounded-2xl border border-orange-400/30 bg-gradient-to-br from-brand-navy3 to-brand-navy">
-            <div className="relative p-8 lg:p-14 text-center max-w-3xl mx-auto">
-              <div className="badge mb-3 mx-auto">Now Recruiting</div>
-              <h2 className="font-display italic font-black text-3xl lg:text-4xl mb-3">Join SFam as an<br /><span className="text-orange-400">Independent Freight Agent</span></h2>
-              <div className="divider-glow w-24 mx-auto my-4" />
-              <p className="text-white/85 mb-6 max-w-xl mx-auto">Top commission splits, full back-office support, and the freedom to grow your book &mdash; backed by a leadership team that&apos;s been on the road.</p>
-              <div className="flex justify-center">
-                <Link to="/agent-opportunities" className="btn-primary !px-8 !py-3.5">Apply Now <ArrowRight className="w-4 h-4" /></Link>
+          <div className="grid lg:grid-cols-2 gap-10 items-center">
+            <Reveal>
+              <div className="relative rounded-2xl overflow-hidden border border-orange-400/30 shadow-2xl shadow-black/40">
+                <img src="/images/recruiting-snowy-highway.png" alt="Trucks on a snowy mountain highway" className="w-full h-full object-cover" />
               </div>
-            </div>
+            </Reveal>
+            <Reveal delay={150}>
+              <div className="text-center lg:text-left">
+                <div className="badge mb-3">Now Recruiting</div>
+                <h2 className="font-display italic font-black text-3xl lg:text-4xl mb-3">Join SFam as an<br /><span className="text-orange-400">Independent Freight Agent</span></h2>
+                <div className="h-0.5 w-24 bg-gradient-to-r from-orange-400 to-transparent my-4 mx-auto lg:mx-0" />
+                <p className="text-white/85 mb-6">Top commission splits, full back-office support, and the freedom to grow your book &mdash; backed by a leadership team that&apos;s been on the road.</p>
+                <div className="flex justify-center lg:justify-start">
+                  <Link to="/agent-opportunities" className="btn-primary !px-8 !py-3.5">Apply Now <ArrowRight className="w-4 h-4" /></Link>
+                </div>
+              </div>
+            </Reveal>
           </div>
         </div>
       </section>
