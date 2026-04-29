@@ -12,10 +12,10 @@ export default function Home() {
       <PageMeta title="Nationwide Freight Brokerage" description="SFam Logistics LLC — FMCSA-authorized freight brokerage in Bothell, WA. FTL, LTL, reefer, flatbed, dedicated, and expedited freight across the United States and North America. MC 1810116 • USDOT 4555943. Built by drivers, trusted by shippers." />
 
       {/* ============ 1. HERO — CENTERED TAGLINE + DUAL BUTTONS ============ */}
-      <section className="relative min-h-[110vh] flex items-center pt-20 pb-16 overflow-hidden">
+      <section className="relative min-h-[78vh] lg:min-h-[110vh] flex items-center pt-16 sm:pt-20 pb-12 sm:pb-16 overflow-hidden">
         <div className="absolute inset-0">
-          <img src="/images/hero-home.jpg" alt="SFam Logistics — freight on the open road" className="w-full h-full object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-b from-brand-navy/70 via-brand-navy/55 to-brand-navy/85" />
+          <img src="/images/hero-home.jpg" alt="SFam Logistics — freight on the open road" className="w-full h-full object-cover object-center" />
+          <div className="absolute inset-0 bg-gradient-to-b from-brand-navy/55 via-brand-navy/40 to-brand-navy/75 sm:from-brand-navy/65 sm:via-brand-navy/50 sm:to-brand-navy/80" />
         </div>
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-orange-400 via-orange-500 to-transparent" />
 
