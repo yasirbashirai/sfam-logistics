@@ -2,7 +2,6 @@ import { Link } from 'react-router-dom'
 import { ArrowRight, Truck, Boxes, Snowflake, PackageOpen, Route, Zap, ShieldCheck, Award, Users, TrendingUp, CheckCircle2, Phone } from 'lucide-react'
 import PageMeta from '../components/PageMeta.jsx'
 import { services } from '../data/site.js'
-import IMG from '../data/images.js'
 import Reveal from '../components/Reveal.jsx'
 
 const iconMap = { Truck, Boxes, Snowflake, PackageOpen, Route, Zap }
@@ -12,13 +11,10 @@ export default function Home() {
     <>
       <PageMeta title="Nationwide Freight Brokerage" description="SFam Logistics LLC — FMCSA-authorized freight brokerage in Bothell, WA. FTL, LTL, reefer, flatbed, dedicated, and expedited freight across the United States and North America. MC 1810116 • USDOT 4555943. Built by drivers, trusted by shippers." />
 
-      {/* ============ 1. HERO — CENTERED TAGLINE + SINGLE BUTTON ============ */}
-      <section className="relative min-h-[78vh] flex items-center pt-20 pb-16 overflow-hidden">
-        <div className="absolute inset-0">
-          <img src={IMG.highwayMountains} alt="SFam Logistics — freight on the open road" className="w-full h-full object-cover" />
-          {/* Lighter overlay so the photo stays visible */}
-          <div className="absolute inset-0 bg-gradient-to-b from-brand-navy/70 via-brand-navy/55 to-brand-navy/85" />
-        </div>
+      <div className="home-page">
+
+      {/* ============ 1. HERO — CENTERED TAGLINE + DUAL BUTTONS ============ */}
+      <section className="relative min-h-[110vh] flex items-center pt-20 pb-16 overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-orange-400 via-orange-500 to-transparent" />
 
         <div className="container-x relative z-10 text-center">
@@ -39,8 +35,9 @@ export default function Home() {
             <div className="divider-glow w-24 mx-auto my-6" />
           </Reveal>
           <Reveal delay={360}>
-            <div className="mt-8 flex justify-center">
+            <div className="mt-8 flex flex-wrap gap-4 justify-center">
               <Link to="/quote" className="btn-primary !px-10 !py-4">Request a Quote <ArrowRight className="w-4 h-4" /></Link>
+              <Link to="/carrier-onboarding" className="btn-ghost !px-10 !py-4">Haul For Us <ArrowRight className="w-4 h-4" /></Link>
             </div>
           </Reveal>
         </div>
@@ -65,12 +62,14 @@ export default function Home() {
           <Reveal delay={200}>
             <div className="text-center lg:text-left">
               <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-orange-400/10 border border-orange-400/30 text-orange-300 text-xs font-bold uppercase tracking-[0.15em] mb-4">Built By Drivers</div>
-              <h3 className="font-display italic font-black text-2xl lg:text-3xl mb-4 leading-tight">
-                <span className="text-orange-400">Real road experience.</span><br />
-                <span className="text-white">Honest brokerage.</span>
-              </h3>
+              <h2 className="font-display italic font-black text-3xl lg:text-4xl mb-4">Real road experience. <span className="text-orange-400">Honest brokerage.</span></h2>
               <div className="h-0.5 w-24 bg-gradient-to-r from-orange-400 to-transparent mb-4 mx-auto lg:mx-0" />
-              <p className="text-white/80 leading-relaxed text-lg">SFam Logistics LLC is a freight brokerage built by drivers. We coordinate FTL, LTL, reefer, flatbed, and dedicated freight across the United States and North America &mdash; with the kind of communication only real road experience teaches.</p>
+              <p className="text-white/80 leading-relaxed mb-4">SFam Logistics LLC is a freight brokerage built by drivers. We coordinate FTL, LTL, reefer, flatbed, and dedicated freight across the United States and North America &mdash; with the kind of communication only real road experience teaches.</p>
+              <p className="text-white/80 leading-relaxed mb-6">Our owner spent over a decade behind the wheel before founding SFam. That perspective shows up in every load &mdash; <span className="text-orange-400 font-semibold">realistic schedules, honest communication, fair carrier rates.</span></p>
+              <div className="flex flex-wrap gap-3 justify-center lg:justify-start">
+                <Link to="/carrier-onboarding" className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full border-2 border-white/30 text-white text-sm font-bold uppercase tracking-wider hover:bg-orange-400 hover:border-orange-400 hover:text-brand-navy transition">Haul For Us <ArrowRight className="w-3.5 h-3.5" /></Link>
+                <Link to="/agent-opportunities" className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-white/80 text-sm font-bold uppercase tracking-wider hover:text-orange-300 transition">Become an Agent</Link>
+              </div>
             </div>
           </Reveal>
         </div>
@@ -107,44 +106,50 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ============ 4. WHY SHIPPERS CHOOSE US — centered, no left image ============ */}
+      {/* ============ 4. WHY SHIPPERS CHOOSE US — text/boxes left, image right ============ */}
       <section className="section-white">
         <div className="container-x">
-          <Reveal>
-            <div className="text-center max-w-3xl mx-auto mb-12">
-              <div className="badge mb-3 mx-auto">Why Shippers Choose Us</div>
-              <h2 className="font-display italic font-black text-3xl lg:text-4xl">Trusted From <span className="text-orange-400">First Mile to Last.</span></h2>
-              <div className="divider-glow w-24 mx-auto my-4" />
-              <p className="text-white/80 text-base leading-relaxed">Our owner spent over a decade behind the wheel before founding SFam. That perspective shows up in every load &mdash; realistic schedules, honest communication, fair carrier rates.</p>
-            </div>
-          </Reveal>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 max-w-5xl mx-auto">
-            {[
-              { icon: ShieldCheck, t: 'Vetted Carrier Network', d: 'Every carrier verified for authority, insurance & safety scores.' },
-              { icon: Award, t: 'Driver-First Mentality', d: 'Happy drivers deliver on time. We pay quickly, treat carriers like partners.' },
-              { icon: Users, t: 'Nationwide Coverage', d: 'Deep capacity across major U.S. freight corridors.' }
-            ].map(({ icon: Icon, t, d }, i) => (
-              <Reveal key={t} delay={i * 100}>
-                <div className="text-center p-6 rounded-2xl bg-white/[0.05] border border-white/15 hover:border-orange-400/40 transition h-full">
-                  <div className="w-12 h-12 mx-auto rounded-xl bg-gradient-to-br from-orange-400 to-orange-600 grid place-items-center mb-4">
-                    <Icon className="w-6 h-6 text-brand-navy" />
-                  </div>
-                  <div className="font-display italic font-bold text-lg mb-2">{t}</div>
-                  <div className="text-sm text-white/70">{d}</div>
+          <div className="grid lg:grid-cols-2 gap-10 items-center">
+            <div>
+              <Reveal>
+                <div className="mb-8">
+                  <div className="badge mb-3">Why Shippers Choose Us</div>
+                  <h2 className="font-display italic font-black text-3xl lg:text-4xl">Trusted From <span className="text-orange-400">First Mile to Last.</span></h2>
+                  <div className="h-0.5 w-24 bg-gradient-to-r from-orange-400 to-transparent my-4" />
+                  <p className="text-white/80 text-base leading-relaxed">Our owner spent over a decade behind the wheel before founding SFam. That perspective shows up in every load &mdash; realistic schedules, honest communication, fair carrier rates.</p>
                 </div>
               </Reveal>
-            ))}
+              <div className="grid sm:grid-cols-1 gap-4">
+                {[
+                  { icon: ShieldCheck, t: 'Vetted Carrier Network', d: 'Every carrier verified for authority, insurance & safety scores.' },
+                  { icon: Award, t: 'Driver-First Mentality', d: 'Happy drivers deliver on time. We pay quickly, treat carriers like partners.' },
+                  { icon: Users, t: 'Nationwide Coverage', d: 'Deep capacity across major U.S. freight corridors.' }
+                ].map(({ icon: Icon, t, d }, i) => (
+                  <Reveal key={t} delay={i * 100}>
+                    <div className="flex gap-4 p-4 rounded-2xl bg-white/[0.05] border border-white/15 hover:border-orange-400/40 transition">
+                      <div className="w-12 h-12 shrink-0 rounded-xl bg-gradient-to-br from-orange-400 to-orange-600 grid place-items-center">
+                        <Icon className="w-6 h-6 text-brand-navy" />
+                      </div>
+                      <div>
+                        <div className="font-display italic font-bold text-lg mb-1">{t}</div>
+                        <div className="text-sm text-white/70">{d}</div>
+                      </div>
+                    </div>
+                  </Reveal>
+                ))}
+              </div>
+            </div>
+            <Reveal delay={200}>
+              <div className="relative rounded-2xl overflow-hidden border border-orange-400/30 shadow-2xl shadow-black/40">
+                <img src="/images/why-shippers-choose-us.jpeg" alt="Why shippers choose SFam Logistics" className="w-full h-full object-cover" />
+              </div>
+            </Reveal>
           </div>
         </div>
       </section>
 
       {/* ============ 5. CALLING ALL CARRIERS — headline + sign-up button only, centered ============ */}
-      <section className="relative py-24 overflow-hidden">
-        <div className="absolute inset-0">
-          <img src={IMG.truckSnowRoad} alt="" className="w-full h-full object-cover" />
-          {/* Lighter overlay so the photo is visible */}
-          <div className="absolute inset-0 bg-gradient-to-b from-brand-navy/55 via-brand-navy/45 to-brand-navy/75" />
-        </div>
+      <section className="section">
         <div className="container-x relative text-center max-w-3xl">
           <Reveal>
             <div className="badge mb-4 mx-auto">Calling All Carriers</div>
@@ -198,12 +203,7 @@ export default function Home() {
       {/* ============ 7. AGENT RECRUITMENT BANNER — centered ============ */}
       <section className="section">
         <div className="container-x">
-          <div className="relative overflow-hidden rounded-2xl border border-orange-400/30">
-            <div className="absolute inset-0">
-              <img src={IMG.trailerLoaded} alt="" className="w-full h-full object-cover" />
-              {/* Lighter overlay so the photo is visible */}
-              <div className="absolute inset-0 bg-gradient-to-b from-brand-navy/55 via-brand-navy/45 to-brand-navy/75" />
-            </div>
+          <div className="relative overflow-hidden rounded-2xl border border-orange-400/30 bg-gradient-to-br from-brand-navy3 to-brand-navy">
             <div className="relative p-8 lg:p-14 text-center max-w-3xl mx-auto">
               <div className="badge mb-3 mx-auto">Now Recruiting</div>
               <h2 className="font-display italic font-black text-3xl lg:text-4xl mb-3">Join SFam as an<br /><span className="text-orange-400">Independent Freight Agent</span></h2>
@@ -235,6 +235,8 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      </div>
     </>
   )
 }

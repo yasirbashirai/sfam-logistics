@@ -20,7 +20,7 @@ export const services = [
     long: 'When your freight needs the entire trailer, FTL is the fastest, safest, and most cost-effective option. We coordinate dry van, reefer, and flatbed FTL shipments across the United States with vetted carriers and live communication from pickup to delivery.' },
   { slug: 'less-than-truckload', name: 'Less-Than-Truckload (LTL)', short: 'Pay for the space you use. Smart consolidation nationwide.', icon: 'Boxes',
     long: 'LTL is perfect for shipments between 150 and 15,000 lbs. We work with national LTL carriers to consolidate freight, reduce cost, and keep transit predictable — backed by tracking and proactive updates.' },
-  { slug: 'reefer', name: 'Refrigerated (Reefer)', short: 'Temperature-controlled freight from -20°F to +70°F.', icon: 'Snowflake',
+  { slug: 'reefer', name: 'Refrigerated (Reefer)', short: 'Temperature-controlled freight -20°F to +70°F.', icon: 'Snowflake',
     long: 'Produce, pharma, frozen goods, and any temperature-sensitive load — moved with reefer-certified carriers, monitored temperatures, and clean-trailer protocols.' },
   { slug: 'flatbed', name: 'Flatbed & Open Deck', short: 'Steel, machinery, building materials, oversized loads.', icon: 'PackageOpen',
     long: 'Step decks, double drops, conestoga, and standard flatbeds — with experienced carriers who understand securement, tarping, and permitting.' },

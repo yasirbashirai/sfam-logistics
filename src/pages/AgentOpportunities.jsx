@@ -130,7 +130,7 @@ export default function AgentOpportunities() {
 
       {/* ===== 3. APPLICATION ===== */}
       <section className="section-white">
-        <div className="container-x relative max-w-4xl">
+        <div className="container-x relative">
           <Reveal>
             <div className="text-center mb-10">
               <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-orange-400/10 border border-orange-400/30 text-white text-xs font-bold uppercase tracking-[0.15em] mb-3 mx-auto">Application</div>
@@ -138,8 +138,8 @@ export default function AgentOpportunities() {
               <div className="h-0.5 w-24 mx-auto mt-4 bg-gradient-to-r from-transparent via-orange-400 to-transparent" />
             </div>
           </Reveal>
-          <div className="grid lg:grid-cols-3 gap-6">
-            <form onSubmit={submit} className="lg:col-span-2 bg-white/[0.05] border border-white/15 rounded-2xl p-6 lg:p-8 space-y-6">
+          <div className="grid lg:grid-cols-3 gap-8">
+            <form onSubmit={submit} className="lg:col-span-2 glass-strong p-7 lg:p-10 space-y-8">
               <div>
                 <h3 className="font-display italic font-black text-xl mb-4 text-white">Contact Information</h3>
                 <div className="grid sm:grid-cols-2 gap-3">

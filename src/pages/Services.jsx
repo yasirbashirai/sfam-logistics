@@ -7,7 +7,6 @@ import { services } from '../data/site.js'
 import IMG from '../data/images.js'
 
 const iconMap = { Truck, Boxes, Snowflake, PackageOpen, Route, Zap }
-const imageKeys = ['ftlTruck', 'ltlPallets', 'reeferTrailer', 'flatbedLoad', 'dedicatedFleet', 'expeditedVan']
 
 export default function Services() {
   return (
@@ -15,7 +14,7 @@ export default function Services() {
       <PageMeta title="Logistics Services — FTL, LTL, Reefer, Flatbed, Dedicated" description="SFam Logistics offers Full Truckload, LTL, Refrigerated, Flatbed, Dedicated Freight, and Expedited shipping services across the United States. Vetted carriers, 24/7 dispatch, live tracking." />
       <PageHero eyebrow="Logistics Services" title={<>Freight Solutions <span className="text-orange-400">For Every Lane</span></>} subtitle="From a single LTL pallet to dedicated weekly truckload capacity, we coordinate it all — backed by vetted carriers and 24/7 communication." image={IMG.heroHighway} />
 
-      {/* ===== 1. SERVICES GRID WITH IMAGES ===== */}
+      {/* ===== 1. SERVICES GRID — icon + name + description, no images ===== */}
       <section className="section">
         <Orbs />
         <div className="container-x relative">
@@ -24,11 +23,9 @@ export default function Services() {
               const Icon = iconMap[s.icon] || Truck
               return (
                 <Reveal key={s.slug} delay={i * 80}>
-                  <Link to={`/services/${s.slug}`} className="group block relative overflow-hidden rounded-3xl border border-white/10 h-[420px] hover:border-orange-400/50 transition-all hover:-translate-y-2">
-                    <img src={IMG[imageKeys[i]]} alt={s.name} className="absolute inset-0 w-full h-full object-cover zoom-img" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-brand-navy via-brand-navy/85 to-brand-navy/40" />
-                    <div className="absolute top-4 right-4 text-7xl font-display italic font-black text-orange-400/30">{String(i + 1).padStart(2, '0')}</div>
-                    <div className="relative h-full p-7 flex flex-col justify-end">
+                  <Link to={`/services/${s.slug}`} className="group block relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.04] hover:bg-white/[0.08] hover:border-orange-400/50 transition-all hover:-translate-y-2 p-7 h-full">
+                    <div className="absolute top-4 right-4 text-7xl font-display italic font-black text-orange-400/20 leading-none">{String(i + 1).padStart(2, '0')}</div>
+                    <div className="relative flex flex-col">
                       <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-orange-400 to-orange-600 grid place-items-center mb-4 shadow-lg shadow-orange-500/40 group-hover:scale-110 transition"><Icon className="w-7 h-7 text-white" /></div>
                       <h3 className="font-display italic font-black text-2xl mb-2">{s.name}</h3>
                       <p className="text-white/70 text-sm leading-relaxed mb-4">{s.short}</p>

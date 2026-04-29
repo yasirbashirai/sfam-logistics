@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
-import { Menu, X, Phone, Mail, Clock, ChevronDown, Truck, Boxes, Snowflake, PackageOpen, Route, Zap, ArrowRight } from 'lucide-react'
+import { Menu, X, Phone, Mail, Clock, MapPin, ChevronDown, Truck, Boxes, Snowflake, PackageOpen, Route, Zap, ArrowRight } from 'lucide-react'
 import { services } from '../data/site.js'
 
 const iconMap = { Truck, Boxes, Snowflake, PackageOpen, Route, Zap }
@@ -38,13 +38,16 @@ export default function Navbar() {
     <>
       {/* === ANNOUNCEMENT BAR === */}
       <div className="hidden md:block fixed top-0 inset-x-0 z-[60] bg-gradient-to-r from-brand-navy via-brand-navy3 to-brand-navy border-b border-orange-400/20 text-xs">
-        <div className="container-x flex items-center justify-end h-10 text-white/80">
+        <div className="container-x flex items-center justify-between h-10 text-white/80">
+          <div className="flex gap-5 items-center">
+            <span className="flex items-center gap-1.5"><MapPin className="w-3 h-3 text-orange-400" /> Bothell, WA</span>
+            <span className="text-white/20">|</span>
+            <span className="flex items-center gap-1.5"><Clock className="w-3 h-3 text-orange-400" /> Mon–Fri • 8AM–5PM PST</span>
+          </div>
           <div className="flex gap-5 items-center">
             <a href="tel:+18886985556" className="hover:text-orange-300 font-bold text-orange-400 flex items-center gap-1.5"><Phone className="w-3 h-3" /> 1 (888) 698-5556</a>
             <span className="text-white/20">|</span>
             <a href="mailto:info@sfamlogistics.com" className="hover:text-orange-300 flex items-center gap-1.5"><Mail className="w-3 h-3" /> info@sfamlogistics.com</a>
-            <span className="text-white/20">|</span>
-            <span className="flex items-center gap-1.5"><Clock className="w-3 h-3 text-orange-400" /> Mon–Fri • 8AM–5PM PST</span>
             <span className="text-white/20">|</span>
             <Link to="/login" className="hover:text-orange-300 text-white/40">Admin</Link>
           </div>

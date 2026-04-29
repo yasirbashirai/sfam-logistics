@@ -83,14 +83,14 @@ h1,h2,h3,h4,h5 { font-family: 'Exo 2', system-ui, sans-serif; letter-spacing: -0
   .textarea { @apply input min-h-[120px]; }
   .input-light { @apply w-full bg-white/10 border border-white/20 rounded-xl px-4 py-2.5 text-white placeholder:text-white/40 focus:outline-none focus:border-orange-400 focus:ring-2 focus:ring-orange-400/20 transition; }
 
-  .section { @apply py-20 sm:py-28 relative overflow-hidden bg-brand-navy text-white; }
-  .section-light { @apply py-20 sm:py-28 relative overflow-hidden bg-brand-navy text-white; position: relative; }
+  .section { @apply py-12 sm:py-16 relative overflow-hidden bg-brand-navy text-white; }
+  .section-light { @apply py-12 sm:py-16 relative overflow-hidden bg-brand-navy text-white; position: relative; }
   .section-light .glass { @apply bg-white/[0.06] border-white/15; }
   .section-light .glass-strong { @apply bg-white/[0.08] border-white/20; }
   .section-light .badge { @apply bg-orange-400/10 border-orange-400/30 text-orange-300; }
   .section-light .divider-glow { background: linear-gradient(90deg, transparent, #f5a623, transparent); box-shadow: 0 0 20px #f5a623; }
   .section-light .label { @apply text-orange-400; }
-  .section-white { @apply py-20 sm:py-28 relative overflow-hidden bg-brand-navy text-white; position: relative; }
+  .section-white { @apply py-12 sm:py-16 relative overflow-hidden bg-brand-navy text-white; position: relative; }
   .section-white .glass { @apply bg-white/[0.06] border-white/15; }
   .section-white .glass-strong { @apply bg-white/[0.08] border-white/20; }
   .section-white .badge { @apply bg-orange-400/10 border-orange-400/30 text-orange-300; }
@@ -181,6 +181,28 @@ h1,h2,h3,h4,h5 { font-family: 'Exo 2', system-ui, sans-serif; letter-spacing: -0
 @keyframes rotate-y { 0%{transform:rotateY(0)} 100%{transform:rotateY(360deg)} }
 .spin-slow { animation: spin-slow 20s linear infinite; }
 .pulse-ring { animation: pulse-ring 3s cubic-bezier(0.215, 0.610, 0.355, 1) infinite; }
+
+/* === HOME PAGE FULL-PAGE BACKGROUND === */
+.home-page {
+  position: relative;
+  background-image: url('/images/home-background.jpg');
+  background-size: cover;
+  background-position: center top;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+}
+.home-page::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(13,27,46,0.78) 0%, rgba(13,27,46,0.85) 50%, rgba(13,27,46,0.92) 100%);
+  pointer-events: none;
+  z-index: 0;
+}
+.home-page > * { position: relative; z-index: 1; }
+.home-page .section,
+.home-page .section-light,
+.home-page .section-white { background-color: transparent; }
 
 /* Number ticker effect */
 .shimmer-text {
