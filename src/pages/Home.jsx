@@ -38,8 +38,8 @@ export default function Home() {
           </Reveal>
           <Reveal delay={360}>
             <div className="mt-8 flex flex-wrap gap-4 justify-center">
-              <Link to="/quote" className="btn-primary !px-10 !py-4">Request a Quote <ArrowRight className="w-4 h-4" /></Link>
-              <Link to="/carrier-onboarding" className="btn-ghost !px-10 !py-4">Haul For Us <ArrowRight className="w-4 h-4" /></Link>
+              <Link to="/quote" className="btn-primary">Request a Quote <ArrowRight className="w-4 h-4" /></Link>
+              <Link to="/carrier-onboarding" className="btn-ghost">Haul For Us <ArrowRight className="w-4 h-4" /></Link>
             </div>
           </Reveal>
         </div>
@@ -47,29 +47,29 @@ export default function Home() {
 
       {/* ============ 2. WHO WE ARE — text left, tagline text right ============ */}
       <section className="section-light">
-        <div className="container-x grid lg:grid-cols-2 gap-10 items-center">
-          <Reveal>
-            <div className="text-center lg:text-left">
+        <div className="container-x grid lg:grid-cols-2 gap-10 lg:items-stretch">
+          <Reveal className="h-full">
+            <div className="text-center lg:text-left flex flex-col h-full">
               <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-orange-400/10 border border-orange-400/30 text-orange-300 text-xs font-bold uppercase tracking-[0.15em] mb-4">Who We Are</div>
               <h2 className="font-display italic font-black text-3xl lg:text-4xl mb-4">A freight broker that <span className="text-orange-400">actually drives.</span></h2>
               <div className="h-0.5 w-24 bg-gradient-to-r from-orange-400 to-transparent mb-4 mx-auto lg:mx-0" />
               <p className="text-white/80 leading-relaxed mb-4">SFam Logistics LLC is a Washington-based freight brokerage built on over a decade of real road experience. We coordinate truckload, LTL, reefer, flatbed, and dedicated freight across the United States and North America &mdash; with the kind of clarity, fairness, and follow-through that the industry too often forgets.</p>
               <p className="text-white/80 leading-relaxed mb-6">We&apos;re not a faceless broker. We&apos;re drivers who became dispatchers, dispatchers who became brokers &mdash; and now agents and partners who all believe the same thing: <span className="text-orange-400 font-semibold">freight moves on trust.</span></p>
-              <div className="flex flex-wrap gap-3 justify-center lg:justify-start">
-                <Link to="/about" className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full border-2 border-white/30 text-white text-sm font-bold uppercase tracking-wider hover:bg-orange-400 hover:border-orange-400 hover:text-brand-navy transition">Our Story <ArrowRight className="w-3.5 h-3.5" /></Link>
-                <Link to="/services" className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-white/80 text-sm font-bold uppercase tracking-wider hover:text-orange-300 transition">View Services</Link>
+              <div className="flex flex-wrap gap-3 justify-center lg:justify-start mt-auto">
+                <Link to="/about" className="btn-ghost">Our Story <ArrowRight className="w-4 h-4" /></Link>
+                <Link to="/services" className="btn-ghost">View Services</Link>
               </div>
             </div>
           </Reveal>
-          <Reveal delay={200}>
-            <div className="text-center lg:text-left">
+          <Reveal delay={200} className="h-full">
+            <div className="text-center lg:text-left flex flex-col h-full">
               <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-orange-400/10 border border-orange-400/30 text-orange-300 text-xs font-bold uppercase tracking-[0.15em] mb-4">Built By Drivers</div>
               <h2 className="font-display italic font-black text-3xl lg:text-4xl mb-4">Real road experience. <span className="text-orange-400">Honest brokerage.</span></h2>
               <div className="h-0.5 w-24 bg-gradient-to-r from-orange-400 to-transparent mb-4 mx-auto lg:mx-0" />
               <p className="text-white/80 leading-relaxed mb-4">SFam Logistics LLC is a freight brokerage built by drivers. We coordinate FTL, LTL, reefer, flatbed, and dedicated freight across the United States and North America &mdash; with the kind of communication only real road experience teaches.</p>
               <p className="text-white/80 leading-relaxed mb-6">Our owner spent over a decade behind the wheel before founding SFam. That perspective shows up in every load &mdash; <span className="text-orange-400 font-semibold">realistic schedules, honest communication, fair carrier rates.</span></p>
-              <div className="flex flex-wrap gap-3 justify-center lg:justify-start">
-                <Link to="/agent-opportunities" className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full border-2 border-white/30 text-white text-sm font-bold uppercase tracking-wider hover:bg-orange-400 hover:border-orange-400 hover:text-brand-navy transition">Become an Agent <ArrowRight className="w-3.5 h-3.5" /></Link>
+              <div className="flex flex-wrap gap-3 justify-center lg:justify-start mt-auto">
+                <Link to="/agent-opportunities" className="btn-ghost">Become an Agent <ArrowRight className="w-4 h-4" /></Link>
               </div>
             </div>
           </Reveal>
@@ -143,6 +143,12 @@ export default function Home() {
             <Reveal delay={200}>
               <div className="relative rounded-2xl overflow-hidden border border-orange-400/30 shadow-2xl shadow-black/40">
                 <img src="/images/why-shippers-choose-us.jpeg" alt="Why shippers choose SFam Logistics" className="w-full h-full object-cover" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/15 to-transparent pointer-events-none" />
+                <div className="absolute bottom-5 left-5 right-5 sm:bottom-6 sm:left-6 sm:right-6">
+                  <span className="inline-block px-4 py-2 rounded-full bg-orange-400/95 text-brand-navy font-display italic font-black uppercase tracking-wider text-sm sm:text-base shadow-lg shadow-black/30">
+                    10+ years on the road
+                  </span>
+                </div>
               </div>
             </Reveal>
           </div>
@@ -159,7 +165,7 @@ export default function Home() {
             </h2>
             <div className="divider-glow w-24 mx-auto my-5" />
             <div className="mt-8 flex justify-center">
-              <Link to="/carrier-onboarding" className="btn-primary !px-10 !py-4">Sign Up as a Carrier <ArrowRight className="w-4 h-4" /></Link>
+              <Link to="/carrier-onboarding" className="btn-primary">Sign Up as a Carrier <ArrowRight className="w-4 h-4" /></Link>
             </div>
           </Reveal>
         </div>
@@ -217,7 +223,7 @@ export default function Home() {
                 <div className="h-0.5 w-24 bg-gradient-to-r from-orange-400 to-transparent my-4 mx-auto lg:mx-0" />
                 <p className="text-white/85 mb-6">Top commission splits, full back-office support, and the freedom to grow your book &mdash; backed by a leadership team that&apos;s been on the road.</p>
                 <div className="flex justify-center lg:justify-start">
-                  <Link to="/agent-opportunities" className="btn-primary !px-8 !py-3.5">Apply Now <ArrowRight className="w-4 h-4" /></Link>
+                  <Link to="/agent-opportunities" className="btn-primary">Apply Now <ArrowRight className="w-4 h-4" /></Link>
                 </div>
               </div>
             </Reveal>
@@ -226,7 +232,7 @@ export default function Home() {
       </section>
 
       {/* ============ 8. FINAL CTA — centered ============ */}
-      <section className="section pt-0">
+      <section className="section">
         <div className="container-x">
           <div className="relative bg-gradient-to-br from-brand-navy3 to-brand-navy border border-orange-400/20 rounded-2xl overflow-hidden p-10 lg:p-14 text-center">
             <div className="absolute inset-0 bg-gradient-to-br from-orange-400/10 via-transparent to-orange-400/5" />
@@ -236,8 +242,8 @@ export default function Home() {
               <div className="divider-glow w-24 mx-auto my-5" />
               <p className="text-white/80 max-w-xl mx-auto mb-8">Whether you ship one load a month or one hundred, we&apos;d love to earn your business. Get a no-pressure quote in minutes.</p>
               <div className="flex flex-wrap gap-3 justify-center">
-                <Link to="/quote" className="btn-primary !px-8 !py-3.5">Get a Free Quote <ArrowRight className="w-4 h-4" /></Link>
-                <a href="tel:+18886985556" className="btn-ghost !px-8 !py-3.5"><Phone className="w-4 h-4" /> 1 (888) 698-5556</a>
+                <Link to="/quote" className="btn-primary">Get a Free Quote <ArrowRight className="w-4 h-4" /></Link>
+                <a href="tel:+18886985556" className="btn-ghost"><Phone className="w-4 h-4" /> 1 (888) 698-5556</a>
               </div>
             </div>
           </div>
