@@ -37,9 +37,9 @@ export default function Home() {
             <div className="divider-glow w-24 mx-auto my-6" />
           </Reveal>
           <Reveal delay={360}>
-            <div className="mt-8 flex flex-wrap gap-4 justify-center">
-              <Link to="/quote" className="btn-primary">Request a Quote <ArrowRight className="w-4 h-4" /></Link>
-              <Link to="/carrier-onboarding" className="btn-ghost">Haul For Us <ArrowRight className="w-4 h-4" /></Link>
+            <div className="mt-8 flex flex-col sm:flex-row gap-3 sm:gap-4 max-w-md mx-auto">
+              <Link to="/quote" className="btn-primary flex-1">Request a Quote <ArrowRight className="w-4 h-4" /></Link>
+              <Link to="/carrier-onboarding" className="btn-ghost flex-1">Haul For Us <ArrowRight className="w-4 h-4" /></Link>
             </div>
           </Reveal>
         </div>
@@ -55,9 +55,9 @@ export default function Home() {
               <div className="h-0.5 w-24 bg-gradient-to-r from-orange-400 to-transparent mb-4 mx-auto lg:mx-0" />
               <p className="text-white/80 leading-relaxed mb-4">SFam Logistics LLC is a Washington-based freight brokerage built on over a decade of real road experience. We coordinate truckload, LTL, reefer, flatbed, and dedicated freight across the United States and North America &mdash; with the kind of clarity, fairness, and follow-through that the industry too often forgets.</p>
               <p className="text-white/80 leading-relaxed mb-6">We&apos;re not a faceless broker. We&apos;re drivers who became dispatchers, dispatchers who became brokers &mdash; and now agents and partners who all believe the same thing: <span className="text-orange-400 font-semibold">freight moves on trust.</span></p>
-              <div className="flex flex-wrap gap-3 justify-center lg:justify-start mt-auto">
-                <Link to="/about" className="btn-ghost">Our Story <ArrowRight className="w-4 h-4" /></Link>
-                <Link to="/services" className="btn-ghost">View Services</Link>
+              <div className="flex flex-col sm:flex-row gap-3 mt-auto max-w-md mx-auto lg:mx-0 w-full">
+                <Link to="/about" className="btn-ghost flex-1">Our Story <ArrowRight className="w-4 h-4" /></Link>
+                <Link to="/services" className="btn-ghost flex-1">View Services</Link>
               </div>
             </div>
           </Reveal>
@@ -241,9 +241,9 @@ export default function Home() {
               <h2 className="font-display italic font-black text-3xl sm:text-4xl">Your Freight.<br /><span className="text-orange-400">Our Promise.</span></h2>
               <div className="divider-glow w-24 mx-auto my-5" />
               <p className="text-white/80 max-w-xl mx-auto mb-8">Whether you ship one load a month or one hundred, we&apos;d love to earn your business. Get a no-pressure quote in minutes.</p>
-              <div className="flex flex-wrap gap-3 justify-center">
-                <Link to="/quote" className="btn-primary">Get a Free Quote <ArrowRight className="w-4 h-4" /></Link>
-                <a href="tel:+18886985556" className="btn-ghost"><Phone className="w-4 h-4" /> 1 (888) 698-5556</a>
+              <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+                <Link to="/quote" className="btn-primary flex-1">Get a Free Quote <ArrowRight className="w-4 h-4" /></Link>
+                <a href="tel:+18886985556" className="btn-ghost flex-1"><Phone className="w-4 h-4" /> 1 (888) 698-5556</a>
               </div>
             </div>
           </div>

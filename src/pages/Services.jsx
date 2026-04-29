@@ -99,9 +99,9 @@ export default function Services() {
             <div className="relative">
               <h2 className="font-display italic font-black text-3xl mb-4">Need A <span className="text-orange-400">Custom Solution?</span></h2>
               <p className="text-white/70 mb-8 max-w-xl mx-auto text-lg">Tell us about your freight. We&apos;ll build the right plan and quote it in under 30 minutes.</p>
-              <div className="flex flex-wrap gap-4 justify-center">
-                <a href="tel:+18886985556" className="btn-primary !px-9 !py-4"><Phone className="w-5 h-5" /> Call Dispatch</a>
-                <Link to="/contact" className="btn-ghost !px-9 !py-4">Contact Us</Link>
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 max-w-md mx-auto">
+                <a href="tel:+18886985556" className="btn-primary flex-1"><Phone className="w-5 h-5" /> Call Dispatch</a>
+                <Link to="/contact" className="btn-ghost flex-1">Contact Us</Link>
               </div>
             </div>
           </div>
