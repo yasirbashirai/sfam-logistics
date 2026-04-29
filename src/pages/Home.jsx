@@ -50,7 +50,7 @@ export default function Home() {
         <div className="container-x grid lg:grid-cols-2 gap-10 lg:items-stretch">
           <Reveal className="h-full">
             <div className="text-center lg:text-left flex flex-col h-full">
-              <div className="inline-flex items-center gap-2 pl-3.5 pr-2.5 py-1.5 rounded-full bg-orange-400/10 border border-orange-400/30 text-orange-300 text-xs font-bold uppercase tracking-[0.1em] mb-4">Who We Are</div>
+              <div className="self-center lg:self-start inline-flex items-center gap-2 pl-3.5 pr-2.5 py-1.5 rounded-full bg-orange-400/10 border border-orange-400/30 text-orange-300 text-xs font-bold uppercase tracking-[0.1em] mb-4">Who We Are</div>
               <h2 className="font-display italic font-black text-3xl lg:text-4xl mb-4">A freight broker that <span className="text-orange-400">actually drives.</span></h2>
               <div className="h-0.5 w-24 bg-gradient-to-r from-orange-400 to-transparent mb-4 mx-auto lg:mx-0" />
               <p className="text-white/80 leading-relaxed mb-4">SFam Logistics LLC is a Washington-based freight brokerage built on over a decade of real road experience. We coordinate truckload, LTL, reefer, flatbed, and dedicated freight across the United States and North America &mdash; with the kind of clarity, fairness, and follow-through that the industry too often forgets.</p>
@@ -63,7 +63,7 @@ export default function Home() {
           </Reveal>
           <Reveal delay={200} className="h-full">
             <div className="text-center lg:text-left flex flex-col h-full">
-              <div className="inline-flex items-center gap-2 pl-3.5 pr-2.5 py-1.5 rounded-full bg-orange-400/10 border border-orange-400/30 text-orange-300 text-xs font-bold uppercase tracking-[0.1em] mb-4">Built By Drivers</div>
+              <div className="self-center lg:self-start inline-flex items-center gap-2 pl-3.5 pr-2.5 py-1.5 rounded-full bg-orange-400/10 border border-orange-400/30 text-orange-300 text-xs font-bold uppercase tracking-[0.1em] mb-4">Built By Drivers</div>
               <h2 className="font-display italic font-black text-3xl lg:text-4xl mb-4">Real road experience. <span className="text-orange-400">Honest brokerage.</span></h2>
               <div className="h-0.5 w-24 bg-gradient-to-r from-orange-400 to-transparent mb-4 mx-auto lg:mx-0" />
               <p className="text-white/80 leading-relaxed mb-4">SFam Logistics LLC is a freight brokerage built by drivers. We coordinate FTL, LTL, reefer, flatbed, and dedicated freight across the United States and North America &mdash; with the kind of communication only real road experience teaches.</p>
