@@ -43,8 +43,31 @@ const Page = ({ children }) => (
 export default function App() {
   const location = useLocation()
   const isAdmin = location.pathname.startsWith('/admin')
+  const isHome = location.pathname === '/'
   return (
     <div className="min-h-screen flex flex-col bg-brand-navy text-white">
+      {isHome && (
+        <>
+          <div
+            aria-hidden="true"
+            className="fixed inset-0 z-0 pointer-events-none"
+            style={{
+              backgroundImage: "url('/images/home-background.jpg')",
+              backgroundSize: 'cover',
+              backgroundPosition: 'center center',
+              backgroundRepeat: 'no-repeat'
+            }}
+          />
+          <div
+            aria-hidden="true"
+            className="fixed inset-0 z-0 pointer-events-none"
+            style={{
+              background:
+                'linear-gradient(180deg, rgba(13,27,46,0.55) 0%, rgba(13,27,46,0.6) 50%, rgba(13,27,46,0.7) 100%)'
+            }}
+          />
+        </>
+      )}
       <ScrollToTop />
       <Navbar />
       {/* Marquee sits directly under the header (offset for the fixed nav). Hidden on admin routes. */}
@@ -54,7 +77,7 @@ export default function App() {
           <CreativeMarquee />
         </>
       )}
-      <main className="flex-1">
+      <main className="flex-1 relative z-10">
         <AnimatePresence mode="wait">
           <Routes location={location} key={location.pathname}>
             <Route path="/" element={<Page><Home /></Page>} />

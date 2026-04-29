@@ -183,23 +183,8 @@ h1,h2,h3,h4,h5 { font-family: 'Exo 2', system-ui, sans-serif; letter-spacing: -0
 .pulse-ring { animation: pulse-ring 3s cubic-bezier(0.215, 0.610, 0.355, 1) infinite; }
 
 /* === HOME PAGE FULL-PAGE BACKGROUND === */
-.home-page {
-  position: relative;
-  background-image: url('/images/home-background.jpg');
-  background-size: cover;
-  background-position: center top;
-  background-attachment: fixed;
-  background-repeat: no-repeat;
-}
-.home-page::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, rgba(13,27,46,0.78) 0%, rgba(13,27,46,0.85) 50%, rgba(13,27,46,0.92) 100%);
-  pointer-events: none;
-  z-index: 0;
-}
-.home-page > * { position: relative; z-index: 1; }
+/* Background image + overlay are rendered as fixed siblings in App.jsx
+   so framer-motion transforms on the page wrapper don't break them. */
 .home-page .section,
 .home-page .section-light,
 .home-page .section-white { background-color: transparent; }
