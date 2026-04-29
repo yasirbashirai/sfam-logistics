@@ -182,13 +182,6 @@ h1,h2,h3,h4,h5 { font-family: 'Exo 2', system-ui, sans-serif; letter-spacing: -0
 .spin-slow { animation: spin-slow 20s linear infinite; }
 .pulse-ring { animation: pulse-ring 3s cubic-bezier(0.215, 0.610, 0.355, 1) infinite; }
 
-/* === HOME PAGE FULL-PAGE BACKGROUND === */
-/* Background image + overlay are rendered as fixed siblings in App.jsx
-   so framer-motion transforms on the page wrapper don't break them. */
-.home-page .section,
-.home-page .section-light,
-.home-page .section-white { background-color: transparent; }
-
 /* Number ticker effect */
 .shimmer-text {
   background: linear-gradient(90deg, #f5a623 0%, #ffb84d 25%, #fff 50%, #ffb84d 75%, #f5a623 100%);

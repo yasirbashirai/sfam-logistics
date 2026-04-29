@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { ArrowRight, Truck, Boxes, Snowflake, PackageOpen, Route, Zap, ShieldCheck, Award, Users, TrendingUp, CheckCircle2, Phone } from 'lucide-react'
 import PageMeta from '../components/PageMeta.jsx'
 import { services } from '../data/site.js'
+import IMG from '../data/images.js'
 import Reveal from '../components/Reveal.jsx'
 
 const iconMap = { Truck, Boxes, Snowflake, PackageOpen, Route, Zap }
@@ -11,10 +12,12 @@ export default function Home() {
     <>
       <PageMeta title="Nationwide Freight Brokerage" description="SFam Logistics LLC — FMCSA-authorized freight brokerage in Bothell, WA. FTL, LTL, reefer, flatbed, dedicated, and expedited freight across the United States and North America. MC 1810116 • USDOT 4555943. Built by drivers, trusted by shippers." />
 
-      <div className="home-page">
-
       {/* ============ 1. HERO — CENTERED TAGLINE + DUAL BUTTONS ============ */}
       <section className="relative min-h-[110vh] flex items-center pt-20 pb-16 overflow-hidden">
+        <div className="absolute inset-0">
+          <img src={IMG.highwayMountains} alt="SFam Logistics — freight on the open road" className="w-full h-full object-cover" />
+          <div className="absolute inset-0 bg-gradient-to-b from-brand-navy/70 via-brand-navy/55 to-brand-navy/85" />
+        </div>
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-orange-400 via-orange-500 to-transparent" />
 
         <div className="container-x relative z-10 text-center">
@@ -235,8 +238,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      </div>
     </>
   )
 }
