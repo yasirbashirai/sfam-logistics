@@ -12,7 +12,7 @@ export default function Quote() {
   const [step, setStep] = useState(0)
   const [done, setDone] = useState(false)
   const [form, setForm] = useState({
-    originCity: '', originZip: '', destCity: '', destZip: '',
+    originZip: '', destZip: '',
     pickupDate: '', deliveryDate: '',
     freightType: 'Full Truckload (FTL)', equipment: 'Dry Van',
     weight: '', pallets: '', length: '', width: '', height: '',
@@ -103,9 +103,7 @@ export default function Quote() {
                 <div className="space-y-5">
                   <h3 className="font-display italic font-black text-xl flex items-center gap-3"><MapPin className="w-6 h-6 text-orange-400" /> Lane Details</h3>
                   <div className="grid sm:grid-cols-2 gap-4">
-                    <Field label="Origin City"><input className="input" value={form.originCity} onChange={e => set('originCity', e.target.value)} required /></Field>
                     <Field label="Origin ZIP"><input className="input" value={form.originZip} onChange={e => set('originZip', e.target.value)} required /></Field>
-                    <Field label="Destination City"><input className="input" value={form.destCity} onChange={e => set('destCity', e.target.value)} required /></Field>
                     <Field label="Destination ZIP"><input className="input" value={form.destZip} onChange={e => set('destZip', e.target.value)} required /></Field>
                     <Field label="Pickup Date"><input type="date" className="input" value={form.pickupDate} onChange={e => set('pickupDate', e.target.value)} required /></Field>
                     <Field label="Delivery Date (optional)"><input type="date" className="input" value={form.deliveryDate} onChange={e => set('deliveryDate', e.target.value)} /></Field>
@@ -156,8 +154,8 @@ export default function Quote() {
                 <div className="space-y-5">
                   <h3 className="font-display italic font-black text-xl">Review &amp; Submit</h3>
                   <div className="grid sm:grid-cols-2 gap-4 text-sm">
-                    <Review label="Origin" value={`${form.originCity}, ${form.originZip}`} />
-                    <Review label="Destination" value={`${form.destCity}, ${form.destZip}`} />
+                    <Review label="Origin" value={estimate.originName ? `${estimate.originName} ${form.originZip}` : form.originZip} />
+                    <Review label="Destination" value={estimate.destName ? `${estimate.destName} ${form.destZip}` : form.destZip} />
                     <Review label="Pickup" value={form.pickupDate} />
                     <Review label="Freight" value={`${form.freightType} • ${form.equipment}`} />
                     <Review label="Weight" value={`${form.weight} lbs`} />

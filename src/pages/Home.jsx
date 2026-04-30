@@ -37,9 +37,9 @@ export default function Home() {
             <div className="divider-glow w-24 mx-auto my-6" />
           </Reveal>
           <Reveal delay={360}>
-            <div className="mt-8 flex flex-col sm:flex-row gap-3 sm:gap-4 max-w-md mx-auto">
-              <Link to="/quote" className="btn-primary flex-1">Request a Quote <ArrowRight className="w-4 h-4" /></Link>
-              <Link to="/carrier-onboarding" className="btn-ghost flex-1">Haul For Us <ArrowRight className="w-4 h-4" /></Link>
+            <div className="mt-8 flex flex-col sm:flex-row gap-3 sm:gap-4 items-center justify-center">
+              <Link to="/quote" className="btn-primary whitespace-nowrap">Request a Quote <ArrowRight className="w-4 h-4" /></Link>
+              <Link to="/carrier-onboarding" className="btn-ghost whitespace-nowrap">Haul For Us <ArrowRight className="w-4 h-4" /></Link>
             </div>
           </Reveal>
         </div>
