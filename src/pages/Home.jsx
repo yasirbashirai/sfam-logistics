@@ -110,7 +110,7 @@ export default function Home() {
       {/* ============ 4. WHY SHIPPERS CHOOSE US — text/boxes left, image right ============ */}
       <section className="section-white">
         <div className="container-x">
-          <div className="grid lg:grid-cols-2 gap-10 items-center">
+          <div className="grid lg:grid-cols-2 gap-10 items-center lg:items-stretch">
             <div>
               <Reveal>
                 <div className="mb-8">
@@ -140,8 +140,8 @@ export default function Home() {
                 ))}
               </div>
             </div>
-            <Reveal delay={200}>
-              <div className="relative rounded-2xl overflow-hidden border border-orange-400/30 shadow-2xl shadow-black/40">
+            <Reveal delay={200} className="h-full">
+              <div className="relative rounded-2xl overflow-hidden border border-orange-400/30 shadow-2xl shadow-black/40 h-full min-h-[420px]">
                 <img src="/images/why-shippers-choose-us.jpeg" alt="Why shippers choose SFam Logistics" className="w-full h-full object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/15 to-transparent pointer-events-none" />
                 <div className="absolute bottom-5 left-5 right-5 sm:bottom-6 sm:left-6 sm:right-6">
