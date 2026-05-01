@@ -2,14 +2,39 @@ import { Link } from 'react-router-dom'
 import { ArrowRight, Truck, Boxes, Snowflake, PackageOpen, Route, Zap, ShieldCheck, Award, Users, TrendingUp, CheckCircle2, Phone } from 'lucide-react'
 import PageMeta from '../components/PageMeta.jsx'
 import { services } from '../data/site.js'
+import { organizationLd, websiteLd, faqLd, breadcrumbLd, SITE_URL } from '../data/seo.js'
 import Reveal from '../components/Reveal.jsx'
 
 const iconMap = { Truck, Boxes, Snowflake, PackageOpen, Route, Zap }
 
+const homeFaqs = [
+  { q: 'What is SFam Logistics?', a: 'SFam Logistics LLC is an FMCSA-authorized freight brokerage headquartered in Bothell, Washington. We coordinate Full Truckload (FTL), Less-than-Truckload (LTL), refrigerated (reefer), flatbed, dedicated, and expedited freight across the United States, Canada, and Mexico.' },
+  { q: 'How fast will I get a freight quote?', a: 'During business hours (Monday–Friday, 8AM–5PM PST) most quotes are returned within 30 minutes. Quotes submitted after hours are returned first thing the next business day. For urgent loads call 1 (888) 698-5556.' },
+  { q: 'What is your MC number and USDOT number?', a: 'Our FMCSA Motor Carrier number is MC 1810116 and our USDOT number is 4555943. We are a fully licensed property broker with BMC-84 bond coverage.' },
+  { q: 'Do you offer same-day pay for carriers?', a: 'Yes — quick-pay is available on every load through our factoring partner OTR Solutions. Standard pay is Net-30 from receipt of POD and invoice; same-day and 48-hour funding are optional.' },
+  { q: 'What areas do you cover?', a: 'We serve shippers and carriers nationwide across the U.S. with deep capacity in the Pacific Northwest, California, Texas Triangle, Midwest, Southeast, and Northeast corridors. We also handle cross-border lanes into Canada and Mexico.' },
+  { q: 'Where are you located?', a: 'Our headquarters is at 19125 North Creek Parkway, Suite 120, Bothell, WA 98011. We also operate from 10220 3rd Avenue SE, Everett, WA 98208.' }
+]
+
+const homeJsonLd = [
+  organizationLd,
+  websiteLd,
+  faqLd(homeFaqs),
+  breadcrumbLd([{ name: 'Home', path: '/' }])
+]
+
 export default function Home() {
   return (
     <>
-      <PageMeta title="Nationwide Freight Brokerage" description="SFam Logistics LLC — FMCSA-authorized freight brokerage in Bothell, WA. FTL, LTL, reefer, flatbed, dedicated, and expedited freight across the United States and North America. MC 1810116 • USDOT 4555943. Built by drivers, trusted by shippers." />
+      <PageMeta
+        title="Nationwide Freight Brokerage — FTL, LTL, Reefer, Flatbed"
+        description="SFam Logistics LLC is an FMCSA-authorized freight brokerage in Bothell, WA. We coordinate FTL, LTL, reefer, flatbed, dedicated, and expedited freight across the U.S. and North America. MC 1810116 · USDOT 4555943. Built by drivers, trusted by shippers."
+        keywords="freight broker, freight brokerage, nationwide freight broker, freight broker near me, truckload broker, FTL broker, LTL broker, reefer broker, flatbed broker, dedicated freight, expedited freight, Bothell WA freight broker, Washington freight broker, FMCSA broker, MC 1810116, USDOT 4555943"
+        path="/"
+        image="/images/hero-home.jpg"
+        type="website"
+        jsonLd={homeJsonLd}
+      />
 
       {/* ============ 1. HERO — CENTERED TAGLINE + DUAL BUTTONS ============ */}
       <section className="relative min-h-[78vh] lg:min-h-[110vh] flex items-center pt-16 sm:pt-20 pb-12 sm:pb-16 overflow-hidden">

@@ -7,6 +7,21 @@ import Reveal from '../components/Reveal.jsx'
 import { useSubmissions } from '../context/SubmissionsContext.jsx'
 import { company } from '../data/site.js'
 import IMG from '../data/images.js'
+import { breadcrumbLd } from '../data/seo.js'
+
+const contactJsonLd = [
+  breadcrumbLd([{ name: 'Home', path: '/' }, { name: 'Contact', path: '/contact' }]),
+  {
+    '@context': 'https://schema.org',
+    '@type': 'ContactPage',
+    url: 'https://sfamlogistics.com/contact',
+    name: 'Contact SFam Logistics LLC',
+    description: 'Reach SFam Logistics by phone (1-888-698-5556), email (info@sfamlogistics.com), or our contact form. Offices in Bothell and Everett, Washington.',
+    primaryImageOfPage: 'https://sfamlogistics.com/images/sfam-logo.jpg',
+    isPartOf: { '@id': 'https://sfamlogistics.com/#website' },
+    about: { '@id': 'https://sfamlogistics.com/#organization' }
+  }
+]
 
 export default function Contact() {
   const { add } = useSubmissions()
@@ -31,7 +46,13 @@ export default function Contact() {
 
   return (
     <>
-      <PageMeta title="Contact Us" description="Contact SFam Logistics LLC — toll-free 1 (888) 698-5556, email info@sfamlogistics.com. 19125 North Creek Parkway Suite 120, Bothell, WA 98011. Mon-Fri 8AM-5PM PST." />
+      <PageMeta
+        title="Contact SFam Logistics — 1 (888) 698-5556 · Bothell, WA"
+        description="Contact SFam Logistics LLC — toll-free 1 (888) 698-5556, info@sfamlogistics.com. Headquartered at 19125 North Creek Parkway Suite 120, Bothell, WA 98011. Office hours Mon-Fri 8AM-5PM PST. 24/7 dispatch for active loads."
+        keywords="contact SFam Logistics, freight broker contact, freight broker phone number, Bothell freight broker contact, info@sfamlogistics.com, 1-888-698-5556, freight broker email"
+        path="/contact"
+        jsonLd={contactJsonLd}
+      />
       <PageHero eyebrow="Contact Us" title={<>Let&apos;s <span className="text-orange-400">Talk Freight</span></>} subtitle="Phone, email, or message form — we answer fast." image={IMG.dispatchDesk} />
 
       {/* ===== 1. CONTACT INFO + FORM ===== */}

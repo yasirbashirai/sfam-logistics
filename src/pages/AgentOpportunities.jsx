@@ -4,6 +4,30 @@ import PageMeta from '../components/PageMeta.jsx'
 import { PageHero, Orbs } from '../components/Section.jsx'
 import Reveal from '../components/Reveal.jsx'
 import { useSubmissions, uploadFiles } from '../context/SubmissionsContext.jsx'
+import { breadcrumbLd } from '../data/seo.js'
+
+const agentJsonLd = [
+  breadcrumbLd([{ name: 'Home', path: '/' }, { name: 'Agent Opportunities', path: '/agent-opportunities' }]),
+  {
+    '@context': 'https://schema.org',
+    '@type': 'JobPosting',
+    title: 'Independent Freight Agent — Up to 75% Commission Splits',
+    description: 'Join SFam Logistics as an independent freight agent. Up to 75% commission splits, weekly pay, full back-office support, AscendTMS access, and complete autonomy over your book of business.',
+    datePosted: '2026-01-01',
+    validThrough: '2027-12-31',
+    employmentType: 'CONTRACTOR',
+    hiringOrganization: { '@id': 'https://sfamlogistics.com/#organization' },
+    jobLocation: {
+      '@type': 'Place',
+      address: { '@type': 'PostalAddress', addressLocality: 'Bothell', addressRegion: 'WA', postalCode: '98011', addressCountry: 'US' }
+    },
+    applicantLocationRequirements: { '@type': 'Country', name: 'United States' },
+    jobLocationType: 'TELECOMMUTE',
+    industry: 'Transportation and Logistics',
+    occupationalCategory: '13-1023 Purchasing Agents, Except Wholesale, Retail, and Farm Products',
+    url: 'https://sfamlogistics.com/agent-opportunities'
+  }
+]
 
 export default function AgentOpportunities() {
   const { add } = useSubmissions()
@@ -65,7 +89,13 @@ export default function AgentOpportunities() {
 
   return (
     <>
-      <PageMeta title="Independent Freight Agent Opportunities" description="Join SFam Logistics as an independent freight agent. Up to 75% commission splits, weekly pay, AscendTMS access, full back-office support." />
+      <PageMeta
+        title="Independent Freight Agent Opportunities — Up To 75% Commission"
+        description="Join SFam Logistics as an independent freight agent. Up to 75% commission splits, weekly pay, AscendTMS access, full back-office support, and complete autonomy over your book of business."
+        keywords="independent freight agent, freight agent jobs, freight agent commission, 1099 freight agent, work from home freight agent, freight agent opportunities, freight broker agent, freight agent program, AscendTMS, freight agent recruitment"
+        path="/agent-opportunities"
+        jsonLd={agentJsonLd}
+      />
       <PageHero eyebrow="Join Our Team" title={<>Independent Freight <span className="text-orange-400">Agent Opportunities</span></>} subtitle="Own your book. Set your hours. Get the back-office support and tech you need to scale." />
 
       {/* ===== 1. COMMISSION HIGHLIGHT ===== */}

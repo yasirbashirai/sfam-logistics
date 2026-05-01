@@ -3,11 +3,31 @@ import { Target, Eye, Heart, Award, ArrowRight, CheckCircle2, ShieldCheck, Brief
 import PageMeta from '../components/PageMeta.jsx'
 import { PageHero } from '../components/Section.jsx'
 import Reveal from '../components/Reveal.jsx'
+import { breadcrumbLd, organizationLd } from '../data/seo.js'
+
+const aboutJsonLd = [
+  breadcrumbLd([{ name: 'Home', path: '/' }, { name: 'About', path: '/about' }]),
+  {
+    '@context': 'https://schema.org',
+    '@type': 'AboutPage',
+    name: 'About SFam Logistics LLC',
+    url: 'https://sfamlogistics.com/about',
+    primaryImageOfPage: 'https://sfamlogistics.com/images/sfam-logo.jpg',
+    about: { '@id': 'https://sfamlogistics.com/#organization' }
+  }
+]
 
 export default function About() {
   return (
     <>
-      <PageMeta title="About Us — Our Story, Mission & Values" description="Learn about SFam Logistics LLC — founded on over a decade of Class A CDL experience. Our mission: deliver freight solutions with precision, accountability, and respect. FMCSA authorized, MC 1810116, USDOT 4555943." />
+      <PageMeta
+        title="About Us — Driver-Owned Freight Brokerage Since 2014"
+        description="Learn about SFam Logistics LLC — a driver-owned freight brokerage with over a decade of Class A CDL experience behind the wheel. Our mission: deliver freight solutions with precision, accountability, and respect. FMCSA authorized, MC 1810116, USDOT 4555943."
+        keywords="about SFam Logistics, freight brokerage company, driver-owned freight broker, Bothell freight broker, Washington freight company, FMCSA authorized broker, freight brokerage history"
+        path="/about"
+        type="website"
+        jsonLd={aboutJsonLd}
+      />
       <PageHero eyebrow="About Us" title={<>Built On Experience. <span className="text-orange-400">Designed For Excellence.</span></>} subtitle="SFAM Logistics LLC was founded with a clear purpose: to elevate the standard of freight brokerage." />
 
       {/* ===== 1. OUR STORY ===== */}

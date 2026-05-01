@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { LogIn, Truck } from 'lucide-react'
 import { Orbs } from '../components/Section.jsx'
+import PageMeta from '../components/PageMeta.jsx'
 
 export default function Login() {
   const nav = useNavigate()
@@ -19,6 +20,7 @@ export default function Login() {
   }
   return (
     <section className="min-h-screen flex items-center pt-32 pb-20 relative overflow-hidden">
+      <PageMeta title="Admin Sign In" description="Internal admin sign-in for SFam Logistics LLC staff." noindex />
       <Orbs />
       <div className="container-x relative max-w-md mx-auto">
         <div className="text-center mb-8">

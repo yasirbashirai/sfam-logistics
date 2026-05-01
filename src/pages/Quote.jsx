@@ -4,6 +4,26 @@ import PageMeta from '../components/PageMeta.jsx'
 import { PageHero, Orbs } from '../components/Section.jsx'
 import { useSubmissions } from '../context/SubmissionsContext.jsx'
 import { haversineMiles, lookupZip } from '../data/zips.js'
+import { breadcrumbLd } from '../data/seo.js'
+
+const quoteJsonLd = [
+  breadcrumbLd([{ name: 'Home', path: '/' }, { name: 'Get a Quote', path: '/quote' }]),
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    '@id': 'https://sfamlogistics.com/quote',
+    name: 'Get a Free Freight Quote',
+    description: 'Free 4-step freight quote request form with live rate estimator. 30-minute response during business hours.',
+    url: 'https://sfamlogistics.com/quote',
+    isPartOf: { '@id': 'https://sfamlogistics.com/#website' },
+    primaryImageOfPage: 'https://sfamlogistics.com/images/sfam-logo.jpg',
+    potentialAction: {
+      '@type': 'RequestQuoteAction',
+      target: 'https://sfamlogistics.com/quote',
+      object: { '@type': 'Service', name: 'Freight Brokerage Quote' }
+    }
+  }
+]
 
 const STEPS = ['Lane', 'Freight', 'Contact', 'Review']
 
@@ -76,7 +96,14 @@ export default function Quote() {
 
   return (
     <>
-      <PageMeta title="Get a Free Freight Quote" description="Request a free freight quote from SFam Logistics. FTL, LTL, reefer, flatbed, and expedited shipping. 30-minute response during business hours. Live rate estimator included." />
+      <PageMeta
+        title="Get a Free Freight Quote — 30-Minute Response"
+        description="Request a free freight quote from SFam Logistics. FTL, LTL, reefer, flatbed, and expedited shipping rates. 30-minute response during business hours and a live rate estimator built into the form."
+        keywords="freight quote, free freight quote, freight rates, truckload quote, LTL quote, reefer quote, flatbed quote, expedited freight quote, instant freight quote, freight rate calculator, freight broker quote"
+        path="/quote"
+        type="website"
+        jsonLd={quoteJsonLd}
+      />
       <PageHero eyebrow="Request a Quote" title={<>Get Pricing in <span className="gradient-text">Minutes</span></>} subtitle="A 4-step quote form with live rate estimator. Most quotes returned within 30 minutes during business hours. After hours? We'll respond first thing the next business day." />
 
       <section className="section pt-0">

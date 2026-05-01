@@ -2,6 +2,19 @@ import { useState } from 'react'
 import { Search, Truck, MapPin, CheckCircle2, Clock, Package, Navigation } from 'lucide-react'
 import PageMeta from '../components/PageMeta.jsx'
 import { PageHero, Orbs } from '../components/Section.jsx'
+import { breadcrumbLd } from '../data/seo.js'
+
+const trackJsonLd = [
+  breadcrumbLd([{ name: 'Home', path: '/' }, { name: 'Track Shipment', path: '/track' }]),
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: 'Track Your SFam Logistics Shipment',
+    url: 'https://sfamlogistics.com/track',
+    description: 'Real-time freight tracking for SFam Logistics shipments. Enter your load reference number, BOL, or PO to see live status updates from pickup through delivery.',
+    isPartOf: { '@id': 'https://sfamlogistics.com/#website' }
+  }
+]
 
 const demoLoads = {
   'SFAM-2026-0001': {
@@ -61,7 +74,13 @@ export default function Track() {
 
   return (
     <>
-      <PageMeta title="Track Shipment" description="Track your freight shipment in real-time with SFam Logistics. Enter your load reference, BOL, or PO number for live status updates from pickup to delivery. Powered by AscendTMS." />
+      <PageMeta
+        title="Track Your Shipment — Real-Time Freight Tracking"
+        description="Track your SFam Logistics freight shipment in real time. Enter your load reference number, BOL, or PO for live status updates from pickup through delivery. Powered by AscendTMS."
+        keywords="freight tracking, shipment tracking, BOL tracking, PO tracking, load tracking, real time freight tracking, SFam Logistics tracking, AscendTMS tracking, truck tracking"
+        path="/track"
+        jsonLd={trackJsonLd}
+      />
       <PageHero eyebrow="Track Shipment" title={<>Track Your <span className="text-orange-400">Shipment</span></>} subtitle="Real-time visibility from pickup to POD powered by AscendTMS. Enter your SFam tracking number below." />
 
       <section className="section pt-0">

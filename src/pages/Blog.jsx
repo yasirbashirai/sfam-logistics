@@ -6,6 +6,30 @@ import { PageHero, Orbs } from '../components/Section.jsx'
 import Reveal from '../components/Reveal.jsx'
 import { blogPosts } from '../data/site.js'
 import IMG from '../data/images.js'
+import { breadcrumbLd, SITE_URL } from '../data/seo.js'
+
+const blogJsonLd = [
+  breadcrumbLd([{ name: 'Home', path: '/' }, { name: 'Blog', path: '/blog' }]),
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Blog',
+    '@id': SITE_URL + '/blog#blog',
+    url: SITE_URL + '/blog',
+    name: 'SFam Logistics Blog — Freight Industry Insights',
+    description: 'Practical guides for shippers, carriers, and freight agents from SFam Logistics LLC.',
+    publisher: { '@id': SITE_URL + '/#organization' },
+    inLanguage: 'en-US',
+    blogPost: blogPosts.map(p => ({
+      '@type': 'BlogPosting',
+      headline: p.title,
+      description: p.excerpt,
+      datePublished: p.date,
+      author: { '@id': SITE_URL + '/#organization' },
+      url: SITE_URL + '/blog/' + p.slug,
+      mainEntityOfPage: SITE_URL + '/blog/' + p.slug
+    }))
+  }
+]
 
 const postImages = {
   'how-to-choose-a-freight-broker': IMG.blogShipping,
@@ -32,7 +56,13 @@ export default function Blog() {
 
   return (
     <>
-      <PageMeta title="Blog & Freight Industry Insights" description="Freight industry insights from SFam Logistics. Guides for shippers, carriers, and freight agents — covering FTL vs LTL, carrier vetting, freight broker selection, and agent opportunities." />
+      <PageMeta
+        title="Freight Industry Insights — SFam Logistics Blog"
+        description="Practical freight industry guides from SFam Logistics. FTL vs LTL, how to choose a freight broker, carrier onboarding checklists, freight agent career paths, and more — written by people who have actually moved the load."
+        keywords="freight blog, freight industry insights, FTL vs LTL, how to choose a freight broker, carrier onboarding, freight agent career, freight broker tips, trucking blog, logistics blog"
+        path="/blog"
+        jsonLd={blogJsonLd}
+      />
       <PageHero eyebrow="Blog & Resources" title={<>Insights From <span className="text-orange-400">The Road</span></>} subtitle="Practical guides for shippers, carriers, and freight agents — written by people who've actually moved the load." image={IMG.cityLights} />
 
       {/* ===== 1. FEATURED ===== */}

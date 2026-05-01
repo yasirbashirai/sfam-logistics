@@ -5,6 +5,30 @@ import { PageHero, Orbs } from '../components/Section.jsx'
 import Reveal from '../components/Reveal.jsx'
 import { useSubmissions, uploadFiles } from '../context/SubmissionsContext.jsx'
 import IMG from '../data/images.js'
+import { breadcrumbLd } from '../data/seo.js'
+
+const carrierJsonLd = [
+  breadcrumbLd([{ name: 'Home', path: '/' }, { name: 'Carrier Onboarding', path: '/carrier-onboarding' }]),
+  {
+    '@context': 'https://schema.org',
+    '@type': 'JobPosting',
+    title: 'Owner-Operator and Trucking Company Carriers — Hauling for SFam Logistics',
+    description: 'SFam Logistics is onboarding owner-operators, fleet owners, and trucking companies. Same-day pay options, fair market rates, 24/7 dispatch, dry van, reefer, flatbed, and step-deck loads available nationwide.',
+    datePosted: '2026-01-01',
+    validThrough: '2027-12-31',
+    employmentType: 'CONTRACTOR',
+    hiringOrganization: { '@id': 'https://sfamlogistics.com/#organization' },
+    jobLocation: {
+      '@type': 'Place',
+      address: { '@type': 'PostalAddress', addressLocality: 'Bothell', addressRegion: 'WA', postalCode: '98011', addressCountry: 'US' }
+    },
+    applicantLocationRequirements: { '@type': 'Country', name: 'United States' },
+    jobLocationType: 'TELECOMMUTE',
+    industry: 'Transportation and Logistics',
+    occupationalCategory: '53-3032 Heavy and Tractor-Trailer Truck Drivers',
+    url: 'https://sfamlogistics.com/carrier-onboarding'
+  }
+]
 
 export default function CarrierOnboarding() {
   const { add } = useSubmissions()
@@ -69,7 +93,14 @@ export default function CarrierOnboarding() {
 
   return (
     <>
-      <PageMeta title="Carrier Onboarding — Haul for SFam Logistics" description="Join SFam Logistics carrier network. Same-day pay options through OTR Solutions, fair market rates, 24/7 dispatch, and driver respect. Apply and get approved in 24 hours." />
+      <PageMeta
+        title="Carrier Onboarding — Haul For SFam Logistics, Same-Day Pay"
+        description="Join the SFam Logistics carrier network. Same-day pay through OTR Solutions, fair market rates, 24/7 dispatch, and real driver respect. Owner-operators and trucking companies welcome. Approved in 24 hours."
+        keywords="carrier onboarding, owner operator loads, trucking company contracts, same-day pay carrier, quick pay trucking, OTR Solutions factoring, freight broker for carriers, MC carrier setup, dry van loads, reefer loads, flatbed loads, OTR loads, drive for SFam"
+        path="/carrier-onboarding"
+        image="/images/white-volvo-sunset.jpg"
+        jsonLd={carrierJsonLd}
+      />
       <PageHero eyebrow="Carrier Onboarding" title={<>Haul For <span className="text-orange-400">SFam Logistics</span></>} subtitle="Fast pay. Fair rates. Real respect. Join our vetted carrier network in 24 hours." image={IMG.heroFleet} />
 
       {/* ===== 1. WHY HAUL FOR SFAM ===== */}

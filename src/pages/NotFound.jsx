@@ -1,9 +1,11 @@
 import { Link } from 'react-router-dom'
 import { Orbs } from '../components/Section.jsx'
+import PageMeta from '../components/PageMeta.jsx'
 
 export default function NotFound() {
   return (
     <section className="min-h-[80vh] flex items-center pt-32 pb-20 relative overflow-hidden">
+      <PageMeta title="Page Not Found" description="The page you are looking for could not be found. Return to the SFam Logistics home page." noindex />
       <Orbs />
       <div className="container-x relative text-center">
         <div className="text-9xl font-display font-bold gradient-text">404</div>

@@ -5,13 +5,26 @@ import { PageHero, Orbs } from '../components/Section.jsx'
 import Reveal from '../components/Reveal.jsx'
 import { services } from '../data/site.js'
 import IMG from '../data/images.js'
+import { breadcrumbLd, serviceLd } from '../data/seo.js'
 
 const iconMap = { Truck, Boxes, Snowflake, PackageOpen, Route, Zap }
+
+const servicesJsonLd = [
+  breadcrumbLd([{ name: 'Home', path: '/' }, { name: 'Services', path: '/services' }]),
+  ...services.map(s => serviceLd({ name: s.name, description: s.long || s.short, slug: s.slug }))
+]
 
 export default function Services() {
   return (
     <>
-      <PageMeta title="Logistics Services — FTL, LTL, Reefer, Flatbed, Dedicated" description="SFam Logistics offers Full Truckload, LTL, Refrigerated, Flatbed, Dedicated Freight, and Expedited shipping services across the United States. Vetted carriers, 24/7 dispatch, live tracking." />
+      <PageMeta
+        title="Freight Services — FTL, LTL, Reefer, Flatbed, Dedicated, Expedited"
+        description="SFam Logistics offers Full Truckload (FTL), LTL, refrigerated reefer, flatbed, dedicated, and expedited freight services across the United States and North America. Vetted carriers, 24/7 dispatch, live tracking, same-day pay options."
+        keywords="freight services, FTL freight, LTL freight, reefer freight, refrigerated trucking, flatbed freight, dedicated freight, expedited freight, freight broker services, truckload services, freight shipping company"
+        path="/services"
+        image="/images/highway-mountains.jpg"
+        jsonLd={servicesJsonLd}
+      />
       <PageHero eyebrow="Logistics Services" title={<>Freight Solutions <span className="text-orange-400">For Every Lane</span></>} subtitle="From a single LTL pallet to dedicated weekly truckload capacity, we coordinate it all — backed by vetted carriers and 24/7 communication." image={IMG.heroHighway} />
 
       {/* ===== 1. SERVICES GRID — icon + name + description, no images ===== */}

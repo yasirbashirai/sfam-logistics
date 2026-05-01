@@ -5,7 +5,11 @@ import { FileText } from 'lucide-react'
 export default function Terms() {
   return (
     <>
-      <PageMeta title="Terms" description="SFam Logistics LLC terms of use and terms of service." />
+      <PageMeta
+        title="Terms of Service"
+        description="SFam Logistics LLC terms of use and terms of service. Read the legal terms governing the use of sfamlogistics.com and our freight brokerage services."
+        path="/terms"
+      />
       <PageHero eyebrow="Legal" title="Terms" subtitle="Terms of use and terms of service for SFam Logistics LLC." />
       <section className="section pt-0">
         <div className="container-x max-w-3xl space-y-6 text-white/70 leading-relaxed">

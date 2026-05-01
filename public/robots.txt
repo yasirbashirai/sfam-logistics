@@ -1,3 +1,6 @@
+# SFam Logistics — robots.txt
+# https://sfamlogistics.com
+
 User-agent: *
 Allow: /
 Disallow: /admin
@@ -5,5 +8,34 @@ Disallow: /admin/
 Disallow: /login
 Disallow: /api/
 Disallow: /uploads/
+
+# Allow well-known crawlers explicitly
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+# Block known scrapers / aggressive bots
+User-agent: AhrefsBot
+Crawl-delay: 10
+
+User-agent: SemrushBot
+Crawl-delay: 10
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: PetalBot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
 
 Sitemap: https://sfamlogistics.com/sitemap.xml

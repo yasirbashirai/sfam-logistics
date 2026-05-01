@@ -1,0 +1,17 @@
+{
+  "name": "SFam Logistics LLC",
+  "short_name": "SFam Logistics",
+  "description": "FMCSA-authorized nationwide freight brokerage from Bothell, WA.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0d1b2e",
+  "theme_color": "#0d1b2e",
+  "lang": "en-US",
+  "categories": ["business", "logistics", "productivity"],
+  "icons": [
+    { "src": "/images/sfam-logo.jpg", "sizes": "192x192", "type": "image/jpeg", "purpose": "any" },
+    { "src": "/images/sfam-logo.jpg", "sizes": "512x512", "type": "image/jpeg", "purpose": "any" }
+  ]
+}

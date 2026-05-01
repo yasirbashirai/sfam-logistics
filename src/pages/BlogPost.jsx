@@ -3,15 +3,50 @@ import { ArrowLeft, Clock } from 'lucide-react'
 import PageMeta from '../components/PageMeta.jsx'
 import { Orbs } from '../components/Section.jsx'
 import { blogPosts } from '../data/site.js'
+import { breadcrumbLd, SITE_URL } from '../data/seo.js'
 
 export default function BlogPost() {
   const { slug } = useParams()
   const post = blogPosts.find(p => p.slug === slug)
   if (!post) return <Navigate to="/blog" replace />
 
+  const postUrl = SITE_URL + '/blog/' + post.slug
+  const postJsonLd = [
+    breadcrumbLd([
+      { name: 'Home', path: '/' },
+      { name: 'Blog', path: '/blog' },
+      { name: post.title, path: '/blog/' + post.slug }
+    ]),
+    {
+      '@context': 'https://schema.org',
+      '@type': 'BlogPosting',
+      '@id': postUrl + '#article',
+      headline: post.title,
+      description: post.excerpt,
+      url: postUrl,
+      mainEntityOfPage: postUrl,
+      datePublished: post.date,
+      dateModified: post.date,
+      articleSection: post.tag,
+      timeRequired: 'PT' + post.readMin + 'M',
+      inLanguage: 'en-US',
+      author: { '@id': SITE_URL + '/#organization' },
+      publisher: { '@id': SITE_URL + '/#organization' },
+      image: SITE_URL + '/images/sfam-logo.jpg',
+      keywords: ['freight broker', 'logistics', 'trucking', post.tag.toLowerCase()].join(', ')
+    }
+  ]
+
   return (
     <article className="relative pt-32 pb-20 overflow-hidden">
-      <PageMeta title={post.title} description={post.excerpt} />
+      <PageMeta
+        title={post.title}
+        description={post.excerpt}
+        keywords={['freight broker', 'logistics', 'trucking', post.tag.toLowerCase(), 'freight ' + post.tag.toLowerCase()].join(', ')}
+        path={'/blog/' + post.slug}
+        type="article"
+        jsonLd={postJsonLd}
+      />
       <Orbs />
       <div className="container-x relative max-w-3xl">
         <Link to="/blog" className="inline-flex items-center gap-2 text-sm text-white/60 hover:text-orange-300 mb-8"><ArrowLeft className="w-4 h-4" /> Back to Blog</Link>

@@ -4,7 +4,11 @@ import PageMeta from '../components/PageMeta.jsx'
 export default function Privacy() {
   return (
     <>
-      <PageMeta title="Privacy Policy" description="SFam Logistics LLC privacy policy — how we collect, use, and protect your personal information. FMCSA-authorized freight brokerage." />
+      <PageMeta
+        title="Privacy Policy"
+        description="SFam Logistics LLC privacy policy — how we collect, use, store, and protect your personal information. FMCSA-authorized freight brokerage operating under MC 1810116 and USDOT 4555943."
+        path="/privacy"
+      />
       <PageHero eyebrow="Legal" title="Privacy Policy" subtitle="How SFam Logistics LLC collects, uses, and protects your information." />
       <section className="section pt-0">
         <div className="container-x max-w-3xl space-y-6 text-white/70 leading-relaxed">
