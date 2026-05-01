@@ -1,6 +1,7 @@
 // SFam Logistics — Backend API
 // Express + SQLite + multer (file uploads) + nodemailer (optional alerts)
 
+import 'dotenv/config'
 import express from 'express'
 import cors from 'cors'
 import multer from 'multer'
@@ -135,11 +136,16 @@ if (loadCount === 0) {
 // === EMAIL (optional) ===
 let transporter = null
 if (process.env.SMTP_HOST) {
+  const smtpPort = parseInt(process.env.SMTP_PORT || '587')
   transporter = nodemailer.createTransport({
     host: process.env.SMTP_HOST,
-    port: parseInt(process.env.SMTP_PORT || '587'),
-    secure: false,
+    port: smtpPort,
+    secure: smtpPort === 465,
     auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS }
+  })
+  transporter.verify((err) => {
+    if (err) console.error('SMTP verify failed:', err.message)
+    else console.log('✅ SMTP ready — alerts will route to', process.env.ALERT_TO || 'info@sfamlogistics.com')
   })
 }
 const sendAlert = async (subject, body) => {
@@ -403,6 +409,22 @@ app.post('/api/live-agent-request', async (req, res) => {
   await sendAlert('Live Agent Request — Website Visitor', alertBody)
   res.json({ ok: true })
 })
+
+// === SERVE PRODUCTION FRONTEND ===
+// In production we ship the built React app and the API from the same Node process.
+// Looks first for `../public_html` (deploy layout), then falls back to `../dist` (dev build).
+const staticCandidates = [
+  path.join(__dirname, '..', 'public_html'),
+  path.join(__dirname, '..', 'dist')
+]
+const STATIC_DIR = staticCandidates.find(p => fs.existsSync(p))
+if (STATIC_DIR) {
+  console.log(`📁 Serving frontend from ${STATIC_DIR}`)
+  app.use(express.static(STATIC_DIR))
+  app.get(/^\/(?!api|uploads).*/, (req, res) => {
+    res.sendFile(path.join(STATIC_DIR, 'index.html'))
+  })
+}
 
 const PORT = process.env.PORT || 4000
 app.listen(PORT, () => console.log(`✅ SFam API running on http://localhost:${PORT}`))

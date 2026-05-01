@@ -55,9 +55,9 @@ export default function Home() {
               <div className="h-0.5 w-24 bg-gradient-to-r from-orange-400 to-transparent mb-4 mx-auto lg:mx-0" />
               <p className="text-white/80 leading-relaxed mb-4">SFam Logistics LLC is a Washington-based freight brokerage built on over a decade of real road experience. We coordinate truckload, LTL, reefer, flatbed, and dedicated freight across the United States and North America &mdash; with the kind of clarity, fairness, and follow-through that the industry too often forgets.</p>
               <p className="text-white/80 leading-relaxed mb-6">We&apos;re not a faceless broker. We&apos;re drivers who became dispatchers, dispatchers who became brokers &mdash; and now agents and partners who all believe the same thing: <span className="text-orange-400 font-semibold">freight moves on trust.</span></p>
-              <div className="flex flex-col sm:flex-row gap-3 mt-auto max-w-md mx-auto lg:mx-0 w-full">
-                <Link to="/about" className="btn-ghost flex-1">Our Story <ArrowRight className="w-4 h-4" /></Link>
-                <Link to="/services" className="btn-ghost flex-1">View Services</Link>
+              <div className="flex flex-row gap-3 mt-auto justify-center lg:justify-start w-full">
+                <Link to="/about" className="btn-ghost !px-4 sm:!px-5 w-40 sm:w-44">Our Story <ArrowRight className="w-4 h-4" /></Link>
+                <Link to="/services" className="btn-ghost !px-4 sm:!px-5 w-40 sm:w-44">View Services</Link>
               </div>
             </div>
           </Reveal>
@@ -141,10 +141,9 @@ export default function Home() {
               </div>
             </div>
             <Reveal delay={200} className="h-full">
-              <div className="relative rounded-2xl overflow-hidden border border-orange-400/30 shadow-2xl shadow-black/40 h-full min-h-[420px]">
-                <img src="/images/why-shippers-choose-us.jpeg" alt="Why shippers choose SFam Logistics" className="w-full h-full object-cover" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/15 to-transparent pointer-events-none" />
-                <div className="absolute bottom-5 left-5 right-5 sm:bottom-6 sm:left-6 sm:right-6">
+              <div className="relative rounded-2xl overflow-hidden border border-orange-400/30 shadow-2xl shadow-black/40 h-full min-h-[320px] sm:min-h-[380px] bg-gradient-to-br from-brand-navy via-slate-900 to-brand-navy flex items-center justify-center">
+                <img src="/images/why-shippers-choose-us.jpeg" alt="Why shippers choose SFam Logistics" className="w-full h-full object-contain p-2 sm:p-4" />
+                <div className="absolute bottom-5 left-5 right-5 sm:bottom-6 sm:left-6 sm:right-6 z-10">
                   <span className="inline-block px-4 py-2 rounded-full bg-orange-400/95 text-brand-navy font-display italic font-black uppercase tracking-wider text-sm sm:text-base shadow-lg shadow-black/30">
                     10+ years on the road
                   </span>
