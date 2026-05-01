@@ -110,7 +110,7 @@ export default function Home() {
       {/* ============ 4. WHY SHIPPERS CHOOSE US — text/boxes left, image right ============ */}
       <section className="section-white">
         <div className="container-x">
-          <div className="grid lg:grid-cols-2 gap-10 items-center lg:items-stretch">
+          <div className="grid lg:grid-cols-2 gap-10 items-center">
             <div>
               <Reveal>
                 <div className="mb-8">
@@ -140,10 +140,11 @@ export default function Home() {
                 ))}
               </div>
             </div>
-            <Reveal delay={200} className="h-full">
-              <div className="relative rounded-2xl overflow-hidden border border-orange-400/30 shadow-2xl shadow-black/40 h-full min-h-[320px] sm:min-h-[380px] bg-gradient-to-br from-brand-navy via-slate-900 to-brand-navy flex items-center justify-center">
-                <img src="/images/why-shippers-choose-us.jpeg" alt="Why shippers choose SFam Logistics" className="w-full h-full object-contain p-2 sm:p-4" />
-                <div className="absolute bottom-5 left-5 right-5 sm:bottom-6 sm:left-6 sm:right-6 z-10">
+            <Reveal delay={200}>
+              <div className="relative rounded-2xl overflow-hidden border border-orange-400/30 shadow-2xl shadow-black/40">
+                <img src="/images/why-shippers-choose-us.jpeg" alt="Why shippers choose SFam Logistics" className="block w-full h-auto" />
+                <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/70 via-black/15 to-transparent pointer-events-none" />
+                <div className="absolute bottom-4 left-4 right-4 sm:bottom-6 sm:left-6 sm:right-6">
                   <span className="inline-block px-4 py-2 rounded-full bg-orange-400/95 text-brand-navy font-display italic font-black uppercase tracking-wider text-sm sm:text-base shadow-lg shadow-black/30">
                     10+ years on the road
                   </span>
