@@ -1,8 +1,10 @@
 # SFam Logistics — Apache config for production hosting
 # Place at the document root that serves the built React app (dist/).
 
-# === HTTPS REDIRECT ===
 RewriteEngine On
+RewriteBase /
+
+# === HTTPS REDIRECT ===
 RewriteCond %{HTTPS} !=on
 RewriteCond %{HTTP:X-Forwarded-Proto} !=https
 RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
@@ -24,7 +26,7 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_URI} !^/api/
 RewriteCond %{REQUEST_URI} !^/uploads/
-RewriteRule ^ index.html [L]
+RewriteRule . /index.html [L]
 
 # === SECURITY HEADERS ===
 <IfModule mod_headers.c>
