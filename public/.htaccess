@@ -1,5 +1,10 @@
-# SFam Logistics — Apache config for production hosting
+# SFam Logistics — Apache / LiteSpeed config for production hosting
 # Place at the document root that serves the built React app (dist/).
+
+# Disable content negotiation. On LiteSpeed/Hostinger this is what causes
+# "No input file specified." when refreshing /about, /services, etc. —
+# the server tries about.html → about.php → PHP-FPM and fails.
+Options -MultiViews
 
 RewriteEngine On
 RewriteBase /
@@ -14,19 +19,23 @@ RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
 RewriteRule ^ https://%1%{REQUEST_URI} [L,R=301]
 
 # === API + UPLOADS PROXY (only enable if backend Node app sits at port 4000 on same host) ===
-# Uncomment the lines below if your hosting supports mod_proxy and the Node API
-# is running on this same machine on PORT 4000.
-#
 # RewriteCond %{REQUEST_URI} ^/(api|uploads)/
 # RewriteRule ^(api|uploads)/(.*)$ http://127.0.0.1:4000/$1/$2 [P,L]
 
 # === SPA FALLBACK ===
-# Send any non-file, non-directory request to index.html so React Router handles it.
+# Stop rewriting once we've reached index.html (prevents loops on LiteSpeed).
+RewriteRule ^index\.html$ - [L]
+# Anything that isn't an existing file/dir → index.html, React Router takes over.
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_URI} !^/api/
 RewriteCond %{REQUEST_URI} !^/uploads/
 RewriteRule . /index.html [L]
+
+# Force HTML response for the fallback so PHP-FPM never touches it.
+<FilesMatch "\.html$">
+  SetHandler default-handler
+</FilesMatch>
 
 # === SECURITY HEADERS ===
 <IfModule mod_headers.c>
@@ -74,6 +83,3 @@ RewriteRule . /index.html [L]
 
 # === DEFAULT DOCUMENT ===
 DirectoryIndex index.html
-
-# === ERROR PAGES (SPA handles 404 internally) ===
-ErrorDocument 404 /index.html
