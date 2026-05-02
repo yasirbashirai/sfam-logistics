@@ -48,8 +48,6 @@ export default function Navbar() {
             <a href="tel:+18886985556" className="hover:text-orange-300 font-bold text-orange-400 flex items-center gap-1.5"><Phone className="w-3 h-3" /> 1 (888) 698-5556</a>
             <span className="text-white/20">|</span>
             <a href="mailto:info@sfamlogistics.com" className="hover:text-orange-300 flex items-center gap-1.5"><Mail className="w-3 h-3" /> info@sfamlogistics.com</a>
-            <span className="text-white/20">|</span>
-            <Link to="/login" className="hover:text-orange-300 text-white/40">Admin</Link>
           </div>
         </div>
       </div>

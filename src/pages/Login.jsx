@@ -10,12 +10,11 @@ export default function Login() {
   const [err, setErr] = useState('')
   const submit = (e) => {
     e.preventDefault()
-    // Demo credentials
     if (form.email === 'admin@sfamlogistics.com' && form.password === 'admin123') {
       localStorage.setItem('sfam_admin', '1')
       nav('/admin')
     } else {
-      setErr('Invalid credentials. Demo: admin@sfamlogistics.com / admin123')
+      setErr('Invalid credentials.')
     }
   }
   return (
@@ -33,7 +32,6 @@ export default function Login() {
           <input className="input" type="password" placeholder="Password" value={form.password} onChange={e => setForm({ ...form, password: e.target.value })} required />
           {err && <div className="text-sm text-red-400">{err}</div>}
           <button type="submit" className="btn-primary w-full">Sign In <LogIn className="w-5 h-5" /></button>
-          <div className="text-xs text-white/40 text-center pt-2">Demo: admin@sfamlogistics.com / admin123</div>
         </form>
         <Link to="/" className="block text-center text-sm text-white/50 hover:text-orange-300 mt-6">← Back to website</Link>
       </div>

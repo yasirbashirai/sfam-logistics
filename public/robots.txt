@@ -3,9 +3,6 @@
 
 User-agent: *
 Allow: /
-Disallow: /admin
-Disallow: /admin/
-Disallow: /login
 Disallow: /api/
 Disallow: /uploads/
 
