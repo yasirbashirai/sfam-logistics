@@ -2,7 +2,7 @@ import { useState, useRef, useEffect, useMemo } from 'react'
 import { MessageCircle, X, Send, Bot, User, Headphones } from 'lucide-react'
 
 const faqs = [
-  { q: 'How do I get a quote?', a: 'Click "Get a Quote" in the menu or visit our quote page. Fill out the 4-step form with your origin, destination, freight type, and contact info. Most quotes are returned within 30 minutes during business hours (Mon–Fri, 8AM–5PM PST). After hours? We\'ll respond first thing the next business day.' },
+  { q: 'How do I get a quote?', a: 'Click "Get a Quote" in the menu or visit our quote page. Fill out the 4-step form with your origin, destination, freight type, and contact info. Most quotes are returned within 30 minutes during business hours (Mon–Fri, 7AM–5PM PST). After hours? We\'ll respond first thing the next business day.' },
   { q: 'How can I become a carrier?', a: 'Visit our Carrier Onboarding page to submit your application. You\'ll need your MC number, DOT number, Certificate of Insurance, W-9, and a photo of your truck. Our team verifies your authority and insurance, and most carriers are approved within 24 hours.' },
   { q: 'Do you hire freight agents?', a: 'Yes! We are actively recruiting independent freight agents. We offer competitive commission splits (up to 75%), full back-office support, TMS access through AscendTMS, and weekly commission pay. Visit our Agent Opportunities page to apply.' },
   { q: 'What areas do you cover?', a: 'We provide freight brokerage services across the United States and North America. We have deep capacity in the Pacific Northwest, California, Texas Triangle, Midwest lanes, Southeast, and Northeast corridors.' },
@@ -10,7 +10,7 @@ const faqs = [
   { q: 'How fast do you pay carriers?', a: 'Standard payment is Net-30 from receipt of POD and invoice. We also offer quick-pay options — same-day or 48-hour funding through our factoring partner OTR Solutions for a small discount. We believe drivers deserve to be paid promptly.' },
   { q: 'What is your MC and USDOT number?', a: 'Our Docket/MC Number is 1810116 and our USDOT Number is 4555943. We are a fully licensed, FMCSA-authorized property broker with BMC-84 bond coverage.' },
   { q: 'Do you offer same-day pay?', a: 'Yes! We offer same-day pay options through our factoring partner OTR Solutions. Quick-pay is available on every load so carriers can get paid in days, not weeks.' },
-  { q: 'What are your business hours?', a: 'Our office hours are Monday through Friday, 8:00 AM to 5:00 PM PST. However, our dispatch team is available 24/7 for active loads, hot loads, and emergency capacity needs. For urgent freight, call us at 1 (888) 698-5556.' },
+  { q: 'What are your business hours?', a: 'Our office hours are Monday through Friday, 7:00 AM to 5:00 PM PST. However, our dispatch team is available 24/7 for active loads, hot loads, and emergency capacity needs. For urgent freight, call us at 1 (888) 698-5556.' },
   { q: 'Where are you located?', a: 'We have two locations: 19125 North Creek Parkway Suite 120, Bothell, WA 98011 and 10220 3rd Avenue SE, Everett, WA 98208. We serve shippers and carriers nationwide across the United States.' },
   { q: 'Do you offer cargo insurance?', a: 'Yes — all carriers in our network carry cargo insurance and we require a minimum of $100K cargo coverage and $1M auto liability. We name our shippers as additional insured on file for added protection.' },
   { q: 'How do I track my shipment?', a: 'Visit our Track Shipment page and enter your load reference number, BOL, or PO number. You\'ll get real-time status updates from pickup to delivery. You can also call our dispatch team for live updates at 1 (888) 698-5556.' }
@@ -46,19 +46,54 @@ function findMatch(text) {
   return bestIdx >= 0 ? bestIdx : null
 }
 
+const CHAT_STORAGE_KEY = 'sfam_chat_v1'
+
+const loadChatState = () => {
+  try {
+    const raw = localStorage.getItem(CHAT_STORAGE_KEY)
+    if (!raw) return null
+    const parsed = JSON.parse(raw)
+    // Drop sessions older than 24h so visitors don't get stuck on a stale convo
+    if (Date.now() - (parsed.savedAt || 0) > 24 * 60 * 60 * 1000) {
+      localStorage.removeItem(CHAT_STORAGE_KEY)
+      return null
+    }
+    return parsed
+  } catch { return null }
+}
+
+const saveChatState = (state) => {
+  try { localStorage.setItem(CHAT_STORAGE_KEY, JSON.stringify({ ...state, savedAt: Date.now() })) } catch {}
+}
+
 export default function Chatbot() {
+  const persisted = typeof window !== 'undefined' ? loadChatState() : null
   const [open, setOpen] = useState(false)
-  const [messages, setMessages] = useState([
+  const [messages, setMessages] = useState(persisted?.messages || [
     { from: 'bot', text: 'Hi! I\'m the SFam assistant. Ask me anything — type a topic like "quote", "carrier", "tracking", or "live agent" to get started.' }
   ])
   const [input, setInput] = useState('')
-  const [conversationId, setConversationId] = useState(null)
+  const [conversationId, setConversationId] = useState(persisted?.conversationId || null)
   const [showLiveAgentForm, setShowLiveAgentForm] = useState(false)
-  const [agentJoined, setAgentJoined] = useState(false)
-  const [liveAgentName, setLiveAgentName] = useState('')
-  const [liveAgentEmail, setLiveAgentEmail] = useState('')
+  const [agentJoined, setAgentJoined] = useState(persisted?.agentJoined || false)
+  const [liveAgentName, setLiveAgentName] = useState(persisted?.name || '')
+  const [liveAgentEmail, setLiveAgentEmail] = useState(persisted?.email || '')
   const messagesEndRef = useRef(null)
-  const lastMsgIdRef = useRef(null)
+  const lastMsgIdRef = useRef(persisted?.lastMsgId || null)
+
+  // Persist state across page refreshes so the agent's replies keep flowing
+  useEffect(() => {
+    if (conversationId) {
+      saveChatState({
+        conversationId,
+        messages,
+        agentJoined,
+        name: liveAgentName,
+        email: liveAgentEmail,
+        lastMsgId: lastMsgIdRef.current
+      })
+    }
+  }, [conversationId, messages, agentJoined, liveAgentName, liveAgentEmail])
 
   // 3 starter chips that show until the visitor sends their first message.
   // The rest of the FAQ stays "hidden" — surfaced only as placeholder hints
@@ -81,25 +116,37 @@ export default function Chatbot() {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages])
 
-  // Poll backend for agent replies once a conversation has started
+  // Poll backend for agent replies and conversation status once a conversation has started.
+  // Detects three things:
+  //   1. New agent messages → push into the visitor's chat
+  //   2. Conversation status flipped to "closed" → notify visitor
+  //   3. Status flipped to "joined" / first agent reply → show "Agent connected"
   useEffect(() => {
     if (!conversationId) return
     const poll = async () => {
       try {
+        // Pull new messages
         const r = await fetch(`/api/chat/${conversationId}/messages${lastMsgIdRef.current ? `?since=${lastMsgIdRef.current}` : ''}`)
-        if (!r.ok) return
-        const newMsgs = await r.json()
-        if (Array.isArray(newMsgs) && newMsgs.length) {
-          // Only show messages from the agent (visitor messages are echoed locally already)
-          const agentMsgs = newMsgs.filter(m => m.sender === 'agent')
-          if (agentMsgs.length) {
-            setAgentJoined(true)
-            setMessages(prev => [...prev, ...agentMsgs.map(m => ({ from: 'agent', text: m.text }))])
+        if (r.ok) {
+          const newMsgs = await r.json()
+          if (Array.isArray(newMsgs) && newMsgs.length) {
+            const agentMsgs = newMsgs.filter(m => m.sender === 'agent')
+            if (agentMsgs.length) {
+              setAgentJoined(prev => {
+                if (!prev) {
+                  // Add a system "joined" notice the first time an agent replies
+                  setMessages(m => [...m, { from: 'system', text: '✓ A live agent has joined the chat.' }])
+                }
+                return true
+              })
+              setMessages(prev => [...prev, ...agentMsgs.map(m => ({ from: 'agent', text: m.text }))])
+            }
+            lastMsgIdRef.current = newMsgs[newMsgs.length - 1].id
           }
-          lastMsgIdRef.current = newMsgs[newMsgs.length - 1].id
         }
       } catch {}
     }
+    poll()
     const id = setInterval(poll, 4000)
     return () => clearInterval(id)
   }, [conversationId])
@@ -165,8 +212,9 @@ export default function Chatbot() {
   const requestLiveAgent = async () => {
     if (!liveAgentName.trim() || !liveAgentEmail.trim()) return
     const cid = await startConversationIfNeeded('Live agent requested')
+    let ok = false
     try {
-      await fetch('/api/live-agent-request', {
+      const r = await fetch('/api/live-agent-request', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -176,8 +224,22 @@ export default function Chatbot() {
           timestamp: new Date().toISOString()
         })
       })
+      ok = r.ok
     } catch {}
-    setMessages(m => [...m, { from: 'bot', text: `Thanks ${liveAgentName}! Our team has been notified and someone will join this chat shortly. We'll also reach out to ${liveAgentEmail} if you close this window.` }])
+
+    if (ok && cid) {
+      setMessages(m => [
+        ...m,
+        { from: 'system', text: '⏳ Connecting you to a live agent...' },
+        { from: 'bot', text: `Thanks ${liveAgentName}! Our dispatch team has been notified and someone will join this chat shortly. We'll also reach out to ${liveAgentEmail} if you close this window.` }
+      ])
+    } else {
+      // Backend unreachable — give the visitor a direct path
+      setMessages(m => [
+        ...m,
+        { from: 'bot', text: `Thanks ${liveAgentName}! We had trouble notifying our team automatically. Please call us directly at 1 (888) 698-5556 or email support@sfamlogistics.com — we'll respond within one business hour.` }
+      ])
+    }
     setShowLiveAgentForm(false)
   }
 
@@ -208,19 +270,30 @@ export default function Chatbot() {
           </div>
 
           <div className="flex-1 overflow-y-auto p-3 space-y-2">
-            {messages.map((m, i) => (
-              <div key={i} className={`flex ${m.from === 'user' ? 'justify-end' : 'justify-start'} gap-1.5`}>
-                {m.from !== 'user' && (
-                  <div className="w-6 h-6 shrink-0 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 grid place-items-center">
-                    {m.from === 'agent' ? <Headphones className="w-3 h-3 text-brand-navy" /> : <Bot className="w-3 h-3 text-brand-navy" />}
+            {messages.map((m, i) => {
+              if (m.from === 'system') {
+                return (
+                  <div key={i} className="flex justify-center my-1">
+                    <div className="px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-400/30 text-emerald-300 text-[10px] uppercase tracking-wider font-bold">
+                      {m.text}
+                    </div>
                   </div>
-                )}
-                <div className={`max-w-[80%] px-3 py-2 rounded-2xl text-xs leading-relaxed ${m.from === 'user' ? 'bg-gradient-to-br from-orange-400 to-orange-600 text-brand-navy font-semibold' : m.from === 'agent' ? 'bg-emerald-500/15 border border-emerald-400/30' : 'bg-white/10'}`}>
-                  {m.text}
+                )
+              }
+              return (
+                <div key={i} className={`flex ${m.from === 'user' ? 'justify-end' : 'justify-start'} gap-1.5`}>
+                  {m.from !== 'user' && (
+                    <div className="w-6 h-6 shrink-0 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 grid place-items-center">
+                      {m.from === 'agent' ? <Headphones className="w-3 h-3 text-brand-navy" /> : <Bot className="w-3 h-3 text-brand-navy" />}
+                    </div>
+                  )}
+                  <div className={`max-w-[80%] px-3 py-2 rounded-2xl text-xs leading-relaxed ${m.from === 'user' ? 'bg-gradient-to-br from-orange-400 to-orange-600 text-brand-navy font-semibold' : m.from === 'agent' ? 'bg-emerald-500/15 border border-emerald-400/30' : 'bg-white/10'}`}>
+                    {m.text}
+                  </div>
+                  {m.from === 'user' && <div className="w-6 h-6 shrink-0 rounded-full bg-white/10 grid place-items-center"><User className="w-3 h-3" /></div>}
                 </div>
-                {m.from === 'user' && <div className="w-6 h-6 shrink-0 rounded-full bg-white/10 grid place-items-center"><User className="w-3 h-3" /></div>}
-              </div>
-            ))}
+              )
+            })}
 
             {showStarters && (
               <div className="pt-1 space-y-1.5">

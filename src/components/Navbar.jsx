@@ -42,7 +42,7 @@ export default function Navbar() {
           <div className="flex gap-5 items-center">
             <span className="flex items-center gap-1.5"><MapPin className="w-3 h-3 text-orange-400" /> Bothell, WA</span>
             <span className="text-white/20">|</span>
-            <span className="flex items-center gap-1.5"><Clock className="w-3 h-3 text-orange-400" /> Mon–Fri • 8AM–5PM PST</span>
+            <span className="flex items-center gap-1.5"><Clock className="w-3 h-3 text-orange-400" /> Mon–Fri • 7AM–5PM PST</span>
           </div>
           <div className="flex gap-5 items-center">
             <a href="tel:+18886985556" className="hover:text-orange-300 font-bold text-orange-400 flex items-center gap-1.5"><Phone className="w-3 h-3" /> 1 (888) 698-5556</a>

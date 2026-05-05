@@ -27,6 +27,7 @@ import AdminAgents from './pages/admin/AdminAgents.jsx'
 import AdminContacts from './pages/admin/AdminContacts.jsx'
 import AdminShipments from './pages/admin/AdminShipments.jsx'
 import AdminChat from './pages/admin/AdminChat.jsx'
+import AdminSubscribers from './pages/admin/AdminSubscribers.jsx'
 import NotFound from './pages/NotFound.jsx'
 
 const Page = ({ children }) => (
@@ -80,6 +81,7 @@ export default function App() {
               <Route path="carriers" element={<AdminCarriers />} />
               <Route path="agents" element={<AdminAgents />} />
               <Route path="contacts" element={<AdminContacts />} />
+              <Route path="subscribers" element={<AdminSubscribers />} />
             </Route>
             <Route path="*" element={<Page><NotFound /></Page>} />
           </Routes>

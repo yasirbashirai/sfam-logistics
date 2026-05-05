@@ -9,7 +9,7 @@ const iconMap = { Truck, Boxes, Snowflake, PackageOpen, Route, Zap }
 
 const homeFaqs = [
   { q: 'What is SFam Logistics?', a: 'SFam Logistics LLC is an FMCSA-authorized freight brokerage headquartered in Bothell, Washington. We coordinate Full Truckload (FTL), Less-than-Truckload (LTL), refrigerated (reefer), flatbed, dedicated, and expedited freight across the United States, Canada, and Mexico.' },
-  { q: 'How fast will I get a freight quote?', a: 'During business hours (Monday–Friday, 8AM–5PM PST) most quotes are returned within 30 minutes. Quotes submitted after hours are returned first thing the next business day. For urgent loads call 1 (888) 698-5556.' },
+  { q: 'How fast will I get a freight quote?', a: 'During business hours (Monday–Friday, 7AM–5PM PST) most quotes are returned within 30 minutes. Quotes submitted after hours are returned first thing the next business day. For urgent loads call 1 (888) 698-5556.' },
   { q: 'What is your MC number and USDOT number?', a: 'Our FMCSA Motor Carrier number is MC 1810116 and our USDOT number is 4555943. We are a fully licensed property broker with BMC-84 bond coverage.' },
   { q: 'Do you offer same-day pay for carriers?', a: 'Yes — quick-pay is available on every load through our factoring partner OTR Solutions. Standard pay is Net-30 from receipt of POD and invoice; same-day and 48-hour funding are optional.' },
   { q: 'What areas do you cover?', a: 'We serve shippers and carriers nationwide across the U.S. with deep capacity in the Pacific Northwest, California, Texas Triangle, Midwest, Southeast, and Northeast corridors. We also handle cross-border lanes into Canada and Mexico.' },
@@ -135,7 +135,7 @@ export default function Home() {
       {/* ============ 4. WHY SHIPPERS CHOOSE US — text/boxes left, image right ============ */}
       <section className="section-white">
         <div className="container-x">
-          <div className="grid lg:grid-cols-2 gap-10 items-center">
+          <div className="grid lg:grid-cols-2 gap-10 lg:items-stretch">
             <div>
               <Reveal>
                 <div className="mb-8">
@@ -165,9 +165,9 @@ export default function Home() {
                 ))}
               </div>
             </div>
-            <Reveal delay={200}>
-              <div className="relative rounded-2xl overflow-hidden border border-orange-400/30 shadow-2xl shadow-black/40">
-                <img src="/images/why-shippers-choose-us.jpeg" alt="Why shippers choose SFam Logistics" className="block w-full h-auto" />
+            <Reveal delay={200} className="h-full">
+              <div className="relative rounded-2xl overflow-hidden border border-orange-400/30 shadow-2xl shadow-black/40 h-full min-h-[420px]">
+                <img src="/images/why-shippers-choose-us.jpeg" alt="Why shippers choose SFam Logistics" className="absolute inset-0 w-full h-full object-cover" />
                 <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/70 via-black/15 to-transparent pointer-events-none" />
                 <div className="absolute bottom-4 left-4 right-4 sm:bottom-6 sm:left-6 sm:right-6">
                   <span className="inline-block px-4 py-2 rounded-full bg-orange-400/95 text-brand-navy font-display italic font-black uppercase tracking-wider text-sm sm:text-base shadow-lg shadow-black/30">
@@ -186,7 +186,7 @@ export default function Home() {
           <Reveal>
             <div className="badge mb-4 mx-auto">Calling All Carriers</div>
             <h2 className="font-display italic font-black text-3xl lg:text-5xl mb-4 leading-[0.95]">
-              Drive For A <br /><span className="text-orange-400">Broker That Pays Fast.</span>
+              Haul For A <br /><span className="text-orange-400">Broker That Pays Fast.</span>
             </h2>
             <div className="divider-glow w-24 mx-auto my-5" />
             <div className="mt-8 flex justify-center">

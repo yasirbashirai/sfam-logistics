@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, useState } from 'react'
 
 const Ctx = createContext(null)
 const KEY = 'sfam_submissions_v2'
-const seed = { quotes: [], carriers: [], agents: [], contacts: [] }
+const seed = { quotes: [], carriers: [], agents: [], contacts: [], subscribers: [] }
 
 // Backend API helper. Falls back gracefully to localStorage if API is offline.
 const api = {
@@ -30,13 +30,15 @@ export function SubmissionsProvider({ children }) {
       const health = await api.tryFetch('/health')
       if (!health) return
       setOnline(true)
-      const [quotes, carriers, agents, contacts] = await Promise.all([
+      const [quotes, carriers, agents, contacts, subscribers] = await Promise.all([
         api.tryFetch('/quotes'), api.tryFetch('/carriers'),
-        api.tryFetch('/agents'), api.tryFetch('/contacts')
+        api.tryFetch('/agents'), api.tryFetch('/contacts'),
+        api.tryFetch('/subscribers')
       ])
       setData({
         quotes: quotes || [], carriers: carriers || [],
-        agents: agents || [], contacts: contacts || []
+        agents: agents || [], contacts: contacts || [],
+        subscribers: subscribers || []
       })
     })()
   }, [])
@@ -44,10 +46,16 @@ export function SubmissionsProvider({ children }) {
   const add = async (bucket, payload) => {
     if (online) {
       const row = await api.tryFetch(`/${bucket}`, { method: 'POST', body: JSON.stringify(payload) })
-      if (row) { setData(d => ({ ...d, [bucket]: [row, ...d[bucket]] })); return row }
+      if (row) {
+        // Server may signal duplicate (e.g. subscriber already exists); skip insert
+        if (!row.duplicate) {
+          setData(d => ({ ...d, [bucket]: [row, ...(d[bucket] || [])] }))
+        }
+        return row
+      }
     }
     const local = { id: crypto.randomUUID(), createdAt: new Date().toISOString(), status: 'new', ...payload }
-    setData(d => ({ ...d, [bucket]: [local, ...d[bucket]] }))
+    setData(d => ({ ...d, [bucket]: [local, ...(d[bucket] || [])] }))
     return local
   }
 

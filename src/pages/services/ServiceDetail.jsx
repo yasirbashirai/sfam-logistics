@@ -36,7 +36,7 @@ export default function ServiceDetail() {
     <>
       <PageMeta title={`${service.name} — Freight Services`} description={`${service.long} SFam Logistics — FMCSA authorized freight broker, MC 1810116, USDOT 4555943.`} />
       <PageHero eyebrow="Service" title={service.name} subtitle={service.short} image={heroImg}>
-        <a href="tel:+18886985556" className="btn-primary"><Phone className="w-5 h-5" /> Call Dispatch</a>
+        <a href="tel:+18886985556" className="btn-primary"><Phone className="w-5 h-5" /> Call Us</a>
         <Link to="/services" className="btn-ghost"><ArrowLeft className="w-4 h-4" /> All Services</Link>
       </PageHero>
 
@@ -66,7 +66,7 @@ export default function ServiceDetail() {
             <div className="mt-6 pt-6 border-t border-white/10 text-sm text-white/60 space-y-2">
               <div className="flex items-center gap-2"><Phone className="w-4 h-4 text-orange-400" /> <a href="tel:+18886985556" className="hover:text-orange-300">1 (888) 698-5556</a></div>
               <div>✉️ info@sfamlogistics.com</div>
-              <div className="text-xs text-white/40 mt-3">Mon–Fri • 8AM–5PM PST</div>
+              <div className="text-xs text-white/40 mt-3">Mon–Fri • 7AM–5PM PST</div>
             </div>
           </aside>
         </div>
@@ -181,7 +181,8 @@ export default function ServiceDetail() {
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-96 bg-orange-400/20 blur-3xl rounded-full" />
             <div className="relative">
               <h2 className="font-display italic font-black text-4xl mb-4">Ready to Move <span className="text-orange-400">{service.name}?</span></h2>
-              <a href="tel:+18886985556" className="btn-primary !px-8 !py-4 mt-4"><Phone className="w-5 h-5" /> Call Dispatch</a>
+              <p className="text-orange-300 text-sm font-semibold uppercase tracking-wider mb-2">Dispatch available extended hours — call anytime for urgent freight</p>
+              <a href="tel:+18886985556" className="btn-primary !px-8 !py-4 mt-4"><Phone className="w-5 h-5" /> Call Us</a>
             </div>
           </div>
         </div>

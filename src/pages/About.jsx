@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { Target, Eye, Heart, Award, ArrowRight, CheckCircle2, ShieldCheck, Briefcase, Globe2 } from 'lucide-react'
+import { Target, Eye, Heart, Award, ArrowRight, CheckCircle2, ShieldCheck, Briefcase, Globe2, ExternalLink } from 'lucide-react'
 import PageMeta from '../components/PageMeta.jsx'
 import { PageHero } from '../components/Section.jsx'
 import Reveal from '../components/Reveal.jsx'
@@ -183,9 +183,9 @@ export default function About() {
           <div className="relative">
             <div className="absolute left-6 top-0 bottom-0 w-0.5 bg-gradient-to-b from-orange-500 via-orange-400/40 to-transparent" />
             {[
-              { y: '2017', t: 'Started behind the wheel', d: 'Years on the road taught us how the industry really works — and where it falls short.' },
-              { y: '2023', t: 'Moved into dispatch', d: 'Translated road experience into operations. Saw both sides of every load.' },
-              { y: '2026', t: 'Founded SFam Logistics LLC', d: 'Launched a brokerage built on the values we wished existed when we drove.' }
+              { y: '2016', t: 'Class A CDL — began driving professionally', d: 'Years on the road taught us how the industry really works — and where it falls short.' },
+              { y: '2023', t: 'Transitioned into dispatch operations', d: 'Translated road experience into operations. Saw both sides of every load.' },
+              { y: '2026', t: 'Launched SFam Logistics LLC — FMCSA MC# 1810116', d: 'Launched a brokerage built on the values we wished existed when we drove.' }
             ].map((m, i) => (
               <Reveal key={m.y} delay={i * 120}>
                 <div className="relative pl-20 pb-8 last:pb-0">
@@ -211,20 +211,43 @@ export default function About() {
           </Reveal>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {[
-              { i: ShieldCheck, t: 'FMCSA Authorized', d: 'Licensed property broker' },
-              { i: Briefcase, t: 'MC 1810116', d: 'Docket Number' },
-              { i: Globe2, t: 'USDOT 4555943', d: 'DOT Registration' },
-              { i: Award, t: 'BMC-84 Bonded', d: 'Surety bond coverage' }
-            ].map(({ i: Icon, t, d }, idx) => (
+              { i: ShieldCheck, t: 'FMCSA Authorized', d: 'Licensed property broker', verify: true },
+              { i: Briefcase, t: 'MC 1810116', d: 'Docket Number', verify: true },
+              { i: Globe2, t: 'USDOT 4555943', d: 'DOT Registration', verify: true },
+              { i: Award, t: 'BMC-84 Bonded', d: 'Surety bond coverage', verify: true }
+            ].map(({ i: Icon, t, d, verify }, idx) => (
               <Reveal key={t} delay={idx * 100}>
-                <div className="bg-white/[0.06] backdrop-blur-xl border border-white/10 rounded-xl p-5 text-center hover:border-orange-400/40 transition">
+                <div className="bg-white/[0.06] backdrop-blur-xl border border-white/10 rounded-xl p-5 text-center hover:border-orange-400/40 transition flex flex-col h-full">
                   <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-orange-400 to-orange-600 grid place-items-center mb-3 mx-auto"><Icon className="w-5 h-5 text-white" /></div>
                   <div className="font-display italic font-black text-base mb-1">{t}</div>
-                  <div className="text-xs text-white/60">{d}</div>
+                  <div className="text-xs text-white/60 mb-3">{d}</div>
+                  {verify && (
+                    <a
+                      href="https://safer.fmcsa.dot.gov/query.asp?searchtype=ANY&query_type=queryCarrierSnapshot&query_param=USDOT&query_string=4555943"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-auto inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-full bg-orange-400/10 border border-orange-400/40 text-orange-300 text-[10px] font-bold uppercase tracking-wider hover:bg-orange-400 hover:text-brand-navy transition"
+                    >
+                      Verify <ExternalLink className="w-3 h-3" />
+                    </a>
+                  )}
                 </div>
               </Reveal>
             ))}
           </div>
+          <Reveal delay={400}>
+            <div className="mt-8 text-center">
+              <a
+                href="https://safer.fmcsa.dot.gov/query.asp?searchtype=ANY&query_type=queryCarrierSnapshot&query_param=USDOT&query_string=4555943"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-orange-300 hover:text-orange-200 font-bold text-sm uppercase tracking-wider transition"
+              >
+                Verify our license at FMCSA SAFER <ArrowRight className="w-4 h-4" />
+              </a>
+              <p className="text-xs text-white/40 mt-2">Confident brokers invite verification. Click above to view our active FMCSA carrier snapshot.</p>
+            </div>
+          </Reveal>
         </div>
       </section>
 
@@ -236,7 +259,7 @@ export default function About() {
             <p className="text-white/75 mb-6 max-w-xl mx-auto text-sm">Whether you&apos;re a shipper, carrier, or freight agent — we&apos;d love to hear from you.</p>
             <div className="flex flex-wrap gap-3 justify-center">
               <Link to="/contact" className="inline-flex items-center gap-2 px-7 py-3 rounded-full bg-gradient-to-r from-orange-400 to-orange-500 text-brand-navy font-bold text-sm uppercase tracking-wider hover:-translate-y-0.5 transition">Contact Us <ArrowRight className="w-4 h-4" /></Link>
-              <a href="tel:+18886985556" className="inline-flex items-center gap-2 px-7 py-3 rounded-full border-2 border-white/30 text-white text-sm font-bold uppercase tracking-wider hover:bg-orange-400 hover:text-brand-navy transition">Call Dispatch</a>
+              <a href="tel:+18886985556" className="inline-flex items-center gap-2 px-7 py-3 rounded-full border-2 border-white/30 text-white text-sm font-bold uppercase tracking-wider hover:bg-orange-400 hover:text-brand-navy transition">Call Us</a>
             </div>
           </div>
         </div>

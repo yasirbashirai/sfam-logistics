@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react'
-import { ArrowRight, ArrowLeft, CheckCircle2, Calculator, MapPin, Package, User } from 'lucide-react'
+import { ArrowRight, ArrowLeft, CheckCircle2, MapPin, Package, User, ShieldCheck, Clock, Phone } from 'lucide-react'
 import PageMeta from '../components/PageMeta.jsx'
 import { PageHero, Orbs } from '../components/Section.jsx'
 import { useSubmissions } from '../context/SubmissionsContext.jsx'
@@ -41,28 +41,18 @@ export default function Quote() {
   })
   const set = (k, v) => setForm(f => ({ ...f, [k]: v }))
 
-  // Real haversine-based estimate using ZIP centroid lookup
+  // Lane summary (distance + city names) — no fake price estimate.
+  // Real-time pricing is confirmed by our brokerage team based on live carrier capacity.
   const estimate = useMemo(() => {
-    const w = parseFloat(form.weight) || 0
     const realDist = haversineMiles(form.originZip, form.destZip)
     const distance = realDist || 0
-    const matched = realDist !== null
-    const baseRate = form.freightType.includes('LTL') ? 0.55 : 2.45
-    let total = form.freightType.includes('LTL') ? Math.max(150, w * 0.22) + distance * 0.65 : distance * baseRate + 250
-    if (form.equipment === 'Reefer') total *= 1.18
-    if (form.equipment === 'Flatbed') total *= 1.12
-    if (form.equipment === 'Step Deck') total *= 1.15
-    if (form.hazmat) total *= 1.15
-    if (form.freightType === 'Expedited') total *= 1.35
     return {
       distance: Math.round(distance),
-      low: Math.round(total * 0.92),
-      high: Math.round(total * 1.12),
-      matched,
+      matched: realDist !== null,
       originName: lookupZip(form.originZip),
       destName: lookupZip(form.destZip)
     }
-  }, [form])
+  }, [form.originZip, form.destZip])
 
   const next = () => setStep(s => Math.min(s + 1, STEPS.length - 1))
   const prev = () => setStep(s => Math.max(s - 1, 0))
@@ -71,7 +61,7 @@ export default function Quote() {
 
   const submit = async (e) => {
     e.preventDefault()
-    add('quotes', { ...form, estimate })
+    add('quotes', { ...form, distanceMi: estimate.distance })
     setDone(true)
     setShowPopup(true)
     setTimeout(() => setShowPopup(false), 5000)
@@ -92,7 +82,7 @@ export default function Quote() {
     }
   }
 
-  if (done) return <SuccessScreen estimate={estimate} showPopup={showPopup} />
+  if (done) return <SuccessScreen showPopup={showPopup} />
 
   return (
     <>
@@ -189,9 +179,9 @@ export default function Quote() {
                     <Review label="Contact" value={`${form.name} • ${form.phone}`} />
                   </div>
                   <div className="glass p-5 border-orange-400/40">
-                    <div className="text-xs text-white/50 uppercase tracking-widest mb-1">Indicative Estimate</div>
-                    <div className="text-3xl font-display font-bold gradient-text">${estimate.low.toLocaleString()} – ${estimate.high.toLocaleString()}</div>
-                    <div className="text-xs text-white/50 mt-1">~{estimate.distance} miles • Final pricing confirmed by our team</div>
+                    <div className="text-xs text-white/50 uppercase tracking-widest mb-1">Lane Summary</div>
+                    <div className="text-2xl font-display font-bold gradient-text">~{estimate.distance} miles</div>
+                    <div className="text-xs text-white/60 mt-2">Real-time pricing is confirmed by our brokerage team within 30 minutes during business hours, based on current carrier capacity and live market rates.</div>
                   </div>
                 </div>
               )}
@@ -208,18 +198,35 @@ export default function Quote() {
           </div>
 
           <aside className="glass p-7 h-fit lg:sticky lg:top-28">
-            <div className="flex items-center gap-3 mb-5">
-              <Calculator className="w-6 h-6 text-orange-400" />
-              <h3 className="font-display italic font-black text-lg">Live Estimate</h3>
+            <div className="flex items-center gap-3 mb-4">
+              <ShieldCheck className="w-6 h-6 text-orange-400" />
+              <h3 className="font-display italic font-black text-lg">Real-Time Pricing</h3>
             </div>
-            <div className="text-4xl font-display font-bold gradient-text mb-2">${estimate.low.toLocaleString()}</div>
-            <div className="text-sm text-white/50 mb-5">to ${estimate.high.toLocaleString()}</div>
-            <div className="space-y-2 text-sm text-white/70">
-              <div className="flex justify-between"><span className="text-white/50">Distance</span><span>{estimate.distance} mi</span></div>
-              <div className="flex justify-between"><span className="text-white/50">Equipment</span><span>{form.equipment}</span></div>
-              <div className="flex justify-between"><span className="text-white/50">Weight</span><span>{form.weight || 0} lbs</span></div>
+            <p className="text-sm text-white/70 mb-5">We don&apos;t guess on rates. Every quote is priced by our brokerage team using live carrier capacity and current market data — never auto-generated estimates.</p>
+
+            <div className="space-y-3 text-sm">
+              <div className="flex items-start gap-3 p-3 rounded-xl bg-white/[0.04] border border-white/10">
+                <Clock className="w-5 h-5 text-orange-400 shrink-0 mt-0.5" />
+                <div>
+                  <div className="font-bold text-white text-sm">30-Minute Response</div>
+                  <div className="text-xs text-white/60">During business hours, Mon–Fri 7AM–5PM PST.</div>
+                </div>
+              </div>
+              <div className="flex items-start gap-3 p-3 rounded-xl bg-white/[0.04] border border-white/10">
+                <CheckCircle2 className="w-5 h-5 text-orange-400 shrink-0 mt-0.5" />
+                <div>
+                  <div className="font-bold text-white text-sm">All-In Pricing</div>
+                  <div className="text-xs text-white/60">No surprises. Accessorial costs disclosed upfront.</div>
+                </div>
+              </div>
             </div>
-            <p className="text-xs text-white/40 mt-6">Estimate is indicative only. Final rate confirmed after review by our brokerage team.</p>
+
+            <div className="mt-5 pt-5 border-t border-white/10">
+              <div className="text-[10px] uppercase tracking-widest text-white/40 mb-2">Need Pricing Faster?</div>
+              <a href="tel:+18886985556" className="flex items-center gap-2 text-orange-400 font-bold text-sm hover:text-orange-300">
+                <Phone className="w-4 h-4" /> 1 (888) 698-5556
+              </a>
+            </div>
           </aside>
         </div>
       </section>
@@ -243,7 +250,7 @@ function Review({ label, value }) {
     </div>
   )
 }
-function SuccessScreen({ estimate, showPopup }) {
+function SuccessScreen({ showPopup }) {
   return (
     <section className="min-h-[80vh] flex items-center pt-32 pb-20 relative overflow-hidden">
       <Orbs />
@@ -258,10 +265,9 @@ function SuccessScreen({ estimate, showPopup }) {
           <CheckCircle2 className="w-10 h-10" />
         </div>
         <h1 className="font-display italic font-black text-3xl mb-3">Quote Submitted!</h1>
-        <p className="text-white/70 mb-6">Thanks — we received your request and will respond within 30 minutes during business hours. A confirmation has been sent to your email.</p>
+        <p className="text-white/70 mb-6">Thanks — we received your request and will respond with real-time pricing within 30 minutes during business hours. A confirmation has been sent to your email.</p>
         <div className="glass-strong p-6 mb-6">
-          <div className="text-xs text-white/50 uppercase tracking-widest mb-1">Indicative Estimate</div>
-          <div className="text-3xl font-display font-bold gradient-text">${estimate.low.toLocaleString()} – ${estimate.high.toLocaleString()}</div>
+          <p className="text-white/70 text-sm">Our brokerage team is sourcing live carrier capacity for your lane and will follow up with a firm rate as soon as it&apos;s confirmed.</p>
         </div>
         <a href="/" className="btn-primary">Back to Home</a>
       </div>

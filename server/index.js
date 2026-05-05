@@ -20,7 +20,7 @@ if (!fs.existsSync(UPLOAD_DIR)) fs.mkdirSync(UPLOAD_DIR, { recursive: true })
 const db = new Database(path.join(__dirname, 'sfam.db'))
 db.pragma('journal_mode = WAL')
 
-const tables = ['quotes', 'carriers', 'agents', 'contacts']
+const tables = ['quotes', 'carriers', 'agents', 'contacts', 'subscribers']
 tables.forEach(t => {
   db.exec(`CREATE TABLE IF NOT EXISTS ${t} (
     id TEXT PRIMARY KEY,
@@ -148,15 +148,43 @@ if (process.env.SMTP_HOST) {
     else console.log('✅ SMTP ready — alerts will route to', process.env.ALERT_TO || 'info@sfamlogistics.com')
   })
 }
-const sendAlert = async (subject, body) => {
-  if (!transporter) return console.log(`[ALERT] ${subject}`)
+// Route inbound form alerts to the right inbox per form type:
+//   - subscribers → loads@sfamlogistics.com (newsletter list owner)
+//   - contacts    → support@sfamlogistics.com (visitor messages)
+//   - everything else → info@sfamlogistics.com (default)
+const ALERT_ROUTING = {
+  subscribers: process.env.ALERT_TO_LOADS || 'loads@sfamlogistics.com',
+  contacts:    process.env.ALERT_TO_SUPPORT || 'support@sfamlogistics.com',
+  quotes:      process.env.ALERT_TO_INFO || process.env.ALERT_TO || 'info@sfamlogistics.com',
+  carriers:    process.env.ALERT_TO_INFO || process.env.ALERT_TO || 'info@sfamlogistics.com',
+  agents:      process.env.ALERT_TO_INFO || process.env.ALERT_TO || 'info@sfamlogistics.com'
+}
+
+const sendAlert = async (subject, body, table = null) => {
+  const to = (table && ALERT_ROUTING[table]) || process.env.ALERT_TO || 'info@sfamlogistics.com'
+  if (!transporter) return console.log(`[ALERT → ${to}] ${subject}\n${body}`)
   try {
     await transporter.sendMail({
       from: process.env.SMTP_FROM || 'no-reply@sfamlogistics.com',
-      to: process.env.ALERT_TO || 'info@sfamlogistics.com',
-      subject, text: body
+      to,
+      subject,
+      text: body
     })
   } catch (e) { console.error('Email failed:', e.message) }
+}
+
+// Direct mail helper (for confirmation emails to visitor)
+const sendMail = async ({ to, subject, text, html }) => {
+  if (!transporter) return console.log(`[MAIL → ${to}] ${subject}`)
+  try {
+    await transporter.sendMail({
+      from: process.env.SMTP_FROM || 'no-reply@sfamlogistics.com',
+      to,
+      subject,
+      text,
+      html
+    })
+  } catch (e) { console.error('sendMail failed:', e.message) }
 }
 
 // === UPLOADS ===
@@ -191,9 +219,38 @@ app.get('/api/health', (req, res) => res.json({ ok: true, time: new Date().toISO
 // Generic CRUD per table
 tables.forEach(table => {
   app.get(`/api/${table}`, (req, res) => res.json(list(table)))
-  app.post(`/api/${table}`, (req, res) => {
-    const row = insert(table, req.body)
-    sendAlert(`New ${table.slice(0, -1)} submission`, JSON.stringify(req.body, null, 2))
+  app.post(`/api/${table}`, async (req, res) => {
+    const payload = req.body || {}
+
+    // Subscribers: dedupe by email so we don't store the same address twice
+    if (table === 'subscribers' && payload.email) {
+      const existing = db.prepare(`SELECT id FROM subscribers WHERE json_extract(payload, '$.email') = ?`).get(payload.email)
+      if (existing) {
+        return res.json({ id: existing.id, duplicate: true, ok: true })
+      }
+    }
+
+    const row = insert(table, payload)
+    sendAlert(`New ${table.slice(0, -1)} submission`, JSON.stringify(payload, null, 2), table)
+
+    // Auto-confirmation email to subscriber
+    if (table === 'subscribers' && payload.email) {
+      sendMail({
+        to: payload.email,
+        subject: 'Welcome to SFam Logistics — You\'re Subscribed',
+        text: `Thanks for subscribing to SFam Logistics insights.\n\nYou'll receive industry tips, rate trends, and SFam updates straight to your inbox. No spam — ever.\n\nQuestions? Reply directly to this email or reach us at loads@sfamlogistics.com / 1 (888) 698-5556.\n\n— SFam Logistics LLC\n   FMCSA Authorized · MC 1810116 · USDOT 4555943`,
+        html: `<div style="font-family:system-ui,Arial,sans-serif;max-width:560px;margin:0 auto;padding:24px;color:#0d1b2e">
+  <div style="text-align:center;margin-bottom:20px">
+    <h1 style="color:#ff7a18;font-size:24px;margin:0">Welcome to SFam Logistics</h1>
+  </div>
+  <p>Thanks for subscribing! You'll receive industry tips, rate trends, and SFam updates straight to your inbox. <strong>No spam — ever.</strong></p>
+  <p>Questions? Reply directly to this email or reach us at <a href="mailto:loads@sfamlogistics.com" style="color:#ff7a18">loads@sfamlogistics.com</a> / <a href="tel:+18886985556" style="color:#ff7a18">1 (888) 698-5556</a>.</p>
+  <hr style="border:none;border-top:1px solid #e5e7eb;margin:24px 0" />
+  <p style="font-size:12px;color:#666">SFam Logistics LLC · FMCSA Authorized · MC 1810116 · USDOT 4555943<br>19125 North Creek Parkway Suite 120, Bothell, WA 98011</p>
+</div>`
+      })
+    }
+
     res.json(row)
   })
   app.patch(`/api/${table}/:id`, (req, res) => { updateStatus(table, req.params.id, req.body.status); res.json({ ok: true }) })
@@ -367,14 +424,16 @@ app.post('/api/send-confirmation', async (req, res) => {
     'quote': 'SFam Logistics — Quote Request Received',
     'carrier-application': 'SFam Logistics — Carrier Application Received',
     'agent-application': 'SFam Logistics — Agent Application Received',
-    'contact': 'SFam Logistics — Message Received'
+    'contact': 'SFam Logistics — Message Received',
+    'subscribe': 'Welcome to SFam Logistics — You\'re Subscribed'
   }
 
   const bodies = {
-    'quote': `Dear ${name || 'Valued Customer'},\n\nThank you for submitting your quote request with SFam Logistics LLC.\n\nOur team has received your request and will respond within 30 minutes during business hours (Mon–Fri, 8AM–5PM PST). If submitted after hours, we will respond first thing the next business day.\n\nFor urgent needs, please call us directly at 1 (888) 698-5556.\n\nBest regards,\nSFam Logistics LLC\ninfo@sfamlogistics.com\n1 (888) 698-5556`,
+    'quote': `Dear ${name || 'Valued Customer'},\n\nThank you for submitting your quote request with SFam Logistics LLC.\n\nOur team has received your request and will respond with real-time pricing within 30 minutes during business hours (Mon–Fri, 7AM–5PM PST). If submitted after hours, we will respond first thing the next business day.\n\nFor urgent needs, please call us directly at 1 (888) 698-5556.\n\nBest regards,\nSFam Logistics LLC\ninfo@sfamlogistics.com\n1 (888) 698-5556`,
     'carrier-application': `Dear ${name || 'Valued Carrier'},\n\nThank you for submitting your carrier application with SFam Logistics LLC.\n\nYour application has been received and our team will review your authority, insurance, and documentation. Most carriers are approved within 24 hours.\n\nFor questions, please call us at 1 (888) 698-5556 or email info@sfamlogistics.com.\n\nBest regards,\nSFam Logistics LLC`,
     'agent-application': `Dear ${name || 'Valued Applicant'},\n\nThank you for submitting your agent application with SFam Logistics LLC.\n\nYour application has been received. Our recruiting team will review your information and reach out within 48 hours.\n\nFor questions, please call us at 1 (888) 698-5556 or email info@sfamlogistics.com.\n\nBest regards,\nSFam Logistics LLC`,
-    'contact': `Dear ${name || 'Valued Customer'},\n\nThank you for contacting SFam Logistics LLC.\n\nYour message has been received. We will respond within 1 business hour during business hours (Mon–Fri, 8AM–5PM PST).\n\nFor urgent freight needs, please call us at 1 (888) 698-5556.\n\nBest regards,\nSFam Logistics LLC`
+    'contact': `Dear ${name || 'Valued Customer'},\n\nThank you for contacting SFam Logistics LLC.\n\nYour message has been received and routed to our support team. We will respond within 1 business hour during business hours (Mon–Fri, 7AM–5PM PST).\n\nFor urgent freight needs, please call us at 1 (888) 698-5556 or email support@sfamlogistics.com.\n\nBest regards,\nSFam Logistics LLC`,
+    'subscribe': `Dear ${name || 'Subscriber'},\n\nThanks for subscribing to SFam Logistics insights.\n\nYou'll receive industry tips, rate trends, and SFam updates straight to your inbox. No spam — ever.\n\nQuestions? Reply directly to this email or reach us at loads@sfamlogistics.com / 1 (888) 698-5556.\n\n— SFam Logistics LLC\n   FMCSA Authorized · MC 1810116 · USDOT 4555943`
   }
 
   const subject = subjects[type] || subjects['contact']

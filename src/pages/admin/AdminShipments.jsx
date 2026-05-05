@@ -207,10 +207,12 @@ export default function AdminShipments() {
       </div>
 
       {demoMode && !loading && (
-        <div className="mb-6 p-3 rounded-xl bg-orange-400/10 border border-orange-400/30 flex items-center gap-3 text-xs">
-          <Database className="w-4 h-4 text-orange-300 shrink-0" />
-          <div className="text-white/70 flex-1">
-            <span className="font-bold text-orange-200">Demo mode</span> — saving to your browser only. Shipments you add here are visible on this device. To enable multi-device sync and live chat, deploy the Express backend.
+        <div className="mb-6 p-4 rounded-xl bg-orange-400/10 border border-orange-400/30 flex items-start gap-3 text-xs">
+          <Database className="w-5 h-5 text-orange-300 shrink-0 mt-0.5" />
+          <div className="text-white/80 flex-1 space-y-1">
+            <div className="font-bold text-orange-200 text-sm">Backend offline — running in browser-only mode</div>
+            <div>Shipments you add here are saved to <strong>this device only</strong>. To enable multi-device sync, the Express backend (<code className="text-orange-300 bg-black/40 px-1 rounded">server/index.js</code>) needs to be running and reachable.</div>
+            <div className="text-white/60">Once the backend is online, refresh this page — the &quot;demo mode&quot; banner will disappear and shipments, chat, and form submissions will sync across all devices automatically.</div>
           </div>
         </div>
       )}

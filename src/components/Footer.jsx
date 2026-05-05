@@ -2,10 +2,35 @@ import { Link } from 'react-router-dom'
 import { Facebook, Instagram, Twitter, Mail, Phone, MapPin, ArrowRight, Send } from 'lucide-react'
 import { useState } from 'react'
 import { company, services } from '../data/site.js'
+import { useSubmissions } from '../context/SubmissionsContext.jsx'
 
 export default function Footer() {
+  const { add } = useSubmissions()
   const [email, setEmail] = useState('')
   const [subbed, setSubbed] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
+
+  const subscribe = async (e) => {
+    e.preventDefault()
+    if (!email || submitting) return
+    setSubmitting(true)
+    try {
+      await add('subscribers', { email, source: typeof window !== 'undefined' ? window.location.pathname : '/' })
+      // Belt-and-braces: also fire the dedicated confirmation endpoint
+      // (the POST handler also queues a welcome email, this is a no-op fallback)
+      try {
+        await fetch('/api/send-confirmation', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ to: email, type: 'subscribe' })
+        })
+      } catch {}
+      setSubbed(true)
+      setEmail('')
+    } finally {
+      setSubmitting(false)
+    }
+  }
 
   return (
     <footer className="relative border-t border-orange-400/20 bg-gradient-to-b from-brand-navy to-black overflow-hidden">
@@ -21,9 +46,11 @@ export default function Footer() {
             <h3 className="font-display font-bold text-3xl">Freight insights, straight to your inbox.</h3>
             <p className="text-white/60 mt-2 text-sm">Industry tips, rate trends, and SFam updates. No spam — ever.</p>
           </div>
-          <form onSubmit={e => { e.preventDefault(); setSubbed(true); setEmail('') }} className="flex gap-3">
-            <input value={email} onChange={e => setEmail(e.target.value)} className="input flex-1" placeholder="your@email.com" type="email" required />
-            <button className="btn-primary !px-6">{subbed ? '✓ Subscribed' : <>Subscribe <Send className="w-4 h-4" /></>}</button>
+          <form onSubmit={subscribe} className="flex gap-3">
+            <input value={email} onChange={e => setEmail(e.target.value)} className="input flex-1" placeholder="your@email.com" type="email" required disabled={subbed} />
+            <button type="submit" disabled={submitting || subbed} className="btn-primary !px-6 disabled:opacity-70">
+              {subbed ? '✓ Subscribed' : submitting ? 'Submitting...' : <>Subscribe <Send className="w-4 h-4" /></>}
+            </button>
           </form>
         </div>
       </div>

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { FileText, Truck, Users, MessageSquare, TrendingUp, Eye, X, Download } from 'lucide-react'
+import { FileText, Truck, Users, MessageSquare, TrendingUp, Eye, X, Download, Mail } from 'lucide-react'
 import { useSubmissions } from '../../context/SubmissionsContext.jsx'
 import { Link } from 'react-router-dom'
 
@@ -11,14 +11,16 @@ export default function Dashboard() {
     { i: FileText, l: 'Quote Requests', n: data.quotes.length, c: 'from-orange-400 to-orange-600', link: '/admin/quotes' },
     { i: Truck, l: 'Carriers', n: data.carriers.length, c: 'from-orange-400 to-orange-600', link: '/admin/carriers' },
     { i: Users, l: 'Agents', n: data.agents.length, c: 'from-orange-400 to-orange-600', link: '/admin/agents' },
-    { i: MessageSquare, l: 'Contacts', n: data.contacts.length, c: 'from-emerald-500 to-emerald-700', link: '/admin/contacts' }
+    { i: MessageSquare, l: 'Contacts', n: data.contacts.length, c: 'from-emerald-500 to-emerald-700', link: '/admin/contacts' },
+    { i: Mail, l: 'Subscribers', n: (data.subscribers || []).length, c: 'from-orange-400 to-orange-600', link: '/admin/subscribers' }
   ]
   const recent = [
-    ...data.quotes.slice(0, 5).map(x => ({ ...x, type: 'Quote', label: `${x.originCity || '?'} → ${x.destCity || '?'}` })),
+    ...data.quotes.slice(0, 5).map(x => ({ ...x, type: 'Quote', label: `${x.originCity || x.originZip || '?'} → ${x.destCity || x.destZip || '?'}` })),
     ...data.carriers.slice(0, 5).map(x => ({ ...x, type: 'Carrier', label: x.company })),
     ...data.agents.slice(0, 5).map(x => ({ ...x, type: 'Agent', label: x.name })),
-    ...data.contacts.slice(0, 5).map(x => ({ ...x, type: 'Contact', label: x.name || x.email }))
-  ].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).slice(0, 8)
+    ...data.contacts.slice(0, 5).map(x => ({ ...x, type: 'Contact', label: x.name || x.email })),
+    ...(data.subscribers || []).slice(0, 5).map(x => ({ ...x, type: 'Subscriber', label: x.email }))
+  ].sort((a, b) => new Date(b.created_at || b.createdAt) - new Date(a.created_at || a.createdAt)).slice(0, 10)
 
   const exportPdf = (row) => {
     const w = window.open('', '_blank')
@@ -34,7 +36,7 @@ export default function Dashboard() {
         <p className="text-white/60 mt-2">Here&apos;s what&apos;s happening with SFam Logistics today.</p>
       </div>
 
-      <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-10">
+      <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-5 mb-10">
         {stats.map(s => (
           <Link to={s.link} key={s.l} className="glass-strong p-6 relative overflow-hidden hover:border-orange-400/40 transition group cursor-pointer">
             <div className={`absolute -top-10 -right-10 w-32 h-32 bg-gradient-to-br ${s.c} rounded-full blur-2xl opacity-30`} />
@@ -59,7 +61,7 @@ export default function Dashboard() {
                   <span className="text-[10px] uppercase tracking-widest px-2 py-1 rounded-full bg-orange-500/20 text-orange-300 shrink-0">{r.type}</span>
                   <div className="min-w-0">
                     <div className="font-semibold truncate">{r.label}</div>
-                    <div className="text-xs text-white/50">{new Date(r.createdAt).toLocaleString()}</div>
+                    <div className="text-xs text-white/50">{new Date(r.created_at || r.createdAt).toLocaleString()}</div>
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
