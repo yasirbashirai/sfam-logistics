@@ -166,8 +166,17 @@ export default function Home() {
               </div>
             </div>
             <Reveal delay={200} className="h-full">
-              <div className="relative rounded-2xl overflow-hidden border border-orange-400/30 shadow-2xl shadow-black/40 h-full min-h-[420px]">
-                <img src="/images/why-shippers-choose-us.jpeg" alt="Why shippers choose SFam Logistics" className="absolute inset-0 w-full h-full object-cover" />
+              {/* Aspect ratio adapts per breakpoint so the truck is always cropped tight, no empty space:
+                  - mobile  → 4:3 portrait-friendly card
+                  - tablet  → 16:10
+                  - desktop → fills the height of the left column */}
+              <div className="relative rounded-2xl overflow-hidden border border-orange-400/30 shadow-2xl shadow-black/40 aspect-[4/3] sm:aspect-[16/10] lg:aspect-auto lg:h-full lg:min-h-[480px]">
+                <img
+                  src="/images/sfam-truck-peterbilt.jpg"
+                  alt="SFam Logistics white Peterbilt sleeper tractor"
+                  className="absolute inset-0 w-full h-full object-cover object-center"
+                  loading="lazy"
+                />
                 <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/70 via-black/15 to-transparent pointer-events-none" />
                 <div className="absolute bottom-4 left-4 right-4 sm:bottom-6 sm:left-6 sm:right-6">
                   <span className="inline-block px-4 py-2 rounded-full bg-orange-400/95 text-brand-navy font-display italic font-black uppercase tracking-wider text-sm sm:text-base shadow-lg shadow-black/30">
