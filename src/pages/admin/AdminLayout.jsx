@@ -19,9 +19,9 @@ export default function AdminLayout() {
   const logout = () => { localStorage.removeItem('sfam_admin'); nav('/') }
 
   return (
-    <div className="pt-20 min-h-screen flex bg-brand-ink2">
+    <div className="md:pt-[10rem] pt-28 min-h-screen flex bg-brand-ink2">
       <PageMeta title="Admin Dashboard" description="SFam Logistics internal admin dashboard." noindex />
-      <aside className="w-64 shrink-0 border-r border-white/10 bg-brand-ink/60 backdrop-blur-xl p-5 hidden lg:block sticky top-20 self-start h-[calc(100vh-5rem)]">
+      <aside className="w-64 shrink-0 border-r border-white/10 bg-brand-ink/60 backdrop-blur-xl p-5 hidden lg:block sticky md:top-[10rem] top-28 self-start h-[calc(100vh-10rem)]">
         <div className="flex items-center gap-3 mb-8 px-2">
           <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-orange-400 to-orange-600 grid place-items-center"><Logo className="w-5 h-5" /></div>
           <div className="font-display font-bold">Admin</div>

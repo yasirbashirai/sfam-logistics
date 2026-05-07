@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react'
-import { ArrowRight, ArrowLeft, CheckCircle2, MapPin, Package, User, ShieldCheck, Clock, Phone } from 'lucide-react'
+import { ArrowRight, ArrowLeft, CheckCircle2, MapPin, Package, User, ShieldCheck, Clock, Phone, AlertCircle } from 'lucide-react'
 import PageMeta from '../components/PageMeta.jsx'
 import { PageHero, Orbs } from '../components/Section.jsx'
 import { useSubmissions } from '../context/SubmissionsContext.jsx'
@@ -54,13 +54,57 @@ export default function Quote() {
     }
   }, [form.originZip, form.destZip])
 
-  const next = () => setStep(s => Math.min(s + 1, STEPS.length - 1))
-  const prev = () => setStep(s => Math.max(s - 1, 0))
+  const [errors, setErrors] = useState({})
+
+  const validateStep = (s) => {
+    const e = {}
+    if (s === 0) {
+      if (!form.originZip.trim()) e.originZip = 'Origin ZIP is required'
+      else if (!/^\d{5}$/.test(form.originZip.trim())) e.originZip = 'Enter a valid 5-digit ZIP'
+      if (!form.destZip.trim()) e.destZip = 'Destination ZIP is required'
+      else if (!/^\d{5}$/.test(form.destZip.trim())) e.destZip = 'Enter a valid 5-digit ZIP'
+      if (!form.pickupDate) e.pickupDate = 'Pickup date is required'
+    }
+    if (s === 1) {
+      if (!form.weight) e.weight = 'Total weight is required'
+      else if (Number(form.weight) <= 0) e.weight = 'Weight must be greater than 0'
+    }
+    if (s === 2) {
+      if (!form.name.trim()) e.name = 'Full name is required'
+      if (!form.company.trim()) e.company = 'Company is required'
+      if (!form.email.trim()) e.email = 'Email is required'
+      else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim())) e.email = 'Enter a valid email address'
+      if (!form.phone.trim()) e.phone = 'Phone is required'
+      else if (form.phone.replace(/\D/g, '').length < 10) e.phone = 'Enter a valid phone number'
+    }
+    return e
+  }
+
+  const next = () => {
+    const stepErrors = validateStep(step)
+    if (Object.keys(stepErrors).length) {
+      setErrors(stepErrors)
+      return
+    }
+    setErrors({})
+    setStep(s => Math.min(s + 1, STEPS.length - 1))
+  }
+  const prev = () => { setErrors({}); setStep(s => Math.max(s - 1, 0)) }
 
   const [showPopup, setShowPopup] = useState(false)
 
   const submit = async (e) => {
     e.preventDefault()
+    // Re-validate every step before final submit
+    const allErrors = { ...validateStep(0), ...validateStep(1), ...validateStep(2) }
+    if (Object.keys(allErrors).length) {
+      setErrors(allErrors)
+      // Jump back to the first step that has errors
+      if (Object.keys(validateStep(0)).length) setStep(0)
+      else if (Object.keys(validateStep(1)).length) setStep(1)
+      else setStep(2)
+      return
+    }
     add('quotes', { ...form, distanceMi: estimate.distance })
     setDone(true)
     setShowPopup(true)
@@ -115,14 +159,29 @@ export default function Quote() {
               ))}
             </div>
 
-            <form onSubmit={submit} className="glass-strong p-7 lg:p-10">
+            <form onSubmit={submit} className="glass-strong p-7 lg:p-10" noValidate>
+              {Object.keys(errors).length > 0 && (
+                <div className="mb-6 flex items-start gap-3 p-4 rounded-xl bg-red-500/10 border border-red-500/40 text-red-200">
+                  <AlertCircle className="w-5 h-5 shrink-0 mt-0.5 text-red-400" />
+                  <div className="text-sm">
+                    <div className="font-bold mb-0.5">Please fix the highlighted fields before continuing.</div>
+                    <div className="text-red-200/80 text-xs">All fields marked with <span className="text-orange-400">*</span> are required.</div>
+                  </div>
+                </div>
+              )}
               {step === 0 && (
                 <div className="space-y-5">
                   <h3 className="font-display italic font-black text-xl flex items-center gap-3"><MapPin className="w-6 h-6 text-orange-400" /> Lane Details</h3>
                   <div className="grid sm:grid-cols-2 gap-4">
-                    <Field label="Origin ZIP"><input className="input" value={form.originZip} onChange={e => set('originZip', e.target.value)} required /></Field>
-                    <Field label="Destination ZIP"><input className="input" value={form.destZip} onChange={e => set('destZip', e.target.value)} required /></Field>
-                    <Field label="Pickup Date"><input type="date" className="input" value={form.pickupDate} onChange={e => set('pickupDate', e.target.value)} required /></Field>
+                    <Field label="Origin ZIP" required error={errors.originZip}>
+                      <input className={`input ${errors.originZip ? 'border-red-500/60 focus:border-red-500' : ''}`} value={form.originZip} onChange={e => { set('originZip', e.target.value); if (errors.originZip) setErrors(p => ({ ...p, originZip: '' })) }} />
+                    </Field>
+                    <Field label="Destination ZIP" required error={errors.destZip}>
+                      <input className={`input ${errors.destZip ? 'border-red-500/60 focus:border-red-500' : ''}`} value={form.destZip} onChange={e => { set('destZip', e.target.value); if (errors.destZip) setErrors(p => ({ ...p, destZip: '' })) }} />
+                    </Field>
+                    <Field label="Pickup Date" required error={errors.pickupDate}>
+                      <input type="date" className={`input ${errors.pickupDate ? 'border-red-500/60 focus:border-red-500' : ''}`} value={form.pickupDate} onChange={e => { set('pickupDate', e.target.value); if (errors.pickupDate) setErrors(p => ({ ...p, pickupDate: '' })) }} />
+                    </Field>
                     <Field label="Delivery Date (optional)"><input type="date" className="input" value={form.deliveryDate} onChange={e => set('deliveryDate', e.target.value)} /></Field>
                   </div>
                 </div>
@@ -142,7 +201,9 @@ export default function Quote() {
                         <option>Dry Van</option><option>Reefer</option><option>Flatbed</option><option>Step Deck</option><option>Power Only</option>
                       </select>
                     </Field>
-                    <Field label="Total Weight (lbs)"><input className="input" type="number" value={form.weight} onChange={e => set('weight', e.target.value)} required /></Field>
+                    <Field label="Total Weight (lbs)" required error={errors.weight}>
+                      <input className={`input ${errors.weight ? 'border-red-500/60 focus:border-red-500' : ''}`} type="number" value={form.weight} onChange={e => { set('weight', e.target.value); if (errors.weight) setErrors(p => ({ ...p, weight: '' })) }} />
+                    </Field>
                     <Field label="Pallet Count"><input className="input" type="number" value={form.pallets} onChange={e => set('pallets', e.target.value)} /></Field>
                     <Field label="Commodity"><input className="input" placeholder="e.g. machinery, food grade, electronics" value={form.commodity} onChange={e => set('commodity', e.target.value)} /></Field>
                     <Field label="Temperature (if reefer)"><input className="input" placeholder="e.g. 34°F" value={form.temp} onChange={e => set('temp', e.target.value)} /></Field>
@@ -158,10 +219,18 @@ export default function Quote() {
                 <div className="space-y-5">
                   <h3 className="font-display italic font-black text-xl flex items-center gap-3"><User className="w-6 h-6 text-orange-400" /> Contact Information</h3>
                   <div className="grid sm:grid-cols-2 gap-4">
-                    <Field label="Full Name"><input className="input" value={form.name} onChange={e => set('name', e.target.value)} required /></Field>
-                    <Field label="Company"><input className="input" value={form.company} onChange={e => set('company', e.target.value)} required /></Field>
-                    <Field label="Email"><input type="email" className="input" value={form.email} onChange={e => set('email', e.target.value)} required /></Field>
-                    <Field label="Phone"><input className="input" value={form.phone} onChange={e => set('phone', e.target.value)} required /></Field>
+                    <Field label="Full Name" required error={errors.name}>
+                      <input className={`input ${errors.name ? 'border-red-500/60 focus:border-red-500' : ''}`} value={form.name} onChange={e => { set('name', e.target.value); if (errors.name) setErrors(p => ({ ...p, name: '' })) }} />
+                    </Field>
+                    <Field label="Company" required error={errors.company}>
+                      <input className={`input ${errors.company ? 'border-red-500/60 focus:border-red-500' : ''}`} value={form.company} onChange={e => { set('company', e.target.value); if (errors.company) setErrors(p => ({ ...p, company: '' })) }} />
+                    </Field>
+                    <Field label="Email" required error={errors.email}>
+                      <input type="email" className={`input ${errors.email ? 'border-red-500/60 focus:border-red-500' : ''}`} value={form.email} onChange={e => { set('email', e.target.value); if (errors.email) setErrors(p => ({ ...p, email: '' })) }} />
+                    </Field>
+                    <Field label="Phone" required error={errors.phone}>
+                      <input className={`input ${errors.phone ? 'border-red-500/60 focus:border-red-500' : ''}`} value={form.phone} onChange={e => { set('phone', e.target.value); if (errors.phone) setErrors(p => ({ ...p, phone: '' })) }} />
+                    </Field>
                   </div>
                   <Field label="Additional Notes"><textarea className="textarea" value={form.notes} onChange={e => set('notes', e.target.value)} placeholder="Special instructions, accessorials, etc." /></Field>
                 </div>
@@ -234,11 +303,18 @@ export default function Quote() {
   )
 }
 
-function Field({ label, children }) {
+function Field({ label, children, required, error }) {
   return (
     <label className="block">
-      <span className="text-xs font-semibold text-white/60 uppercase tracking-wider mb-2 block">{label}</span>
+      <span className="text-xs font-semibold text-white/60 uppercase tracking-wider mb-2 block">
+        {label}{required && <span className="text-orange-400 ml-1">*</span>}
+      </span>
       {children}
+      {error && (
+        <span className="mt-1.5 flex items-center gap-1.5 text-xs text-red-400">
+          <AlertCircle className="w-3.5 h-3.5" /> {error}
+        </span>
+      )}
     </label>
   )
 }
