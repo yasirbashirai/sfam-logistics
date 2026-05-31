@@ -1,0 +1,49 @@
+# Render Blueprint — deploys the SFam Logistics backend API on the FREE tier.
+#
+# How to use:
+#   1. Go to https://render.com → sign up (free, use GitHub login).
+#   2. Dashboard → New + → Blueprint.
+#   3. Connect this GitHub repo (yasirbashirai/sfam-logistics).
+#   4. Render reads this file and creates the service → click "Apply".
+#   5. Wait ~3–5 min for the first build. You'll get a URL like
+#      https://sfam-logistics-api.onrender.com
+#
+# That URL is your live backend. Send it to me and I'll point the website at it.
+#
+# Notes on the FREE tier:
+#   • The service sleeps after 15 min idle; the next request cold-starts (~50s).
+#   • The filesystem is ephemeral — the SQLite database and uploaded files reset
+#     on each redeploy/restart. Fine for testing; for a real client collecting
+#     leads, add a persistent disk (Render → service → Disks, ~$7/mo) or switch
+#     to a hosted database later. Ask me and I'll set that up.
+
+services:
+  - type: web
+    name: sfam-logistics-api
+    runtime: node
+    plan: free
+    branch: main
+    buildCommand: npm install
+    startCommand: node server/index.js
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_VERSION
+        value: "20"
+      # Used in chat/alert emails to link back to the admin dashboard.
+      - key: SITE_URL
+        value: https://sfamlogistics.com
+      # --- Email alerts (optional) ---
+      # Add real values in the Render dashboard → Environment. If left unset, the
+      # backend still runs and saves all submissions; it just won't send emails.
+      - key: SMTP_HOST
+        sync: false
+      - key: SMTP_PORT
+        sync: false
+      - key: SMTP_USER
+        sync: false
+      - key: SMTP_PASS
+        sync: false
+      - key: SMTP_FROM
+        sync: false
+      - key: ALERT_TO
+        sync: false

@@ -1,3 +1,4 @@
+import { lazy, Suspense } from 'react'
 import { Routes, Route, useLocation } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import Navbar from './components/Navbar.jsx'
@@ -19,16 +20,19 @@ import Privacy from './pages/Privacy.jsx'
 import Terms from './pages/Terms.jsx'
 import Track from './pages/Track.jsx'
 import Login from './pages/Login.jsx'
-import AdminLayout from './pages/admin/AdminLayout.jsx'
-import Dashboard from './pages/admin/Dashboard.jsx'
-import AdminQuotes from './pages/admin/AdminQuotes.jsx'
-import AdminCarriers from './pages/admin/AdminCarriers.jsx'
-import AdminAgents from './pages/admin/AdminAgents.jsx'
-import AdminContacts from './pages/admin/AdminContacts.jsx'
-import AdminShipments from './pages/admin/AdminShipments.jsx'
-import AdminChat from './pages/admin/AdminChat.jsx'
-import AdminSubscribers from './pages/admin/AdminSubscribers.jsx'
 import NotFound from './pages/NotFound.jsx'
+
+// Admin dashboard is code-split: public/SEO visitors never download it,
+// keeping the initial bundle small for faster page loads (Core Web Vitals).
+const AdminLayout = lazy(() => import('./pages/admin/AdminLayout.jsx'))
+const Dashboard = lazy(() => import('./pages/admin/Dashboard.jsx'))
+const AdminQuotes = lazy(() => import('./pages/admin/AdminQuotes.jsx'))
+const AdminCarriers = lazy(() => import('./pages/admin/AdminCarriers.jsx'))
+const AdminAgents = lazy(() => import('./pages/admin/AdminAgents.jsx'))
+const AdminContacts = lazy(() => import('./pages/admin/AdminContacts.jsx'))
+const AdminShipments = lazy(() => import('./pages/admin/AdminShipments.jsx'))
+const AdminChat = lazy(() => import('./pages/admin/AdminChat.jsx'))
+const AdminSubscribers = lazy(() => import('./pages/admin/AdminSubscribers.jsx'))
 
 const Page = ({ children }) => (
   <motion.div
@@ -57,6 +61,7 @@ export default function App() {
       )}
       <main className="flex-1">
         <AnimatePresence mode="wait">
+          <Suspense fallback={<div className="min-h-[60vh] grid place-items-center text-white/40">Loading…</div>}>
           <Routes location={location} key={location.pathname}>
             <Route path="/" element={<Page><Home /></Page>} />
             <Route path="/about" element={<Page><About /></Page>} />
@@ -85,6 +90,7 @@ export default function App() {
             </Route>
             <Route path="*" element={<Page><NotFound /></Page>} />
           </Routes>
+          </Suspense>
         </AnimatePresence>
       </main>
       <Footer />
