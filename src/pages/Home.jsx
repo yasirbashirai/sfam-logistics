@@ -165,16 +165,14 @@ export default function Home() {
                 ))}
               </div>
             </div>
-            <Reveal delay={200} className="h-full">
-              {/* Aspect ratio adapts per breakpoint so the truck is always cropped tight, no empty space:
-                  - mobile  → 4:3 portrait-friendly card
-                  - tablet  → 16:10
-                  - desktop → fills the height of the left column */}
-              <div className="relative rounded-2xl overflow-hidden border border-orange-400/30 shadow-2xl shadow-black/40 aspect-[4/3] sm:aspect-[16/10] lg:aspect-auto lg:h-full lg:min-h-[480px]">
+            <Reveal delay={200} className="h-full flex items-center">
+              {/* Use the image's native aspect ratio with object-contain so the full truck
+                  is always visible end-to-end — no cropping on any breakpoint. */}
+              <div className="relative w-full rounded-2xl overflow-hidden border border-orange-400/30 shadow-2xl shadow-black/40 bg-brand-navy aspect-[1600/1203]">
                 <img
                   src="/images/sfam-truck-peterbilt.jpg"
                   alt="SFam Logistics white Peterbilt sleeper tractor"
-                  className="absolute inset-0 w-full h-full object-cover object-center"
+                  className="absolute inset-0 w-full h-full object-contain object-center"
                   loading="lazy"
                 />
                 <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/70 via-black/15 to-transparent pointer-events-none" />

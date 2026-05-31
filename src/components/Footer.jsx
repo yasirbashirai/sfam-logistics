@@ -104,9 +104,7 @@ export default function Footer() {
           <p>© {new Date().getFullYear()} SFam Logistics LLC. All rights reserved. FMCSA Authorized Property Broker. MC 1810116 • USDOT 4555943</p>
           <div className="flex flex-wrap gap-x-5 gap-y-2 justify-center">
             <Link to="/privacy" className="hover:text-orange-300">Privacy Policy</Link>
-            <Link to="/terms" className="hover:text-orange-300">Terms of Service</Link>
-            <a href={termsPdf} target="_blank" rel="noopener noreferrer" className="hover:text-orange-300">Shippers Terms and Conditions</a>
-            <a href={termsPdf} download="SFam-Logistics-Terms-and-Conditions.pdf" className="hover:text-orange-300">Carrier Terms and Conditions</a>
+            <Link to="/terms" className="hover:text-orange-300">Terms and Conditions of Service</Link>
           </div>
         </div>
       </div>
