@@ -27,10 +27,10 @@ export const SECONDARY_LOCATION = {
 }
 
 const SOCIAL = [
-  'https://www.facebook.com/sfamlogistics',
-  'https://www.linkedin.com/company/sfam-logistics',
-  'https://www.instagram.com/sfamlogistics',
-  'https://twitter.com/sfamlogistics'
+  'https://www.facebook.com/profile.php?id=61576522389023',
+  'https://www.linkedin.com/company/sfam-logistics-llc/',
+  'https://www.instagram.com/sfamlogistics/',
+  'https://x.com/SFamlogistics'
 ]
 
 // === Organization / LocalBusiness — site-wide ===

@@ -1,6 +1,7 @@
 import { PageHero } from '../components/Section.jsx'
 import PageMeta from '../components/PageMeta.jsx'
-import { FileText } from 'lucide-react'
+import { FileText, Download, ExternalLink } from 'lucide-react'
+import { termsPdf } from '../data/site.js'
 
 export default function Terms() {
   return (
@@ -42,14 +43,20 @@ export default function Terms() {
           <p>These terms are governed by the laws of the State of Washington, USA.</p>
 
           <div className="mt-12 pt-8 border-t border-white/10">
-            <h2 className="text-2xl font-display font-bold text-white mb-4">Terms of Service</h2>
+            <h2 className="text-2xl font-display font-bold text-white mb-4">Full Terms &amp; Conditions of Service</h2>
             <div className="glass-strong p-8 text-center">
               <FileText className="w-12 h-12 text-orange-400 mx-auto mb-4" />
-              <h3 className="font-display italic font-black text-xl mb-2">Terms of Service Document</h3>
-              <p className="text-white/60 mb-6 text-sm">Our Terms of Service document is currently being reviewed by our legal team and will be available here shortly.</p>
-              <div className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white/10 border border-white/20 text-white/50 text-sm font-bold">
-                <FileText className="w-4 h-4" /> Coming Soon — Under Legal Review
+              <h3 className="font-display italic font-black text-xl mb-2">SFam Logistics LLC — Terms &amp; Conditions of Service</h3>
+              <p className="text-white/60 mb-6 text-sm">Our complete Terms &amp; Conditions of Service govern all freight brokerage arrangements between SFam Logistics LLC and Shippers, Carriers, and all other parties. View or download the full document below.</p>
+              <div className="flex flex-wrap items-center justify-center gap-3">
+                <a href={termsPdf} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-orange-400 to-orange-600 text-brand-navy text-sm font-bold hover:opacity-90 transition">
+                  <ExternalLink className="w-4 h-4" /> View Terms &amp; Conditions
+                </a>
+                <a href={termsPdf} download="SFam-Logistics-Terms-and-Conditions.pdf" className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white/10 border border-white/20 text-white text-sm font-bold hover:bg-white/15 transition">
+                  <Download className="w-4 h-4" /> Download PDF
+                </a>
               </div>
+              <p className="text-white/40 text-xs mt-5">Applies to both Shippers and Carriers · Effective April 20, 2026</p>
             </div>
           </div>
         </div>

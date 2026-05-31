@@ -11,9 +11,15 @@ export const company = {
   social: {
     facebook: 'https://www.facebook.com/profile.php?id=61576522389023',
     twitter: 'https://x.com/SFamlogistics',
-    instagram: 'https://www.instagram.com/sfamlogistics/'
+    instagram: 'https://www.instagram.com/sfamlogistics/',
+    linkedin: 'https://www.linkedin.com/company/sfam-logistics-llc/'
   }
 }
+
+// Public path to the consolidated Terms & Conditions PDF (served as a static file).
+// Used for footer legal links and as the short link for email signatures:
+//   https://sfamlogistics.com/terms.pdf
+export const termsPdf = '/terms.pdf'
 
 export const services = [
   { slug: 'full-truckload', name: 'Full Truckload (FTL)', short: 'Dedicated trailers, faster transit, single-shipment focus.', icon: 'Truck',

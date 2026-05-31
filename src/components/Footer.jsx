@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
-import { Facebook, Instagram, Twitter, Mail, Phone, MapPin, ArrowRight, Send } from 'lucide-react'
+import { Facebook, Instagram, Twitter, Linkedin, Mail, Phone, MapPin, ArrowRight, Send } from 'lucide-react'
 import { useState } from 'react'
-import { company, services } from '../data/site.js'
+import { company, services, termsPdf } from '../data/site.js'
 import { useSubmissions } from '../context/SubmissionsContext.jsx'
 
 export default function Footer() {
@@ -66,6 +66,7 @@ export default function Footer() {
               <a href={company.social.facebook} target="_blank" rel="noopener noreferrer" className="w-10 h-10 grid place-items-center rounded-full bg-white/5 border border-white/10 hover:bg-orange-400 hover:border-orange-400 hover:text-brand-navy transition" aria-label="Facebook"><Facebook className="w-4 h-4" /></a>
               <a href={company.social.twitter} target="_blank" rel="noopener noreferrer" className="w-10 h-10 grid place-items-center rounded-full bg-white/5 border border-white/10 hover:bg-orange-400 hover:border-orange-400 hover:text-brand-navy transition" aria-label="X"><Twitter className="w-4 h-4" /></a>
               <a href={company.social.instagram} target="_blank" rel="noopener noreferrer" className="w-10 h-10 grid place-items-center rounded-full bg-white/5 border border-white/10 hover:bg-orange-400 hover:border-orange-400 hover:text-brand-navy transition" aria-label="Instagram"><Instagram className="w-4 h-4" /></a>
+              <a href={company.social.linkedin} target="_blank" rel="noopener noreferrer" className="w-10 h-10 grid place-items-center rounded-full bg-white/5 border border-white/10 hover:bg-orange-400 hover:border-orange-400 hover:text-brand-navy transition" aria-label="LinkedIn"><Linkedin className="w-4 h-4" /></a>
             </div>
           </div>
 
@@ -101,9 +102,11 @@ export default function Footer() {
 
         <div className="mt-14 pt-6 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-white/40">
           <p>© {new Date().getFullYear()} SFam Logistics LLC. All rights reserved. FMCSA Authorized Property Broker. MC 1810116 • USDOT 4555943</p>
-          <div className="flex gap-5">
+          <div className="flex flex-wrap gap-x-5 gap-y-2 justify-center">
             <Link to="/privacy" className="hover:text-orange-300">Privacy Policy</Link>
-            <Link to="/terms" className="hover:text-orange-300">Terms</Link>
+            <Link to="/terms" className="hover:text-orange-300">Terms of Service</Link>
+            <a href={termsPdf} target="_blank" rel="noopener noreferrer" className="hover:text-orange-300">Shippers Terms and Conditions</a>
+            <a href={termsPdf} download="SFam-Logistics-Terms-and-Conditions.pdf" className="hover:text-orange-300">Carrier Terms and Conditions</a>
           </div>
         </div>
       </div>
