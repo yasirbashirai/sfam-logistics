@@ -22,6 +22,11 @@ RewriteRule ^ https://%1%{REQUEST_URI} [L,R=301]
 # RewriteCond %{REQUEST_URI} ^/(api|uploads)/
 # RewriteRule ^(api|uploads)/(.*)$ http://127.0.0.1:4000/$1/$2 [P,L]
 
+# === TERMS PDF (clean URL) ===
+# Serve the Terms & Conditions PDF at /terms (no .pdf extension). Internal
+# rewrite — the URL bar stays /terms while the PDF bytes are served.
+RewriteRule ^terms/?$ /terms.pdf [L]
+
 # === SPA FALLBACK ===
 # Stop rewriting once we've reached index.html (prevents loops on LiteSpeed).
 RewriteRule ^index\.html$ - [L]

@@ -479,6 +479,15 @@ const staticCandidates = [
 const STATIC_DIR = staticCandidates.find(p => fs.existsSync(p))
 if (STATIC_DIR) {
   console.log(`📁 Serving frontend from ${STATIC_DIR}`)
+
+  // Serve the Terms & Conditions PDF at the clean, extension-less URL /terms.
+  // Must come before the SPA catch-all below, which would otherwise return index.html.
+  app.get(/^\/terms\/?$/, (req, res) => {
+    res.type('application/pdf')
+    res.setHeader('Content-Disposition', 'inline; filename="SFam-Logistics-Terms-and-Conditions-of-Service.pdf"')
+    res.sendFile(path.join(STATIC_DIR, 'terms.pdf'))
+  })
+
   app.use(express.static(STATIC_DIR))
   app.get(/^\/(?!api|uploads).*/, (req, res) => {
     res.sendFile(path.join(STATIC_DIR, 'index.html'))

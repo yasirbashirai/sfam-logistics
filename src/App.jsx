@@ -17,7 +17,6 @@ import Blog from './pages/Blog.jsx'
 import BlogPost from './pages/BlogPost.jsx'
 import Contact from './pages/Contact.jsx'
 import Privacy from './pages/Privacy.jsx'
-import Terms from './pages/Terms.jsx'
 import Track from './pages/Track.jsx'
 import Login from './pages/Login.jsx'
 import NotFound from './pages/NotFound.jsx'
@@ -75,7 +74,8 @@ export default function App() {
             <Route path="/blog/:slug" element={<Page><BlogPost /></Page>} />
             <Route path="/contact" element={<Page><Contact /></Page>} />
             <Route path="/privacy" element={<Page><Privacy /></Page>} />
-            <Route path="/terms" element={<Page><Terms /></Page>} />
+            {/* /terms is served as the Terms & Conditions PDF at the server level
+                (Vite middleware / Express route / .htaccess rewrite), not by React Router. */}
             <Route path="/login" element={<Page><Login /></Page>} />
             <Route path="/admin" element={<AdminLayout />}>
               <Route index element={<Dashboard />} />

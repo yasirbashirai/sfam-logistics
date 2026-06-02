@@ -16,10 +16,11 @@ export const company = {
   }
 }
 
-// Public path to the consolidated Terms & Conditions PDF (served as a static file).
-// Used for footer legal links and as the short link for email signatures:
-//   https://sfamlogistics.com/terms.pdf
-export const termsPdf = '/terms.pdf'
+// Clean, extension-less URL for the consolidated Terms & Conditions PDF.
+// The server (Vite dev, Express, and Apache/.htaccess) rewrites /terms → terms.pdf,
+// so the URL bar stays /terms while the PDF is served. Used for footer legal links
+// and as the short link for email signatures: https://sfamlogistics.com/terms
+export const termsPdf = '/terms'
 
 export const services = [
   { slug: 'full-truckload', name: 'Full Truckload (FTL)', short: 'Dedicated trailers, faster transit, single-shipment focus.', icon: 'Truck',
