@@ -1,5 +1,6 @@
 {
   "rewrites": [
+    { "source": "/terms", "destination": "/terms.pdf" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
