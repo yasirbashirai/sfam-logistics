@@ -34,7 +34,9 @@ const staticRoutes = [
   '/blog',
   '/contact',
   '/privacy',
-  '/terms',
+  // NOTE: /terms is intentionally omitted — it is served as the Terms PDF via a
+  // server rewrite (vercel.json / .htaccess / Express). Pre-rendering a static
+  // dist/terms/index.html here would shadow that rewrite and serve the SPA shell.
   '/login',
   // Admin (noindex, but the URLs must still resolve to the app)
   '/admin',
