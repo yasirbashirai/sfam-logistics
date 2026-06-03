@@ -4,14 +4,28 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>SFam Logistics — Terms &amp; Conditions of Service</title>
-  <!-- Real file so /terms works even on hosts that ignore .htaccess (e.g. Hostinger
-       nginx/OpenResty). Redirects to the actual PDF. -->
-  <meta http-equiv="refresh" content="0; url=/terms.pdf" />
-  <link rel="canonical" href="/terms.pdf" />
-  <script>window.location.replace('/terms.pdf');</script>
+  <meta name="description" content="SFam Logistics LLC Terms &amp; Conditions of Service." />
+  <!-- Real page so /terms works on hosts that ignore .htaccess (e.g. Hostinger
+       nginx/OpenResty). Embeds the PDF full-screen so the URL bar stays /terms. -->
+  <style>
+    html, body { margin: 0; height: 100%; background: #0a0f1f; }
+    object, iframe { display: block; border: 0; width: 100%; height: 100%; }
+    .fallback {
+      color: #fff; font-family: system-ui, -apple-system, sans-serif;
+      display: grid; place-items: center; height: 100%; text-align: center; padding: 1rem;
+    }
+    .fallback a { color: #fb923c; }
+  </style>
 </head>
-<body style="font-family:system-ui,sans-serif;background:#0a0f1f;color:#fff;display:grid;place-items:center;height:100vh;margin:0">
-  <p>Loading the Terms &amp; Conditions of Service…
-     <a href="/terms.pdf" style="color:#fb923c">Click here if it doesn’t open.</a></p>
+<body>
+  <object data="/terms.pdf" type="application/pdf">
+    <iframe src="/terms.pdf" title="SFam Logistics Terms &amp; Conditions of Service">
+      <div class="fallback">
+        <p>Your browser can’t display the PDF inline.<br />
+          <a href="/terms.pdf">Open the Terms &amp; Conditions of Service&nbsp;→</a>
+        </p>
+      </div>
+    </iframe>
+  </object>
 </body>
 </html>
