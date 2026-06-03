@@ -16,11 +16,13 @@ export const company = {
   }
 }
 
-// Clean, extension-less URL for the consolidated Terms & Conditions PDF.
-// The server (Vite dev, Express, and Apache/.htaccess) rewrites /terms → terms.pdf,
-// so the URL bar stays /terms while the PDF is served. Used for footer legal links
-// and as the short link for email signatures: https://sfamlogistics.com/terms
-export const termsPdf = '/terms'
+// Direct link to the consolidated Terms & Conditions PDF (a real file in /public).
+// We link straight to /terms.pdf instead of a clean /terms URL because Hostinger's
+// nginx/OpenResty stack ignores .htaccess, so the /terms → terms.pdf rewrite never
+// fires there and returns "No input file specified." Linking to the real file works
+// on every host. A /terms/ redirect page (public/terms/index.html) is kept as a
+// safety net for anyone who types the old clean URL.
+export const termsPdf = '/terms.pdf'
 
 export const services = [
   { slug: 'full-truckload', name: 'Full Truckload (FTL)', short: 'Dedicated trailers, faster transit, single-shipment focus.', icon: 'Truck',
