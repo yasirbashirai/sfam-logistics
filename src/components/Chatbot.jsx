@@ -231,7 +231,7 @@ export default function Chatbot() {
       setMessages(m => [
         ...m,
         { from: 'system', text: '⏳ Connecting you to a live agent...' },
-        { from: 'bot', text: `Thanks ${liveAgentName}! Our dispatch team has been notified and someone will join this chat shortly. We'll also reach out to ${liveAgentEmail} if you close this window.` }
+        { from: 'bot', text: `Thanks, ${liveAgentName}! Our Operations Team has been notified, and a team member will join this chat shortly. If you close this window, we'll also reach out to you at ${liveAgentEmail}.` }
       ])
     } else {
       // Backend unreachable — give the visitor a direct path
