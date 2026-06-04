@@ -32,7 +32,7 @@ export default function Quote() {
   const [step, setStep] = useState(0)
   const [done, setDone] = useState(false)
   const [form, setForm] = useState({
-    originZip: '', destZip: '',
+    origin: '', destination: '',
     pickupDate: '', deliveryDate: '',
     freightType: 'Full Truckload (FTL)', equipment: 'Dry Van',
     weight: '', pallets: '', length: '', width: '', height: '',
@@ -41,28 +41,32 @@ export default function Quote() {
   })
   const set = (k, v) => setForm(f => ({ ...f, [k]: v }))
 
+  // Pull a 5-digit ZIP out of a free-text "City, State, Zip" address (if present)
+  // so the lane distance/city lookup still works without a dedicated ZIP field.
+  const extractZip = (s) => (String(s).match(/\b\d{5}\b/) || [])[0] || ''
+
   // Lane summary (distance + city names) — no fake price estimate.
   // Real-time pricing is confirmed by our brokerage team based on live carrier capacity.
   const estimate = useMemo(() => {
-    const realDist = haversineMiles(form.originZip, form.destZip)
+    const originZip = extractZip(form.origin)
+    const destZip = extractZip(form.destination)
+    const realDist = haversineMiles(originZip, destZip)
     const distance = realDist || 0
     return {
       distance: Math.round(distance),
       matched: realDist !== null,
-      originName: lookupZip(form.originZip),
-      destName: lookupZip(form.destZip)
+      originName: lookupZip(originZip),
+      destName: lookupZip(destZip)
     }
-  }, [form.originZip, form.destZip])
+  }, [form.origin, form.destination])
 
   const [errors, setErrors] = useState({})
 
   const validateStep = (s) => {
     const e = {}
     if (s === 0) {
-      if (!form.originZip.trim()) e.originZip = 'Origin ZIP is required'
-      else if (!/^\d{5}$/.test(form.originZip.trim())) e.originZip = 'Enter a valid 5-digit ZIP'
-      if (!form.destZip.trim()) e.destZip = 'Destination ZIP is required'
-      else if (!/^\d{5}$/.test(form.destZip.trim())) e.destZip = 'Enter a valid 5-digit ZIP'
+      if (!form.origin.trim()) e.origin = 'Origin address is required'
+      if (!form.destination.trim()) e.destination = 'Destination address is required'
       if (!form.pickupDate) e.pickupDate = 'Pickup date is required'
     }
     if (s === 1) {
@@ -173,11 +177,11 @@ export default function Quote() {
                 <div className="space-y-5">
                   <h3 className="font-display italic font-black text-xl flex items-center gap-3"><MapPin className="w-6 h-6 text-orange-400" /> Lane Details</h3>
                   <div className="grid sm:grid-cols-2 gap-4">
-                    <Field label="Origin ZIP" required error={errors.originZip}>
-                      <input className={`input ${errors.originZip ? 'border-red-500/60 focus:border-red-500' : ''}`} value={form.originZip} onChange={e => { set('originZip', e.target.value); if (errors.originZip) setErrors(p => ({ ...p, originZip: '' })) }} />
+                    <Field label="Origin" required error={errors.origin}>
+                      <input className={`input ${errors.origin ? 'border-red-500/60 focus:border-red-500' : ''}`} placeholder="City, State, Zip" value={form.origin} onChange={e => { set('origin', e.target.value); if (errors.origin) setErrors(p => ({ ...p, origin: '' })) }} />
                     </Field>
-                    <Field label="Destination ZIP" required error={errors.destZip}>
-                      <input className={`input ${errors.destZip ? 'border-red-500/60 focus:border-red-500' : ''}`} value={form.destZip} onChange={e => { set('destZip', e.target.value); if (errors.destZip) setErrors(p => ({ ...p, destZip: '' })) }} />
+                    <Field label="Destination" required error={errors.destination}>
+                      <input className={`input ${errors.destination ? 'border-red-500/60 focus:border-red-500' : ''}`} placeholder="City, State, Zip" value={form.destination} onChange={e => { set('destination', e.target.value); if (errors.destination) setErrors(p => ({ ...p, destination: '' })) }} />
                     </Field>
                     <Field label="Pickup Date" required error={errors.pickupDate}>
                       <input type="date" className={`input ${errors.pickupDate ? 'border-red-500/60 focus:border-red-500' : ''}`} value={form.pickupDate} onChange={e => { set('pickupDate', e.target.value); if (errors.pickupDate) setErrors(p => ({ ...p, pickupDate: '' })) }} />
@@ -240,8 +244,8 @@ export default function Quote() {
                 <div className="space-y-5">
                   <h3 className="font-display italic font-black text-xl">Review &amp; Submit</h3>
                   <div className="grid sm:grid-cols-2 gap-4 text-sm">
-                    <Review label="Origin" value={estimate.originName ? `${estimate.originName} ${form.originZip}` : form.originZip} />
-                    <Review label="Destination" value={estimate.destName ? `${estimate.destName} ${form.destZip}` : form.destZip} />
+                    <Review label="Origin" value={form.origin} />
+                    <Review label="Destination" value={form.destination} />
                     <Review label="Pickup" value={form.pickupDate} />
                     <Review label="Freight" value={`${form.freightType} • ${form.equipment}`} />
                     <Review label="Weight" value={`${form.weight} lbs`} />

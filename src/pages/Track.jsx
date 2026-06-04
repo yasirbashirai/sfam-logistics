@@ -17,34 +17,6 @@ const trackJsonLd = [
   }
 ]
 
-const demoLoads = {
-  'SFAM-2026-0001': {
-    tracking_number: 'SFAM-2026-0001', status: 'In Transit',
-    origin: 'Seattle, WA', destination: 'Los Angeles, CA',
-    carrier: 'Pacific Trans LLC', pickup_date: '2026-04-05',
-    delivery_date: '2026-04-09', current_location: 'Sacramento, CA',
-    progress: 65,
-    events: [
-      { time: '2026-04-05 08:30', event: 'Picked up', location: 'Seattle, WA' },
-      { time: '2026-04-05 19:45', event: 'In transit', location: 'Portland, OR' },
-      { time: '2026-04-06 11:20', event: 'In transit', location: 'Redding, CA' },
-      { time: '2026-04-07 09:00', event: 'Currently here', location: 'Sacramento, CA' }
-    ]
-  },
-  'SFAM-2026-0002': {
-    tracking_number: 'SFAM-2026-0002', status: 'Delivered',
-    origin: 'Dallas, TX', destination: 'Atlanta, GA',
-    carrier: 'Southern Hauling Co', pickup_date: '2026-04-01',
-    delivery_date: '2026-04-03', current_location: 'Atlanta, GA',
-    progress: 100,
-    events: [
-      { time: '2026-04-01 07:00', event: 'Picked up', location: 'Dallas, TX' },
-      { time: '2026-04-02 14:30', event: 'In transit', location: 'Birmingham, AL' },
-      { time: '2026-04-03 10:15', event: 'Delivered', location: 'Atlanta, GA' }
-    ]
-  }
-}
-
 export default function Track() {
   const [tracking, setTracking] = useState('')
   const [load, setLoad] = useState(null)
@@ -65,10 +37,7 @@ export default function Track() {
       const hit = local.find(l => (l.tracking_number || '').toUpperCase() === q)
       if (hit) { setLoad(hit); setLoading(false); return }
     } catch {}
-    // Final fallback: hardcoded demo data
-    const demo = demoLoads[q]
-    if (demo) setLoad(demo)
-    else setErr('Tracking number not found. For real-time updates, contact your operations manager at ops@sfamlogistics.com or call 1 (888) 698-5556.')
+    setErr('Tracking number not found. For real-time updates, contact your operations manager at ops@sfamlogistics.com or call 1 (888) 698-5556.')
     setLoading(false)
   }
 
@@ -189,7 +158,6 @@ export default function Track() {
                 <button className="btn-primary !px-8 !py-4">{loading ? 'Searching...' : 'Track Load'}</button>
               </div>
               {err && <div className="mt-4 p-4 rounded-xl bg-red-500/10 border border-red-500/30 text-red-300 text-sm">{err}</div>}
-              <div className="mt-4 text-xs text-white/40">Demo: try <button type="button" onClick={() => setTracking('SFAM-2026-0001')} className="text-orange-300 hover:underline">SFAM-2026-0001</button> or <button type="button" onClick={() => setTracking('SFAM-2026-0002')} className="text-orange-300 hover:underline">SFAM-2026-0002</button></div>
             </form>
           </Reveal>
 

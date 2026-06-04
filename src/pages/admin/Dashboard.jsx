@@ -15,7 +15,7 @@ export default function Dashboard() {
     { i: Mail, l: 'Subscribers', n: (data.subscribers || []).length, c: 'from-orange-400 to-orange-600', link: '/admin/subscribers' }
   ]
   const recent = [
-    ...data.quotes.slice(0, 5).map(x => ({ ...x, type: 'Quote', label: `${x.originCity || x.originZip || '?'} → ${x.destCity || x.destZip || '?'}` })),
+    ...data.quotes.slice(0, 5).map(x => ({ ...x, type: 'Quote', label: `${x.origin || x.originCity || x.originZip || '?'} → ${x.destination || x.destCity || x.destZip || '?'}` })),
     ...data.carriers.slice(0, 5).map(x => ({ ...x, type: 'Carrier', label: x.company })),
     ...data.agents.slice(0, 5).map(x => ({ ...x, type: 'Agent', label: x.name })),
     ...data.contacts.slice(0, 5).map(x => ({ ...x, type: 'Contact', label: x.name || x.email })),
