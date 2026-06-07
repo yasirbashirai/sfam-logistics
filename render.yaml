@@ -32,6 +32,14 @@ services:
       # Used in chat/alert emails to link back to the admin dashboard.
       - key: SITE_URL
         value: https://sfamlogistics.com
+      # --- PERMANENT DATABASE (required for leads to survive restarts) ---
+      # Paste your Neon Postgres connection string here in the Render dashboard →
+      # Environment (looks like postgresql://user:pass@ep-xxxx.neon.tech/db?sslmode=require).
+      # When set, ALL submissions/shipments/chats are stored permanently in Postgres.
+      # If left unset, the backend falls back to a SQLite file that Render's free
+      # tier WIPES on every restart — do not leave this empty for a live site.
+      - key: DATABASE_URL
+        sync: false
       # --- Email alerts (optional) ---
       # Add real values in the Render dashboard → Environment. If left unset, the
       # backend still runs and saves all submissions; it just won't send emails.

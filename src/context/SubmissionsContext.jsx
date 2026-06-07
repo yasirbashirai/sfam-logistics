@@ -44,17 +44,25 @@ export function SubmissionsProvider({ children }) {
   }, [])
 
   const add = async (bucket, payload) => {
-    if (online) {
-      const row = await api.tryFetch(`/${bucket}`, { method: 'POST', body: JSON.stringify(payload) })
-      if (row) {
-        // Server may signal duplicate (e.g. subscriber already exists); skip insert
-        if (!row.duplicate) {
-          setData(d => ({ ...d, [bucket]: [row, ...(d[bucket] || [])] }))
-        }
-        return row
+    // Always try the backend FIRST — regardless of the cached `online` flag.
+    // On Render's free tier the API may be cold-starting when a visitor submits;
+    // the health check could still be pending (online === false) even though the
+    // POST will succeed once the server wakes. Gating on `online` here was silently
+    // dropping real leads into a single browser's localStorage. Try the network,
+    // and only fall back to local storage if it genuinely fails.
+    const row = await api.tryFetch(`/${bucket}`, { method: 'POST', body: JSON.stringify(payload) })
+    if (row) {
+      // Backend reachable → we're online; reflect that for subsequent reads.
+      if (!online) setOnline(true)
+      // Server may signal duplicate (e.g. subscriber already exists); skip insert
+      if (!row.duplicate) {
+        setData(d => ({ ...d, [bucket]: [row, ...(d[bucket] || [])] }))
       }
+      return row
     }
-    const local = { id: crypto.randomUUID(), createdAt: new Date().toISOString(), status: 'new', ...payload }
+    // Backend truly unreachable — keep a local copy so the visitor's submit still
+    // "works", and so we don't lose the lead entirely.
+    const local = { id: crypto.randomUUID(), created_at: new Date().toISOString(), status: 'new', ...payload }
     setData(d => ({ ...d, [bucket]: [local, ...(d[bucket] || [])] }))
     return local
   }

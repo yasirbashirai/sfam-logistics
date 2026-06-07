@@ -192,6 +192,11 @@ export default function Chatbot() {
     setInput('')
     sendToBackend(t)
 
+    // Once a live agent has joined the chat, the visitor is talking to a human.
+    // The bot must go silent — just relay the message to the backend (above) and
+    // never inject automated FAQ / fallback replies over the agent's conversation.
+    if (agentJoined) return
+
     const lower = t.toLowerCase()
     const wantsLive = ['live agent', 'human', 'real person', 'speak to', 'talk to', 'call me', 'live support'].some(k => lower.includes(k))
 

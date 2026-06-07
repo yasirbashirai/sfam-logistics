@@ -1,11 +1,20 @@
 // SFam Logistics — Backend API
-// Express + SQLite + multer (file uploads) + nodemailer (optional alerts)
+// Express + (Postgres OR SQLite) + multer (file uploads) + nodemailer (optional alerts)
+//
+// STORAGE:
+//   • If DATABASE_URL is set (e.g. a Neon Postgres connection string), all data is
+//     stored in Postgres — permanent, survives every restart/redeploy. THIS IS THE
+//     PRODUCTION MODE. Set DATABASE_URL in the Render dashboard.
+//   • If DATABASE_URL is NOT set, we fall back to a local SQLite file (sfam.db).
+//     Convenient for local dev, but on Render's free tier that file is wiped on
+//     every restart — do not rely on it for real leads.
+//
+// There is NO demo/seed data. The database only ever contains real submissions.
 
 import 'dotenv/config'
 import express from 'express'
 import cors from 'cors'
 import multer from 'multer'
-import Database from 'better-sqlite3'
 import nodemailer from 'nodemailer'
 import path from 'path'
 import fs from 'fs'
@@ -16,121 +25,105 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const UPLOAD_DIR = path.join(__dirname, 'uploads')
 if (!fs.existsSync(UPLOAD_DIR)) fs.mkdirSync(UPLOAD_DIR, { recursive: true })
 
-// === DATABASE ===
-const db = new Database(path.join(__dirname, 'sfam.db'))
-db.pragma('journal_mode = WAL')
+// === DATABASE LAYER (Postgres in prod, SQLite fallback for local dev) ===
+const PG = !!process.env.DATABASE_URL
+let pool = null
+let sqlite = null
 
-const tables = ['quotes', 'carriers', 'agents', 'contacts', 'subscribers']
-tables.forEach(t => {
-  db.exec(`CREATE TABLE IF NOT EXISTS ${t} (
-    id TEXT PRIMARY KEY,
-    created_at TEXT NOT NULL,
-    status TEXT DEFAULT 'new',
-    payload TEXT NOT NULL
-  )`)
+if (PG) {
+  const pg = (await import('pg')).default
+  pool = new pg.Pool({
+    connectionString: process.env.DATABASE_URL,
+    ssl: { rejectUnauthorized: false } // Neon (and most hosted PG) require SSL
+  })
+  console.log('🗄️  Using Postgres (DATABASE_URL set) — data is permanent.')
+} else {
+  const Database = (await import('better-sqlite3')).default
+  sqlite = new Database(path.join(__dirname, 'sfam.db'))
+  sqlite.pragma('journal_mode = WAL')
+  console.log('🗄️  Using local SQLite (no DATABASE_URL) — NOT durable on Render free tier.')
+}
+
+// Dialect-specific bits
+const JSON_T = PG ? 'JSONB' : 'TEXT'        // payload / events column type
+const TS_T = PG ? 'TIMESTAMPTZ' : 'TEXT'    // created_at / last_message_at column type
+const emailExpr = PG ? "payload->>'email'" : "json_extract(payload, '$.email')"
+
+// Unified async query helper. Write SQL with $1, $2... placeholders (Postgres
+// style). For SQLite we transparently convert them to positional `?` markers.
+const q = async (sql, params = []) => {
+  if (PG) {
+    const { rows } = await pool.query(sql, params)
+    return rows
+  }
+  const sqliteSql = sql.replace(/\$\d+/g, '?')
+  if (/^\s*select/i.test(sqliteSql)) {
+    return sqlite.prepare(sqliteSql).all(...params)
+  }
+  sqlite.prepare(sqliteSql).run(...params)
+  return []
+}
+
+// Normalize a generic row (quotes/carriers/etc.) into the shape the frontend expects:
+// flatten the JSON payload onto the row and emit created_at as an ISO string.
+const parseRow = (r) => {
+  const payload = typeof r.payload === 'string' ? JSON.parse(r.payload || '{}') : (r.payload || {})
+  const created_at = r.created_at instanceof Date ? r.created_at.toISOString() : r.created_at
+  return { ...r, ...payload, created_at }
+}
+
+// Normalize a load row (events is JSON).
+const parseLoad = (r) => ({
+  ...r,
+  created_at: r.created_at instanceof Date ? r.created_at.toISOString() : r.created_at,
+  events: typeof r.events === 'string' ? JSON.parse(r.events || '[]') : (r.events || [])
 })
 
-// Loads (tracking)
-db.exec(`CREATE TABLE IF NOT EXISTS loads (
-  id TEXT PRIMARY KEY,
-  tracking_number TEXT UNIQUE NOT NULL,
-  status TEXT NOT NULL,
-  origin TEXT,
-  destination TEXT,
-  carrier TEXT,
-  pickup_date TEXT,
-  delivery_date TEXT,
-  current_location TEXT,
-  events TEXT,
-  created_at TEXT NOT NULL
-)`)
+// === SCHEMA ===
+const initDb = async () => {
+  const tables = ['quotes', 'carriers', 'agents', 'contacts', 'subscribers']
+  for (const t of tables) {
+    await q(`CREATE TABLE IF NOT EXISTS ${t} (
+      id TEXT PRIMARY KEY,
+      created_at ${TS_T} NOT NULL,
+      status TEXT DEFAULT 'new',
+      payload ${JSON_T} NOT NULL
+    )`)
+  }
 
-// Chat conversations (live chat with the website chatbot)
-db.exec(`CREATE TABLE IF NOT EXISTS chat_conversations (
-  id TEXT PRIMARY KEY,
-  visitor_name TEXT,
-  visitor_email TEXT,
-  page TEXT,
-  status TEXT NOT NULL DEFAULT 'open',
-  created_at TEXT NOT NULL,
-  last_message_at TEXT NOT NULL
-)`)
-db.exec(`CREATE TABLE IF NOT EXISTS chat_messages (
-  id TEXT PRIMARY KEY,
-  conversation_id TEXT NOT NULL,
-  sender TEXT NOT NULL,
-  text TEXT NOT NULL,
-  created_at TEXT NOT NULL
-)`)
-db.exec(`CREATE INDEX IF NOT EXISTS idx_chat_messages_convo ON chat_messages(conversation_id, created_at)`)
+  await q(`CREATE TABLE IF NOT EXISTS loads (
+    id TEXT PRIMARY KEY,
+    tracking_number TEXT UNIQUE NOT NULL,
+    status TEXT NOT NULL,
+    origin TEXT,
+    destination TEXT,
+    carrier TEXT,
+    pickup_date TEXT,
+    delivery_date TEXT,
+    current_location TEXT,
+    events ${JSON_T},
+    created_at ${TS_T} NOT NULL
+  )`)
 
-// === SEED 5 DEMO RECORDS PER TABLE (only if empty) ===
-const seedRow = (table, payload) => {
-  db.prepare(`INSERT INTO ${table} (id, created_at, status, payload) VALUES (?, ?, ?, ?)`).run(
-    crypto.randomUUID(), new Date().toISOString(), payload._status || 'new', JSON.stringify(payload)
-  )
-}
+  await q(`CREATE TABLE IF NOT EXISTS chat_conversations (
+    id TEXT PRIMARY KEY,
+    visitor_name TEXT,
+    visitor_email TEXT,
+    page TEXT,
+    status TEXT NOT NULL DEFAULT 'open',
+    created_at ${TS_T} NOT NULL,
+    last_message_at ${TS_T} NOT NULL
+  )`)
 
-if (db.prepare('SELECT COUNT(*) as c FROM quotes').get().c === 0) {
-  ;[
-    { name: 'Marcus Thompson', company: 'Pacific Foods Inc', email: 'marcus@pacfoods.com', phone: '206-555-0142', originCity: 'Seattle, WA', originZip: '98101', destCity: 'Los Angeles, CA', destZip: '90001', freightType: 'Full Truckload (FTL)', equipment: 'Reefer', weight: '38000', commodity: 'Frozen seafood', hazmat: false, _status: 'new' },
-    { name: 'Jennifer Liu', company: 'Northwest Manufacturing', email: 'jliu@nwmfg.com', phone: '425-555-0188', originCity: 'Portland, OR', originZip: '97201', destCity: 'Dallas, TX', destZip: '75201', freightType: 'Full Truckload (FTL)', equipment: 'Dry Van', weight: '42000', commodity: 'Industrial parts', hazmat: false, _status: 'contacted' },
-    { name: 'David Kim', company: 'Westside Distribution LLC', email: 'david@westsidedist.com', phone: '503-555-0167', originCity: 'San Francisco, CA', originZip: '94102', destCity: 'Chicago, IL', destZip: '60601', freightType: 'LTL', equipment: 'Dry Van', weight: '4500', pallets: '6', commodity: 'Electronics', hazmat: false, _status: 'approved' },
-    { name: 'Sarah Mendez', company: 'Mendez Produce Co', email: 'sarah@mendezproduce.com', phone: '602-555-0103', originCity: 'Phoenix, AZ', originZip: '85001', destCity: 'Denver, CO', destZip: '80202', freightType: 'Full Truckload (FTL)', equipment: 'Reefer', weight: '36000', commodity: 'Fresh produce', hazmat: false, _status: 'new' },
-    { name: 'Roberto Chen', company: 'Lone Star Building Supply', email: 'rchen@lonestar.com', phone: '713-555-0145', originCity: 'Houston, TX', originZip: '77002', destCity: 'Atlanta, GA', destZip: '30301', freightType: 'Full Truckload (FTL)', equipment: 'Flatbed', weight: '44000', commodity: 'Steel beams', hazmat: false, _status: 'contacted' }
-  ].forEach(p => seedRow('quotes', p))
-}
+  await q(`CREATE TABLE IF NOT EXISTS chat_messages (
+    id TEXT PRIMARY KEY,
+    conversation_id TEXT NOT NULL,
+    sender TEXT NOT NULL,
+    text TEXT NOT NULL,
+    created_at ${TS_T} NOT NULL
+  )`)
 
-if (db.prepare('SELECT COUNT(*) as c FROM carriers').get().c === 0) {
-  ;[
-    { company: 'Pacific Trans LLC', mc: 'MC-987654', dot: '3214567', contactName: 'James Rodriguez', email: 'jr@pacifictrans.com', phone: '206-555-0211', city: 'Tacoma', state: 'WA', zip: '98401', fleetSize: '6-15 trucks', equipmentTypes: ['Dry Van', 'Reefer'], lanes: 'PNW to CA, OTR', _status: 'approved' },
-    { company: 'Southern Hauling Co', mc: 'MC-876543', dot: '2987654', contactName: 'Tasha Brooks', email: 'tasha@southernhauling.com', phone: '404-555-0322', city: 'Atlanta', state: 'GA', zip: '30301', fleetSize: '2-5 trucks', equipmentTypes: ['Dry Van', 'Flatbed'], lanes: 'Southeast to Midwest', _status: 'approved' },
-    { company: 'Mountain West Express', mc: 'MC-765432', dot: '2876543', contactName: 'Carlos Mendoza', email: 'carlos@mwexpress.com', phone: '801-555-0433', city: 'Salt Lake City', state: 'UT', zip: '84101', fleetSize: '16-50 trucks', equipmentTypes: ['Reefer', 'Dry Van'], lanes: 'Mountain region, West coast', _status: 'new' },
-    { company: 'Lone Star Logistics', mc: 'MC-654321', dot: '2765432', contactName: 'Mike Reeves', email: 'mike@lonestarlog.com', phone: '214-555-0544', city: 'Dallas', state: 'TX', zip: '75201', fleetSize: '50+ trucks', equipmentTypes: ['Dry Van', 'Flatbed', 'Step Deck'], lanes: 'TX triangle, nationwide', _status: 'approved' },
-    { company: 'Northeast Cartage Inc', mc: 'MC-543210', dot: '2654321', contactName: 'Linda Petrov', email: 'linda@necartage.com', phone: '617-555-0655', city: 'Boston', state: 'MA', zip: '02101', fleetSize: '6-15 trucks', equipmentTypes: ['Dry Van', 'Power Only'], lanes: 'Northeast corridor', _status: 'contacted' }
-  ].forEach(p => seedRow('carriers', p))
-}
-
-if (db.prepare('SELECT COUNT(*) as c FROM agents').get().c === 0) {
-  ;[
-    { name: 'Rachel Sanchez', email: 'rachel.s@email.com', phone: '512-555-0701', city: 'Austin', state: 'TX', yearsExperience: '5-10 years', currentCompany: 'BigBox Logistics', bookOfBusiness: 'Medium (6-20 accounts)', monthlyRevenue: '$120,000', specialties: ['Dry Van', 'Reefer'], whyJoin: 'Looking for a brokerage that respects agents and pays fairly.', _status: 'contacted' },
-    { name: 'Tom Jackson', email: 'tom.j@email.com', phone: '404-555-0712', city: 'Atlanta', state: 'GA', yearsExperience: '3-5 years', currentCompany: 'Echo Global', bookOfBusiness: 'Small (1-5 active accounts)', monthlyRevenue: '$45,000', specialties: ['Flatbed', 'Specialized'], whyJoin: 'Want better tech and same-day pay.', _status: 'new' },
-    { name: 'Linda Kowalski', email: 'linda.k@email.com', phone: '312-555-0723', city: 'Chicago', state: 'IL', yearsExperience: '10+ years', currentCompany: 'TQL', bookOfBusiness: 'Large (20+ accounts)', monthlyRevenue: '$280,000', specialties: ['Dry Van', 'LTL', 'Intermodal'], whyJoin: 'Tired of corporate culture, want autonomy.', _status: 'approved' },
-    { name: 'Marcus Wong', email: 'marcus.w@email.com', phone: '714-555-0734', city: 'Anaheim', state: 'CA', yearsExperience: '1-3 years', currentCompany: 'Coyote Logistics', bookOfBusiness: 'None yet', monthlyRevenue: '$15,000', specialties: ['Dry Van'], whyJoin: 'Ready to go independent and build my book.', _status: 'new' },
-    { name: 'Diana Patel', email: 'diana.p@email.com', phone: '732-555-0745', city: 'Newark', state: 'NJ', yearsExperience: '5-10 years', currentCompany: 'CH Robinson', bookOfBusiness: 'Medium (6-20 accounts)', monthlyRevenue: '$95,000', specialties: ['Reefer', 'Cross Border'], whyJoin: 'Looking for a smaller, more nimble brokerage.', _status: 'contacted' }
-  ].forEach(p => seedRow('agents', p))
-}
-
-if (db.prepare('SELECT COUNT(*) as c FROM contacts').get().c === 0) {
-  ;[
-    { name: 'Alan Foster', email: 'afoster@example.com', phone: '253-555-0801', subject: 'Question about LTL rates', message: 'Hi, we have weekly LTL shipments from Seattle to Boise. Can you provide pricing?', _status: 'new' },
-    { name: 'Maria Gomez', email: 'mgomez@example.com', phone: '619-555-0812', subject: 'Carrier setup question', message: 'How long does carrier onboarding typically take?', _status: 'contacted' },
-    { name: 'Brian Wells', email: 'bwells@example.com', phone: '702-555-0823', subject: 'Reefer load — urgent', message: 'Need a reefer Vegas to Sacramento by Friday. Please advise.', _status: 'approved' },
-    { name: 'Jessica Tran', email: 'jtran@example.com', phone: '503-555-0834', subject: 'Agent inquiry', message: 'Hi I have 8 years of brokerage experience. Are you still recruiting agents in Oregon?', _status: 'new' },
-    { name: 'Kevin Park', email: 'kpark@example.com', phone: '425-555-0845', subject: 'Long-term contract', message: 'We move 200+ loads/month and looking for a new primary brokerage. Can we set up a meeting?', _status: 'new' }
-  ].forEach(p => seedRow('contacts', p))
-}
-
-// Seed demo loads if empty
-const loadCount = db.prepare('SELECT COUNT(*) as c FROM loads').get().c
-if (loadCount === 0) {
-  const seed = [
-    { tracking_number: 'SFAM-2026-0001', status: 'In Transit', origin: 'Seattle, WA', destination: 'Los Angeles, CA', carrier: 'Pacific Trans LLC', pickup_date: '2026-04-05', delivery_date: '2026-04-09', current_location: 'Sacramento, CA',
-      events: JSON.stringify([
-        { time: '2026-04-05 08:30', event: 'Picked up', location: 'Seattle, WA' },
-        { time: '2026-04-05 19:45', event: 'In transit', location: 'Portland, OR' },
-        { time: '2026-04-06 11:20', event: 'In transit', location: 'Redding, CA' },
-        { time: '2026-04-07 09:00', event: 'Currently here', location: 'Sacramento, CA' }
-      ]) },
-    { tracking_number: 'SFAM-2026-0002', status: 'Delivered', origin: 'Dallas, TX', destination: 'Atlanta, GA', carrier: 'Southern Hauling Co', pickup_date: '2026-04-01', delivery_date: '2026-04-03', current_location: 'Atlanta, GA',
-      events: JSON.stringify([
-        { time: '2026-04-01 07:00', event: 'Picked up', location: 'Dallas, TX' },
-        { time: '2026-04-02 14:30', event: 'In transit', location: 'Birmingham, AL' },
-        { time: '2026-04-03 10:15', event: 'Delivered', location: 'Atlanta, GA' }
-      ]) }
-  ]
-  const stmt = db.prepare('INSERT INTO loads (id, tracking_number, status, origin, destination, carrier, pickup_date, delivery_date, current_location, events, created_at) VALUES (?,?,?,?,?,?,?,?,?,?,?)')
-  seed.forEach(l => stmt.run(crypto.randomUUID(), l.tracking_number, l.status, l.origin, l.destination, l.carrier, l.pickup_date, l.delivery_date, l.current_location, l.events, new Date().toISOString()))
+  await q(`CREATE INDEX IF NOT EXISTS idx_chat_messages_convo ON chat_messages(conversation_id, created_at)`)
 }
 
 // === EMAIL (optional) ===
@@ -148,16 +141,20 @@ if (process.env.SMTP_HOST) {
     else console.log('✅ SMTP ready — alerts will route to', process.env.ALERT_TO || 'info@sfamlogistics.com')
   })
 }
-// Route inbound form alerts to the right inbox per form type:
-//   - subscribers → loads@sfamlogistics.com (newsletter list owner)
-//   - contacts    → support@sfamlogistics.com (visitor messages)
-//   - everything else → info@sfamlogistics.com (default)
+// Route inbound form alerts to the right inbox per form type. Each can be
+// overridden with an env var; the defaults below are the destinations the client
+// explicitly confirmed (note the exact spellings 'qoutes@' and 'agentes@'):
+//   - quotes      → qoutes@sfamlogistics.com      (quote requests)
+//   - agents      → agentes@sfamlogistics.com     (agent applications)
+//   - carriers    → onboarding@sfamlogistics.com  (carrier applications)
+//   - subscribers → info@sfamlogistics.com        (newsletter signups)
+//   - contacts    → support@sfamlogistics.com     (visitor messages)
 const ALERT_ROUTING = {
-  subscribers: process.env.ALERT_TO_LOADS || 'loads@sfamlogistics.com',
-  contacts:    process.env.ALERT_TO_SUPPORT || 'support@sfamlogistics.com',
-  quotes:      process.env.ALERT_TO_INFO || process.env.ALERT_TO || 'info@sfamlogistics.com',
-  carriers:    process.env.ALERT_TO_INFO || process.env.ALERT_TO || 'info@sfamlogistics.com',
-  agents:      process.env.ALERT_TO_INFO || process.env.ALERT_TO || 'info@sfamlogistics.com'
+  quotes:      process.env.ALERT_TO_QUOTES || 'qoutes@sfamlogistics.com',
+  agents:      process.env.ALERT_TO_AGENTS || 'agentes@sfamlogistics.com',
+  carriers:    process.env.ALERT_TO_CARRIERS || 'onboarding@sfamlogistics.com',
+  subscribers: process.env.ALERT_TO_SUBSCRIBERS || 'info@sfamlogistics.com',
+  contacts:    process.env.ALERT_TO_CONTACTS || 'support@sfamlogistics.com'
 }
 
 const sendAlert = async (subject, body, table = null) => {
@@ -203,43 +200,53 @@ app.use(cors())
 app.use(express.json({ limit: '5mb' }))
 app.use('/uploads', express.static(UPLOAD_DIR))
 
-const list = (table) => db.prepare(`SELECT * FROM ${table} ORDER BY created_at DESC`).all().map(r => ({ ...r, ...JSON.parse(r.payload) }))
-const insert = (table, payload) => {
+const TABLES = ['quotes', 'carriers', 'agents', 'contacts', 'subscribers']
+
+const list = async (table) => {
+  const rows = await q(`SELECT * FROM ${table} ORDER BY created_at DESC`)
+  return rows.map(parseRow)
+}
+const insert = async (table, payload) => {
   const id = crypto.randomUUID()
   const now = new Date().toISOString()
-  db.prepare(`INSERT INTO ${table} (id, created_at, status, payload) VALUES (?, ?, ?, ?)`).run(id, now, 'new', JSON.stringify(payload))
+  await q(`INSERT INTO ${table} (id, created_at, status, payload) VALUES ($1, $2, $3, $4)`,
+    [id, now, 'new', JSON.stringify(payload)])
   return { id, created_at: now, status: 'new', ...payload }
 }
-const updateStatus = (table, id, status) => db.prepare(`UPDATE ${table} SET status = ? WHERE id = ?`).run(status, id)
-const remove = (table, id) => db.prepare(`DELETE FROM ${table} WHERE id = ?`).run(id)
+const updateStatus = (table, id, status) => q(`UPDATE ${table} SET status = $1 WHERE id = $2`, [status, id])
+const remove = (table, id) => q(`DELETE FROM ${table} WHERE id = $1`, [id])
 
 // === ROUTES ===
-app.get('/api/health', (req, res) => res.json({ ok: true, time: new Date().toISOString() }))
+app.get('/api/health', (req, res) => res.json({ ok: true, storage: PG ? 'postgres' : 'sqlite', time: new Date().toISOString() }))
 
 // Generic CRUD per table
-tables.forEach(table => {
-  app.get(`/api/${table}`, (req, res) => res.json(list(table)))
+TABLES.forEach(table => {
+  app.get(`/api/${table}`, async (req, res) => {
+    try { res.json(await list(table)) }
+    catch (e) { console.error(`GET /api/${table} failed:`, e.message); res.status(500).json({ error: 'db error' }) }
+  })
+
   app.post(`/api/${table}`, async (req, res) => {
     const payload = req.body || {}
-
-    // Subscribers: dedupe by email so we don't store the same address twice
-    if (table === 'subscribers' && payload.email) {
-      const existing = db.prepare(`SELECT id FROM subscribers WHERE json_extract(payload, '$.email') = ?`).get(payload.email)
-      if (existing) {
-        return res.json({ id: existing.id, duplicate: true, ok: true })
+    try {
+      // Subscribers: dedupe by email so we don't store the same address twice
+      if (table === 'subscribers' && payload.email) {
+        const existing = await q(`SELECT id FROM subscribers WHERE ${emailExpr} = $1`, [payload.email])
+        if (existing.length) {
+          return res.json({ id: existing[0].id, duplicate: true, ok: true })
+        }
       }
-    }
 
-    const row = insert(table, payload)
-    sendAlert(`New ${table.slice(0, -1)} submission`, JSON.stringify(payload, null, 2), table)
+      const row = await insert(table, payload)
+      sendAlert(`New ${table.slice(0, -1)} submission`, JSON.stringify(payload, null, 2), table)
 
-    // Auto-confirmation email to subscriber
-    if (table === 'subscribers' && payload.email) {
-      sendMail({
-        to: payload.email,
-        subject: 'Welcome to SFam Logistics — You\'re Subscribed',
-        text: `Thanks for subscribing to SFam Logistics insights.\n\nYou'll receive industry tips, rate trends, and SFam updates straight to your inbox. No spam — ever.\n\nQuestions? Reply directly to this email or reach us at loads@sfamlogistics.com / 1 (888) 698-5556.\n\n— SFam Logistics LLC\n   FMCSA Authorized · MC 1810116 · USDOT 4555943`,
-        html: `<div style="font-family:system-ui,Arial,sans-serif;max-width:560px;margin:0 auto;padding:24px;color:#0d1b2e">
+      // Auto-confirmation email to subscriber
+      if (table === 'subscribers' && payload.email) {
+        sendMail({
+          to: payload.email,
+          subject: 'Welcome to SFam Logistics — You\'re Subscribed',
+          text: `Thanks for subscribing to SFam Logistics insights.\n\nYou'll receive industry tips, rate trends, and SFam updates straight to your inbox. No spam — ever.\n\nQuestions? Reply directly to this email or reach us at loads@sfamlogistics.com / 1 (888) 698-5556.\n\n— SFam Logistics LLC\n   FMCSA Authorized · MC 1810116 · USDOT 4555943`,
+          html: `<div style="font-family:system-ui,Arial,sans-serif;max-width:560px;margin:0 auto;padding:24px;color:#0d1b2e">
   <div style="text-align:center;margin-bottom:20px">
     <h1 style="color:#ff7a18;font-size:24px;margin:0">Welcome to SFam Logistics</h1>
   </div>
@@ -248,13 +255,25 @@ tables.forEach(table => {
   <hr style="border:none;border-top:1px solid #e5e7eb;margin:24px 0" />
   <p style="font-size:12px;color:#666">SFam Logistics LLC · FMCSA Authorized · MC 1810116 · USDOT 4555943<br>19125 North Creek Parkway Suite 120, Bothell, WA 98011</p>
 </div>`
-      })
-    }
+        })
+      }
 
-    res.json(row)
+      res.json(row)
+    } catch (e) {
+      console.error(`POST /api/${table} failed:`, e.message)
+      res.status(500).json({ error: 'db error' })
+    }
   })
-  app.patch(`/api/${table}/:id`, (req, res) => { updateStatus(table, req.params.id, req.body.status); res.json({ ok: true }) })
-  app.delete(`/api/${table}/:id`, (req, res) => { remove(table, req.params.id); res.json({ ok: true }) })
+
+  app.patch(`/api/${table}/:id`, async (req, res) => {
+    try { await updateStatus(table, req.params.id, req.body.status); res.json({ ok: true }) }
+    catch (e) { console.error(`PATCH /api/${table} failed:`, e.message); res.status(500).json({ error: 'db error' }) }
+  })
+
+  app.delete(`/api/${table}/:id`, async (req, res) => {
+    try { await remove(table, req.params.id); res.json({ ok: true }) }
+    catch (e) { console.error(`DELETE /api/${table} failed:`, e.message); res.status(500).json({ error: 'db error' }) }
+  })
 })
 
 // File uploads
@@ -268,151 +287,177 @@ app.post('/api/upload', upload.array('files', 6), (req, res) => {
 })
 
 // Load tracking — public read
-app.get('/api/loads', (req, res) => {
-  const rows = db.prepare('SELECT * FROM loads ORDER BY created_at DESC').all()
-  res.json(rows.map(r => ({ ...r, events: JSON.parse(r.events || '[]') })))
+app.get('/api/loads', async (req, res) => {
+  try {
+    const rows = await q('SELECT * FROM loads ORDER BY created_at DESC')
+    res.json(rows.map(parseLoad))
+  } catch (e) { console.error('GET /api/loads failed:', e.message); res.status(500).json({ error: 'db error' }) }
 })
-app.get('/api/loads/:tracking', (req, res) => {
-  const row = db.prepare('SELECT * FROM loads WHERE tracking_number = ?').get(req.params.tracking)
-  if (!row) return res.status(404).json({ error: 'Not found' })
-  res.json({ ...row, events: JSON.parse(row.events || '[]') })
+app.get('/api/loads/:tracking', async (req, res) => {
+  try {
+    const rows = await q('SELECT * FROM loads WHERE tracking_number = $1', [req.params.tracking])
+    if (!rows.length) return res.status(404).json({ error: 'Not found' })
+    res.json(parseLoad(rows[0]))
+  } catch (e) { console.error('GET /api/loads/:tracking failed:', e.message); res.status(500).json({ error: 'db error' }) }
 })
 
 // Load tracking — admin CRUD
-app.post('/api/loads', (req, res) => {
-  const id = crypto.randomUUID()
-  const now = new Date().toISOString()
-  const b = req.body || {}
-  const events = Array.isArray(b.events) ? b.events : []
-  db.prepare(`INSERT INTO loads (id, tracking_number, status, origin, destination, carrier, pickup_date, delivery_date, current_location, events, created_at) VALUES (?,?,?,?,?,?,?,?,?,?,?)`).run(
-    id,
-    b.tracking_number,
-    b.status || 'Booked',
-    b.origin || '',
-    b.destination || '',
-    b.carrier || '',
-    b.pickup_date || '',
-    b.delivery_date || '',
-    b.current_location || '',
-    JSON.stringify(events),
-    now
-  )
-  res.json({ ok: true, id })
+app.post('/api/loads', async (req, res) => {
+  try {
+    const id = crypto.randomUUID()
+    const now = new Date().toISOString()
+    const b = req.body || {}
+    const events = Array.isArray(b.events) ? b.events : []
+    await q(`INSERT INTO loads (id, tracking_number, status, origin, destination, carrier, pickup_date, delivery_date, current_location, events, created_at) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)`, [
+      id,
+      b.tracking_number,
+      b.status || 'Booked',
+      b.origin || '',
+      b.destination || '',
+      b.carrier || '',
+      b.pickup_date || '',
+      b.delivery_date || '',
+      b.current_location || '',
+      JSON.stringify(events),
+      now
+    ])
+    res.json({ ok: true, id })
+  } catch (e) { console.error('POST /api/loads failed:', e.message); res.status(500).json({ error: 'db error' }) }
 })
 
-app.patch('/api/loads/:id', (req, res) => {
-  const b = req.body || {}
-  const existing = db.prepare('SELECT * FROM loads WHERE id = ?').get(req.params.id)
-  if (!existing) return res.status(404).json({ error: 'Not found' })
-  const merged = {
-    tracking_number: b.tracking_number ?? existing.tracking_number,
-    status: b.status ?? existing.status,
-    origin: b.origin ?? existing.origin,
-    destination: b.destination ?? existing.destination,
-    carrier: b.carrier ?? existing.carrier,
-    pickup_date: b.pickup_date ?? existing.pickup_date,
-    delivery_date: b.delivery_date ?? existing.delivery_date,
-    current_location: b.current_location ?? existing.current_location,
-    events: b.events !== undefined ? JSON.stringify(b.events) : existing.events
-  }
-  db.prepare(`UPDATE loads SET tracking_number=?, status=?, origin=?, destination=?, carrier=?, pickup_date=?, delivery_date=?, current_location=?, events=? WHERE id=?`).run(
-    merged.tracking_number, merged.status, merged.origin, merged.destination, merged.carrier,
-    merged.pickup_date, merged.delivery_date, merged.current_location, merged.events, req.params.id
-  )
-  res.json({ ok: true })
+app.patch('/api/loads/:id', async (req, res) => {
+  try {
+    const b = req.body || {}
+    const rows = await q('SELECT * FROM loads WHERE id = $1', [req.params.id])
+    if (!rows.length) return res.status(404).json({ error: 'Not found' })
+    const existing = rows[0]
+    const existingEvents = typeof existing.events === 'string' ? existing.events : JSON.stringify(existing.events || [])
+    const merged = {
+      tracking_number: b.tracking_number ?? existing.tracking_number,
+      status: b.status ?? existing.status,
+      origin: b.origin ?? existing.origin,
+      destination: b.destination ?? existing.destination,
+      carrier: b.carrier ?? existing.carrier,
+      pickup_date: b.pickup_date ?? existing.pickup_date,
+      delivery_date: b.delivery_date ?? existing.delivery_date,
+      current_location: b.current_location ?? existing.current_location,
+      events: b.events !== undefined ? JSON.stringify(b.events) : existingEvents
+    }
+    await q(`UPDATE loads SET tracking_number=$1, status=$2, origin=$3, destination=$4, carrier=$5, pickup_date=$6, delivery_date=$7, current_location=$8, events=$9 WHERE id=$10`, [
+      merged.tracking_number, merged.status, merged.origin, merged.destination, merged.carrier,
+      merged.pickup_date, merged.delivery_date, merged.current_location, merged.events, req.params.id
+    ])
+    res.json({ ok: true })
+  } catch (e) { console.error('PATCH /api/loads/:id failed:', e.message); res.status(500).json({ error: 'db error' }) }
 })
 
-app.post('/api/loads/:id/event', (req, res) => {
-  const row = db.prepare('SELECT * FROM loads WHERE id = ?').get(req.params.id)
-  if (!row) return res.status(404).json({ error: 'Not found' })
-  const events = JSON.parse(row.events || '[]')
-  const ev = {
-    time: req.body.time || new Date().toISOString().replace('T', ' ').slice(0, 16),
-    event: req.body.event || 'Update',
-    location: req.body.location || row.current_location || ''
-  }
-  events.push(ev)
-  const updates = { events: JSON.stringify(events) }
-  if (req.body.current_location) updates.current_location = req.body.current_location
-  if (req.body.status) updates.status = req.body.status
-  const sets = Object.keys(updates).map(k => `${k}=?`).join(',')
-  db.prepare(`UPDATE loads SET ${sets} WHERE id=?`).run(...Object.values(updates), req.params.id)
-  res.json({ ok: true })
+app.post('/api/loads/:id/event', async (req, res) => {
+  try {
+    const rows = await q('SELECT * FROM loads WHERE id = $1', [req.params.id])
+    if (!rows.length) return res.status(404).json({ error: 'Not found' })
+    const row = rows[0]
+    const events = typeof row.events === 'string' ? JSON.parse(row.events || '[]') : (row.events || [])
+    const ev = {
+      time: req.body.time || new Date().toISOString().replace('T', ' ').slice(0, 16),
+      event: req.body.event || 'Update',
+      location: req.body.location || row.current_location || ''
+    }
+    events.push(ev)
+    const current_location = req.body.current_location || row.current_location || ''
+    const status = req.body.status || row.status
+    await q(`UPDATE loads SET events=$1, current_location=$2, status=$3 WHERE id=$4`, [
+      JSON.stringify(events), current_location, status, req.params.id
+    ])
+    res.json({ ok: true })
+  } catch (e) { console.error('POST /api/loads/:id/event failed:', e.message); res.status(500).json({ error: 'db error' }) }
 })
 
-app.delete('/api/loads/:id', (req, res) => {
-  db.prepare('DELETE FROM loads WHERE id = ?').run(req.params.id)
-  res.json({ ok: true })
+app.delete('/api/loads/:id', async (req, res) => {
+  try { await q('DELETE FROM loads WHERE id = $1', [req.params.id]); res.json({ ok: true }) }
+  catch (e) { console.error('DELETE /api/loads/:id failed:', e.message); res.status(500).json({ error: 'db error' }) }
 })
 
 // === LIVE CHAT ===
 app.post('/api/chat/start', async (req, res) => {
-  const id = crypto.randomUUID()
-  const now = new Date().toISOString()
-  const { firstMessage = '', visitorName = null, visitorEmail = null, page = '/' } = req.body || {}
-  db.prepare('INSERT INTO chat_conversations (id, visitor_name, visitor_email, page, status, created_at, last_message_at) VALUES (?,?,?,?,?,?,?)').run(
-    id, visitorName, visitorEmail, page, 'open', now, now
-  )
-  if (firstMessage) {
-    db.prepare('INSERT INTO chat_messages (id, conversation_id, sender, text, created_at) VALUES (?,?,?,?,?)').run(
-      crypto.randomUUID(), id, 'visitor', firstMessage, now
+  try {
+    const id = crypto.randomUUID()
+    const now = new Date().toISOString()
+    const { firstMessage = '', visitorName = null, visitorEmail = null, page = '/' } = req.body || {}
+    await q('INSERT INTO chat_conversations (id, visitor_name, visitor_email, page, status, created_at, last_message_at) VALUES ($1,$2,$3,$4,$5,$6,$7)',
+      [id, visitorName, visitorEmail, page, 'open', now, now])
+    if (firstMessage) {
+      await q('INSERT INTO chat_messages (id, conversation_id, sender, text, created_at) VALUES ($1,$2,$3,$4,$5)',
+        [crypto.randomUUID(), id, 'visitor', firstMessage, now])
+    }
+    sendAlert(
+      'New website chat started',
+      `A visitor started a chat conversation.\n\nPage: ${page}\nName: ${visitorName || '(anonymous)'}\nEmail: ${visitorEmail || '(none)'}\nFirst message: ${firstMessage || '(none)'}\n\nJoin live: ${process.env.SITE_URL || 'http://localhost:5173'}/admin/chat/${id}`
     )
-  }
-  sendAlert(
-    'New website chat started',
-    `A visitor started a chat conversation.\n\nPage: ${page}\nName: ${visitorName || '(anonymous)'}\nEmail: ${visitorEmail || '(none)'}\nFirst message: ${firstMessage || '(none)'}\n\nJoin live: ${process.env.SITE_URL || 'http://localhost:5173'}/admin/chat/${id}`
-  )
-  res.json({ id })
+    res.json({ id })
+  } catch (e) { console.error('POST /api/chat/start failed:', e.message); res.status(500).json({ error: 'db error' }) }
 })
 
 app.post('/api/chat/:id/message', async (req, res) => {
-  const { sender, text } = req.body || {}
-  if (!sender || !text) return res.status(400).json({ error: 'sender and text required' })
-  const now = new Date().toISOString()
-  const exists = db.prepare('SELECT id FROM chat_conversations WHERE id = ?').get(req.params.id)
-  if (!exists) return res.status(404).json({ error: 'Conversation not found' })
-  db.prepare('INSERT INTO chat_messages (id, conversation_id, sender, text, created_at) VALUES (?,?,?,?,?)').run(
-    crypto.randomUUID(), req.params.id, sender, text, now
-  )
-  db.prepare('UPDATE chat_conversations SET last_message_at = ? WHERE id = ?').run(now, req.params.id)
-  if (sender === 'visitor') {
-    sendAlert(
-      'New chat message from website visitor',
-      `Conversation: ${req.params.id}\n\nMessage:\n${text}\n\nJoin live: ${process.env.SITE_URL || 'http://localhost:5173'}/admin/chat/${req.params.id}`
-    )
-  }
-  res.json({ ok: true })
-})
-
-app.get('/api/chat/:id/messages', (req, res) => {
-  const sinceId = req.query.since
-  let rows
-  if (sinceId) {
-    const sinceRow = db.prepare('SELECT created_at FROM chat_messages WHERE id = ?').get(sinceId)
-    if (sinceRow) {
-      rows = db.prepare('SELECT * FROM chat_messages WHERE conversation_id = ? AND created_at > ? ORDER BY created_at ASC').all(req.params.id, sinceRow.created_at)
-    } else {
-      rows = db.prepare('SELECT * FROM chat_messages WHERE conversation_id = ? ORDER BY created_at ASC').all(req.params.id)
+  try {
+    const { sender, text } = req.body || {}
+    if (!sender || !text) return res.status(400).json({ error: 'sender and text required' })
+    const now = new Date().toISOString()
+    const exists = await q('SELECT id FROM chat_conversations WHERE id = $1', [req.params.id])
+    if (!exists.length) return res.status(404).json({ error: 'Conversation not found' })
+    await q('INSERT INTO chat_messages (id, conversation_id, sender, text, created_at) VALUES ($1,$2,$3,$4,$5)',
+      [crypto.randomUUID(), req.params.id, sender, text, now])
+    await q('UPDATE chat_conversations SET last_message_at = $1 WHERE id = $2', [now, req.params.id])
+    if (sender === 'visitor') {
+      sendAlert(
+        'New chat message from website visitor',
+        `Conversation: ${req.params.id}\n\nMessage:\n${text}\n\nJoin live: ${process.env.SITE_URL || 'http://localhost:5173'}/admin/chat/${req.params.id}`
+      )
     }
-  } else {
-    rows = db.prepare('SELECT * FROM chat_messages WHERE conversation_id = ? ORDER BY created_at ASC').all(req.params.id)
-  }
-  res.json(rows)
+    res.json({ ok: true })
+  } catch (e) { console.error('POST /api/chat/:id/message failed:', e.message); res.status(500).json({ error: 'db error' }) }
 })
 
-app.get('/api/chat/conversations', (req, res) => {
-  const rows = db.prepare(`
-    SELECT c.*, (SELECT COUNT(*) FROM chat_messages m WHERE m.conversation_id = c.id) AS message_count
-    FROM chat_conversations c
-    ORDER BY c.last_message_at DESC
-  `).all()
-  res.json(rows)
+app.get('/api/chat/:id/messages', async (req, res) => {
+  try {
+    const sinceId = req.query.since
+    let rows
+    if (sinceId) {
+      const sinceRow = await q('SELECT created_at FROM chat_messages WHERE id = $1', [sinceId])
+      if (sinceRow.length) {
+        rows = await q('SELECT * FROM chat_messages WHERE conversation_id = $1 AND created_at > $2 ORDER BY created_at ASC',
+          [req.params.id, sinceRow[0].created_at])
+      } else {
+        rows = await q('SELECT * FROM chat_messages WHERE conversation_id = $1 ORDER BY created_at ASC', [req.params.id])
+      }
+    } else {
+      rows = await q('SELECT * FROM chat_messages WHERE conversation_id = $1 ORDER BY created_at ASC', [req.params.id])
+    }
+    res.json(rows.map(r => ({ ...r, created_at: r.created_at instanceof Date ? r.created_at.toISOString() : r.created_at })))
+  } catch (e) { console.error('GET /api/chat/:id/messages failed:', e.message); res.status(500).json({ error: 'db error' }) }
 })
 
-app.patch('/api/chat/:id', (req, res) => {
-  const { status } = req.body || {}
-  if (status) db.prepare('UPDATE chat_conversations SET status = ? WHERE id = ?').run(status, req.params.id)
-  res.json({ ok: true })
+app.get('/api/chat/conversations', async (req, res) => {
+  try {
+    const rows = await q(`
+      SELECT c.*, (SELECT COUNT(*) FROM chat_messages m WHERE m.conversation_id = c.id) AS message_count
+      FROM chat_conversations c
+      ORDER BY c.last_message_at DESC
+    `)
+    res.json(rows.map(r => ({
+      ...r,
+      message_count: Number(r.message_count),
+      created_at: r.created_at instanceof Date ? r.created_at.toISOString() : r.created_at,
+      last_message_at: r.last_message_at instanceof Date ? r.last_message_at.toISOString() : r.last_message_at
+    })))
+  } catch (e) { console.error('GET /api/chat/conversations failed:', e.message); res.status(500).json({ error: 'db error' }) }
+})
+
+app.patch('/api/chat/:id', async (req, res) => {
+  try {
+    const { status } = req.body || {}
+    if (status) await q('UPDATE chat_conversations SET status = $1 WHERE id = $2', [status, req.params.id])
+    res.json({ ok: true })
+  } catch (e) { console.error('PATCH /api/chat/:id failed:', e.message); res.status(500).json({ error: 'db error' }) }
 })
 
 // === CONFIRMATION EMAIL (quote/application submissions) ===
@@ -457,16 +502,17 @@ app.post('/api/send-confirmation', async (req, res) => {
 
 // === LIVE AGENT REQUEST (from chatbot) ===
 app.post('/api/live-agent-request', async (req, res) => {
-  const { visitorName, visitorEmail, timestamp, conversationId } = req.body
-  if (conversationId) {
-    db.prepare('UPDATE chat_conversations SET visitor_name = COALESCE(?, visitor_name), visitor_email = COALESCE(?, visitor_email), status = ? WHERE id = ?').run(
-      visitorName || null, visitorEmail || null, 'awaiting-agent', conversationId
-    )
-  }
-  const link = conversationId ? `\n\nJoin live: ${process.env.SITE_URL || 'http://localhost:5173'}/admin/chat/${conversationId}` : ''
-  const alertBody = `A website visitor has requested to speak with a live agent.\n\nName: ${visitorName}\nEmail: ${visitorEmail}\nTime: ${timestamp}${link}\n\nPlease reach out to them as soon as possible.`
-  await sendAlert('Live Agent Request — Website Visitor', alertBody)
-  res.json({ ok: true })
+  try {
+    const { visitorName, visitorEmail, timestamp, conversationId } = req.body
+    if (conversationId) {
+      await q('UPDATE chat_conversations SET visitor_name = COALESCE($1, visitor_name), visitor_email = COALESCE($2, visitor_email), status = $3 WHERE id = $4',
+        [visitorName || null, visitorEmail || null, 'awaiting-agent', conversationId])
+    }
+    const link = conversationId ? `\n\nJoin live: ${process.env.SITE_URL || 'http://localhost:5173'}/admin/chat/${conversationId}` : ''
+    const alertBody = `A website visitor has requested to speak with a live agent.\n\nName: ${visitorName}\nEmail: ${visitorEmail}\nTime: ${timestamp}${link}\n\nPlease reach out to them as soon as possible.`
+    await sendAlert('Live Agent Request — Website Visitor', alertBody)
+    res.json({ ok: true })
+  } catch (e) { console.error('POST /api/live-agent-request failed:', e.message); res.status(500).json({ error: 'db error' }) }
 })
 
 // === SERVE PRODUCTION FRONTEND ===
@@ -495,4 +541,12 @@ if (STATIC_DIR) {
 }
 
 const PORT = process.env.PORT || 4000
-app.listen(PORT, () => console.log(`✅ SFam API running on http://localhost:${PORT}`))
+
+initDb()
+  .then(() => {
+    app.listen(PORT, () => console.log(`✅ SFam API running on http://localhost:${PORT}`))
+  })
+  .catch((e) => {
+    console.error('❌ Failed to initialize database:', e.message)
+    process.exit(1)
+  })
