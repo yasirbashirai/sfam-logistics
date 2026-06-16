@@ -37,13 +37,13 @@ export default function Terms() {
   return (
     <>
       <PageMeta
-        title="Terms and Conditions of Service"
-        description="SFam Logistics LLC Terms and Conditions of Service — the legally binding terms governing all freight brokerage arrangements between SFam Logistics LLC and Shippers, Carriers, and all other parties. FMCSA Licensed Property Broker MC 1810116 · DOT 4555943."
+        title="Terms of Service"
+        description="SFam Logistics LLC Terms of Service — the legally binding terms governing all freight brokerage arrangements between SFam Logistics LLC and Shippers, Carriers, and all other parties. FMCSA Licensed Property Broker MC 1810116 · DOT 4555943."
         path="/terms"
       />
       <PageHero
         eyebrow="Legal"
-        title="Terms and Conditions of Service"
+        title="Terms of Service"
         subtitle="The terms governing all freight brokerage arrangements between SFam Logistics LLC and Shippers, Carriers, and all other parties."
       />
 

@@ -25,6 +25,24 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const UPLOAD_DIR = path.join(__dirname, 'uploads')
 if (!fs.existsSync(UPLOAD_DIR)) fs.mkdirSync(UPLOAD_DIR, { recursive: true })
 
+// === PASSWORD HASHING (scrypt — built into Node, no extra dependency) ===
+// Stored format is "salt:hash". scrypt is deliberately slow to resist brute force.
+const hashPassword = (password) => {
+  const salt = crypto.randomBytes(16).toString('hex')
+  const hash = crypto.scryptSync(String(password), salt, 64).toString('hex')
+  return `${salt}:${hash}`
+}
+const verifyPassword = (password, stored) => {
+  const [salt, hash] = (stored || '').split(':')
+  if (!salt || !hash) return false
+  const test = crypto.scryptSync(String(password), salt, 64).toString('hex')
+  const a = Buffer.from(hash, 'hex')
+  const b = Buffer.from(test, 'hex')
+  return a.length === b.length && crypto.timingSafeEqual(a, b)
+}
+// Reset tokens: the raw token goes in the email link; only its SHA-256 hash is stored.
+const hashToken = (token) => crypto.createHash('sha256').update(token).digest('hex')
+
 // === DATABASE LAYER (Postgres in prod, SQLite fallback for local dev) ===
 const PG = !!process.env.DATABASE_URL
 let pool = null
@@ -124,6 +142,29 @@ const initDb = async () => {
   )`)
 
   await q(`CREATE INDEX IF NOT EXISTS idx_chat_messages_convo ON chat_messages(conversation_id, created_at)`)
+
+  // Admin accounts. Single-admin model for now, but the table supports more.
+  // Passwords are scrypt-hashed (salt:hash). Reset tokens are stored hashed so a
+  // DB leak can't be used to reset a password.
+  await q(`CREATE TABLE IF NOT EXISTS admins (
+    id TEXT PRIMARY KEY,
+    email TEXT UNIQUE NOT NULL,
+    password_hash TEXT NOT NULL,
+    reset_token_hash TEXT,
+    reset_expires ${TS_T},
+    created_at ${TS_T} NOT NULL
+  )`)
+
+  // Seed the default admin once. Credentials come from env in prod; the historical
+  // demo creds (admin@sfamlogistics.com / admin123) are the fallback so nothing
+  // breaks if the env vars aren't set yet. CHANGE THE PASSWORD after first login.
+  const seedEmail = (process.env.ADMIN_EMAIL || 'admin@sfamlogistics.com').toLowerCase()
+  const existing = await q(`SELECT id FROM admins WHERE email = $1`, [seedEmail])
+  if (!existing.length) {
+    await q(`INSERT INTO admins (id, email, password_hash, created_at) VALUES ($1,$2,$3,$4)`,
+      [crypto.randomUUID(), seedEmail, hashPassword(process.env.ADMIN_PASSWORD || 'admin123'), new Date().toISOString()])
+    console.log(`👤 Seeded admin account: ${seedEmail}`)
+  }
 }
 
 // === EMAIL (optional) ===
@@ -513,6 +554,84 @@ app.post('/api/live-agent-request', async (req, res) => {
     await sendAlert('Live Agent Request — Website Visitor', alertBody)
     res.json({ ok: true })
   } catch (e) { console.error('POST /api/live-agent-request failed:', e.message); res.status(500).json({ error: 'db error' }) }
+})
+
+// === ADMIN AUTH (login + forgot/reset password via email) ===
+
+// Verify credentials against the DB. Returns { ok:true } on success.
+app.post('/api/admin/login', async (req, res) => {
+  try {
+    const email = String(req.body?.email || '').trim().toLowerCase()
+    const password = String(req.body?.password || '')
+    const rows = await q('SELECT * FROM admins WHERE email = $1', [email])
+    if (!rows.length || !verifyPassword(password, rows[0].password_hash)) {
+      return res.status(401).json({ error: 'Invalid email or password.' })
+    }
+    res.json({ ok: true, email })
+  } catch (e) {
+    console.error('POST /api/admin/login failed:', e.message)
+    res.status(500).json({ error: 'server error' })
+  }
+})
+
+// Request a reset link. Always responds ok (never reveals whether the email exists).
+app.post('/api/admin/forgot', async (req, res) => {
+  try {
+    const email = String(req.body?.email || '').trim().toLowerCase()
+    const rows = await q('SELECT * FROM admins WHERE email = $1', [email])
+    if (rows.length) {
+      const token = crypto.randomBytes(32).toString('hex')
+      const expires = new Date(Date.now() + 60 * 60 * 1000).toISOString() // 1 hour
+      await q('UPDATE admins SET reset_token_hash = $1, reset_expires = $2 WHERE id = $3',
+        [hashToken(token), expires, rows[0].id])
+
+      const base = process.env.SITE_URL || 'http://localhost:5173'
+      const link = `${base}/reset-password?token=${token}`
+      await sendMail({
+        to: email,
+        subject: 'SFam Logistics — Reset Your Admin Password',
+        text: `A password reset was requested for your SFam Logistics admin account.\n\nReset your password using the link below (valid for 1 hour):\n${link}\n\nIf you did not request this, you can safely ignore this email — your password will not change.\n\n— SFam Logistics LLC`,
+        html: `<div style="font-family:system-ui,Arial,sans-serif;max-width:560px;margin:0 auto;padding:24px;color:#0d1b2e">
+  <h1 style="color:#ff7a18;font-size:22px;margin:0 0 16px">Reset your password</h1>
+  <p>A password reset was requested for your SFam Logistics admin account.</p>
+  <p style="margin:24px 0"><a href="${link}" style="background:#ff7a18;color:#fff;padding:12px 22px;border-radius:8px;text-decoration:none;font-weight:600">Reset Password</a></p>
+  <p style="font-size:13px;color:#666">This link is valid for 1 hour. If you didn't request this, ignore this email — your password won't change.</p>
+  <hr style="border:none;border-top:1px solid #e5e7eb;margin:24px 0" />
+  <p style="font-size:12px;color:#666">SFam Logistics LLC · FMCSA Authorized · MC 1810116 · USDOT 4555943</p>
+</div>`
+      })
+    }
+    res.json({ ok: true })
+  } catch (e) {
+    console.error('POST /api/admin/forgot failed:', e.message)
+    res.status(500).json({ error: 'server error' })
+  }
+})
+
+// Complete the reset with a valid, unexpired token.
+app.post('/api/admin/reset', async (req, res) => {
+  try {
+    const token = String(req.body?.token || '')
+    const password = String(req.body?.password || '')
+    if (password.length < 8) return res.status(400).json({ error: 'Password must be at least 8 characters.' })
+    if (!token) return res.status(400).json({ error: 'Missing reset token.' })
+
+    const rows = await q('SELECT * FROM admins WHERE reset_token_hash = $1', [hashToken(token)])
+    const admin = rows[0]
+    const expiresMs = admin?.reset_expires
+      ? new Date(admin.reset_expires instanceof Date ? admin.reset_expires.toISOString() : admin.reset_expires).getTime()
+      : 0
+    if (!admin || expiresMs < Date.now()) {
+      return res.status(400).json({ error: 'This reset link is invalid or has expired. Request a new one.' })
+    }
+
+    await q('UPDATE admins SET password_hash = $1, reset_token_hash = NULL, reset_expires = NULL WHERE id = $2',
+      [hashPassword(password), admin.id])
+    res.json({ ok: true })
+  } catch (e) {
+    console.error('POST /api/admin/reset failed:', e.message)
+    res.status(500).json({ error: 'server error' })
+  }
 })
 
 // === SERVE PRODUCTION FRONTEND ===

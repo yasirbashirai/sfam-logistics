@@ -19,6 +19,8 @@ import Contact from './pages/Contact.jsx'
 import Privacy from './pages/Privacy.jsx'
 import Track from './pages/Track.jsx'
 import Login from './pages/Login.jsx'
+import ForgotPassword from './pages/ForgotPassword.jsx'
+import ResetPassword from './pages/ResetPassword.jsx'
 import NotFound from './pages/NotFound.jsx'
 
 // Admin dashboard is code-split: public/SEO visitors never download it,
@@ -77,6 +79,8 @@ export default function App() {
             {/* /terms is served as the Terms & Conditions PDF at the server level
                 (Vite middleware / Express route / .htaccess rewrite), not by React Router. */}
             <Route path="/login" element={<Page><Login /></Page>} />
+            <Route path="/forgot-password" element={<Page><ForgotPassword /></Page>} />
+            <Route path="/reset-password" element={<Page><ResetPassword /></Page>} />
             <Route path="/admin" element={<AdminLayout />}>
               <Route index element={<Dashboard />} />
               <Route path="shipments" element={<AdminShipments />} />
