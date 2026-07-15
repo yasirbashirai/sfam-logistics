@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react'
 import { Star, ExternalLink, MessageSquarePlus } from 'lucide-react'
 import Reveal from './Reveal.jsx'
 
-// Google Business Profile page — used as the fallback link before the backend
-// has a GOOGLE_MAPS_API_KEY configured, and for the "see all reviews" button.
-const GOOGLE_PROFILE_URL = 'https://www.google.com/maps?kgmid=/g/11nqr0ls2y'
+// Google Business Profile page (official share link from the profile owner) —
+// used for both buttons until the backend has a GOOGLE_MAPS_API_KEY configured.
+const GOOGLE_PROFILE_URL = 'https://share.google/ifNAdIMyOui1a7dNy'
 
 // Real reviews copied from the SFam Google Business Profile (2026-07-15).
 // Shown until the backend has a GOOGLE_MAPS_API_KEY; once the key is set the
