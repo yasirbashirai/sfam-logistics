@@ -6,6 +6,33 @@ import Reveal from './Reveal.jsx'
 // has a GOOGLE_MAPS_API_KEY configured, and for the "see all reviews" button.
 const GOOGLE_PROFILE_URL = 'https://www.google.com/maps?kgmid=/g/11nqr0ls2y'
 
+// Real reviews copied from the SFam Google Business Profile (2026-07-15).
+// Shown until the backend has a GOOGLE_MAPS_API_KEY; once the key is set the
+// widget switches to live data from Google and this snapshot is ignored.
+const SEED = {
+  configured: true,
+  rating: 5.0,
+  total: 2,
+  mapsUrl: GOOGLE_PROFILE_URL,
+  writeReviewUrl: GOOGLE_PROFILE_URL,
+  reviews: [
+    {
+      author: 'Don Sootee',
+      avatar: null,
+      rating: 5,
+      text: 'Worked with Sulley at SFam Logistics on a load out of Washington. I was skeptical at first because they seem to be new and as we all know, new brokers turns not to know what they are doing but Dude actually knows trucking. Not your typical broker who’s never been in a truck. Rates were fair, no surprises on the back end, and he kept communication tight from pickup to delivery. He promised payment on delivery with no charge and he kept his promise. Refreshing to work with a broker who respects carriers and keep their promise. Will keep using them.',
+      time: '2 weeks ago'
+    },
+    {
+      author: 'Qwame Boafo Flyboi',
+      avatar: null,
+      rating: 5,
+      text: '',
+      time: '2 weeks ago'
+    }
+  ]
+}
+
 // Official Google "G" mark, inlined so the widget loads nothing external.
 const GoogleG = ({ className }) => (
   <svg className={className} viewBox="0 0 48 48" aria-hidden="true">
@@ -32,14 +59,16 @@ const Stars = ({ rating, size = 'w-4 h-4' }) => (
 // the section still renders — as a clean "find us on Google" CTA, never an
 // empty box or fake data.
 export default function GoogleReviews() {
-  const [data, setData] = useState(null)
+  // Render the snapshot immediately; silently upgrade to live Google data
+  // when the backend responds (it cold-starts slowly on Render's free tier).
+  const [data, setData] = useState(SEED)
 
   useEffect(() => {
     let alive = true
     fetch('/api/google-reviews')
-      .then(r => (r.ok ? r.json() : { configured: false }))
-      .then(d => { if (alive) setData(d) })
-      .catch(() => { if (alive) setData({ configured: false }) })
+      .then(r => (r.ok ? r.json() : null))
+      .then(d => { if (alive && d?.configured && d.rating) setData(d) })
+      .catch(() => {})
     return () => { alive = false }
   }, [])
 
@@ -78,10 +107,10 @@ export default function GoogleReviews() {
 
             {/* Review cards */}
             {data.reviews.length > 0 && (
-              <div className="grid sm:grid-cols-2 gap-4 mb-8">
+              <div className="grid sm:grid-cols-2 gap-4 mb-8 items-start">
                 {data.reviews.slice(0, 4).map((r, i) => (
                   <Reveal key={`${r.author}-${i}`} delay={i * 100}>
-                    <div className="bg-white/[0.06] backdrop-blur-xl border border-white/10 rounded-xl p-5 h-full flex flex-col hover:border-orange-400/40 transition">
+                    <div className="bg-white/[0.06] backdrop-blur-xl border border-white/10 rounded-xl p-5 flex flex-col hover:border-orange-400/40 transition">
                       <div className="flex items-center gap-3 mb-3">
                         {r.avatar
                           ? <img src={r.avatar} alt="" loading="lazy" referrerPolicy="no-referrer" className="w-10 h-10 rounded-full border border-white/15" />
@@ -93,7 +122,9 @@ export default function GoogleReviews() {
                         <GoogleG className="w-4 h-4 ml-auto shrink-0" />
                       </div>
                       <Stars rating={r.rating} />
-                      {r.text && <p className="text-white/75 text-sm leading-relaxed mt-3 line-clamp-5">{r.text}</p>}
+                      {r.text
+                        ? <p className="text-white/75 text-sm leading-relaxed mt-3">{r.text}</p>
+                        : <p className="text-white/50 text-sm italic mt-3">Rated {r.rating} stars on Google</p>}
                     </div>
                   </Reveal>
                 ))}
