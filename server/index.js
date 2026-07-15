@@ -260,6 +260,79 @@ const remove = (table, id) => q(`DELETE FROM ${table} WHERE id = $1`, [id])
 // === ROUTES ===
 app.get('/api/health', (req, res) => res.json({ ok: true, storage: PG ? 'postgres' : 'sqlite', time: new Date().toISOString() }))
 
+// === GOOGLE REVIEWS (Places API) ===
+// Serves the business's live Google rating + reviews for the on-site widget.
+// Requires GOOGLE_MAPS_API_KEY (Google Cloud → Places API (New) enabled).
+// GOOGLE_PLACE_ID is optional — when unset, the place is resolved once via
+// Text Search using GOOGLE_PLACE_QUERY (default "SFam Logistics Bothell WA").
+// Responses are cached in memory for 12h so quota usage stays a handful of
+// calls per day; the last good payload is served if a refresh ever fails.
+const REVIEWS_TTL_MS = 12 * 60 * 60 * 1000
+let reviewsCache = { data: null, fetchedAt: 0 }
+let resolvedPlaceId = process.env.GOOGLE_PLACE_ID || null
+
+const PLACE_FIELDS = 'id,displayName,rating,userRatingCount,googleMapsUri,reviews'
+
+const fetchGoogleReviews = async (apiKey) => {
+  if (!resolvedPlaceId) {
+    const search = await fetch('https://places.googleapis.com/v1/places:searchText', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Goog-Api-Key': apiKey,
+        'X-Goog-FieldMask': 'places.id'
+      },
+      body: JSON.stringify({ textQuery: process.env.GOOGLE_PLACE_QUERY || 'SFam Logistics Bothell WA' })
+    })
+    if (!search.ok) throw new Error(`places searchText ${search.status}: ${await search.text()}`)
+    const found = (await search.json()).places?.[0]?.id
+    if (!found) throw new Error('place not found for query')
+    resolvedPlaceId = found
+  }
+
+  const details = await fetch(
+    `https://places.googleapis.com/v1/places/${resolvedPlaceId}?fields=${PLACE_FIELDS}`,
+    { headers: { 'X-Goog-Api-Key': apiKey } }
+  )
+  if (!details.ok) throw new Error(`place details ${details.status}: ${await details.text()}`)
+  const place = await details.json()
+
+  return {
+    configured: true,
+    name: place.displayName?.text || 'SFam Logistics',
+    rating: place.rating || null,
+    total: place.userRatingCount || 0,
+    mapsUrl: place.googleMapsUri || `https://www.google.com/maps/place/?q=place_id:${resolvedPlaceId}`,
+    writeReviewUrl: `https://search.google.com/local/writereview?placeid=${resolvedPlaceId}`,
+    reviews: (place.reviews || []).map(r => ({
+      author: r.authorAttribution?.displayName || 'Google user',
+      authorUrl: r.authorAttribution?.uri || null,
+      avatar: r.authorAttribution?.photoUri || null,
+      rating: r.rating || 5,
+      text: r.text?.text || r.originalText?.text || '',
+      time: r.relativePublishTimeDescription || ''
+    }))
+  }
+}
+
+app.get('/api/google-reviews', async (req, res) => {
+  const apiKey = process.env.GOOGLE_MAPS_API_KEY
+  if (!apiKey) return res.json({ configured: false })
+  if (reviewsCache.data && Date.now() - reviewsCache.fetchedAt < REVIEWS_TTL_MS) {
+    return res.json(reviewsCache.data)
+  }
+  try {
+    const data = await fetchGoogleReviews(apiKey)
+    reviewsCache = { data, fetchedAt: Date.now() }
+    res.json(data)
+  } catch (e) {
+    console.error('google-reviews fetch failed:', e.message)
+    // Serve the stale copy rather than an error if we ever had a good one
+    if (reviewsCache.data) return res.json(reviewsCache.data)
+    res.json({ configured: false })
+  }
+})
+
 // Generic CRUD per table
 TABLES.forEach(table => {
   app.get(`/api/${table}`, async (req, res) => {

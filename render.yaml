@@ -65,3 +65,15 @@ services:
         sync: false
       - key: ADMIN_PASSWORD
         sync: false
+      # --- Google Reviews widget (About page) ---
+      # Create a key in Google Cloud Console with "Places API (New)" enabled and
+      # paste it here. Without it, the widget still renders but only shows a
+      # "Review us on Google" CTA (no live rating/reviews).
+      # GOOGLE_PLACE_ID is optional — if unset, the backend resolves the place
+      # once via text search (override the query with GOOGLE_PLACE_QUERY).
+      - key: GOOGLE_MAPS_API_KEY
+        sync: false
+      - key: GOOGLE_PLACE_ID
+        sync: false
+      - key: GOOGLE_PLACE_QUERY
+        sync: false
