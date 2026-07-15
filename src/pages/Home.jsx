@@ -4,6 +4,7 @@ import PageMeta from '../components/PageMeta.jsx'
 import { services } from '../data/site.js'
 import { organizationLd, websiteLd, faqLd, breadcrumbLd, SITE_URL } from '../data/seo.js'
 import Reveal from '../components/Reveal.jsx'
+import GoogleReviews from '../components/GoogleReviews.jsx'
 
 const iconMap = { Truck, Boxes, Snowflake, PackageOpen, Route, Zap }
 
@@ -263,7 +264,10 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ============ 8. FINAL CTA — centered ============ */}
+      {/* ============ 8. GOOGLE REVIEWS ============ */}
+      <GoogleReviews />
+
+      {/* ============ 9. FINAL CTA — centered ============ */}
       <section className="section">
         <div className="container-x">
           <div className="relative bg-gradient-to-br from-brand-navy3 to-brand-navy border border-orange-400/20 rounded-2xl overflow-hidden p-10 lg:p-14 text-center">
