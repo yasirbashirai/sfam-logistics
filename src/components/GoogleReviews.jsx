@@ -6,6 +6,9 @@ import Reveal from './Reveal.jsx'
 // used for both buttons until the backend has a GOOGLE_MAPS_API_KEY configured.
 const GOOGLE_PROFILE_URL = 'https://share.google/ifNAdIMyOui1a7dNy'
 
+// Official "leave us a review" deep link from the Google Business Profile.
+const WRITE_REVIEW_URL = 'https://g.page/r/CaqJrgVE_XMlEAE/review'
+
 // Real reviews copied from the SFam Google Business Profile (2026-07-15).
 // Shown until the backend has a GOOGLE_MAPS_API_KEY; once the key is set the
 // widget switches to live data from Google and this snapshot is ignored.
@@ -14,7 +17,7 @@ const SEED = {
   rating: 5.0,
   total: 2,
   mapsUrl: GOOGLE_PROFILE_URL,
-  writeReviewUrl: GOOGLE_PROFILE_URL,
+  writeReviewUrl: WRITE_REVIEW_URL,
   reviews: [
     {
       author: 'Don Sootee',
@@ -74,7 +77,8 @@ export default function GoogleReviews() {
 
   const live = data?.configured && data.rating
   const mapsUrl = data?.mapsUrl || GOOGLE_PROFILE_URL
-  const writeReviewUrl = data?.writeReviewUrl || GOOGLE_PROFILE_URL
+  // Always use the owner's official review deep link, even with live API data.
+  const writeReviewUrl = WRITE_REVIEW_URL
 
   return (
     <section className="section-light">
