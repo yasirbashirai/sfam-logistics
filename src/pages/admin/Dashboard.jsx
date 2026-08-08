@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { FileText, Truck, Users, MessageSquare, TrendingUp, Eye, X, Download, Mail } from 'lucide-react'
 import { useSubmissions } from '../../context/SubmissionsContext.jsx'
 import { Link } from 'react-router-dom'
+import { resolveUrl } from '../../lib/api.js'
 
 export default function Dashboard() {
   const { data } = useSubmissions()
@@ -98,7 +99,7 @@ export default function Dashboard() {
                       <dt className="text-xs uppercase tracking-wider text-orange-400 font-bold mb-2">{k === 'resumeFile' ? 'Resume' : 'Uploaded Documents'}</dt>
                       <div className="space-y-2">
                         {files.map((f, i) => f && (
-                          <a key={i} href={f.url || '#'} target="_blank" rel="noopener" className="flex items-center gap-3 p-3 rounded-xl bg-orange-400/10 border border-orange-400/30 hover:bg-orange-400/20 transition">
+                          <a key={i} href={resolveUrl(f.url)} target="_blank" rel="noopener" className="flex items-center gap-3 p-3 rounded-xl bg-orange-400/10 border border-orange-400/30 hover:bg-orange-400/20 transition">
                             <Download className="w-4 h-4 text-orange-400" />
                             <div className="flex-1 min-w-0">
                               <div className="text-sm font-bold truncate">{f.name}</div>

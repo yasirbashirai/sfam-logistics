@@ -109,6 +109,18 @@ const initDb = async () => {
     )`)
   }
 
+  // Uploaded files (resumes, carrier docs) live IN the database, not on disk —
+  // Render's free-tier filesystem is ephemeral, so disk files vanish on every
+  // deploy/restart. BYTEA/BLOB keeps them as durable as the submissions themselves.
+  await q(`CREATE TABLE IF NOT EXISTS uploads (
+    id TEXT PRIMARY KEY,
+    name TEXT NOT NULL,
+    mime TEXT,
+    size INTEGER,
+    data ${PG ? 'BYTEA' : 'BLOB'} NOT NULL,
+    created_at ${TS_T} NOT NULL
+  )`)
+
   await q(`CREATE TABLE IF NOT EXISTS loads (
     id TEXT PRIMARY KEY,
     tracking_number TEXT UNIQUE NOT NULL,
@@ -226,14 +238,8 @@ const sendMail = async ({ to, subject, text, html }) => {
 }
 
 // === UPLOADS ===
-const storage = multer.diskStorage({
-  destination: UPLOAD_DIR,
-  filename: (req, file, cb) => {
-    const safe = file.originalname.replace(/[^a-z0-9.\-_]/gi, '_')
-    cb(null, `${Date.now()}-${crypto.randomBytes(4).toString('hex')}-${safe}`)
-  }
-})
-const upload = multer({ storage, limits: { fileSize: 15 * 1024 * 1024 } })
+// memoryStorage: the file arrives as a Buffer and is written straight to the DB.
+const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 15 * 1024 * 1024 } })
 
 // === APP ===
 const app = express()
@@ -390,14 +396,39 @@ TABLES.forEach(table => {
   })
 })
 
-// File uploads
-app.post('/api/upload', upload.array('files', 6), (req, res) => {
-  const files = (req.files || []).map(f => ({
-    name: f.originalname,
-    size: f.size,
-    url: `/uploads/${f.filename}`
-  }))
-  res.json({ files })
+// File uploads — stored in the database so they survive Render restarts/deploys.
+app.post('/api/upload', upload.array('files', 6), async (req, res) => {
+  try {
+    const files = []
+    for (const f of req.files || []) {
+      const id = crypto.randomUUID()
+      const safe = f.originalname.replace(/[^a-z0-9.\-_]/gi, '_')
+      await q(`INSERT INTO uploads (id, name, mime, size, data, created_at) VALUES ($1,$2,$3,$4,$5,$6)`,
+        [id, f.originalname, f.mimetype || 'application/octet-stream', f.size, f.buffer, new Date().toISOString()])
+      files.push({ name: f.originalname, size: f.size, url: `/uploads/${id}/${safe}` })
+    }
+    res.json({ files })
+  } catch (e) {
+    console.error('POST /api/upload failed:', e.message)
+    res.status(500).json({ error: 'upload failed' })
+  }
+})
+
+// Serve DB-stored uploads. Legacy disk files (/uploads/<filename>, single segment)
+// still fall through to the express.static mount above while they exist.
+app.get('/uploads/:id/:name', async (req, res) => {
+  try {
+    const rows = await q(`SELECT name, mime, data FROM uploads WHERE id = $1`, [req.params.id])
+    if (!rows.length) return res.status(404).json({ error: 'file not found' })
+    const f = rows[0]
+    const safe = (f.name || 'download').replace(/[^a-z0-9.\-_]/gi, '_')
+    res.setHeader('Content-Type', f.mime || 'application/octet-stream')
+    res.setHeader('Content-Disposition', `inline; filename="${safe}"`)
+    res.send(Buffer.from(f.data))
+  } catch (e) {
+    console.error('GET /uploads failed:', e.message)
+    res.status(500).json({ error: 'download failed' })
+  }
 })
 
 // Load tracking — public read
