@@ -10,10 +10,10 @@ export const DOT_NUMBER = '4555943'
 
 export const PRIMARY_LOCATION = {
   '@type': 'PostalAddress',
-  streetAddress: '19125 North Creek Parkway, Suite 120',
+  streetAddress: '22722 29th Drive SE, Suite 100',
   addressLocality: 'Bothell',
   addressRegion: 'WA',
-  postalCode: '98011',
+  postalCode: '98021',
   addressCountry: 'US'
 }
 
@@ -53,7 +53,7 @@ export const organizationLd = {
     { '@type': 'Place', name: 'SFam Logistics — Bothell HQ', address: PRIMARY_LOCATION },
     { '@type': 'Place', name: 'SFam Logistics — Everett Office', address: SECONDARY_LOCATION }
   ],
-  geo: { '@type': 'GeoCoordinates', latitude: 47.7623, longitude: -122.2054 },
+  geo: { '@type': 'GeoCoordinates', latitude: 47.7871, longitude: -122.2110 },
   areaServed: [
     { '@type': 'Country', name: 'United States' },
     { '@type': 'Country', name: 'Canada' },

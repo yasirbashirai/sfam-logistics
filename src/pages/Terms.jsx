@@ -37,13 +37,13 @@ export default function Terms() {
   return (
     <>
       <PageMeta
-        title="Terms of Service"
-        description="SFam Logistics LLC Terms of Service — the legally binding terms governing all freight brokerage arrangements between SFam Logistics LLC and Shippers, Carriers, and all other parties. FMCSA Licensed Property Broker MC 1810116 · DOT 4555943."
+        title="Terms and Conditions"
+        description="SFam Logistics LLC Terms and Conditions — the legally binding terms governing all freight brokerage arrangements between SFam Logistics LLC and Shippers, Carriers, and all other parties. FMCSA Licensed Property Broker MC 1810116 · DOT 4555943."
         path="/terms"
       />
       <PageHero
         eyebrow="Legal"
-        title="Terms of Service"
+        title="Terms and Conditions"
         subtitle="The terms governing all freight brokerage arrangements between SFam Logistics LLC and Shippers, Carriers, and all other parties."
       />
 
@@ -435,7 +435,7 @@ export default function Terms() {
             <p>Carrier shall at all times comply with all applicable FMCSA regulations, including but not limited to hours of service regulations, electronic logging device requirements, drug and alcohol testing requirements, vehicle inspection and maintenance, and driver qualification standards.</p>
             <H3>15.13 Formal Notices</H3>
             <p>All formal notices required under this Agreement shall be in writing and delivered by: (a) certified U.S. mail, return receipt requested; (b) overnight courier with delivery confirmation; or (c) email with electronic delivery confirmation, to the following addresses:</p>
-            <p><strong className="text-white">For Broker:</strong> SFam Logistics LLC, 19125 North Creek Parkway, Suite 120, Bothell, Washington 98011, Attn: Operations Manager, Email: ops@sfamlogistics.com</p>
+            <p><strong className="text-white">For Broker:</strong> SFam Logistics LLC, 22722 29th Drive SE, Suite 100, Bothell, Washington 98021, Attn: Operations Manager, Email: ops@sfamlogistics.com</p>
             <p><strong className="text-white">For Shipper or Carrier:</strong> the address or email on file with Broker at the time of notice.</p>
 
             <div className="mt-12 pt-8 border-t border-white/10">

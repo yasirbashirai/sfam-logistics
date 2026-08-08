@@ -367,7 +367,7 @@ TABLES.forEach(table => {
   <p>Thanks for subscribing! You'll receive industry tips, rate trends, and SFam updates straight to your inbox. <strong>No spam — ever.</strong></p>
   <p>Questions? Reply directly to this email or reach us at <a href="mailto:loads@sfamlogistics.com" style="color:#ff7a18">loads@sfamlogistics.com</a> / <a href="tel:+18886985556" style="color:#ff7a18">1 (888) 698-5556</a>.</p>
   <hr style="border:none;border-top:1px solid #e5e7eb;margin:24px 0" />
-  <p style="font-size:12px;color:#666">SFam Logistics LLC · FMCSA Authorized · MC 1810116 · USDOT 4555943<br>19125 North Creek Parkway Suite 120, Bothell, WA 98011</p>
+  <p style="font-size:12px;color:#666">SFam Logistics LLC · FMCSA Authorized · MC 1810116 · USDOT 4555943<br>22722 29th Drive SE, Suite 100, Bothell, WA 98021</p>
 </div>`
         })
       }

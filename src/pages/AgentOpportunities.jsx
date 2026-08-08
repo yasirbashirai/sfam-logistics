@@ -19,7 +19,7 @@ const agentJsonLd = [
     hiringOrganization: { '@id': 'https://sfamlogistics.com/#organization' },
     jobLocation: {
       '@type': 'Place',
-      address: { '@type': 'PostalAddress', addressLocality: 'Bothell', addressRegion: 'WA', postalCode: '98011', addressCountry: 'US' }
+      address: { '@type': 'PostalAddress', addressLocality: 'Bothell', addressRegion: 'WA', postalCode: '98021', addressCountry: 'US' }
     },
     applicantLocationRequirements: { '@type': 'Country', name: 'United States' },
     jobLocationType: 'TELECOMMUTE',

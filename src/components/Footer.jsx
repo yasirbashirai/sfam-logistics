@@ -91,7 +91,7 @@ export default function Footer() {
           <div>
             <h4 className="label mb-5">Get In Touch</h4>
             <ul className="space-y-4 text-white/70 text-sm">
-              <li className="flex gap-3"><MapPin className="w-4 h-4 mt-0.5 text-orange-400 shrink-0" /><span>19125 North Creek Parkway Suite 120,<br />Bothell, WA 98011</span></li>
+              <li className="flex gap-3"><MapPin className="w-4 h-4 mt-0.5 text-orange-400 shrink-0" /><span>22722 29th Drive SE, Suite 100,<br />Bothell, WA 98021</span></li>
               <li className="flex gap-3"><MapPin className="w-4 h-4 mt-0.5 text-orange-400 shrink-0" /><span>10220 3rd Avenue SE,<br />Everett, WA 98208</span></li>
               <li className="flex gap-3"><Phone className="w-4 h-4 mt-0.5 text-orange-400 shrink-0" /><a href={company.phoneHref} className="hover:text-orange-300 font-semibold">{company.phone}</a></li>
               <li className="flex gap-3"><Mail className="w-4 h-4 mt-0.5 text-orange-400 shrink-0" /><a href={`mailto:${company.email}`} className="hover:text-orange-300">{company.email}</a></li>
@@ -104,7 +104,7 @@ export default function Footer() {
           <p>© {new Date().getFullYear()} SFam Logistics LLC. All rights reserved. FMCSA Authorized Property Broker. MC 1810116 • USDOT 4555943</p>
           <div className="flex flex-wrap gap-x-5 gap-y-2 justify-center">
             <Link to="/privacy" className="hover:text-orange-300">Privacy Policy</Link>
-            <a href={termsPdf} target="_blank" rel="noopener noreferrer" className="hover:text-orange-300">Terms of Service</a>
+            <a href={termsPdf} target="_blank" rel="noopener noreferrer" className="hover:text-orange-300">Terms and Conditions</a>
           </div>
         </div>
       </div>

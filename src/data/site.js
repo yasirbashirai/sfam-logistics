@@ -4,7 +4,7 @@ export const company = {
   phone: '1 (888) 698-5556',
   phoneHref: 'tel:+18886985556',
   email: 'info@sfamlogistics.com',
-  address: '19125 North Creek Parkway Suite 120, Bothell, WA 98011 US',
+  address: '22722 29th Drive SE, Suite 100, Bothell, WA 98021 US',
   hours: 'Mon – Fri • 7:00 AM – 5:00 PM PST',
   mc: '1810116',
   usdot: '4555943',

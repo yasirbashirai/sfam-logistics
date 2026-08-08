@@ -3,6 +3,7 @@
 export const zipCentroids = {
   // Pacific NW
   '98011': [47.7623, -122.2054, 'Bothell, WA'],
+  '98021': [47.7871, -122.2110, 'Bothell, WA'],
   '98101': [47.6097, -122.3331, 'Seattle, WA'],
   '98401': [47.2529, -122.4443, 'Tacoma, WA'],
   '97201': [45.5152, -122.6784, 'Portland, OR'],

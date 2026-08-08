@@ -48,7 +48,7 @@ export default function Contact() {
     <>
       <PageMeta
         title="Contact SFam Logistics — 1 (888) 698-5556 · Bothell, WA"
-        description="Contact SFam Logistics LLC — toll-free 1 (888) 698-5556, info@sfamlogistics.com. Headquartered at 19125 North Creek Parkway Suite 120, Bothell, WA 98011. Office hours Mon-Fri 7AM-5PM PST. 24/7 dispatch for active loads."
+        description="Contact SFam Logistics LLC — toll-free 1 (888) 698-5556, info@sfamlogistics.com. Headquartered at 22722 29th Drive SE, Suite 100, Bothell, WA 98021. Office hours Mon-Fri 7AM-5PM PST. 24/7 dispatch for active loads."
         keywords="contact SFam Logistics, freight broker contact, freight broker phone number, Bothell freight broker contact, info@sfamlogistics.com, 1-888-698-5556, freight broker email"
         path="/contact"
         jsonLd={contactJsonLd}
@@ -63,7 +63,7 @@ export default function Contact() {
             {[
               { i: Phone, t: 'Phone (Toll Free)', v: company.phone, href: company.phoneHref },
               { i: Mail, t: 'Email', v: company.email, href: `mailto:${company.email}` },
-              { i: MapPin, t: 'Address', v: '19125 North Creek Parkway Suite 120, Bothell, WA 98011' },
+              { i: MapPin, t: 'Address', v: '22722 29th Drive SE, Suite 100, Bothell, WA 98021' },
               { i: MapPin, t: 'Address', v: '10220 3rd Avenue SE, Everett, WA 98208' },
               { i: Clock, t: 'Hours', v: company.hours }
             ].map(({ i: Icon, t, v, href }, idx) => (
@@ -146,7 +146,7 @@ export default function Contact() {
             <div className="rounded-3xl overflow-hidden border border-orange-400/30 aspect-[16/7]">
               <iframe
                 title="SFam Logistics HQ"
-                src="https://maps.google.com/maps?q=19125+North+Creek+Parkway,+Bothell,+WA+98011&t=&z=14&ie=UTF8&iwloc=&output=embed"
+                src="https://maps.google.com/maps?q=22722+29th+Drive+SE,+Suite+100,+Bothell,+WA+98021&t=&z=14&ie=UTF8&iwloc=&output=embed"
                 width="100%" height="100%" style={{ border: 0, filter: 'invert(0.92) hue-rotate(180deg)' }}
                 allowFullScreen=""
                 loading="lazy"

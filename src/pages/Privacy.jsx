@@ -63,7 +63,7 @@ export default function Privacy() {
           <p>If you have any questions, concerns, or requests regarding this Privacy Policy, please contact us:</p>
           <p>
             <strong className="text-white">SFam Logistics LLC</strong><br />
-            19125 North Creek Parkway Suite 120, Bothell, WA 98011 USA<br />
+            22722 29th Drive SE, Suite 100, Bothell, WA 98021 USA<br />
             Email: <a href="mailto:info@sfamlogistics.com" className="text-orange-300 hover:text-orange-200">info@sfamlogistics.com</a><br />
             Phone: <a href="tel:+18886985556" className="text-orange-300 hover:text-orange-200">1 (888) 698-5556</a><br />
             <a href="https://www.sfamlogistics.com" className="text-orange-300 hover:text-orange-200">www.sfamlogistics.com</a>
