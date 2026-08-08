@@ -17,15 +17,6 @@ export const PRIMARY_LOCATION = {
   addressCountry: 'US'
 }
 
-export const SECONDARY_LOCATION = {
-  '@type': 'PostalAddress',
-  streetAddress: '10220 3rd Avenue SE',
-  addressLocality: 'Everett',
-  addressRegion: 'WA',
-  postalCode: '98208',
-  addressCountry: 'US'
-}
-
 const SOCIAL = [
   'https://www.facebook.com/profile.php?id=61576522389023',
   'https://www.linkedin.com/company/sfam-logistics-llc/',
@@ -50,8 +41,7 @@ export const organizationLd = {
   priceRange: '$$',
   address: PRIMARY_LOCATION,
   location: [
-    { '@type': 'Place', name: 'SFam Logistics — Bothell HQ', address: PRIMARY_LOCATION },
-    { '@type': 'Place', name: 'SFam Logistics — Everett Office', address: SECONDARY_LOCATION }
+    { '@type': 'Place', name: 'SFam Logistics — Bothell HQ', address: PRIMARY_LOCATION }
   ],
   geo: { '@type': 'GeoCoordinates', latitude: 47.7871, longitude: -122.2110 },
   areaServed: [

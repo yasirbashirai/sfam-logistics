@@ -16,7 +16,7 @@ const contactJsonLd = [
     '@type': 'ContactPage',
     url: 'https://sfamlogistics.com/contact',
     name: 'Contact SFam Logistics LLC',
-    description: 'Reach SFam Logistics by phone (1-888-698-5556), email (info@sfamlogistics.com), or our contact form. Offices in Bothell and Everett, Washington.',
+    description: 'Reach SFam Logistics by phone (1-888-698-5556), email (info@sfamlogistics.com), or our contact form. Headquartered in Bothell, Washington.',
     primaryImageOfPage: 'https://sfamlogistics.com/images/sfam-logo.jpg',
     isPartOf: { '@id': 'https://sfamlogistics.com/#website' },
     about: { '@id': 'https://sfamlogistics.com/#organization' }
@@ -64,7 +64,6 @@ export default function Contact() {
               { i: Phone, t: 'Phone (Toll Free)', v: company.phone, href: company.phoneHref },
               { i: Mail, t: 'Email', v: company.email, href: `mailto:${company.email}` },
               { i: MapPin, t: 'Address', v: '22722 29th Drive SE, Suite 100, Bothell, WA 98021' },
-              { i: MapPin, t: 'Address', v: '10220 3rd Avenue SE, Everett, WA 98208' },
               { i: Clock, t: 'Hours', v: company.hours }
             ].map(({ i: Icon, t, v, href }, idx) => (
               <div key={`${t}-${idx}`} className="glass-strong p-6 flex gap-4 hover:border-orange-400/40 transition group">
