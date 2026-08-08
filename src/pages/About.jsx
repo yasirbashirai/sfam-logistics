@@ -4,7 +4,6 @@ import PageMeta from '../components/PageMeta.jsx'
 import { PageHero } from '../components/Section.jsx'
 import Reveal from '../components/Reveal.jsx'
 import { breadcrumbLd, organizationLd } from '../data/seo.js'
-import GoogleReviews from '../components/GoogleReviews.jsx'
 
 const aboutJsonLd = [
   breadcrumbLd([{ name: 'Home', path: '/' }, { name: 'About', path: '/about' }]),
@@ -252,10 +251,7 @@ export default function About() {
         </div>
       </section>
 
-      {/* ===== 7. GOOGLE REVIEWS ===== */}
-      <GoogleReviews />
-
-      {/* ===== 8. CTA ===== */}
+      {/* ===== 7. CTA ===== */}
       <section className="section-white pt-0">
         <div className="container-x max-w-3xl">
           <div className="bg-white/[0.05] border border-white/15 rounded-2xl p-10 text-center">
