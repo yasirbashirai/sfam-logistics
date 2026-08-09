@@ -92,6 +92,7 @@ export default function Footer() {
             <h4 className="label mb-5">Get In Touch</h4>
             <ul className="space-y-4 text-white/70 text-sm">
               <li className="flex gap-3"><MapPin className="w-4 h-4 mt-0.5 text-orange-400 shrink-0" /><span>22722 29th Drive SE, Suite 100,<br />Bothell, WA 98021</span></li>
+              <li className="flex gap-3"><MapPin className="w-4 h-4 mt-0.5 text-orange-400 shrink-0" /><span>10220 3rd Avenue SE,<br />Everett, WA 98208</span></li>
               <li className="flex gap-3"><Phone className="w-4 h-4 mt-0.5 text-orange-400 shrink-0" /><a href={company.phoneHref} className="hover:text-orange-300 font-semibold">{company.phone}</a></li>
               <li className="flex gap-3"><Mail className="w-4 h-4 mt-0.5 text-orange-400 shrink-0" /><a href={`mailto:${company.email}`} className="hover:text-orange-300">{company.email}</a></li>
               <li className="text-white/40 text-xs mt-2 pt-2 border-t border-white/5">{company.hours}</li>

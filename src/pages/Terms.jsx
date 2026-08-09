@@ -67,7 +67,7 @@ export default function Terms() {
           </div>
 
           <div className="space-y-4">
-            <p className="text-white/50 text-sm">FMCSA Licensed Property Broker | MC# 1810116 | DOT# 4555943 | 22722 29th Drive SE, Suite 100, Bothell, Washington 98021. Telephone: 1 (888) 698-5556 | Email: info@sfamlogistics.com | www.sfamlogistics.com</p>
+            <p className="text-white/50 text-sm">FMCSA Licensed Property Broker | MC# 1810116 | DOT# 4555943 | 22722 29th Drive SE, Suite 100, Bothell, Washington 98021 | 10220 3rd Ave SE, Everett, Washington 98208. Telephone: 1 (888) 698-5556 | Email: info@sfamlogistics.com | www.sfamlogistics.com</p>
             <p><strong className="text-white">Effective Date:</strong> April 20, 2026</p>
 
             <H2>Important Legal Notice</H2>

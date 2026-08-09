@@ -14,7 +14,7 @@ const homeFaqs = [
   { q: 'What is your MC number and USDOT number?', a: 'Our FMCSA Motor Carrier number is MC 1810116 and our USDOT number is 4555943. We are a fully licensed property broker with BMC-84 bond coverage.' },
   { q: 'Do you offer same-day pay for carriers?', a: 'Yes — quick-pay is available on every load through our factoring partner OTR Solutions. Standard pay is Net-30 from receipt of POD and invoice; same-day and 48-hour funding are optional.' },
   { q: 'What areas do you cover?', a: 'We serve shippers and carriers nationwide across the U.S. with deep capacity in the Pacific Northwest, California, Texas Triangle, Midwest, Southeast, and Northeast corridors. We also handle cross-border lanes into Canada and Mexico.' },
-  { q: 'Where are you located?', a: 'Our headquarters is at 22722 29th Drive SE, Suite 100, Bothell, WA 98021.' }
+  { q: 'Where are you located?', a: 'Our headquarters is at 22722 29th Drive SE, Suite 100, Bothell, WA 98021. We also operate from 10220 3rd Avenue SE, Everett, WA 98208.' }
 ]
 
 const homeJsonLd = [

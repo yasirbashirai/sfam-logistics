@@ -11,7 +11,7 @@ const faqs = [
   { q: 'What is your MC and USDOT number?', a: 'Our Docket/MC Number is 1810116 and our USDOT Number is 4555943. We are a fully licensed, FMCSA-authorized property broker with BMC-84 bond coverage.' },
   { q: 'Do you offer same-day pay?', a: 'Yes! We offer same-day pay options through our factoring partner OTR Solutions. Quick-pay is available on every load so carriers can get paid in days, not weeks.' },
   { q: 'What are your business hours?', a: 'Our office hours are Monday through Friday, 7:00 AM to 5:00 PM PST. However, our dispatch team is available 24/7 for active loads, hot loads, and emergency capacity needs. For urgent freight, call us at 1 (888) 698-5556.' },
-  { q: 'Where are you located?', a: 'We are located at 22722 29th Drive SE, Suite 100, Bothell, WA 98021. We serve shippers and carriers nationwide across the United States.' },
+  { q: 'Where are you located?', a: 'We have two locations: 22722 29th Drive SE, Suite 100, Bothell, WA 98021 and 10220 3rd Avenue SE, Everett, WA 98208. We serve shippers and carriers nationwide across the United States.' },
   { q: 'Do you offer cargo insurance?', a: 'Yes — all carriers in our network carry cargo insurance and we require a minimum of $100K cargo coverage and $1M auto liability. We name our shippers as additional insured on file for added protection.' },
   { q: 'How do I track my shipment?', a: 'Visit our Track Shipment page and enter your load reference number, BOL, or PO number. You\'ll get real-time status updates from pickup to delivery. You can also call our dispatch team for live updates at 1 (888) 698-5556.' }
 ]
@@ -27,7 +27,7 @@ const KEYWORDS = {
   'mc': 6, 'usdot': 6, 'dot number': 6, 'mc number': 6, 'license': 6, 'authority': 6, 'docket': 6,
   'same-day': 7, 'same day pay': 7, 'quick-pay': 7, 'quickpay': 7, 'factoring': 7,
   'hours': 8, 'open': 8, 'business hours': 8, 'schedule': 8, 'when': 8, 'timing': 8,
-  'location': 9, 'address': 9, 'office': 9, 'where are you': 9, 'bothell': 9,
+  'location': 9, 'address': 9, 'office': 9, 'where are you': 9, 'bothell': 9, 'everett': 9,
   'insurance': 10, 'cargo': 10, 'liability': 10, 'bonded': 10, 'bmc': 10,
   'track': 11, 'tracking': 11, 'shipment': 11, 'status': 11, 'where is my': 11, 'pod': 11
 }
