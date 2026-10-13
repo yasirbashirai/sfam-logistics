@@ -1,19 +1,18 @@
 import { Link } from 'react-router-dom'
-import { ArrowRight, Truck, Boxes, Snowflake, PackageOpen, Route, Zap, ShieldCheck, Award, Users, TrendingUp, CheckCircle2, Phone } from 'lucide-react'
+import { ArrowRight, Truck, ShieldCheck, Award, TrendingUp, CheckCircle2, Phone, MapPinned } from 'lucide-react'
 import PageMeta from '../components/PageMeta.jsx'
-import { services } from '../data/site.js'
-import { organizationLd, websiteLd, faqLd, breadcrumbLd, SITE_URL } from '../data/seo.js'
+import { company } from '../data/site.js'
+import { organizationLd, websiteLd, faqLd, breadcrumbLd } from '../data/seo.js'
 import Reveal from '../components/Reveal.jsx'
 import GoogleReviews from '../components/GoogleReviews.jsx'
-
-const iconMap = { Truck, Boxes, Snowflake, PackageOpen, Route, Zap }
+import { FocusServiceGrid, QuoteEmailLink } from '../components/FocusServices.jsx'
 
 const homeFaqs = [
-  { q: 'What is SFam Logistics?', a: 'SFam Logistics LLC is an FMCSA-authorized freight brokerage headquartered in Bothell, Washington. We coordinate Full Truckload (FTL), Less-than-Truckload (LTL), refrigerated (reefer), flatbed, dedicated, and expedited freight across the United States, Canada, and Mexico.' },
+  { q: 'What is SFam Logistics?', a: 'SFam Logistics LLC is an FMCSA-authorized freight brokerage headquartered in Bothell, Washington. We specialize in produce, refrigerated, and dry van freight, with a Pacific Northwest focus and nationwide shipping support.' },
   { q: 'How fast will I get a freight quote?', a: 'During business hours (Monday–Friday, 7AM–5PM PST) most quotes are returned within 30 minutes. Quotes submitted after hours are returned first thing the next business day. For urgent loads call 1 (888) 698-5556.' },
   { q: 'What is your MC number and USDOT number?', a: 'Our FMCSA Motor Carrier number is MC 1810116 and our USDOT number is 4555943. We are a fully licensed property broker with BMC-84 bond coverage.' },
   { q: 'Do you offer same-day pay for carriers?', a: 'Yes — quick-pay is available on every load through our factoring partner OTR Solutions. Standard pay is Net-30 from receipt of POD and invoice; same-day and 48-hour funding are optional.' },
-  { q: 'What areas do you cover?', a: 'We serve shippers and carriers nationwide across the U.S. with deep capacity in the Pacific Northwest, California, Texas Triangle, Midwest, Southeast, and Northeast corridors. We also handle cross-border lanes into Canada and Mexico.' },
+  { q: 'What areas do you cover?', a: 'Our main focus is the Pacific Northwest. We help move freight into, out of, and within the Pacific Northwest, and we also work with shippers on nationwide shipments.' },
   { q: 'Where are you located?', a: 'Our headquarters is at 22722 29th Drive SE, Suite 100, Bothell, WA 98021. We also operate from 10220 3rd Avenue SE, Everett, WA 98208.' }
 ]
 
@@ -28,9 +27,9 @@ export default function Home() {
   return (
     <>
       <PageMeta
-        title="Nationwide Freight Brokerage — FTL, LTL, Reefer, Flatbed"
-        description="SFam Logistics LLC is an FMCSA-authorized freight brokerage in Bothell, WA. We coordinate FTL, LTL, reefer, flatbed, dedicated, and expedited freight across the U.S. and North America. MC 1810116 · USDOT 4555943. Built by drivers, trusted by shippers."
-        keywords="freight broker, freight brokerage, nationwide freight broker, freight broker near me, truckload broker, FTL broker, LTL broker, reefer broker, flatbed broker, dedicated freight, expedited freight, Bothell WA freight broker, Washington freight broker, FMCSA broker, MC 1810116, USDOT 4555943"
+        fullTitle="Pacific Northwest Freight Brokerage | SFAM Logistics"
+        description="Produce, refrigerated, and dry van freight brokerage with a Pacific Northwest focus and nationwide support. Request a spot quote."
+        keywords="Pacific Northwest freight broker, PNW freight brokerage, produce freight broker, refrigerated freight broker, reefer broker, dry van freight broker, spot quote, freight quote, Washington freight broker, Bothell WA freight broker, Seattle freight broker, nationwide freight shipping, FMCSA broker, MC 1810116, USDOT 4555943"
         path="/"
         image="/images/hero-home.jpg"
         type="website"
@@ -49,23 +48,28 @@ export default function Home() {
           <Reveal>
             <div className="inline-flex items-center gap-3 mb-6 justify-center">
               <div className="h-px w-10 bg-orange-400" />
-              <span className="text-xs uppercase tracking-[0.25em] text-orange-400 font-bold">Nationwide Freight Brokerage</span>
+              <span className="text-xs uppercase tracking-[0.25em] text-orange-400 font-bold">Pacific Northwest Freight Brokerage</span>
               <div className="h-px w-10 bg-orange-400" />
             </div>
           </Reveal>
           <Reveal delay={120}>
             <h1 className="font-display italic font-black text-4xl sm:text-5xl lg:text-6xl leading-[1.05] tracking-tight max-w-4xl mx-auto">
-              <span className="text-white block">Reliable Freight, Delivered With</span>
-              <span className="text-orange-400 block">Honest Hands.</span>
+              <span className="text-white block">Your Freight.</span>
+              <span className="text-orange-400 block">Our Focus</span>
             </h1>
           </Reveal>
           <Reveal delay={240}>
             <div className="divider-glow w-24 mx-auto my-6" />
+            <p className="text-white/85 text-base sm:text-lg leading-relaxed max-w-2xl mx-auto">Specializing in produce, refrigerated, and dry van freight—with a Pacific Northwest focus and nationwide shipping support.</p>
+          </Reveal>
+          <Reveal delay={300}>
+            {/* Company slogan — kept separate from the headline */}
+            <p className="mt-5 font-display italic font-bold text-orange-300 text-lg sm:text-xl tracking-wide">{company.slogan}</p>
           </Reveal>
           <Reveal delay={360}>
             <div className="mt-8 flex flex-col sm:flex-row gap-3 sm:gap-4 items-center justify-center">
               <Link to="/quote" className="btn-primary whitespace-nowrap w-64 sm:w-auto">Request a Quote <ArrowRight className="w-4 h-4" /></Link>
-              <Link to="/carrier-onboarding" className="btn-ghost whitespace-nowrap w-64 sm:w-auto">Haul For Us <ArrowRight className="w-4 h-4" /></Link>
+              <Link to="/carrier-onboarding" className="btn-ghost whitespace-nowrap w-64 sm:w-auto">Become a Carrier Partner <ArrowRight className="w-4 h-4" /></Link>
             </div>
           </Reveal>
         </div>
@@ -77,9 +81,10 @@ export default function Home() {
           <Reveal className="h-full">
             <div className="text-center lg:text-left flex flex-col h-full">
               <div className="self-center lg:self-start inline-flex items-center gap-2 pl-3.5 pr-2.5 py-1.5 rounded-full bg-orange-400/10 border border-orange-400/30 text-orange-300 text-xs font-bold uppercase tracking-[0.1em] mb-4">Who We Are</div>
-              <h2 className="font-display italic font-black text-3xl lg:text-4xl mb-4">A freight broker that <span className="text-orange-400">actually drives.</span></h2>
+              <h2 className="font-display italic font-black text-3xl lg:text-4xl mb-3">A freight broker that <span className="text-orange-400">actually drives.</span></h2>
+              <p className="font-display italic font-bold text-orange-300 text-lg mb-4">{company.slogan}</p>
               <div className="h-0.5 w-24 bg-gradient-to-r from-orange-400 to-transparent mb-4 mx-auto lg:mx-0" />
-              <p className="text-white/80 leading-relaxed mb-4">SFam Logistics LLC is a Washington-based freight brokerage built on over a decade of real road experience. We coordinate truckload, LTL, reefer, flatbed, and dedicated freight across the United States and North America &mdash; with the kind of clarity, fairness, and follow-through that the industry too often forgets.</p>
+              <p className="text-white/80 leading-relaxed mb-4">SFam Logistics LLC is a Washington-based freight brokerage built on over a decade of real road experience. We focus on produce, refrigerated, and dry van freight in the Pacific Northwest, with nationwide shipping support &mdash; and the kind of clarity, fairness, and follow-through that the industry too often forgets.</p>
               <p className="text-white/80 leading-relaxed mb-6">We&apos;re not a faceless broker. We&apos;re drivers who became dispatchers, dispatchers who became brokers &mdash; and now agents and partners who all believe the same thing: <span className="text-orange-400 font-semibold">freight moves on trust.</span></p>
               <div className="flex flex-row gap-3 mt-auto justify-center lg:justify-start w-full">
                 <Link to="/about" className="btn-ghost !px-4 sm:!px-5 w-40 sm:w-44">Our Story <ArrowRight className="w-4 h-4" /></Link>
@@ -92,7 +97,7 @@ export default function Home() {
               <div className="self-center lg:self-start inline-flex items-center gap-2 pl-3.5 pr-2.5 py-1.5 rounded-full bg-orange-400/10 border border-orange-400/30 text-orange-300 text-xs font-bold uppercase tracking-[0.1em] mb-4">Built By Drivers</div>
               <h2 className="font-display italic font-black text-3xl lg:text-4xl mb-4">Real road experience. <span className="text-orange-400">Honest brokerage.</span></h2>
               <div className="h-0.5 w-24 bg-gradient-to-r from-orange-400 to-transparent mb-4 mx-auto lg:mx-0" />
-              <p className="text-white/80 leading-relaxed mb-4">SFam Logistics LLC is a freight brokerage built by drivers. We coordinate FTL, LTL, reefer, flatbed, and dedicated freight across the United States and North America &mdash; with the kind of communication only real road experience teaches.</p>
+              <p className="text-white/80 leading-relaxed mb-4">SFam Logistics LLC is a freight brokerage built by drivers. We help shippers move produce, refrigerated, and dry van freight in the Pacific Northwest and nationwide &mdash; with the kind of communication only real road experience teaches.</p>
               <p className="text-white/80 leading-relaxed mb-6">Our owner spent over a decade behind the wheel before founding SFam. That perspective shows up in every load &mdash; <span className="text-orange-400 font-semibold">realistic schedules, honest communication, fair carrier rates.</span></p>
               <div className="flex flex-wrap gap-3 justify-center lg:justify-start mt-auto">
                 <Link to="/agent-opportunities" className="btn-ghost">Become an Agent <ArrowRight className="w-4 h-4" /></Link>
@@ -102,34 +107,52 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ============ 3. SERVICES — icon + name + short text only, centered ============ */}
+      {/* ============ 3. SERVICES — the four main freight services ============ */}
       <section className="section">
         <div className="container-x relative">
           <Reveal>
             <div className="text-center max-w-2xl mx-auto mb-12">
               <div className="badge mb-3 mx-auto">Our Services</div>
-              <h2 className="font-display italic font-black text-3xl sm:text-4xl">Every Lane.<br /><span className="text-orange-400">Every Load. Every Time.</span></h2>
+              <h2 className="font-display italic font-black text-3xl sm:text-4xl">Freight Solutions for <span className="text-orange-400">Your Next Shipment</span></h2>
               <div className="divider-glow w-24 mx-auto mt-4" />
-              <p className="mt-4 text-white/70 text-sm">From a single LTL pallet to dedicated weekly truckload capacity &mdash; we&apos;ve got carriers, systems, and experience to move it.</p>
             </div>
           </Reveal>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {services.map((s, i) => {
-              const Icon = iconMap[s.icon] || Truck
-              return (
-                <Reveal key={s.slug} delay={i * 80}>
-                  <Link to={`/services/${s.slug}`} className="group block rounded-2xl border border-white/15 bg-white/[0.04] hover:bg-white/[0.08] hover:border-orange-400/50 transition-all hover:-translate-y-1 p-7 text-center h-full">
-                    <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-orange-400 to-orange-600 grid place-items-center mx-auto mb-4 shadow-lg shadow-orange-500/30 group-hover:scale-110 transition">
-                      <Icon className="w-7 h-7 text-brand-navy" />
-                    </div>
-                    <h3 className="font-display italic font-black text-lg mb-2">{s.name}</h3>
-                    <p className="text-white/70 text-sm leading-relaxed mb-4">{s.short}</p>
-                    <span className="inline-flex items-center gap-1.5 text-orange-400 text-[10px] font-bold uppercase tracking-widest">Learn more <ArrowRight className="w-2.5 h-2.5 group-hover:translate-x-1 transition" /></span>
-                  </Link>
-                </Reveal>
-              )
-            })}
-          </div>
+          <FocusServiceGrid />
+        </div>
+      </section>
+
+      {/* ============ 3b. REGIONAL FOCUS ============ */}
+      <section className="section-light">
+        <div className="container-x max-w-3xl text-center">
+          <Reveal>
+            <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-orange-400 to-orange-600 grid place-items-center mx-auto mb-5 shadow-lg shadow-orange-500/30">
+              <MapPinned className="w-7 h-7 text-white" />
+            </div>
+            <h2 className="font-display italic font-black text-3xl sm:text-4xl">Pacific Northwest Focus. <span className="text-orange-500">Nationwide Connections.</span></h2>
+            <div className="h-0.5 w-24 mx-auto my-5 bg-gradient-to-r from-transparent via-orange-400 to-transparent" />
+            <p className="text-white/85 text-base sm:text-lg leading-relaxed">We help move freight into, out of, and within the Pacific Northwest. We also work with shippers on nationwide shipments.</p>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ============ 3c. SPOT RATE ============ */}
+      <section className="section">
+        <div className="container-x max-w-4xl">
+          <Reveal>
+            <div className="relative rounded-2xl border border-orange-400/30 bg-white/[0.04] p-8 sm:p-10 text-center overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-orange-400/10 via-transparent to-orange-400/5 pointer-events-none" />
+              <div className="relative">
+                <div className="badge mb-4 mx-auto">Spot Quotes</div>
+                <h2 className="font-display italic font-black text-3xl sm:text-4xl">Need a <span className="text-orange-400">Spot Rate?</span></h2>
+                <div className="divider-glow w-24 mx-auto my-5" />
+                <p className="text-white/80 max-w-2xl mx-auto mb-7">Need a quote for a one-time shipment? Send us your pickup location, delivery location, shipment date, and freight details.</p>
+                <div className="flex flex-col sm:flex-row gap-4 items-center justify-center">
+                  <Link to="/quote?type=spot" className="btn-primary whitespace-nowrap">Request a Spot Quote <ArrowRight className="w-4 h-4" /></Link>
+                  <QuoteEmailLink className="text-sm" />
+                </div>
+              </div>
+            </div>
+          </Reveal>
         </div>
       </section>
 
@@ -150,7 +173,7 @@ export default function Home() {
                 {[
                   { icon: ShieldCheck, t: 'Vetted Carrier Network', d: 'Every carrier verified for authority, insurance & safety scores.' },
                   { icon: Award, t: 'Driver-First Mentality', d: 'Happy drivers deliver on time. We pay quickly, treat carriers like partners.' },
-                  { icon: Users, t: 'Nationwide Coverage', d: 'Deep capacity across major U.S. freight corridors.' }
+                  { icon: MapPinned, t: 'Pacific Northwest Focus', d: 'Freight into, out of, and within the PNW, with nationwide shipping support.' }
                 ].map(({ icon: Icon, t, d }, i) => (
                   <Reveal key={t} delay={i * 100}>
                     <div className="flex gap-4 p-4 rounded-2xl bg-white/[0.05] border border-white/15 hover:border-orange-400/40 transition">
@@ -194,11 +217,12 @@ export default function Home() {
           <Reveal>
             <div className="badge mb-4 mx-auto">Calling All Carriers</div>
             <h2 className="font-display italic font-black text-3xl lg:text-5xl mb-4 leading-[0.95]">
-              Haul For A <br /><span className="text-orange-400">Broker That Pays Fast.</span>
+              Become a <span className="text-orange-400">Carrier Partner</span>
             </h2>
             <div className="divider-glow w-24 mx-auto my-5" />
+            <p className="text-white/80 max-w-xl mx-auto">Work with SFAM Logistics on freight opportunities that match your equipment and preferred lanes.</p>
             <div className="mt-8 flex justify-center">
-              <Link to="/carrier-onboarding" className="btn-primary">Sign Up as a Carrier <ArrowRight className="w-4 h-4" /></Link>
+              <Link to="/carrier-onboarding" className="btn-primary">Become a Carrier Partner <ArrowRight className="w-4 h-4" /></Link>
             </div>
           </Reveal>
         </div>
@@ -274,11 +298,11 @@ export default function Home() {
             <div className="absolute inset-0 bg-gradient-to-br from-orange-400/10 via-transparent to-orange-400/5" />
             <div className="relative">
               <div className="badge mb-4 mx-auto">Ready When You Are</div>
-              <h2 className="font-display italic font-black text-3xl sm:text-4xl">Your Freight.<br /><span className="text-orange-400">Our Promise.</span></h2>
+              <h2 className="font-display italic font-black text-3xl sm:text-4xl">Let&rsquo;s Move <span className="text-orange-400">Your Next Load.</span></h2>
               <div className="divider-glow w-24 mx-auto my-5" />
-              <p className="text-white/80 max-w-xl mx-auto mb-8">Whether you ship one load a month or one hundred, we&apos;d love to earn your business. Get a no-pressure quote in minutes.</p>
+              <p className="text-white/80 max-w-xl mx-auto mb-8">Request a quote online or email <a href={company.quoteEmailHref} className="font-semibold text-orange-400 hover:text-orange-300 whitespace-nowrap">{company.quoteEmail}</a>.</p>
               <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
-                <Link to="/quote" className="btn-primary flex-1">Get a Free Quote <ArrowRight className="w-4 h-4" /></Link>
+                <Link to="/quote" className="btn-primary flex-1">Request a Quote <ArrowRight className="w-4 h-4" /></Link>
                 <a href="tel:+18886985556" className="btn-ghost flex-1"><Phone className="w-4 h-4" /> 1 (888) 698-5556</a>
               </div>
             </div>

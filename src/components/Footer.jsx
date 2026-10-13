@@ -61,7 +61,10 @@ export default function Footer() {
             <Link to="/" className="flex items-center gap-3 mb-5">
               <img src="/images/sfam-logo.jpg" alt="SFam Logistics" className="w-14 h-14 rounded-xl ring-2 ring-orange-400/40" />
             </Link>
-            <p className="text-white/60 text-sm leading-relaxed italic">&ldquo;{company.tagline}&rdquo;</p>
+            {/* Company slogan + service focus — shown on every page */}
+            <p className="font-display italic font-bold text-orange-300 text-base mb-2">{company.slogan}</p>
+            <p className="text-white/70 text-sm leading-relaxed mb-3">{company.serviceText}</p>
+            <p className="text-white/50 text-xs leading-relaxed italic">&ldquo;{company.tagline}&rdquo;</p>
             <div className="flex gap-3 mt-5">
               <a href={company.social.facebook} target="_blank" rel="noopener noreferrer" className="w-10 h-10 grid place-items-center rounded-full bg-white/5 border border-white/10 hover:bg-orange-400 hover:border-orange-400 hover:text-brand-navy transition" aria-label="Facebook"><Facebook className="w-4 h-4" /></a>
               <a href={company.social.twitter} target="_blank" rel="noopener noreferrer" className="w-10 h-10 grid place-items-center rounded-full bg-white/5 border border-white/10 hover:bg-orange-400 hover:border-orange-400 hover:text-brand-navy transition" aria-label="X"><Twitter className="w-4 h-4" /></a>
@@ -73,7 +76,7 @@ export default function Footer() {
           <div>
             <h4 className="label mb-5">Company</h4>
             <ul className="space-y-3 text-white/70 text-sm">
-              {[['/about', 'About Us'], ['/services', 'Logistics Services'], ['/track', 'Track Shipment'], ['/blog', 'Blog & Insights'], ['/contact', 'Contact']].map(([to, label]) => (
+              {[['/about', 'About Us'], ['/services', 'Logistics Services'], ['/shippers', 'Shippers'], ['/carrier-onboarding', 'Become a Carrier Partner'], ['/quote', 'Request a Quote'], ['/track', 'Track Shipment'], ['/blog', 'Blog & Insights'], ['/contact', 'Contact']].map(([to, label]) => (
                 <li key={to}><Link to={to} className="hover:text-orange-300 inline-flex items-center gap-2 group"><ArrowRight className="w-3 h-3 opacity-0 -ml-5 group-hover:opacity-100 group-hover:ml-0 transition-all text-orange-400" /> {label}</Link></li>
               ))}
             </ul>
@@ -95,6 +98,7 @@ export default function Footer() {
               <li className="flex gap-3"><MapPin className="w-4 h-4 mt-0.5 text-orange-400 shrink-0" /><span>10220 3rd Avenue SE,<br />Everett, WA 98208</span></li>
               <li className="flex gap-3"><Phone className="w-4 h-4 mt-0.5 text-orange-400 shrink-0" /><a href={company.phoneHref} className="hover:text-orange-300 font-semibold">{company.phone}</a></li>
               <li className="flex gap-3"><Mail className="w-4 h-4 mt-0.5 text-orange-400 shrink-0" /><a href={`mailto:${company.email}`} className="hover:text-orange-300">{company.email}</a></li>
+              <li className="flex gap-3"><Mail className="w-4 h-4 mt-0.5 text-orange-400 shrink-0" /><span>Request a quote:<br /><a href={company.quoteEmailHref} className="text-orange-400 hover:text-orange-300 font-semibold whitespace-nowrap">{company.quoteEmail}</a></span></li>
               <li className="text-white/40 text-xs mt-2 pt-2 border-t border-white/5">{company.hours}</li>
             </ul>
           </div>

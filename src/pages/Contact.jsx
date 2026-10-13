@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Mail, Phone, MapPin, Clock, CheckCircle2, MessageSquare, Truck, Users, ArrowRight } from 'lucide-react'
+import { Mail, Phone, MapPin, Clock, CheckCircle2, MessageSquare, Truck, Users, ArrowRight, FileText } from 'lucide-react'
 import PageMeta from '../components/PageMeta.jsx'
 import { PageHero, Orbs } from '../components/Section.jsx'
 import Reveal from '../components/Reveal.jsx'
@@ -104,6 +104,20 @@ export default function Contact() {
         </div>
       </section>
 
+      {/* ===== 1b. FREIGHT QUOTES — quote inbox shown separately from general contact ===== */}
+      <section className="section pt-0">
+        <div className="container-x max-w-4xl">
+          <Reveal>
+            <div className="glass-strong neon-border p-8 sm:p-10 text-center">
+              <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-orange-400 to-orange-600 grid place-items-center mx-auto mb-5"><FileText className="w-7 h-7 text-white" /></div>
+              <h2 className="font-display italic font-black text-3xl mb-3">Freight Quotes &amp; <span className="text-orange-400">Spot Rates</span></h2>
+              <p className="text-white/75 max-w-xl mx-auto mb-7">For a freight quote, email your shipment details to <a href={company.quoteEmailHref} className="font-semibold text-orange-400 hover:text-orange-300 whitespace-nowrap">{company.quoteEmail}</a>.</p>
+              <Link to="/quote" className="btn-primary">Request a Quote Online <ArrowRight className="w-4 h-4" /></Link>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
       {/* ===== 2. WHO TO CONTACT ===== */}
       <section className="section bg-gradient-to-b from-transparent via-brand-navy3/30 to-transparent">
         <div className="container-x">
@@ -116,8 +130,8 @@ export default function Contact() {
           </Reveal>
           <div className="grid md:grid-cols-3 gap-6">
             {[
-              { i: Truck, t: 'Shipping a Load?', d: 'Tell our pricing team about your lane, freight, and timeline.', cta: 'Talk to Sales', to: '/quote' },
-              { i: Users, t: 'Want to Haul?', d: 'Carrier signup or carrier dispatch support.', cta: 'Become a Carrier', to: '/carrier-onboarding' },
+              { i: Truck, t: 'Shipping a Load?', d: 'Tell our pricing team about your lane, freight, and timeline.', cta: 'Request a Quote', to: '/quote' },
+              { i: Users, t: 'Want to Haul?', d: 'Carrier signup or carrier dispatch support.', cta: 'Become a Carrier Partner', to: '/carrier-onboarding' },
               { i: MessageSquare, t: 'Join as Agent?', d: 'Speak with our recruiting team about agent opportunities.', cta: 'Apply Now', to: '/agent-opportunities' }
             ].map(({ i: Icon, t, d, cta, to }, idx) => (
               <Reveal key={t} delay={idx * 120}>

@@ -7,8 +7,9 @@ export default function AdminQuotes() {
     columns={[
       { key: 'name', label: 'Contact' },
       { key: 'company', label: 'Company' },
-      { key: 'lane', label: 'Lane', render: r => `${r.originCity || '?'} → ${r.destCity || '?'}` },
-      { key: 'freightType', label: 'Type' },
+      { key: 'requestType', label: 'Request' },
+      { key: 'lane', label: 'Lane', render: r => `${r.originCity || r.origin || '?'} → ${r.destCity || r.destination || '?'}` },
+      { key: 'freightType', label: 'Freight' },
       { key: 'weight', label: 'Weight' }
     ]}
     formFields={[
@@ -20,8 +21,10 @@ export default function AdminQuotes() {
       { key: 'originZip', label: 'Origin ZIP', placeholder: '98101' },
       { key: 'destCity', label: 'Destination city', placeholder: 'Los Angeles, CA' },
       { key: 'destZip', label: 'Destination ZIP', placeholder: '90001' },
-      { key: 'freightType', label: 'Freight type', type: 'select', options: ['Full Truckload (FTL)', 'LTL', 'Reefer', 'Flatbed', 'Expedited', 'Dedicated'] },
-      { key: 'equipment', label: 'Equipment', type: 'select', options: ['Dry Van', 'Reefer', 'Flatbed', 'Step Deck', 'Power Only', 'Other'] },
+      { key: 'requestType', label: 'Request type', type: 'select', options: ['Spot Quote', 'Recurring Freight', 'Other'] },
+      { key: 'freightType', label: 'Freight type', type: 'select', options: ['Produce', 'Refrigerated', 'Dry Van', 'Other'] },
+      { key: 'equipment', label: 'Equipment', type: 'select', options: ['Refrigerated (Reefer)', 'Dry Van', 'Other', 'Not Sure'] },
+      { key: 'temp', label: 'Required temperature', placeholder: '34°F' },
       { key: 'weight', label: 'Weight (lbs)', placeholder: '40000' },
       { key: 'commodity', label: 'Commodity', placeholder: 'General freight' },
       { key: 'notes', label: 'Notes', type: 'textarea', full: true, placeholder: 'Anything else we should know...' }

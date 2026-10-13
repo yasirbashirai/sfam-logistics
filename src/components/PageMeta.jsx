@@ -46,6 +46,7 @@ function injectJsonLd(id, payload) {
 
 export default function PageMeta({
   title,
+  fullTitle: exactTitle, // optional: use this exact <title> instead of title + site-name suffix
   description,
   keywords,
   path,           // e.g. "/services" — defaults to current location
@@ -55,7 +56,7 @@ export default function PageMeta({
   jsonLd          // object | array of objects | undefined
 }) {
   useEffect(() => {
-    const fullTitle = title ? title + DEFAULT_TITLE_SUFFIX : SITE_NAME + ' — Nationwide Freight Brokerage | Bothell, WA'
+    const fullTitle = exactTitle || (title ? title + DEFAULT_TITLE_SUFFIX : 'Pacific Northwest Freight Brokerage | ' + SITE_NAME)
     document.title = fullTitle
 
     const url = SITE_URL + (path || (typeof window !== 'undefined' ? window.location.pathname : '/'))
@@ -104,7 +105,7 @@ export default function PageMeta({
       // Cleanup per-page JSON-LD so it doesn't bleed into the next page
       document.head.querySelectorAll('script[data-pm-jsonld]').forEach(n => n.remove())
     }
-  }, [title, description, keywords, path, image, type, noindex, jsonLd])
+  }, [exactTitle, title, description, keywords, path, image, type, noindex, jsonLd])
 
   return null
 }

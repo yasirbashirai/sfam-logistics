@@ -9,6 +9,7 @@ import CreativeMarquee from './components/CreativeMarquee.jsx'
 import Home from './pages/Home.jsx'
 import About from './pages/About.jsx'
 import Services from './pages/Services.jsx'
+import Shippers from './pages/Shippers.jsx'
 import ServiceDetail from './pages/services/ServiceDetail.jsx'
 import Quote from './pages/Quote.jsx'
 import CarrierOnboarding from './pages/CarrierOnboarding.jsx'
@@ -68,6 +69,7 @@ export default function App() {
             <Route path="/about" element={<Page><About /></Page>} />
             <Route path="/services" element={<Page><Services /></Page>} />
             <Route path="/services/:slug" element={<Page><ServiceDetail /></Page>} />
+            <Route path="/shippers" element={<Page><Shippers /></Page>} />
             <Route path="/quote" element={<Page><Quote /></Page>} />
             <Route path="/track" element={<Page><Track /></Page>} />
             <Route path="/carrier-onboarding" element={<Page><CarrierOnboarding /></Page>} />

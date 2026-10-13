@@ -9,6 +9,7 @@ const links = [
   { to: '/', label: 'Home' },
   { to: '/about', label: 'About Us' },
   { to: '/services', label: 'Logistics Services', mega: true },
+  { to: '/shippers', label: 'Shippers' },
   { to: '/track', label: 'Track Shipment' },
   { to: '/carrier-onboarding', label: 'Carriers' },
   { to: '/agent-opportunities', label: 'Agents' },
@@ -67,7 +68,7 @@ export default function Navbar() {
           <nav className="hidden xl:flex items-center gap-1">
             {links.map(l => (
               <div key={l.to} className="relative" onMouseEnter={() => l.mega && setMegaOpen(true)} onMouseLeave={() => l.mega && setMegaOpen(false)}>
-                <NavLink to={l.to} end={l.to === '/'} className={({ isActive }) => `relative px-4 py-2 text-sm font-bold uppercase tracking-wider transition flex items-center gap-1 ${isActive ? 'text-orange-400' : 'text-white/85 hover:text-orange-300'}`}>
+                <NavLink to={l.to} end={l.to === '/'} className={({ isActive }) => `relative px-2.5 2xl:px-4 py-2 text-[13px] 2xl:text-sm font-bold uppercase tracking-wide 2xl:tracking-wider whitespace-nowrap transition flex items-center gap-1 ${isActive ? 'text-orange-400' : 'text-white/85 hover:text-orange-300'}`}>
                   {({ isActive }) => (
                     <>
                       {l.label}
@@ -105,7 +106,7 @@ export default function Navbar() {
 
           {/* CTA */}
           <div className="hidden xl:flex items-center gap-3">
-            <Link to="/quote" className="btn-primary !px-7 !py-3 text-sm">Free Quote <ArrowRight className="w-4 h-4" /></Link>
+            <Link to="/quote" className="btn-primary !px-5 2xl:!px-7 !py-3 text-sm whitespace-nowrap">Request a Quote <ArrowRight className="w-4 h-4" /></Link>
           </div>
 
           {/* Mobile toggle */}
@@ -127,7 +128,7 @@ export default function Navbar() {
                 <NavLink key={l.to} to={l.to} end={l.to === '/'} className={({ isActive }) => `px-4 py-3 rounded-xl font-bold uppercase tracking-wider text-sm ${isActive ? 'bg-orange-400/15 text-orange-300 border border-orange-400/30' : 'text-white/80'}`}>{l.label}</NavLink>
               ))}
               <a href="tel:+18886985556" className="flex items-center gap-2 px-4 py-3 text-orange-400 font-bold"><Phone className="w-4 h-4" /> 1 (888) 698-5556</a>
-              <Link to="/quote" className="btn-primary mt-3">Get a Free Quote</Link>
+              <Link to="/quote" className="btn-primary mt-3">Request a Quote</Link>
             </div>
           </div>
         )}

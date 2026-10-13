@@ -8,12 +8,12 @@ import IMG from '../data/images.js'
 import { breadcrumbLd } from '../data/seo.js'
 
 const carrierJsonLd = [
-  breadcrumbLd([{ name: 'Home', path: '/' }, { name: 'Carrier Onboarding', path: '/carrier-onboarding' }]),
+  breadcrumbLd([{ name: 'Home', path: '/' }, { name: 'Become a Carrier Partner', path: '/carrier-onboarding' }]),
   {
     '@context': 'https://schema.org',
     '@type': 'JobPosting',
-    title: 'Owner-Operator and Trucking Company Carriers — Hauling for SFam Logistics',
-    description: 'SFam Logistics is onboarding owner-operators, fleet owners, and trucking companies. Same-day pay options, fair market rates, 24/7 dispatch, dry van, reefer, flatbed, and step-deck loads available nationwide.',
+    title: 'Carrier Partners — Owner-Operators and Trucking Companies for SFam Logistics',
+    description: 'Work with SFAM Logistics on freight opportunities that match your equipment and preferred lanes. We focus on produce, refrigerated, and dry van freight in the Pacific Northwest and nationwide.',
     datePosted: '2026-01-01',
     validThrough: '2027-12-31',
     employmentType: 'CONTRACTOR',
@@ -94,14 +94,14 @@ export default function CarrierOnboarding() {
   return (
     <>
       <PageMeta
-        title="Carrier Onboarding — Haul For SFam Logistics, Same-Day Pay"
-        description="Join the SFam Logistics carrier network. Same-day pay through OTR Solutions, fair market rates, 24/7 dispatch, and real driver respect. Owner-operators and trucking companies welcome. Approved in 24 hours."
+        title="Become a Carrier Partner — Produce, Reefer & Dry Van Freight"
+        description="Become a SFam Logistics carrier partner. Freight opportunities that match your equipment and preferred lanes — produce, refrigerated, and dry van freight in the Pacific Northwest and nationwide. Same-day pay options through OTR Solutions."
         keywords="carrier onboarding, owner operator loads, trucking company contracts, same-day pay carrier, quick pay trucking, OTR Solutions factoring, freight broker for carriers, MC carrier setup, dry van loads, reefer loads, flatbed loads, OTR loads, drive for SFam"
         path="/carrier-onboarding"
         image="/images/white-volvo-sunset.jpg"
         jsonLd={carrierJsonLd}
       />
-      <PageHero eyebrow="Carrier Onboarding" title={<>Haul For <span className="text-orange-400">SFam Logistics</span></>} subtitle="Fast pay. Fair rates. Real respect. Join our vetted carrier network in 24 hours." image={IMG.heroFleet} />
+      <PageHero eyebrow="Carrier Onboarding" title={<>Become a <span className="text-orange-400">Carrier Partner</span></>} subtitle="Work with SFAM Logistics on freight opportunities that match your equipment and preferred lanes. We focus on produce, refrigerated, and dry van freight in the Pacific Northwest and nationwide." image={IMG.heroFleet} />
 
       {/* ===== 1. WHY HAUL FOR SFAM ===== */}
       <section className="section">
@@ -196,7 +196,7 @@ export default function CarrierOnboarding() {
                 <p className="text-xs text-white/40 mt-3">Documents are stored securely and only accessible from the admin dashboard.</p>
               </div>
 
-              <button type="submit" disabled={submitting} className="btn-primary w-full disabled:opacity-50">{submitting ? 'Submitting...' : <>Submit Application <CheckCircle2 className="w-5 h-5" /></>}</button>
+              <button type="submit" disabled={submitting} className="btn-primary w-full disabled:opacity-50">{submitting ? 'Submitting...' : <>Submit Carrier Inquiry <CheckCircle2 className="w-5 h-5" /></>}</button>
             </form>
 
             <aside className="space-y-6">

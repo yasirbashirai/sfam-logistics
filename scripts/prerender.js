@@ -43,6 +43,7 @@ const contentRoutes = [
   '/',
   '/about',
   '/services',
+  '/shippers',
   '/quote',
   '/track',
   '/carrier-onboarding',

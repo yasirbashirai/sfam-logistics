@@ -2,7 +2,7 @@
 
 export const SITE_URL = 'https://sfamlogistics.com'
 export const SITE_NAME = 'SFam Logistics LLC'
-export const SITE_DESCRIPTION = 'SFam Logistics LLC is an FMCSA-authorized nationwide freight brokerage in Bothell, WA. We coordinate FTL, LTL, reefer, flatbed, dedicated, and expedited freight across the United States and North America. MC 1810116 • USDOT 4555943.'
+export const SITE_DESCRIPTION = 'SFam Logistics LLC is an FMCSA-authorized freight brokerage in Bothell, WA, focused on produce, refrigerated, and dry van freight in the Pacific Northwest, with nationwide shipping support. MC 1810116 • USDOT 4555943.'
 export const PHONE = '+1-888-698-5556'
 export const EMAIL = 'info@sfamlogistics.com'
 export const MC_NUMBER = '1810116'
@@ -73,8 +73,8 @@ export const organizationLd = {
     { '@type': 'PropertyValue', propertyID: 'MC', name: 'FMCSA Motor Carrier Number', value: MC_NUMBER },
     { '@type': 'PropertyValue', propertyID: 'USDOT', name: 'USDOT Number', value: DOT_NUMBER }
   ],
-  knowsAbout: ['Freight Brokerage','Full Truckload (FTL)','Less-than-Truckload (LTL)','Refrigerated Freight','Flatbed Freight','Dedicated Freight','Expedited Freight','Cross-Border Shipping','Carrier Dispatch','Logistics Consulting'],
-  slogan: 'Reliable Freight, Delivered With Honest Hands.'
+  knowsAbout: ['Freight Brokerage','Produce Freight','Refrigerated Freight','Dry Van Freight','Pacific Northwest Freight','Full Truckload (FTL)','Less-than-Truckload (LTL)','Flatbed Freight','Dedicated Freight','Expedited Freight','Cross-Border Shipping','Carrier Dispatch','Logistics Consulting'],
+  slogan: 'Stronger Together, Family Forever.'
 }
 
 export const websiteLd = {

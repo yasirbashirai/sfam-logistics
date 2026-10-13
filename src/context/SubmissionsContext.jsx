@@ -43,7 +43,9 @@ export function SubmissionsProvider({ children }) {
     })()
   }, [])
 
-  const add = async (bucket, payload) => {
+  // opts.fallback = false → return null (instead of saving locally) when the server
+  // can't be reached, so the caller can show a real error message.
+  const add = async (bucket, payload, { fallback = true } = {}) => {
     // Always try the backend FIRST — regardless of the cached `online` flag.
     // On Render's free tier the API may be cold-starting when a visitor submits;
     // the health check could still be pending (online === false) even though the
@@ -60,6 +62,7 @@ export function SubmissionsProvider({ children }) {
       }
       return row
     }
+    if (!fallback) return null
     // Backend truly unreachable — keep a local copy so the visitor's submit still
     // "works", and so we don't lose the lead entirely.
     const local = { id: crypto.randomUUID(), created_at: new Date().toISOString(), status: 'new', ...payload }

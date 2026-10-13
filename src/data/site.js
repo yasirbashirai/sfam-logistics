@@ -1,9 +1,16 @@
 export const company = {
   name: 'SFam Logistics LLC',
   tagline: 'We Know the Road — Because We\'ve Been On It.',
+  // Company slogan (client-approved exact wording). Kept separate from page headlines.
+  slogan: 'Stronger Together, Family Forever.',
+  // Short positioning line used in the footer on every page.
+  serviceText: 'Pacific Northwest-focused freight brokerage for produce, refrigerated, and dry van shipments, with nationwide shipping support.',
   phone: '1 (888) 698-5556',
   phoneHref: 'tel:+18886985556',
   email: 'info@sfamlogistics.com',
+  // Public quote inbox shown as a clickable mailto link across the site.
+  quoteEmail: 'quotes@sfamlogistics.com',
+  quoteEmailHref: 'mailto:quotes@sfamlogistics.com',
   address: '22722 29th Drive SE, Suite 100, Bothell, WA 98021 US',
   hours: 'Mon – Fri • 7:00 AM – 5:00 PM PST',
   mc: '1810116',
@@ -22,10 +29,24 @@ export const company = {
 // nginx/OpenResty stack that ignores .htaccess — because it needs no server rewrite.
 export const termsPdf = '/terms'
 
+// The four main freight services shown on Home, Services and Shippers (client-approved
+// copy, in this exact order). Each links to the quote form with its freight type preselected.
+export const focusServices = [
+  { key: 'produce', name: 'Produce Freight', icon: 'Sprout', freightType: 'Produce',
+    text: 'We help arrange transportation for fresh produce. Tell us your product, shipping date, and temperature requirements.' },
+  { key: 'refrigerated', name: 'Refrigerated Freight', icon: 'Snowflake', freightType: 'Refrigerated',
+    text: 'We help arrange transportation for temperature-sensitive freight. Tell us the required temperature and shipment details.' },
+  { key: 'dry-van', name: 'Dry Van Freight', icon: 'Truck', freightType: 'Dry Van',
+    text: 'We help arrange dry van transportation for packaged goods and palletized freight.' },
+  { key: 'other', name: 'Other Freight Needs', icon: 'Boxes', freightType: 'Other',
+    text: 'Need to move another type of freight? Send us the details so we can review transportation options.' }
+]
+
+// Existing service detail pages (/services/:slug).
 export const services = [
   { slug: 'full-truckload', name: 'Full Truckload (FTL)', short: 'Dedicated trailers, faster transit, single-shipment focus.', icon: 'Truck',
     long: 'When your freight needs the entire trailer, FTL is the fastest, safest, and most cost-effective option. We coordinate dry van, reefer, and flatbed FTL shipments across the United States with vetted carriers and live communication from pickup to delivery.' },
-  { slug: 'less-than-truckload', name: 'Less-Than-Truckload (LTL)', short: 'Pay for the space you use. Smart consolidation nationwide.', icon: 'Boxes',
+  { slug: 'less-than-truckload', name: 'Less-Than-Truckload (LTL)', short: 'Pay for the space you use. Smart freight consolidation.', icon: 'Boxes',
     long: 'LTL is perfect for shipments between 150 and 15,000 lbs. We work with national LTL carriers to consolidate freight, reduce cost, and keep transit predictable — backed by tracking and proactive updates.' },
   { slug: 'reefer', name: 'Refrigerated (Reefer)', short: 'Temperature-controlled freight, monitored and protected.', icon: 'Snowflake',
     long: 'Produce, pharma, frozen goods, and any temperature-sensitive load — moved with reefer-certified carriers, monitored temperatures, and clean-trailer protocols.' },

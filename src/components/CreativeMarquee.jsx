@@ -8,7 +8,9 @@ const items = [
   { i: Clock, t: '24/7 Dispatch' },
   { i: Truck, t: 'Driver Built' },
   { i: DollarSign, t: 'Same-Day Pay' },
-  { i: Globe, t: 'Nationwide' },
+  { i: Globe, t: 'Pacific Northwest Focus' },
+  { i: Truck, t: 'Produce · Reefer · Dry Van' },
+  { i: Globe, t: 'Nationwide Support' },
   { i: Heart, t: '10+ Years on the Road' },
   { i: Star, t: 'MC 1810116' },
   { i: Gauge, t: 'USDOT 4555943' }

@@ -4,6 +4,7 @@ import PageMeta from '../components/PageMeta.jsx'
 import { PageHero } from '../components/Section.jsx'
 import Reveal from '../components/Reveal.jsx'
 import { breadcrumbLd, organizationLd } from '../data/seo.js'
+import { company } from '../data/site.js'
 
 const aboutJsonLd = [
   breadcrumbLd([{ name: 'Home', path: '/' }, { name: 'About', path: '/about' }]),
@@ -22,7 +23,7 @@ export default function About() {
     <>
       <PageMeta
         title="About Us — Driver-Owned Freight Brokerage Since 2014"
-        description="Learn about SFam Logistics LLC — a driver-owned freight brokerage with over a decade of Class A CDL experience behind the wheel. Our mission: deliver freight solutions with precision, accountability, and respect. FMCSA authorized, MC 1810116, USDOT 4555943."
+        description="SFAM Logistics is a freight brokerage focused on produce, refrigerated, and dry van transportation, with a Pacific Northwest focus and nationwide shippers. Built on over a decade of Class A CDL experience. FMCSA authorized, MC 1810116, USDOT 4555943."
         keywords="about SFam Logistics, freight brokerage company, driver-owned freight broker, Bothell freight broker, Washington freight company, FMCSA authorized broker, freight brokerage history"
         path="/about"
         type="website"
@@ -35,12 +36,14 @@ export default function About() {
         <div className="container-x relative max-w-4xl">
           <Reveal>
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-orange-400/10 border border-orange-400/30 text-white text-xs font-bold uppercase tracking-[0.15em] mb-4">Our Story</div>
-            <h2 className="font-display italic font-black text-3xl mb-4 text-white">Built on Experience. <span className="text-orange-500">Designed for Excellence.</span></h2>
+            <h2 className="font-display italic font-black text-3xl mb-3 text-white">Built on Experience. <span className="text-orange-500">Designed for Excellence.</span></h2>
+            <p className="font-display italic font-bold text-orange-400 text-lg mb-4">{company.slogan}</p>
             <div className="h-0.5 w-24 bg-gradient-to-r from-orange-400 to-transparent mb-5" />
             <div className="space-y-4 text-white/80 leading-relaxed">
+              <p className="text-white/90 font-medium">SFAM Logistics is a freight brokerage focused on produce, refrigerated, and dry van transportation. Our main regional focus is the Pacific Northwest. We also work with shippers nationwide.</p>
               <p>SFAM Logistics LLC was founded with a clear purpose: to elevate the standard of freight brokerage.</p>
               <p>Our foundation is built on over a decade of real-industry experience behind the wheel as a Class A CDL truck driver. This perspective provides a rare advantage in an industry where critical decisions are often made far from the realities of the road.</p>
-              <p>SFAM Logistics LLC is a licensed, FMCSA-authorized freight brokerage serving clients across North America. We are a privately held organization, strategically structured for long-term growth, operational stability, and disciplined execution.</p>
+              <p>SFAM Logistics LLC is a licensed, FMCSA-authorized freight brokerage. We are a privately held organization, strategically structured for long-term growth, operational stability, and disciplined execution.</p>
               <p>We approach logistics with precision and intention. Every load, every lane, and every relationship is managed with a focus on reliability, efficiency, and accountability.</p>
               <p>Our model is built for the future — combining strong brokerage operations today with a clear path toward asset-based capabilities. The result is a logistics partner positioned to deliver consistency at scale without compromising service quality.</p>
               <p className="text-orange-600 font-semibold italic">What started in the cab of a truck is now building toward something much greater.</p>
@@ -258,7 +261,8 @@ export default function About() {
             <h2 className="font-display italic font-black text-2xl mb-3 text-white">Want to <span className="text-orange-500">Work With Us?</span></h2>
             <p className="text-white/75 mb-6 max-w-xl mx-auto text-sm">Whether you&apos;re a shipper, carrier, or freight agent — we&apos;d love to hear from you.</p>
             <div className="flex flex-wrap gap-3 justify-center">
-              <Link to="/contact" className="inline-flex items-center gap-2 px-7 py-3 rounded-full bg-gradient-to-r from-orange-400 to-orange-500 text-brand-navy font-bold text-sm uppercase tracking-wider hover:-translate-y-0.5 transition">Contact Us <ArrowRight className="w-4 h-4" /></Link>
+              <Link to="/quote" className="inline-flex items-center gap-2 px-7 py-3 rounded-full bg-gradient-to-r from-orange-400 to-orange-500 text-brand-navy font-bold text-sm uppercase tracking-wider hover:-translate-y-0.5 transition">Request a Quote <ArrowRight className="w-4 h-4" /></Link>
+              <Link to="/contact" className="inline-flex items-center gap-2 px-7 py-3 rounded-full border-2 border-white/30 text-white text-sm font-bold uppercase tracking-wider hover:bg-orange-400 hover:text-brand-navy transition">Contact Us</Link>
               <a href="tel:+18886985556" className="inline-flex items-center gap-2 px-7 py-3 rounded-full border-2 border-white/30 text-white text-sm font-bold uppercase tracking-wider hover:bg-orange-400 hover:text-brand-navy transition">Call Us</a>
             </div>
           </div>

@@ -1,19 +1,20 @@
-import { useState, useMemo } from 'react'
-import { ArrowRight, ArrowLeft, CheckCircle2, MapPin, Package, User, ShieldCheck, Clock, Phone, AlertCircle } from 'lucide-react'
+import { useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
+import { ArrowRight, ArrowLeft, CheckCircle2, MapPin, Package, User, ShieldCheck, Clock, Phone, AlertCircle, ClipboardList, Loader2 } from 'lucide-react'
 import PageMeta from '../components/PageMeta.jsx'
 import { PageHero, Orbs } from '../components/Section.jsx'
 import { useSubmissions } from '../context/SubmissionsContext.jsx'
-import { haversineMiles, lookupZip } from '../data/zips.js'
 import { breadcrumbLd } from '../data/seo.js'
+import { company } from '../data/site.js'
 
 const quoteJsonLd = [
-  breadcrumbLd([{ name: 'Home', path: '/' }, { name: 'Get a Quote', path: '/quote' }]),
+  breadcrumbLd([{ name: 'Home', path: '/' }, { name: 'Request a Quote', path: '/quote' }]),
   {
     '@context': 'https://schema.org',
     '@type': 'WebPage',
     '@id': 'https://sfamlogistics.com/quote',
-    name: 'Get a Free Freight Quote',
-    description: 'Free 4-step freight quote request form with live rate estimator. 30-minute response during business hours.',
+    name: 'Request a Freight Quote',
+    description: 'Request a spot quote or tell us about your recurring produce, refrigerated, or dry van freight needs.',
     url: 'https://sfamlogistics.com/quote',
     isPartOf: { '@id': 'https://sfamlogistics.com/#website' },
     primaryImageOfPage: 'https://sfamlogistics.com/images/sfam-logo.jpg',
@@ -25,146 +26,160 @@ const quoteJsonLd = [
   }
 ]
 
-const STEPS = ['Lane', 'Freight', 'Contact', 'Review']
+// Dropdown options (client-approved wording).
+const REQUEST_TYPES = ['Spot Quote', 'Recurring Freight', 'Other']
+const FREIGHT_TYPES = ['Produce', 'Refrigerated', 'Dry Van', 'Other']
+const EQUIPMENT = ['Refrigerated (Reefer)', 'Dry Van', 'Other', 'Not Sure']
+const REEFER = 'Refrigerated (Reefer)'
+
+// The last step (Review) has no inputs; the steps before it are validated.
+const STEPS = ['Request', 'Lane', 'Freight', 'Contact', 'Review']
 
 export default function Quote() {
   const { add } = useSubmissions()
+  const [params] = useSearchParams()
+
+  // Preselect from links like /quote?type=spot or /quote?freight=Produce
+  const initialRequestType = params.get('type') === 'spot' ? 'Spot Quote' : ''
+  const freightParam = params.get('freight')
+  const initialFreightType = FREIGHT_TYPES.includes(freightParam) ? freightParam : ''
+
   const [step, setStep] = useState(0)
   const [done, setDone] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
+  const [submitError, setSubmitError] = useState(false)
+  const [errors, setErrors] = useState({})
   const [form, setForm] = useState({
-    origin: '', destination: '',
+    requestType: initialRequestType, freightType: initialFreightType, equipment: '', temp: '',
+    pickupCity: '', pickupState: '', deliveryCity: '', deliveryState: '',
     pickupDate: '', deliveryDate: '',
-    freightType: 'Full Truckload (FTL)', equipment: 'Dry Van',
-    weight: '', pallets: '', length: '', width: '', height: '',
-    commodity: '', hazmat: false, temp: '',
+    commodity: '', weight: '', pallets: '', palletDimensions: '',
     name: '', company: '', email: '', phone: '', notes: ''
   })
-  const set = (k, v) => setForm(f => ({ ...f, [k]: v }))
-
-  // Pull a 5-digit ZIP out of a free-text "City, State, Zip" address (if present)
-  // so the lane distance/city lookup still works without a dedicated ZIP field.
-  const extractZip = (s) => (String(s).match(/\b\d{5}\b/) || [])[0] || ''
-
-  // Lane summary (distance + city names) — no fake price estimate.
-  // Real-time pricing is confirmed by our brokerage team based on live carrier capacity.
-  const estimate = useMemo(() => {
-    const originZip = extractZip(form.origin)
-    const destZip = extractZip(form.destination)
-    const realDist = haversineMiles(originZip, destZip)
-    const distance = realDist || 0
-    return {
-      distance: Math.round(distance),
-      matched: realDist !== null,
-      originName: lookupZip(originZip),
-      destName: lookupZip(destZip)
-    }
-  }, [form.origin, form.destination])
-
-  const [errors, setErrors] = useState({})
+  const set = (k, v) => {
+    setForm(f => ({ ...f, [k]: v }))
+    if (errors[k]) setErrors(p => ({ ...p, [k]: '' }))
+  }
+  const isReefer = form.equipment === REEFER
 
   const validateStep = (s) => {
     const e = {}
+    const f = form
     if (s === 0) {
-      if (!form.origin.trim()) e.origin = 'Origin address is required'
-      if (!form.destination.trim()) e.destination = 'Destination address is required'
-      if (!form.pickupDate) e.pickupDate = 'Pickup date is required'
+      if (!f.requestType) e.requestType = 'Select a request type'
+      if (!f.freightType) e.freightType = 'Select a freight type'
+      if (!f.equipment) e.equipment = 'Select the equipment needed'
+      if (isReefer && !f.temp.trim()) e.temp = 'Required temperature is needed for refrigerated equipment'
     }
     if (s === 1) {
-      if (!form.weight) e.weight = 'Total weight is required'
-      else if (Number(form.weight) <= 0) e.weight = 'Weight must be greater than 0'
+      if (!f.pickupCity.trim()) e.pickupCity = 'Pickup city is required'
+      if (!f.pickupState.trim()) e.pickupState = 'Pickup state is required'
+      if (!f.deliveryCity.trim()) e.deliveryCity = 'Delivery city is required'
+      if (!f.deliveryState.trim()) e.deliveryState = 'Delivery state is required'
+      if (!f.pickupDate) e.pickupDate = 'Pickup date is required'
     }
     if (s === 2) {
-      if (!form.name.trim()) e.name = 'Full name is required'
-      if (!form.company.trim()) e.company = 'Company is required'
-      if (!form.email.trim()) e.email = 'Email is required'
-      else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim())) e.email = 'Enter a valid email address'
-      if (!form.phone.trim()) e.phone = 'Phone is required'
-      else if (form.phone.replace(/\D/g, '').length < 10) e.phone = 'Enter a valid phone number'
+      if (!f.commodity.trim()) e.commodity = 'Product / commodity is required'
+      if (!f.weight) e.weight = 'Total weight is required'
+      else if (Number(f.weight) <= 0) e.weight = 'Weight must be greater than 0'
+    }
+    if (s === 3) {
+      if (!f.name.trim()) e.name = 'Contact name is required'
+      if (!f.company.trim()) e.company = 'Company name is required'
+      if (!f.email.trim()) e.email = 'Email address is required'
+      else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f.email.trim())) e.email = 'Enter a valid email address'
     }
     return e
   }
 
   const next = () => {
     const stepErrors = validateStep(step)
-    if (Object.keys(stepErrors).length) {
-      setErrors(stepErrors)
-      return
-    }
+    if (Object.keys(stepErrors).length) { setErrors(stepErrors); return }
     setErrors({})
     setStep(s => Math.min(s + 1, STEPS.length - 1))
   }
   const prev = () => { setErrors({}); setStep(s => Math.max(s - 1, 0)) }
 
-  const [showPopup, setShowPopup] = useState(false)
-
   const submit = async (e) => {
     e.preventDefault()
-    // Re-validate every step before final submit
-    const allErrors = { ...validateStep(0), ...validateStep(1), ...validateStep(2) }
-    if (Object.keys(allErrors).length) {
-      setErrors(allErrors)
-      // Jump back to the first step that has errors
-      if (Object.keys(validateStep(0)).length) setStep(0)
-      else if (Object.keys(validateStep(1)).length) setStep(1)
-      else setStep(2)
-      return
+    if (step < STEPS.length - 1) return next()
+    if (submitting) return
+    // Re-validate every step before final submit; jump back to the first step with errors
+    for (let s = 0; s < STEPS.length - 1; s++) {
+      const stepErrors = validateStep(s)
+      if (Object.keys(stepErrors).length) { setErrors(stepErrors); setStep(s); return }
     }
-    add('quotes', { ...form, distanceMi: estimate.distance })
-    setDone(true)
-    setShowPopup(true)
-    setTimeout(() => setShowPopup(false), 5000)
+    setSubmitting(true)
+    setSubmitError(false)
 
-    // Send automated confirmation email
-    if (form.email) {
-      try {
-        await fetch('/api/send-confirmation', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            to: form.email,
-            name: form.name,
-            type: 'quote'
-          })
-        })
-      } catch {}
+    const trimmed = Object.fromEntries(Object.entries(form).map(([k, v]) => [k, typeof v === 'string' ? v.trim() : v]))
+    const payload = {
+      ...trimmed,
+      temp: isReefer ? trimmed.temp : '',
+      // Lane summary used by the admin dashboard
+      originCity: `${trimmed.pickupCity}, ${trimmed.pickupState}`,
+      destCity: `${trimmed.deliveryCity}, ${trimmed.deliveryState}`
     }
+
+    // Only treat the request as submitted if the server actually saved it.
+    const row = await add('quotes', payload, { fallback: false })
+    setSubmitting(false)
+    if (!row) { setSubmitError(true); return }
+
+    setDone(true)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+
+    // Automated confirmation email to the customer (best effort)
+    try {
+      await fetch('/api/send-confirmation', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ to: payload.email, name: payload.name, type: 'quote' })
+      })
+    } catch {}
   }
 
-  if (done) return <SuccessScreen showPopup={showPopup} />
+  if (done) return <SuccessScreen />
+
+  const inputCls = (k) => `input ${errors[k] ? 'border-red-500/60 focus:border-red-500' : ''}`
+  const selectCls = (k) => `select ${errors[k] ? 'border-red-500/60 focus:border-red-500' : ''}`
+  const today = new Date().toISOString().slice(0, 10)
 
   return (
     <>
       <PageMeta
-        title="Get a Free Freight Quote — 30-Minute Response"
-        description="Request a free freight quote from SFam Logistics. FTL, LTL, reefer, flatbed, and expedited shipping rates. 30-minute response during business hours and a live rate estimator built into the form."
-        keywords="freight quote, free freight quote, freight rates, truckload quote, LTL quote, reefer quote, flatbed quote, expedited freight quote, instant freight quote, freight rate calculator, freight broker quote"
+        title="Request a Freight Quote — Spot & Recurring Freight"
+        description="Request a freight quote from SFam Logistics. Spot quotes and recurring freight for produce, refrigerated, and dry van shipments — Pacific Northwest focus with nationwide support. Prefer email? quotes@sfamlogistics.com."
+        keywords="freight quote, spot quote, spot rate, recurring freight, produce freight quote, refrigerated freight quote, reefer quote, dry van quote, Pacific Northwest freight broker, freight broker quote"
         path="/quote"
         type="website"
         jsonLd={quoteJsonLd}
       />
-      <PageHero eyebrow="Request a Quote" title={<>Get Pricing in <span className="gradient-text">Minutes</span></>} subtitle="A 4-step quote form with live rate estimator. Most quotes returned within 30 minutes during business hours. After hours? We'll respond first thing the next business day." />
+      <PageHero eyebrow="Request a Quote" title={<>Request a <span className="gradient-text">Freight Quote</span></>} subtitle="Request a spot quote or tell us about your recurring freight needs.">
+        <p className="text-sm text-white/80">Prefer email? Send your shipment details to <a href={company.quoteEmailHref} className="font-semibold text-orange-400 hover:text-orange-300 whitespace-nowrap">{company.quoteEmail}</a>.</p>
+      </PageHero>
 
       <section className="section pt-0">
         <Orbs />
         <div className="container-x relative grid lg:grid-cols-3 gap-8">
-          <div className="lg:col-span-2">
+          <div className="lg:col-span-2 min-w-0">
             {/* Stepper */}
             <div className="flex items-center justify-between mb-8">
               {STEPS.map((label, i) => (
                 <div key={label} className="flex items-center flex-1 last:flex-initial">
                   <div className={`flex items-center gap-3 ${i <= step ? '' : 'opacity-40'}`}>
-                    <div className={`w-10 h-10 rounded-full grid place-items-center font-bold text-sm ${i < step ? 'bg-emerald-500' : i === step ? 'bg-gradient-to-br from-orange-400 to-orange-600' : 'bg-white/10'}`}>
+                    <div className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full grid place-items-center font-bold text-sm ${i < step ? 'bg-emerald-500' : i === step ? 'bg-gradient-to-br from-orange-400 to-orange-600' : 'bg-white/10'}`}>
                       {i < step ? <CheckCircle2 className="w-5 h-5" /> : i + 1}
                     </div>
-                    <span className="hidden sm:block text-sm font-semibold">{label}</span>
+                    <span className="hidden md:block text-sm font-semibold">{label}</span>
                   </div>
-                  {i < STEPS.length - 1 && <div className={`flex-1 h-0.5 mx-3 ${i < step ? 'bg-emerald-500' : 'bg-white/10'}`} />}
+                  {i < STEPS.length - 1 && <div className={`flex-1 h-0.5 mx-2 sm:mx-3 ${i < step ? 'bg-emerald-500' : 'bg-white/10'}`} />}
                 </div>
               ))}
             </div>
 
-            <form onSubmit={submit} className="glass-strong p-7 lg:p-10" noValidate>
-              {Object.keys(errors).length > 0 && (
+            <form onSubmit={submit} className="glass-strong p-6 sm:p-7 lg:p-10" noValidate>
+              {Object.values(errors).some(Boolean) && (
                 <div className="mb-6 flex items-start gap-3 p-4 rounded-xl bg-red-500/10 border border-red-500/40 text-red-200">
                   <AlertCircle className="w-5 h-5 shrink-0 mt-0.5 text-red-400" />
                   <div className="text-sm">
@@ -173,98 +188,139 @@ export default function Quote() {
                   </div>
                 </div>
               )}
+
               {step === 0 && (
                 <div className="space-y-5">
-                  <h3 className="font-display italic font-black text-xl flex items-center gap-3"><MapPin className="w-6 h-6 text-orange-400" /> Lane Details</h3>
+                  <h3 className="font-display italic font-black text-xl flex items-center gap-3"><ClipboardList className="w-6 h-6 text-orange-400" /> Request Details</h3>
                   <div className="grid sm:grid-cols-2 gap-4">
-                    <Field label="Origin" required error={errors.origin}>
-                      <input className={`input ${errors.origin ? 'border-red-500/60 focus:border-red-500' : ''}`} placeholder="City, State, Zip" value={form.origin} onChange={e => { set('origin', e.target.value); if (errors.origin) setErrors(p => ({ ...p, origin: '' })) }} />
+                    <Field label="Request Type" required error={errors.requestType}>
+                      <select className={selectCls('requestType')} value={form.requestType} onChange={e => set('requestType', e.target.value)}>
+                        <option value="">Select…</option>
+                        {REQUEST_TYPES.map(o => <option key={o}>{o}</option>)}
+                      </select>
                     </Field>
-                    <Field label="Destination" required error={errors.destination}>
-                      <input className={`input ${errors.destination ? 'border-red-500/60 focus:border-red-500' : ''}`} placeholder="City, State, Zip" value={form.destination} onChange={e => { set('destination', e.target.value); if (errors.destination) setErrors(p => ({ ...p, destination: '' })) }} />
+                    <Field label="Freight Type" required error={errors.freightType}>
+                      <select className={selectCls('freightType')} value={form.freightType} onChange={e => set('freightType', e.target.value)}>
+                        <option value="">Select…</option>
+                        {FREIGHT_TYPES.map(o => <option key={o}>{o}</option>)}
+                      </select>
                     </Field>
-                    <Field label="Pickup Date" required error={errors.pickupDate}>
-                      <input type="date" className={`input ${errors.pickupDate ? 'border-red-500/60 focus:border-red-500' : ''}`} value={form.pickupDate} onChange={e => { set('pickupDate', e.target.value); if (errors.pickupDate) setErrors(p => ({ ...p, pickupDate: '' })) }} />
+                    <Field label="Equipment Needed" required error={errors.equipment}>
+                      <select className={selectCls('equipment')} value={form.equipment} onChange={e => set('equipment', e.target.value)}>
+                        <option value="">Select…</option>
+                        {EQUIPMENT.map(o => <option key={o}>{o}</option>)}
+                      </select>
                     </Field>
-                    <Field label="Delivery Date (optional)"><input type="date" className="input" value={form.deliveryDate} onChange={e => set('deliveryDate', e.target.value)} /></Field>
+                    {isReefer && (
+                      <Field label="Required Temperature" required error={errors.temp}>
+                        <input className={inputCls('temp')} placeholder="e.g. 34°F" value={form.temp} onChange={e => set('temp', e.target.value)} />
+                      </Field>
+                    )}
                   </div>
                 </div>
               )}
 
               {step === 1 && (
                 <div className="space-y-5">
-                  <h3 className="font-display italic font-black text-xl flex items-center gap-3"><Package className="w-6 h-6 text-orange-400" /> Freight Details</h3>
+                  <h3 className="font-display italic font-black text-xl flex items-center gap-3"><MapPin className="w-6 h-6 text-orange-400" /> Lane Details</h3>
                   <div className="grid sm:grid-cols-2 gap-4">
-                    <Field label="Freight Type">
-                      <select className="select" value={form.freightType} onChange={e => set('freightType', e.target.value)}>
-                        <option>Full Truckload (FTL)</option><option>LTL</option><option>Partial Truckload</option><option>Expedited</option>
-                      </select>
+                    <Field label="Pickup City" required error={errors.pickupCity}>
+                      <input className={inputCls('pickupCity')} placeholder="e.g. Yakima" value={form.pickupCity} onChange={e => set('pickupCity', e.target.value)} />
                     </Field>
-                    <Field label="Equipment">
-                      <select className="select" value={form.equipment} onChange={e => set('equipment', e.target.value)}>
-                        <option>Dry Van</option><option>Reefer</option><option>Flatbed</option><option>Step Deck</option><option>Power Only</option>
-                      </select>
+                    <Field label="Pickup State" required error={errors.pickupState}>
+                      <input className={inputCls('pickupState')} placeholder="e.g. WA" value={form.pickupState} onChange={e => set('pickupState', e.target.value)} />
                     </Field>
-                    <Field label="Total Weight (lbs)" required error={errors.weight}>
-                      <input className={`input ${errors.weight ? 'border-red-500/60 focus:border-red-500' : ''}`} type="number" value={form.weight} onChange={e => { set('weight', e.target.value); if (errors.weight) setErrors(p => ({ ...p, weight: '' })) }} />
+                    <Field label="Delivery City" required error={errors.deliveryCity}>
+                      <input className={inputCls('deliveryCity')} placeholder="e.g. Portland" value={form.deliveryCity} onChange={e => set('deliveryCity', e.target.value)} />
                     </Field>
-                    <Field label="Pallet Count"><input className="input" type="number" value={form.pallets} onChange={e => set('pallets', e.target.value)} /></Field>
-                    <Field label="Commodity"><input className="input" placeholder="e.g. machinery, food grade, electronics" value={form.commodity} onChange={e => set('commodity', e.target.value)} /></Field>
-                    <Field label="Temperature (if reefer)"><input className="input" placeholder="e.g. 34°F" value={form.temp} onChange={e => set('temp', e.target.value)} /></Field>
+                    <Field label="Delivery State" required error={errors.deliveryState}>
+                      <input className={inputCls('deliveryState')} placeholder="e.g. OR" value={form.deliveryState} onChange={e => set('deliveryState', e.target.value)} />
+                    </Field>
+                    <Field label="Pickup Date" required error={errors.pickupDate}>
+                      <input type="date" min={today} className={inputCls('pickupDate')} value={form.pickupDate} onChange={e => set('pickupDate', e.target.value)} />
+                    </Field>
+                    <Field label="Delivery Date or Appointment">
+                      <input className="input" placeholder="e.g. 10/24 or 8:00 AM appointment" value={form.deliveryDate} onChange={e => set('deliveryDate', e.target.value)} />
+                    </Field>
                   </div>
-                  <label className="flex items-center gap-3 text-sm text-white/70">
-                    <input type="checkbox" checked={form.hazmat} onChange={e => set('hazmat', e.target.checked)} className="w-5 h-5 accent-orange-500" />
-                    Shipment contains hazardous materials
-                  </label>
                 </div>
               )}
 
               {step === 2 && (
                 <div className="space-y-5">
-                  <h3 className="font-display italic font-black text-xl flex items-center gap-3"><User className="w-6 h-6 text-orange-400" /> Contact Information</h3>
+                  <h3 className="font-display italic font-black text-xl flex items-center gap-3"><Package className="w-6 h-6 text-orange-400" /> Freight Details</h3>
                   <div className="grid sm:grid-cols-2 gap-4">
-                    <Field label="Full Name" required error={errors.name}>
-                      <input className={`input ${errors.name ? 'border-red-500/60 focus:border-red-500' : ''}`} value={form.name} onChange={e => { set('name', e.target.value); if (errors.name) setErrors(p => ({ ...p, name: '' })) }} />
+                    <Field label="Product / Commodity" required error={errors.commodity}>
+                      <input className={inputCls('commodity')} placeholder="e.g. apples, frozen food, packaged goods" value={form.commodity} onChange={e => set('commodity', e.target.value)} />
                     </Field>
-                    <Field label="Company" required error={errors.company}>
-                      <input className={`input ${errors.company ? 'border-red-500/60 focus:border-red-500' : ''}`} value={form.company} onChange={e => { set('company', e.target.value); if (errors.company) setErrors(p => ({ ...p, company: '' })) }} />
+                    <Field label="Total Weight (lbs)" required error={errors.weight}>
+                      <input type="number" min="1" inputMode="numeric" className={inputCls('weight')} placeholder="e.g. 40000" value={form.weight} onChange={e => set('weight', e.target.value)} />
                     </Field>
-                    <Field label="Email" required error={errors.email}>
-                      <input type="email" className={`input ${errors.email ? 'border-red-500/60 focus:border-red-500' : ''}`} value={form.email} onChange={e => { set('email', e.target.value); if (errors.email) setErrors(p => ({ ...p, email: '' })) }} />
+                    <Field label="Pallet Count">
+                      <input type="number" min="0" inputMode="numeric" className="input" value={form.pallets} onChange={e => set('pallets', e.target.value)} />
                     </Field>
-                    <Field label="Phone" required error={errors.phone}>
-                      <input className={`input ${errors.phone ? 'border-red-500/60 focus:border-red-500' : ''}`} value={form.phone} onChange={e => { set('phone', e.target.value); if (errors.phone) setErrors(p => ({ ...p, phone: '' })) }} />
+                    <Field label="Pallet Dimensions">
+                      <input className="input" placeholder={'e.g. 48" x 40" x 60"'} value={form.palletDimensions} onChange={e => set('palletDimensions', e.target.value)} />
                     </Field>
                   </div>
-                  <Field label="Additional Notes"><textarea className="textarea" value={form.notes} onChange={e => set('notes', e.target.value)} placeholder="Special instructions, accessorials, etc." /></Field>
                 </div>
               )}
 
               {step === 3 && (
                 <div className="space-y-5">
-                  <h3 className="font-display italic font-black text-xl">Review &amp; Submit</h3>
-                  <div className="grid sm:grid-cols-2 gap-4 text-sm">
-                    <Review label="Origin" value={form.origin} />
-                    <Review label="Destination" value={form.destination} />
-                    <Review label="Pickup" value={form.pickupDate} />
-                    <Review label="Freight" value={`${form.freightType} • ${form.equipment}`} />
-                    <Review label="Weight" value={`${form.weight} lbs`} />
-                    <Review label="Contact" value={`${form.name} • ${form.phone}`} />
+                  <h3 className="font-display italic font-black text-xl flex items-center gap-3"><User className="w-6 h-6 text-orange-400" /> Contact Information</h3>
+                  <div className="grid sm:grid-cols-2 gap-4">
+                    <Field label="Contact Name" required error={errors.name}>
+                      <input className={inputCls('name')} autoComplete="name" value={form.name} onChange={e => set('name', e.target.value)} />
+                    </Field>
+                    <Field label="Company Name" required error={errors.company}>
+                      <input className={inputCls('company')} autoComplete="organization" value={form.company} onChange={e => set('company', e.target.value)} />
+                    </Field>
+                    <Field label="Email Address" required error={errors.email}>
+                      <input type="email" autoComplete="email" className={inputCls('email')} value={form.email} onChange={e => set('email', e.target.value)} />
+                    </Field>
+                    <Field label="Phone Number">
+                      <input type="tel" autoComplete="tel" className="input" value={form.phone} onChange={e => set('phone', e.target.value)} />
+                    </Field>
                   </div>
-                  <div className="glass p-5 border-orange-400/40">
-                    <div className="text-xs text-white/50 uppercase tracking-widest mb-1">Lane Summary</div>
-                    <div className="text-2xl font-display font-bold gradient-text">~{estimate.distance} miles</div>
-                    <div className="text-xs text-white/60 mt-2">Real-time pricing is confirmed by our brokerage team within 30 minutes during business hours, based on current carrier capacity and live market rates.</div>
-                  </div>
+                  <Field label="Additional Details"><textarea className="textarea" value={form.notes} onChange={e => set('notes', e.target.value)} placeholder="Special instructions, accessorials, recurring lane details, etc." /></Field>
                 </div>
               )}
 
-              <div className="flex justify-between mt-8 pt-6 border-t border-white/10">
-                <button type="button" onClick={prev} disabled={step === 0} className="btn-ghost disabled:opacity-30"><ArrowLeft className="w-4 h-4" /> Back</button>
+              {step === 4 && (
+                <div className="space-y-5">
+                  <h3 className="font-display italic font-black text-xl">Review &amp; Submit</h3>
+                  <div className="grid sm:grid-cols-2 gap-4 text-sm">
+                    <Review label="Request Type" value={form.requestType} />
+                    <Review label="Freight Type" value={form.freightType} />
+                    <Review label="Equipment" value={isReefer ? `${form.equipment} • ${form.temp}` : form.equipment} />
+                    <Review label="Pickup Date" value={form.pickupDate} />
+                    <Review label="Pickup" value={`${form.pickupCity}, ${form.pickupState}`} />
+                    <Review label="Delivery" value={`${form.deliveryCity}, ${form.deliveryState}`} />
+                    <Review label="Commodity" value={form.commodity} />
+                    <Review label="Weight" value={`${form.weight} lbs`} />
+                    <Review label="Contact" value={`${form.name} • ${form.company}`} />
+                    <Review label="Email" value={form.email} />
+                  </div>
+                  <p className="text-xs text-white/60">Pricing is confirmed by our brokerage team after we review your shipment details.</p>
+                </div>
+              )}
+
+              {submitError && (
+                <div role="alert" className="mt-6 flex items-start gap-3 p-4 rounded-xl bg-red-500/10 border border-red-500/40 text-red-200 text-sm">
+                  <AlertCircle className="w-5 h-5 shrink-0 mt-0.5 text-red-400" />
+                  <p>Your request could not be submitted. Please try again or email <a href={company.quoteEmailHref} className="font-semibold text-orange-300 underline whitespace-nowrap">{company.quoteEmail}</a>.</p>
+                </div>
+              )}
+
+              <div className="flex justify-between gap-3 mt-8 pt-6 border-t border-white/10">
+                <button type="button" onClick={prev} disabled={step === 0 || submitting} className="btn-ghost disabled:opacity-30"><ArrowLeft className="w-4 h-4" /> Back</button>
                 {step < STEPS.length - 1 ? (
                   <button type="button" onClick={next} className="btn-primary">Continue <ArrowRight className="w-5 h-5" /></button>
                 ) : (
-                  <button type="submit" className="btn-primary">Submit Quote Request <CheckCircle2 className="w-5 h-5" /></button>
+                  <button type="submit" disabled={submitting} className="btn-primary disabled:opacity-70">
+                    {submitting ? <>Submitting… <Loader2 className="w-5 h-5 animate-spin" /></> : <>Submit Quote Request <CheckCircle2 className="w-5 h-5" /></>}
+                  </button>
                 )}
               </div>
             </form>
@@ -294,11 +350,17 @@ export default function Quote() {
               </div>
             </div>
 
-            <div className="mt-5 pt-5 border-t border-white/10">
-              <div className="text-[10px] uppercase tracking-widest text-white/40 mb-2">Need Pricing Faster?</div>
-              <a href="tel:+18886985556" className="flex items-center gap-2 text-orange-400 font-bold text-sm hover:text-orange-300">
-                <Phone className="w-4 h-4" /> 1 (888) 698-5556
-              </a>
+            <div className="mt-5 pt-5 border-t border-white/10 space-y-3">
+              <div>
+                <div className="text-[10px] uppercase tracking-widest text-white/40 mb-2">Prefer Email?</div>
+                <a href={company.quoteEmailHref} className="text-orange-400 font-bold text-sm hover:text-orange-300 whitespace-nowrap">{company.quoteEmail}</a>
+              </div>
+              <div>
+                <div className="text-[10px] uppercase tracking-widest text-white/40 mb-2">Need Pricing Faster?</div>
+                <a href="tel:+18886985556" className="flex items-center gap-2 text-orange-400 font-bold text-sm hover:text-orange-300">
+                  <Phone className="w-4 h-4" /> 1 (888) 698-5556
+                </a>
+              </div>
             </div>
           </aside>
         </div>
@@ -311,7 +373,7 @@ function Field({ label, children, required, error }) {
   return (
     <label className="block">
       <span className="text-xs font-semibold text-white/60 uppercase tracking-wider mb-2 block">
-        {label}{required && <span className="text-orange-400 ml-1">*</span>}
+        {label}{required ? <span className="text-orange-400 ml-1">*</span> : <span className="normal-case tracking-normal text-white/35 ml-1">(optional)</span>}
       </span>
       {children}
       {error && (
@@ -326,29 +388,21 @@ function Review({ label, value }) {
   return (
     <div className="glass p-4">
       <div className="text-[10px] uppercase tracking-widest text-white/40">{label}</div>
-      <div className="font-semibold">{value || '—'}</div>
+      <div className="font-semibold break-words">{value || '—'}</div>
     </div>
   )
 }
-function SuccessScreen({ showPopup }) {
+// Shown only after the server confirms the request was saved.
+function SuccessScreen() {
   return (
     <section className="min-h-[80vh] flex items-center pt-32 pb-20 relative overflow-hidden">
       <Orbs />
-      {showPopup && (
-        <div className="fixed top-24 right-6 z-[100] bg-emerald-600 text-white px-6 py-4 rounded-xl shadow-2xl animate-fade-up flex items-center gap-3">
-          <CheckCircle2 className="w-5 h-5" />
-          <span className="text-sm font-semibold">Thank you for submitting your quote! A confirmation has been sent to your email.</span>
-        </div>
-      )}
       <div className="container-x relative max-w-2xl mx-auto text-center">
         <div className="w-20 h-20 rounded-full bg-gradient-to-br from-emerald-500 to-emerald-700 grid place-items-center mx-auto mb-5 shadow-2xl shadow-emerald-500/40">
           <CheckCircle2 className="w-10 h-10" />
         </div>
-        <h1 className="font-display italic font-black text-3xl mb-3">Quote Submitted!</h1>
-        <p className="text-white/70 mb-6">Thanks — we received your request and will respond with real-time pricing within 30 minutes during business hours. A confirmation has been sent to your email.</p>
-        <div className="glass-strong p-6 mb-6">
-          <p className="text-white/70 text-sm">Our brokerage team is sourcing live carrier capacity for your lane and will follow up with a firm rate as soon as it&apos;s confirmed.</p>
-        </div>
+        <h1 className="font-display italic font-black text-3xl mb-3">Quote Request Submitted</h1>
+        <p className="text-white/80 mb-8 text-lg">Thank you. Your quote request has been submitted. We will review your shipment details and contact you.</p>
         <a href="/" className="btn-primary">Back to Home</a>
       </div>
     </section>

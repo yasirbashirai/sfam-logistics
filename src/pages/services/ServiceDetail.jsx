@@ -1,10 +1,11 @@
 import { Link, useParams, Navigate } from 'react-router-dom'
-import { ArrowRight, CheckCircle2, Truck, Boxes, Snowflake, PackageOpen, Route, Zap, ArrowLeft, Phone, ShieldCheck, Clock, Award, Star } from 'lucide-react'
+import { ArrowRight, CheckCircle2, Truck, Boxes, Snowflake, PackageOpen, Route, Zap, ArrowLeft, Phone, ShieldCheck, Clock, Award, Star, MapPinned } from 'lucide-react'
 import PageMeta from '../../components/PageMeta.jsx'
 import { PageHero, Orbs } from '../../components/Section.jsx'
 import Reveal from '../../components/Reveal.jsx'
 import { services } from '../../data/site.js'
 import IMG from '../../data/images.js'
+import { QuoteEmailLink } from '../../components/FocusServices.jsx'
 
 const iconMap = { Truck, Boxes, Snowflake, PackageOpen, Route, Zap }
 const imgKeys = { 'full-truckload': 'ftlTruck', 'less-than-truckload': 'ltlPallets', 'reefer': 'reeferTrailer', 'flatbed': 'flatbedLoad', 'dedicated': 'dedicatedFleet', 'expedited': 'expeditedVan' }
@@ -28,15 +29,16 @@ export default function ServiceDetail() {
   const faqs = [
     { q: `How fast can I get a ${service.name} quote?`, a: 'Most quotes return within 30 minutes during business hours. Urgent loads can be priced within 10 minutes by phone.' },
     { q: 'Do you offer cargo insurance?', a: 'Yes — all our carriers carry cargo insurance and we name our shippers as additional insured on file.' },
-    { q: 'What lanes do you cover?', a: 'Nationwide coverage across the United States with deep capacity in PNW, California, Texas, Midwest, and Southeast corridors.' },
+    { q: 'What lanes do you cover?', a: 'Our main focus is the Pacific Northwest — freight into, out of, and within the region. We also support nationwide shipments.' },
     { q: 'Are there any hidden fees?', a: 'Never. Our quotes are all-in. Any accessorial costs are disclosed upfront before you confirm.' }
   ]
 
   return (
     <>
-      <PageMeta title={`${service.name} — Freight Services`} description={`${service.long} SFam Logistics — FMCSA authorized freight broker, MC 1810116, USDOT 4555943.`} />
+      <PageMeta title={`${service.name} — Freight Services`} description={`${service.long} Pacific Northwest focus with nationwide support. SFam Logistics — FMCSA authorized freight broker, MC 1810116, USDOT 4555943.`} />
       <PageHero eyebrow="Service" title={service.name} subtitle={service.short} image={heroImg}>
-        <a href="tel:+18886985556" className="btn-primary"><Phone className="w-5 h-5" /> Call Us</a>
+        <Link to="/quote?type=spot" className="btn-primary">Request a Spot Quote <ArrowRight className="w-4 h-4" /></Link>
+        <a href="tel:+18886985556" className="btn-ghost"><Phone className="w-5 h-5" /> Call Us</a>
         <Link to="/services" className="btn-ghost"><ArrowLeft className="w-4 h-4" /> All Services</Link>
       </PageHero>
 
@@ -49,7 +51,12 @@ export default function ServiceDetail() {
               <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-orange-400 to-orange-600 grid place-items-center mb-6"><Icon className="w-8 h-8 text-white" /></div>
               <h2 className="font-display italic font-black text-4xl mb-5">About {service.name}</h2>
               <div className="divider-glow w-32 mb-6" />
-              <p className="text-white/75 leading-relaxed text-lg mb-8">{service.long}</p>
+              <p className="text-white/75 leading-relaxed text-lg mb-5">{service.long}</p>
+              {/* Regional focus: PNW first, nationwide second */}
+              <div className="flex gap-3 items-start p-4 rounded-xl bg-orange-400/10 border border-orange-400/30 mb-8">
+                <MapPinned className="w-5 h-5 text-orange-400 shrink-0 mt-0.5" />
+                <p className="text-white/85 text-sm leading-relaxed">Our main focus is the Pacific Northwest — we help move freight into, out of, and within the region. We also support nationwide shipments.</p>
+              </div>
               <h3 className="font-display italic font-black text-2xl mb-4">What&apos;s Included</h3>
               <ul className="grid sm:grid-cols-2 gap-3">
                 {features.map(f => (
@@ -60,12 +67,14 @@ export default function ServiceDetail() {
           </Reveal>
 
           <aside className="glass p-7 h-fit lg:sticky lg:top-32">
-            <h3 className="font-display italic font-black text-xl mb-4">Talk to Dispatch</h3>
-            <p className="text-white/60 text-sm mb-5">Live coverage during business hours and after-hours for active loads.</p>
-            <a href="tel:+18886985556" className="btn-primary w-full"><Phone className="w-4 h-4" /> Call Now</a>
+            <h3 className="font-display italic font-black text-xl mb-4">Need a Spot Quote?</h3>
+            <p className="text-white/60 text-sm mb-5">Send us your pickup location, delivery location, shipment date, and freight details.</p>
+            <Link to="/quote?type=spot" className="btn-primary w-full">Request a Spot Quote <ArrowRight className="w-4 h-4" /></Link>
             <div className="mt-6 pt-6 border-t border-white/10 text-sm text-white/60 space-y-2">
-              <div className="flex items-center gap-2"><Phone className="w-4 h-4 text-orange-400" /> <a href="tel:+18886985556" className="hover:text-orange-300">1 (888) 698-5556</a></div>
-              <div>✉️ info@sfamlogistics.com</div>
+              <div className="text-[10px] uppercase tracking-widest text-white/40">Email a quote request</div>
+              <QuoteEmailLink className="text-sm" />
+              <div className="flex items-center gap-2 pt-2"><Phone className="w-4 h-4 text-orange-400" /> <a href="tel:+18886985556" className="hover:text-orange-300">1 (888) 698-5556</a></div>
+              <div>✉️ <a href="mailto:info@sfamlogistics.com" className="hover:text-orange-300">info@sfamlogistics.com</a></div>
               <div className="text-xs text-white/40 mt-3">Mon–Fri • 7AM–5PM PST</div>
             </div>
           </aside>
@@ -182,7 +191,11 @@ export default function ServiceDetail() {
             <div className="relative">
               <h2 className="font-display italic font-black text-4xl mb-4">Ready to Move <span className="text-orange-400">{service.name}?</span></h2>
               <p className="text-orange-300 text-sm font-semibold uppercase tracking-wider mb-2">Dispatch available extended hours — call anytime for urgent freight</p>
-              <a href="tel:+18886985556" className="btn-primary !px-8 !py-4 mt-4"><Phone className="w-5 h-5" /> Call Us</a>
+              <div className="flex flex-col sm:flex-row gap-3 justify-center mt-4">
+                <Link to="/quote?type=spot" className="btn-primary !px-8 !py-4">Request a Spot Quote <ArrowRight className="w-5 h-5" /></Link>
+                <a href="tel:+18886985556" className="btn-ghost !px-8 !py-4"><Phone className="w-5 h-5" /> Call Us</a>
+              </div>
+              <div className="mt-5"><QuoteEmailLink /></div>
             </div>
           </div>
         </div>
