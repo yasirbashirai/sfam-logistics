@@ -210,17 +210,56 @@ const ALERT_ROUTING = {
   contacts:    process.env.ALERT_TO_CONTACTS || 'support@sfamlogistics.com'
 }
 
-const sendAlert = async (subject, body, table = null) => {
+const sendAlert = async (subject, body, table = null, { replyTo } = {}) => {
   const to = (table && ALERT_ROUTING[table]) || process.env.ALERT_TO || 'info@sfamlogistics.com'
-  if (!transporter) return console.log(`[ALERT → ${to}] ${subject}\n${body}`)
+  if (!transporter) return console.log(`[ALERT → ${to}] ${subject}${replyTo ? ` (reply-to ${replyTo})` : ''}\n${body}`)
   try {
     await transporter.sendMail({
       from: process.env.SMTP_FROM || 'no-reply@sfamlogistics.com',
       to,
+      ...(replyTo ? { replyTo } : {}),
       subject,
       text: body
     })
   } catch (e) { console.error('Email failed:', e.message) }
+}
+
+// Website quote request email: readable labelled list of every submitted field.
+// Subject format (client-approved): Website Quote Request — [Request Type] — [Company Name]
+const QUOTE_FIELDS = [
+  ['requestType', 'Request type'],
+  ['freightType', 'Freight type'],
+  ['equipment', 'Equipment needed'],
+  ['temp', 'Required temperature'],
+  ['pickupCity', 'Pickup city'],
+  ['pickupState', 'Pickup state'],
+  ['deliveryCity', 'Delivery city'],
+  ['deliveryState', 'Delivery state'],
+  ['pickupDate', 'Pickup date'],
+  ['deliveryDate', 'Delivery date or appointment'],
+  ['commodity', 'Product / commodity'],
+  ['weight', 'Total weight (lbs)'],
+  ['pallets', 'Pallet count'],
+  ['palletDimensions', 'Pallet dimensions'],
+  ['name', 'Contact name'],
+  ['company', 'Company name'],
+  ['email', 'Email address'],
+  ['phone', 'Phone number'],
+  ['notes', 'Additional details']
+]
+// Derived lane summary fields stored for the dashboard — not repeated in the email.
+const QUOTE_DERIVED = new Set(['originCity', 'destCity'])
+const isEmail = (v) => typeof v === 'string' && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim())
+
+const quoteEmail = (p) => {
+  const clean = (v) => String(v ?? '').replace(/[\r\n]+/g, ' ').trim()
+  const subject = `Website Quote Request — ${clean(p.requestType) || 'Quote'} — ${clean(p.company) || 'Unknown company'}`
+  const known = new Set(QUOTE_FIELDS.map(([k]) => k))
+  const lines = QUOTE_FIELDS.map(([k, label]) => `${label}: ${p[k] === undefined || p[k] === '' ? '—' : p[k]}`)
+  // Anything else that was submitted (e.g. from an older form version) is still included.
+  const extra = Object.entries(p).filter(([k]) => !known.has(k) && !QUOTE_DERIVED.has(k))
+  if (extra.length) lines.push('', ...extra.map(([k, v]) => `${k}: ${typeof v === 'object' ? JSON.stringify(v) : v}`))
+  return { subject, body: lines.join('\n'), replyTo: isEmail(p.email) ? p.email.trim() : undefined }
 }
 
 // Direct mail helper (for confirmation emails to visitor)
@@ -358,7 +397,12 @@ TABLES.forEach(table => {
       }
 
       const row = await insert(table, payload)
-      sendAlert(`New ${table.slice(0, -1)} submission`, JSON.stringify(payload, null, 2), table)
+      if (table === 'quotes') {
+        const { subject, body, replyTo } = quoteEmail(payload)
+        sendAlert(subject, body, table, { replyTo })
+      } else {
+        sendAlert(`New ${table.slice(0, -1)} submission`, JSON.stringify(payload, null, 2), table)
+      }
 
       // Auto-confirmation email to subscriber
       if (table === 'subscribers' && payload.email) {
