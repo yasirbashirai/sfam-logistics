@@ -187,5 +187,12 @@ async function run() {
 
 run().catch((e) => {
   console.error('Prerender failed:', e)
+  // Vercel's build image can't launch headless Chrome (missing system libs).
+  // There the plain SPA build is still valid (vercel.json rewrites every route to
+  // index.html), so don't fail the deploy — just ship without pre-rendered HTML.
+  if (process.env.VERCEL) {
+    console.warn('⚠️  Skipping prerender on Vercel — deploying the SPA build without static HTML.')
+    process.exit(0)
+  }
   process.exit(1)
 })
