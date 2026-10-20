@@ -12,8 +12,8 @@ const carrierJsonLd = [
   {
     '@context': 'https://schema.org',
     '@type': 'JobPosting',
-    title: 'Carrier Partners — Owner-Operators and Trucking Companies for SFam Logistics',
-    description: 'Work with SFAM Logistics on freight opportunities that match your equipment and preferred lanes. We focus on produce, refrigerated, and dry van freight in the Pacific Northwest and nationwide.',
+    title: 'Carrier Partners | Owner-Operators and Trucking Companies for SFam Logistics',
+    description: 'Work with SFam Logistics on freight opportunities that match your equipment and preferred lanes. We focus on produce, refrigerated, and dry van freight in the Pacific Northwest and nationwide.',
     datePosted: '2026-01-01',
     validThrough: '2027-12-31',
     employmentType: 'CONTRACTOR',
@@ -85,7 +85,7 @@ export default function CarrierOnboarding() {
       <div className="container-x relative max-w-2xl mx-auto text-center">
         <div className="w-20 h-20 rounded-full bg-gradient-to-br from-emerald-500 to-emerald-700 grid place-items-center mx-auto mb-5"><CheckCircle2 className="w-10 h-10" /></div>
         <h1 className="font-display italic font-black text-3xl mb-3">Welcome Aboard!</h1>
-        <p className="text-white/70 mb-6">Your carrier application has been received. A confirmation has been sent to your email. Our team will verify your authority and insurance and reach out within 24 hours.</p>
+        <p className="text-white/70 mb-6">Your carrier application has been received. A confirmation has been sent to your email. Our team will verify your authority and insurance and reach out as soon as your MC, USDOT, insurance, and vetting requirements have been verified.</p>
         <a href="/" className="btn-primary">Back to Home</a>
       </div>
     </section>
@@ -94,14 +94,14 @@ export default function CarrierOnboarding() {
   return (
     <>
       <PageMeta
-        title="Become a Carrier Partner — Produce, Reefer & Dry Van Freight"
-        description="Become a SFam Logistics carrier partner. Freight opportunities that match your equipment and preferred lanes — produce, refrigerated, and dry van freight in the Pacific Northwest and nationwide. Same-day pay options through OTR Solutions."
-        keywords="carrier onboarding, owner operator loads, trucking company contracts, same-day pay carrier, quick pay trucking, OTR Solutions factoring, freight broker for carriers, MC carrier setup, dry van loads, reefer loads, flatbed loads, OTR loads, drive for SFam"
+        title="Become a Carrier Partner | Produce, Reefer & Dry Van Freight"
+        description="Become a SFam Logistics carrier partner. Freight opportunities that match your equipment and preferred lanes: produce, refrigerated, and dry van freight in the Pacific Northwest and nationwide. Quick pay options through OTR Solutions."
+        keywords="carrier onboarding, owner operator loads, trucking company contracts, quick pay carrier, quick pay trucking, OTR Solutions factoring, freight broker for carriers, MC carrier setup, dry van loads, reefer loads, flatbed loads, OTR loads, drive for SFam"
         path="/carrier-onboarding"
         image="/images/white-volvo-sunset.jpg"
         jsonLd={carrierJsonLd}
       />
-      <PageHero eyebrow="Carrier Onboarding" title={<>Become a <span className="text-orange-400">Carrier Partner</span></>} subtitle="Work with SFAM Logistics on freight opportunities that match your equipment and preferred lanes. We focus on produce, refrigerated, and dry van freight in the Pacific Northwest and nationwide." image={IMG.heroFleet} />
+      <PageHero eyebrow="Carrier Onboarding" title={<>Become a <span className="text-orange-400">Carrier Partner</span></>} subtitle="Work with SFam Logistics on freight opportunities that match your equipment and preferred lanes. We focus on produce, refrigerated, and dry van freight in the Pacific Northwest and nationwide." image={IMG.heroFleet} />
 
       {/* ===== 1. WHY HAUL FOR SFAM ===== */}
       <section className="section">
@@ -116,10 +116,10 @@ export default function CarrierOnboarding() {
           </Reveal>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
-              { i: Wallet, t: 'Same-Day Pay Options', d: 'Quick-pay available on every load. Get paid in days, not weeks.' },
-              { i: DollarSign, t: 'Fair Market Rates', d: 'We share market data and pay competitive rates — no lowballing.' },
-              { i: Headphones, t: '24/7 Real Dispatch', d: 'A real human, every time. No phone trees, no missed calls.' },
-              { i: Heart, t: 'Driver Respect', d: 'No surprise detention disputes. We pay what we owe — period.' }
+              { i: Wallet, t: 'Quick Pay Options', d: 'Quick pay available on every load. The fee is shown on your rate confirmation.' },
+              { i: DollarSign, t: 'Fair Rates', d: 'We pay competitive rates. No lowballing.' },
+              { i: Headphones, t: 'Real People', d: 'Mon-Fri 7AM-5PM PT, with after-hours support for loads in transit. No phone trees.' },
+              { i: Heart, t: 'Driver Respect', d: 'No surprise detention disputes. We pay what we owe. Period.' }
             ].map(({ i: Icon, t, d }, idx) => (
               <Reveal key={t} delay={idx * 100}>
                 <div className="glass-strong p-7 hover:border-orange-400/40 hover:-translate-y-1 transition group h-full">
@@ -201,7 +201,8 @@ export default function CarrierOnboarding() {
 
             <aside className="space-y-6">
               <div className="glass-strong p-7">
-                <h3 className="font-display italic font-black text-2xl mb-4">Approved In <span className="text-orange-400">24 Hours</span></h3>
+                <h3 className="font-display italic font-black text-2xl mb-2">Fast <span className="text-orange-400">Approval</span></h3>
+                <p className="text-sm text-white/60 mb-4">Approved as soon as your MC, USDOT, insurance, and all other vetting requirements have been verified.</p>
                 <div className="space-y-3 text-sm text-white/70">
                   {['Submit your application', 'We verify MC, DOT, insurance', 'Sign carrier-broker agreement', 'Start hauling SFam loads'].map((s, i) => (
                     <div key={s} className="flex items-center gap-3">
@@ -215,7 +216,7 @@ export default function CarrierOnboarding() {
                 <Phone className="w-8 h-8 text-orange-400 mb-3" />
                 <div className="font-display italic font-black text-lg">Carrier Dispatch</div>
                 <a href="tel:+18886985556" className="text-orange-400 font-bold text-xl">1 (888) 698-5556</a>
-                <div className="text-xs text-white/50 mt-2">Available 24/7 for active carriers</div>
+                <div className="text-xs text-white/50 mt-2">Mon-Fri 7AM-5PM PT. After-hours support for loads in transit.</div>
               </div>
             </aside>
           </div>
@@ -229,7 +230,7 @@ export default function CarrierOnboarding() {
             <div className="glass-strong neon-border p-10 lg:p-14 text-center">
               <div className="text-3xl mb-6">🤝</div>
               <h2 className="font-display italic font-black text-3xl mb-6">Join Our <span className="text-orange-400">Growing Network</span></h2>
-              <p className="text-white/80 text-xl italic leading-relaxed">&ldquo;We are just getting started — and we are building our reputation one load and one relationship at a time. Be one of our founding partners.&rdquo;</p>
+              <p className="text-white/80 text-xl italic leading-relaxed">&ldquo;We are just getting started, and we are building our reputation one load and one relationship at a time. Be one of our founding partners.&rdquo;</p>
             </div>
           </Reveal>
         </div>
@@ -247,9 +248,9 @@ export default function CarrierOnboarding() {
           </Reveal>
           <div className="space-y-4">
             {[
-              { q: 'How fast do you pay?', a: 'Standard pay is Net-30 from receipt of POD/invoice. Quick-pay is available for a small discount — same-day or 48-hour funding.' },
+              { q: 'How fast do you pay?', a: 'Standard pay is Net-30 from receipt of POD/invoice. Quick pay is available on every load. The fee is shown on your rate confirmation.' },
               { q: 'What insurance do you require?', a: 'Active MC authority, $1M auto liability, $100K cargo minimum, and current W-9. We name SFam Logistics as additional insured.' },
-              { q: 'Do you offer dedicated lanes?', a: 'Yes — we have weekly and monthly dedicated lanes available for carriers who maintain consistent service.' },
+              { q: 'Do you offer dedicated lanes?', a: 'Yes. We have weekly and monthly dedicated lanes available for carriers who maintain consistent service.' },
               { q: 'How do I get loads after I sign up?', a: 'You\'ll be added to our preferred carrier network and contacted directly for matching loads, plus invited to view our load board.' }
             ].map((f, i) => (
               <Reveal key={f.q} delay={i * 80}>

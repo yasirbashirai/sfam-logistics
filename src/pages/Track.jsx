@@ -44,7 +44,7 @@ export default function Track() {
   return (
     <>
       <PageMeta
-        title="Track Shipment — Real-Time Freight Tracking"
+        title="Track Shipment | Real-Time Freight Tracking"
         description="Track your SFam Logistics freight shipment in real time. Enter your tracking number for live status updates, or contact your operations manager directly at ops@sfamlogistics.com / 1 (888) 698-5556."
         keywords="freight tracking, shipment tracking, BOL tracking, PO tracking, load tracking, real time freight tracking, SFam Logistics tracking, ops manager"
         path="/track"
@@ -53,7 +53,7 @@ export default function Track() {
       <PageHero
         eyebrow="Track Shipment"
         title={<>Real-Time <span className="text-orange-400">Load Updates</span></>}
-        subtitle="Look up your shipment below — or talk directly to the operations manager handling your freight."
+        subtitle="Look up your shipment below, or talk directly to the operations manager handling your freight."
       />
 
       {/* ===== 1. CONTACT YOUR OPS MANAGER ===== */}
@@ -104,15 +104,15 @@ export default function Track() {
                 <div className="flex items-start gap-3">
                   <Clock className="w-5 h-5 text-orange-400 shrink-0 mt-0.5" />
                   <div>
-                    <div className="text-sm font-bold text-white">Extended Hours</div>
-                    <div className="text-xs text-white/60">Mon–Fri 7AM–5PM PST · Dispatch available extended hours for urgent freight.</div>
+                    <div className="text-sm font-bold text-white">Business Hours</div>
+                    <div className="text-xs text-white/60">Mon-Fri 7AM-5PM PT, with after-hours support for loads in transit.</div>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
                   <Headphones className="w-5 h-5 text-orange-400 shrink-0 mt-0.5" />
                   <div>
                     <div className="text-sm font-bold text-white">Direct Line</div>
-                    <div className="text-xs text-white/60">No phone trees — talk to a real person handling your freight.</div>
+                    <div className="text-xs text-white/60">No phone trees. Talk to a real person handling your freight.</div>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">

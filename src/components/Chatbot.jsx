@@ -2,17 +2,17 @@ import { useState, useRef, useEffect, useMemo } from 'react'
 import { MessageCircle, X, Send, Bot, User, Headphones } from 'lucide-react'
 
 const faqs = [
-  { q: 'How do I get a quote?', a: 'Click "Request a Quote" in the menu or visit our quote page. Tell us your pickup and delivery locations, shipping date, freight type, and contact info — or email your shipment details to quotes@sfamlogistics.com. Most quotes are returned within 30 minutes during business hours (Mon–Fri, 7AM–5PM PST). After hours? We\'ll respond first thing the next business day.' },
-  { q: 'How can I become a carrier?', a: 'Visit our Become a Carrier Partner page to submit your application. You\'ll need your MC number, DOT number, Certificate of Insurance, W-9, and a photo of your truck. Our team verifies your authority and insurance, and most carriers are approved within 24 hours.' },
+  { q: 'How do I get a quote?', a: 'Click "Request a Quote" in the menu or visit our quote page. Tell us your pickup and delivery locations, shipping date, freight type, and contact info, or email your shipment details to quotes@sfamlogistics.com. Most quotes are returned within 30 minutes during business hours (Mon–Fri, 7AM–5PM PT). After hours? We\'ll respond first thing the next business day.' },
+  { q: 'How can I become a carrier?', a: 'Visit our Become a Carrier Partner page to submit your application. You\'ll need your MC number, DOT number, Certificate of Insurance, W-9, and a photo of your truck. Our team verifies your authority and insurance, and carriers are approved as soon as your MC, USDOT, insurance, and all other vetting requirements have been verified.' },
   { q: 'Do you hire freight agents?', a: 'Yes! We are actively recruiting independent freight agents. We offer competitive commission splits (up to 75%), full back-office support, TMS access through AscendTMS, and weekly commission pay. Visit our Agent Opportunities page to apply.' },
   { q: 'What areas do you cover?', a: 'Our main focus is the Pacific Northwest. We help move freight into, out of, and within the Pacific Northwest, and we also work with shippers on nationwide shipments.' },
   { q: 'What freight types do you handle?', a: 'We specialize in produce, refrigerated, and dry van freight. Need to move another type of freight? Send us the details through our quote form so we can review transportation options.' },
-  { q: 'How fast do you pay carriers?', a: 'Standard payment is Net-30 from receipt of POD and invoice. We also offer quick-pay options — same-day or 48-hour funding through our factoring partner OTR Solutions for a small discount. We believe drivers deserve to be paid promptly.' },
+  { q: 'How fast do you pay carriers?', a: 'Standard payment is Net-30 from receipt of POD and invoice. We also offer quick pay on every load through our factoring partner OTR Solutions. The fee is shown on your rate confirmation. We believe drivers deserve to be paid promptly.' },
   { q: 'What is your MC and USDOT number?', a: 'Our Docket/MC Number is 1810116 and our USDOT Number is 4555943. We are a fully licensed, FMCSA-authorized property broker with BMC-84 bond coverage.' },
-  { q: 'Do you offer same-day pay?', a: 'Yes! We offer same-day pay options through our factoring partner OTR Solutions. Quick-pay is available on every load so carriers can get paid in days, not weeks.' },
-  { q: 'What are your business hours?', a: 'Our office hours are Monday through Friday, 7:00 AM to 5:00 PM PST. However, our dispatch team is available 24/7 for active loads, hot loads, and emergency capacity needs. For urgent freight, call us at 1 (888) 698-5556.' },
+  { q: 'Do you offer quick pay?', a: 'Yes! Quick pay is available on every load through our factoring partner OTR Solutions. The fee is shown on your rate confirmation.' },
+  { q: 'What are your business hours?', a: 'Our office hours are Monday through Friday, 7:00 AM to 5:00 PM PT, with after-hours support for loads in transit. For urgent freight, call us at 1 (888) 698-5556.' },
   { q: 'Where are you located?', a: 'We have two locations: 22722 29th Drive SE, Suite 100, Bothell, WA 98021 and 10220 3rd Avenue SE, Everett, WA 98208. Our main focus is the Pacific Northwest, and we also support nationwide shipments.' },
-  { q: 'Do you offer cargo insurance?', a: 'Yes — all carriers in our network carry cargo insurance and we require a minimum of $100K cargo coverage and $1M auto liability. We name our shippers as additional insured on file for added protection.' },
+  { q: 'Do you offer cargo insurance?', a: 'Yes, all carriers in our network carry cargo insurance and we require a minimum of $100K cargo coverage and $1M auto liability. We name our shippers as additional insured on file for added protection.' },
   { q: 'How do I track my shipment?', a: 'Visit our Track Shipment page and enter your load reference number, BOL, or PO number. You\'ll get real-time status updates from pickup to delivery. You can also call our dispatch team for live updates at 1 (888) 698-5556.' }
 ]
 
@@ -70,7 +70,7 @@ export default function Chatbot() {
   const persisted = typeof window !== 'undefined' ? loadChatState() : null
   const [open, setOpen] = useState(false)
   const [messages, setMessages] = useState(persisted?.messages || [
-    { from: 'bot', text: 'Hi! I\'m the SFam assistant. Ask me anything — type a topic like "quote", "carrier", "tracking", or "live agent" to get started.' }
+    { from: 'bot', text: 'Hi! I\'m the SFam assistant. Ask me anything. Type a topic like "quote", "carrier", "tracking", or "live agent" to get started.' }
   ])
   const [input, setInput] = useState('')
   const [conversationId, setConversationId] = useState(persisted?.conversationId || null)
@@ -201,7 +201,7 @@ export default function Chatbot() {
     const wantsLive = ['live agent', 'human', 'real person', 'speak to', 'talk to', 'call me', 'live support'].some(k => lower.includes(k))
 
     if (wantsLive) {
-      setMessages(m => [...m, { from: 'bot', text: 'I can connect you with a live agent. Please share your name and email so we can reach back out — and a team member will join this chat shortly.' }])
+      setMessages(m => [...m, { from: 'bot', text: 'I can connect you with a live agent. Please share your name and email so we can reach back out, and a team member will join this chat shortly.' }])
       setShowLiveAgentForm(true)
       return
     }
@@ -210,7 +210,7 @@ export default function Chatbot() {
     if (idx !== null) {
       setMessages(m => [...m, { from: 'bot', text: faqs[idx].a }])
     } else {
-      setMessages(m => [...m, { from: 'bot', text: 'I don\'t have an exact answer for that yet. A live team member can help — type "live agent" to request one, call 1 (888) 698-5556, or email info@sfamlogistics.com.' }])
+      setMessages(m => [...m, { from: 'bot', text: 'I don\'t have an exact answer for that yet. A live team member can help. Type "live agent" to request one, call 1 (888) 698-5556, or email info@sfamlogistics.com.' }])
     }
   }
 
@@ -242,7 +242,7 @@ export default function Chatbot() {
       // Backend unreachable — give the visitor a direct path
       setMessages(m => [
         ...m,
-        { from: 'bot', text: `Thanks ${liveAgentName}! We had trouble notifying our team automatically. Please call us directly at 1 (888) 698-5556 or email support@sfamlogistics.com — we'll respond within one business hour.` }
+        { from: 'bot', text: `Thanks ${liveAgentName}! We had trouble notifying our team automatically. Please call us directly at 1 (888) 698-5556 or email support@sfamlogistics.com. We'll respond within one business hour.` }
       ])
     }
     setShowLiveAgentForm(false)
@@ -312,7 +312,7 @@ export default function Chatbot() {
                     {faqs[idx].q}
                   </button>
                 ))}
-                <div className="text-[10px] text-white/40 pl-8 pt-1">Or type a topic — I&apos;ll suggest more as you go.</div>
+                <div className="text-[10px] text-white/40 pl-8 pt-1">Or type a topic. I&apos;ll suggest more as you go.</div>
               </div>
             )}
 

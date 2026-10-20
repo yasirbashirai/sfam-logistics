@@ -29,7 +29,7 @@ export default function Services() {
       />
       <PageHero eyebrow="Logistics Services" title={<>Produce, Refrigerated &amp; Dry Van <span className="text-orange-400">Freight Brokerage</span></>} subtitle="We focus on produce, refrigerated, and dry van freight in the Pacific Northwest. We also support nationwide shipments and review other freight needs." image={IMG.heroHighway} />
 
-      {/* ===== 1. MAIN SERVICES — produce, refrigerated, dry van, other ===== */}
+      {/* ===== 1. MAIN SERVICES: produce, refrigerated, dry van, other ===== */}
       <section className="section">
         <Orbs />
         <div className="container-x relative">
@@ -75,7 +75,7 @@ export default function Services() {
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
               { i: ShieldCheck, t: 'Vetted Carriers', d: 'Authority, insurance & safety scores verified before every load.' },
-              { i: Clock, t: '24/7 Dispatch', d: 'Real humans, every hour. No phone trees, no missed calls.' },
+              { i: Clock, t: 'After-Hours Support', d: 'Mon-Fri 7AM-5PM PT, with after-hours support for loads in transit. No phone trees.' },
               { i: CheckCircle2, t: 'Live Tracking', d: 'Status updates from pickup to POD on every shipment.' },
               { i: Phone, t: 'Dedicated Reps', d: 'One point of contact per shipper. They know your freight.' }
             ].map(({ i: Icon, t, d }, idx) => (

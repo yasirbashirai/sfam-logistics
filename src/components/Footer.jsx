@@ -1,7 +1,26 @@
 import { Link } from 'react-router-dom'
-import { Facebook, Instagram, Twitter, Linkedin, Mail, Phone, MapPin, ArrowRight, Send } from 'lucide-react'
+import { Facebook, Instagram, Linkedin, Mail, Phone, MapPin, ArrowRight, Send } from 'lucide-react'
 import { useState } from 'react'
-import { company, services, termsPdf } from '../data/site.js'
+import { company, termsPdf } from '../data/site.js'
+import { quoteLink } from './FocusServices.jsx'
+
+// X (formerly Twitter) logo. lucide-react only ships the old bird icon.
+const XLogo = ({ className = '' }) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
+    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+  </svg>
+)
+
+// Footer service list: the three main services first, then the other freight options.
+const footerServices = [
+  ['Produce Freight', quoteLink('Produce')],
+  ['Refrigerated (Reefer)', '/services/reefer'],
+  ['Dry Van', quoteLink('Dry Van')],
+  ['Full Truckload (FTL)', '/services/full-truckload'],
+  ['Less-Than-Truckload (LTL)', '/services/less-than-truckload'],
+  ['Flatbed', '/services/flatbed'],
+  ['Expedited', '/services/expedited']
+]
 import { useSubmissions } from '../context/SubmissionsContext.jsx'
 
 export default function Footer() {
@@ -9,13 +28,20 @@ export default function Footer() {
   const [email, setEmail] = useState('')
   const [subbed, setSubbed] = useState(false)
   const [submitting, setSubmitting] = useState(false)
+  const [error, setError] = useState('')
 
   const subscribe = async (e) => {
     e.preventDefault()
     if (!email || submitting) return
     setSubmitting(true)
+    setError('')
     try {
-      await add('subscribers', { email, source: typeof window !== 'undefined' ? window.location.pathname : '/' })
+      // fallback:false so we only confirm once the server has actually saved the email
+      const row = await add('subscribers', { email, source: typeof window !== 'undefined' ? window.location.pathname : '/' }, { fallback: false })
+      if (!row) {
+        setError('We couldn\'t save your email right now. Please try again in a minute.')
+        return
+      }
       // Belt-and-braces: also fire the dedicated confirmation endpoint
       // (the POST handler also queues a welcome email, this is a no-op fallback)
       try {
@@ -44,7 +70,7 @@ export default function Footer() {
           <div>
             <div className="label mb-2">Stay Informed</div>
             <h3 className="font-display font-bold text-3xl">Freight insights, straight to your inbox.</h3>
-            <p className="text-white/60 mt-2 text-sm">Industry tips, rate trends, and SFam updates. No spam — ever.</p>
+            <p className="text-white/60 mt-2 text-sm">Industry tips, rate trends, and SFam updates. No spam, ever.</p>
           </div>
           <form onSubmit={subscribe} className="flex gap-3">
             <input value={email} onChange={e => setEmail(e.target.value)} className="input flex-1" placeholder="your@email.com" type="email" required disabled={subbed} />
@@ -52,6 +78,7 @@ export default function Footer() {
               {subbed ? '✓ Subscribed' : submitting ? 'Submitting...' : <>Subscribe <Send className="w-4 h-4" /></>}
             </button>
           </form>
+          {error && <p className="lg:col-start-2 -mt-4 text-sm text-red-300" role="alert">{error}</p>}
         </div>
       </div>
 
@@ -61,13 +88,13 @@ export default function Footer() {
             <Link to="/" className="flex items-center gap-3 mb-5">
               <img src="/images/sfam-logo.jpg" alt="SFam Logistics" className="w-14 h-14 rounded-xl ring-2 ring-orange-400/40" />
             </Link>
-            {/* Company slogan + service focus — shown on every page */}
+            {/* Company slogan + service focus, shown on every page */}
             <p className="font-display italic font-bold text-orange-300 text-base mb-2">{company.slogan}</p>
             <p className="text-white/70 text-sm leading-relaxed mb-3">{company.serviceText}</p>
             <p className="text-white/50 text-xs leading-relaxed italic">&ldquo;{company.tagline}&rdquo;</p>
             <div className="flex gap-3 mt-5">
               <a href={company.social.facebook} target="_blank" rel="noopener noreferrer" className="w-10 h-10 grid place-items-center rounded-full bg-white/5 border border-white/10 hover:bg-orange-400 hover:border-orange-400 hover:text-brand-navy transition" aria-label="Facebook"><Facebook className="w-4 h-4" /></a>
-              <a href={company.social.twitter} target="_blank" rel="noopener noreferrer" className="w-10 h-10 grid place-items-center rounded-full bg-white/5 border border-white/10 hover:bg-orange-400 hover:border-orange-400 hover:text-brand-navy transition" aria-label="X"><Twitter className="w-4 h-4" /></a>
+              <a href={company.social.twitter} target="_blank" rel="noopener noreferrer" className="w-10 h-10 grid place-items-center rounded-full bg-white/5 border border-white/10 hover:bg-orange-400 hover:border-orange-400 hover:text-brand-navy transition" aria-label="X"><XLogo className="w-3.5 h-3.5" /></a>
               <a href={company.social.instagram} target="_blank" rel="noopener noreferrer" className="w-10 h-10 grid place-items-center rounded-full bg-white/5 border border-white/10 hover:bg-orange-400 hover:border-orange-400 hover:text-brand-navy transition" aria-label="Instagram"><Instagram className="w-4 h-4" /></a>
               <a href={company.social.linkedin} target="_blank" rel="noopener noreferrer" className="w-10 h-10 grid place-items-center rounded-full bg-white/5 border border-white/10 hover:bg-orange-400 hover:border-orange-400 hover:text-brand-navy transition" aria-label="LinkedIn"><Linkedin className="w-4 h-4" /></a>
             </div>
@@ -85,8 +112,8 @@ export default function Footer() {
           <div>
             <h4 className="label mb-5">Our Services</h4>
             <ul className="space-y-3 text-white/70 text-sm">
-              {services.slice(0,6).map(s => (
-                <li key={s.slug}><Link to={`/services/${s.slug}`} className="hover:text-orange-300 inline-flex items-center gap-2 group"><ArrowRight className="w-3 h-3 opacity-0 -ml-5 group-hover:opacity-100 group-hover:ml-0 transition-all text-orange-400" /> {s.name}</Link></li>
+              {footerServices.map(([label, to]) => (
+                <li key={label}><Link to={to} className="hover:text-orange-300 inline-flex items-center gap-2 group"><ArrowRight className="w-3 h-3 opacity-0 -ml-5 group-hover:opacity-100 group-hover:ml-0 transition-all text-orange-400" /> {label}</Link></li>
               ))}
             </ul>
           </div>

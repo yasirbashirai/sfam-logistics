@@ -24,14 +24,14 @@ const SEED = {
       avatar: null,
       rating: 5,
       text: 'Worked with Sulley at SFam Logistics on a load out of Washington. I was skeptical at first because they seem to be new and as we all know, new brokers turns not to know what they are doing but Dude actually knows trucking. Not your typical broker who’s never been in a truck. Rates were fair, no surprises on the back end, and he kept communication tight from pickup to delivery. He promised payment on delivery with no charge and he kept his promise. Refreshing to work with a broker who respects carriers and keep their promise. Will keep using them.',
-      time: '2 weeks ago'
+      time: 'July 2026'
     },
     {
       author: 'Qwame Boafo Flyboi',
       avatar: null,
       rating: 5,
       text: '',
-      time: '2 weeks ago'
+      time: 'July 2026'
     }
   ]
 }
@@ -141,7 +141,7 @@ export default function GoogleReviews() {
           <Reveal delay={100}>
             <p className="text-white/70 text-center max-w-xl mx-auto mb-8 text-sm leading-relaxed">
               We&apos;re proud of the relationships we build with every shipper and carrier.
-              Read what they say about working with us — straight from our Google Business Profile.
+              Read what they say about working with us, straight from our Google Business Profile.
             </p>
           </Reveal>
         )}

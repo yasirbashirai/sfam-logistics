@@ -90,7 +90,7 @@ export default function USAMap() {
             <animate attributeName="r" from="14" to="32" dur="2s" repeatCount="indefinite" />
             <animate attributeName="opacity" from="1" to="0" dur="2s" repeatCount="indefinite" />
           </circle>
-          <text x={HQ.x + 18} y={HQ.y - 6} fill="#f5a623" fontSize="11" fontWeight="900" fontStyle="italic">SFAM HQ</text>
+          <text x={HQ.x + 18} y={HQ.y - 6} fill="#f5a623" fontSize="11" fontWeight="900" fontStyle="italic">SFam HQ</text>
           <text x={HQ.x + 18} y={HQ.y + 8} fill="#fff" fontSize="9" opacity="0.7">Bothell, WA</text>
         </g>
 

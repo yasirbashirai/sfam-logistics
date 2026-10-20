@@ -11,7 +11,7 @@ const agentJsonLd = [
   {
     '@context': 'https://schema.org',
     '@type': 'JobPosting',
-    title: 'Independent Freight Agent — Up to 75% Commission Splits',
+    title: 'Independent Freight Agent | Up to 75% Commission Splits',
     description: 'Join SFam Logistics as an independent freight agent. Up to 75% commission splits, weekly pay, full back-office support, AscendTMS access, and complete autonomy over your book of business.',
     datePosted: '2026-01-01',
     validThrough: '2027-12-31',
@@ -90,7 +90,7 @@ export default function AgentOpportunities() {
   return (
     <>
       <PageMeta
-        title="Independent Freight Agent Opportunities — Up To 75% Commission"
+        title="Independent Freight Agent Opportunities | Up To 75% Commission"
         description="Join SFam Logistics as an independent freight agent. Up to 75% commission splits, weekly pay, AscendTMS access, full back-office support, and complete autonomy over your book of business."
         keywords="independent freight agent, freight agent jobs, freight agent commission, 1099 freight agent, work from home freight agent, freight agent opportunities, freight broker agent, freight agent program, AscendTMS, freight agent recruitment"
         path="/agent-opportunities"
@@ -114,15 +114,14 @@ export default function AgentOpportunities() {
                 <div className="text-4xl font-display italic font-black">Up to 75%</div>
                 <div className="text-lg font-bold uppercase tracking-wider">Commissions</div>
               </div>
-              <p className="text-white/75 mt-4 text-sm max-w-lg mx-auto">We pay commissions weekly even if your customer doesn&apos;t pay us.</p>
             </div>
           </Reveal>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {[
-              { i: DollarSign, t: 'Top Splits', d: 'Industry-leading commission splits — keep more of what you earn.' },
-              { i: Briefcase, t: 'Full Back Office', d: 'Carrier vetting, billing, collections, claims — all handled for you.' },
+              { i: DollarSign, t: 'Top Splits', d: 'Industry-leading commission splits. Keep more of what you earn.' },
+              { i: Briefcase, t: 'Full Back Office', d: 'Carrier vetting, billing, collections, claims, all handled for you.' },
               { i: TrendingUp, t: 'Modern Tech', d: 'TMS, load board access, automated rate confirmations.' },
-              { i: Users, t: 'Real Support', d: 'Dedicated agent success team. You\'re never alone.' }
+              { i: Users, t: 'Real Support', d: 'Direct access to SFam leadership. You\'re never alone.' }
             ].map(({ i: Icon, t, d }, idx) => (
               <Reveal key={t} delay={idx * 80}>
                 <div className="bg-white/[0.05] border border-white/15 rounded-xl p-5 hover:border-orange-400/40 transition h-full">
@@ -144,9 +143,9 @@ export default function AgentOpportunities() {
               <div className="badge mb-3">Earn What You&apos;re Worth</div>
               <h2 className="font-display italic font-black text-3xl mb-4">No Cap. <span className="text-orange-400">No Territory Limits.</span></h2>
               <div className="divider-glow w-24 mb-4" />
-              <p className="text-white/70 mb-6">Top SFam agents are earning six figures — and we&apos;re just getting started. Bring your book, your work ethic, and your relationships. We&apos;ll bring the carriers, the tech, and the back office.</p>
+              <p className="text-white/70 mb-6">Bring your book, your work ethic, and your relationships. We&apos;ll bring the carriers, the tech, and the back office.</p>
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-                {[['Up to 75%', 'Commission Split'], ['Weekly', 'Pay Guaranteed'], ['$0', 'Setup Cost'], ['Open', 'Territory']].map(([n, l]) => (
+                {[['Up to 75%', 'Commission Split'], ['Weekly', 'Commission Pay'], ['$0', 'Setup Cost'], ['Open', 'Territory']].map(([n, l]) => (
                   <div key={l} className="bg-white/[0.06] border border-white/10 rounded-xl p-4 text-center">
                     <div className="text-xl font-display italic font-black text-orange-400">{n}</div>
                     <div className="text-[9px] text-white/60 uppercase tracking-widest mt-1 font-bold">{l}</div>
@@ -233,7 +232,7 @@ export default function AgentOpportunities() {
                 </label>
               </div>
               <button type="submit" disabled={submitting} className="w-full py-3 rounded-full bg-gradient-to-r from-orange-400 to-orange-500 text-white font-bold text-sm uppercase tracking-wider hover:-translate-y-0.5 transition disabled:opacity-50">{submitting ? 'Submitting...' : <>Submit Application</>}</button>
-              <p className="text-xs text-center text-white/40">By submitting, you confirm you are applying as an independent contractor — not an employee.</p>
+              <p className="text-xs text-center text-white/40">By submitting, you confirm you are applying as an independent contractor, not an employee.</p>
             </form>
 
             <aside className="space-y-4">
