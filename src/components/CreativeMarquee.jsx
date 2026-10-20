@@ -1,17 +1,19 @@
-// Single minimal marquee line — clean, professional, one row
+// Single minimal marquee line: clean, professional, one row
 import { ShieldCheck, FileCheck, Award, Clock, Truck, Star, Globe, DollarSign, Heart, Gauge } from 'lucide-react'
 
 const items = [
+  // Slogan keeps its own casing so the brand name reads "SFam", not "SFAM"
+  { i: Heart, t: 'SFam - Stronger Together, Family Forever', keepCase: true },
   { i: ShieldCheck, t: 'FMCSA Licensed' },
   { i: FileCheck, t: 'BMC-84 Bonded' },
   { i: Award, t: 'Cargo Insured' },
-  { i: Clock, t: '24/7 Dispatch' },
+  { i: Clock, t: 'After-Hours Support' },
   { i: Truck, t: 'Driver Built' },
-  { i: DollarSign, t: 'Same-Day Pay' },
+  { i: DollarSign, t: 'Quick Pay' },
   { i: Globe, t: 'Pacific Northwest Focus' },
   { i: Truck, t: 'Produce · Reefer · Dry Van' },
   { i: Globe, t: 'Nationwide Support' },
-  { i: Heart, t: '10+ Years on the Road' },
+  { i: Award, t: '10 Years Carrier-Side Experience' },
   { i: Star, t: 'MC 1810116' },
   { i: Gauge, t: 'USDOT 4555943' }
 ]
@@ -27,7 +29,7 @@ export default function CreativeMarquee() {
             {items.map((it, i) => (
               <div key={i} className="flex items-center gap-3 shrink-0">
                 <it.i className="w-4 h-4 text-orange-400" />
-                <span className="text-xs sm:text-sm font-bold text-white/70 uppercase tracking-[0.2em]">{it.t}</span>
+                <span className={`text-xs sm:text-sm font-bold ${it.keepCase ? 'text-orange-300 tracking-[0.12em]' : 'text-white/70 uppercase tracking-[0.2em]'}`}>{it.t}</span>
                 <span className="w-1 h-1 rounded-full bg-orange-400/60" />
               </div>
             ))}

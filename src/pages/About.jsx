@@ -22,14 +22,14 @@ export default function About() {
   return (
     <>
       <PageMeta
-        title="About Us — Driver-Owned Freight Brokerage Since 2014"
-        description="SFAM Logistics is a freight brokerage focused on produce, refrigerated, and dry van transportation, with a Pacific Northwest focus and nationwide shippers. Built on over a decade of Class A CDL experience. FMCSA authorized, MC 1810116, USDOT 4555943."
+        title="About Us | Driver-Owned Freight Brokerage"
+        description="SFam Logistics is a freight brokerage focused on produce, refrigerated, and dry van transportation, with a Pacific Northwest focus and nationwide shippers. Built on a decade of Class A CDL experience. FMCSA authorized, MC 1810116, USDOT 4555943."
         keywords="about SFam Logistics, freight brokerage company, driver-owned freight broker, Bothell freight broker, Washington freight company, FMCSA authorized broker, freight brokerage history"
         path="/about"
         type="website"
         jsonLd={aboutJsonLd}
       />
-      <PageHero eyebrow="About Us" title={<>Built On Experience. <span className="text-orange-400">Designed For Excellence.</span></>} subtitle="SFAM Logistics LLC was founded with a clear purpose: to elevate the standard of freight brokerage." />
+      <PageHero eyebrow="About Us" title={<>About <span className="text-orange-400">SFam Logistics</span></>} subtitle="A Pacific Northwest freight brokerage built on carrier-side experience." />
 
       {/* ===== 1. OUR STORY ===== */}
       <section className="section-light">
@@ -40,12 +40,12 @@ export default function About() {
             <p className="font-display italic font-bold text-orange-400 text-lg mb-4">{company.slogan}</p>
             <div className="h-0.5 w-24 bg-gradient-to-r from-orange-400 to-transparent mb-5" />
             <div className="space-y-4 text-white/80 leading-relaxed">
-              <p className="text-white/90 font-medium">SFAM Logistics is a freight brokerage focused on produce, refrigerated, and dry van transportation. Our main regional focus is the Pacific Northwest. We also work with shippers nationwide.</p>
-              <p>SFAM Logistics LLC was founded with a clear purpose: to elevate the standard of freight brokerage.</p>
-              <p>Our foundation is built on over a decade of real-industry experience behind the wheel as a Class A CDL truck driver. This perspective provides a rare advantage in an industry where critical decisions are often made far from the realities of the road.</p>
-              <p>SFAM Logistics LLC is a licensed, FMCSA-authorized freight brokerage. We are a privately held organization, strategically structured for long-term growth, operational stability, and disciplined execution.</p>
+              <p className="text-white/90 font-medium">SFam Logistics is a freight brokerage focused on produce, refrigerated, and dry van transportation. Our main regional focus is the Pacific Northwest. We also work with shippers nationwide.</p>
+              <p>SFam Logistics LLC was founded with a clear purpose: to elevate the standard of freight brokerage.</p>
+              <p>Our foundation is built on a decade of real-industry experience behind the wheel as a Class A CDL truck driver. This perspective provides a rare advantage in an industry where critical decisions are often made far from the realities of the road.</p>
+              <p>SFam Logistics LLC is a licensed, FMCSA-authorized freight brokerage. We are a privately held organization, strategically structured for long-term growth, operational stability, and disciplined execution.</p>
               <p>We approach logistics with precision and intention. Every load, every lane, and every relationship is managed with a focus on reliability, efficiency, and accountability.</p>
-              <p>Our model is built for the future — combining strong brokerage operations today with a clear path toward asset-based capabilities. The result is a logistics partner positioned to deliver consistency at scale without compromising service quality.</p>
+              <p>Our model is built for the future, combining strong brokerage operations today with a clear path toward asset-based capabilities. The result is a logistics partner positioned to deliver consistency at scale without compromising service quality.</p>
               <p className="text-orange-600 font-semibold italic">What started in the cab of a truck is now building toward something much greater.</p>
             </div>
           </Reveal>
@@ -61,9 +61,9 @@ export default function About() {
               <h2 className="font-display italic font-black text-3xl mb-4">A Higher Standard of <span className="text-orange-400">Freight Management</span></h2>
               <div className="divider-glow w-24 mb-5" />
               <div className="space-y-3 text-white/75 leading-relaxed">
-                <p>At SFAM Logistics LLC, we understand that your freight is more than a shipment — it is a critical component of your business performance.</p>
+                <p>At SFam Logistics LLC, we understand that your freight is more than a shipment. It is a critical component of your business performance.</p>
                 <p>We provide tailored logistics solutions designed to ensure consistency, visibility, and execution at the highest level. Our approach prioritizes proactive communication, realistic scheduling, and disciplined carrier selection to minimize disruption and maximize reliability.</p>
-                <p>What sets us apart is perspective. We understand how decisions made at the brokerage level impact real-world execution, and we manage every load accordingly — with precision and accountability.</p>
+                <p>What sets us apart is perspective. We understand how decisions made at the brokerage level impact real-world execution, and we manage every load accordingly, with precision and accountability.</p>
               </div>
               <div className="mt-6">
                 <h3 className="font-display italic font-bold text-lg text-orange-400 mb-3">What You Can Expect</h3>
@@ -81,7 +81,7 @@ export default function About() {
                   ))}
                 </div>
               </div>
-              <p className="text-white/75 mt-5 font-semibold italic">We are not simply moving freight — we are protecting your timelines, your reputation, and your bottom line.</p>
+              <p className="text-white/75 mt-5 font-semibold italic">We are not simply moving freight. We are protecting your timelines, your reputation, and your bottom line.</p>
             </div>
           </Reveal>
         </div>
@@ -96,8 +96,8 @@ export default function About() {
               <h2 className="font-display italic font-black text-3xl mb-4 text-white">Built by a Driver. <span className="text-orange-500">Designed for Your Success.</span></h2>
               <div className="h-0.5 w-24 bg-gradient-to-r from-orange-400 to-transparent mb-5" />
               <div className="space-y-3 text-white/80 leading-relaxed">
-                <p>SFAM Logistics LLC was built with a deep understanding of what it means to be on the road.</p>
-                <p>We recognize the challenges carriers face because we have experienced them firsthand. That insight shapes how we operate — prioritizing fairness, transparency, and respect in every interaction.</p>
+                <p>SFam Logistics LLC was built with a deep understanding of what it means to be on the road.</p>
+                <p>We recognize the challenges carriers face because we have experienced them firsthand. That insight shapes how we operate, prioritizing fairness, transparency, and respect in every interaction.</p>
                 <p>We work with carriers who value professionalism and consistency, and in return, we provide clear expectations, responsive communication, and dependable freight opportunities.</p>
               </div>
               <div className="mt-6">
@@ -107,7 +107,7 @@ export default function About() {
                     'Realistic pickup and delivery schedules',
                     'Transparent load details with no last-minute surprises',
                     'Prompt communication and professional support',
-                    'Long-term working relationships — not transactional exchanges'
+                    'Long-term working relationships, not transactional exchanges'
                   ].map(item => (
                     <div key={item} className="flex gap-2 items-start">
                       <CheckCircle2 className="w-4 h-4 text-orange-500 shrink-0 mt-0.5" />
@@ -137,7 +137,7 @@ export default function About() {
               <div className="bg-white/[0.06] backdrop-blur-xl border border-white/10 rounded-xl p-6 h-full hover:border-orange-400/40 transition">
                 <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-orange-400 to-orange-600 grid place-items-center mb-4"><Target className="w-5 h-5 text-white" /></div>
                 <h3 className="font-display italic font-black text-lg mb-2">Our Mission</h3>
-                <p className="text-white/70 leading-relaxed text-sm">To deliver freight solutions with precision, accountability, and respect — setting a higher standard for service across the logistics industry.</p>
+                <p className="text-white/70 leading-relaxed text-sm">To deliver freight solutions with precision, accountability, and respect, setting a higher standard for service across the logistics industry.</p>
               </div>
             </Reveal>
             <Reveal delay={200}>
@@ -186,9 +186,9 @@ export default function About() {
           <div className="relative">
             <div className="absolute left-6 top-0 bottom-0 w-0.5 bg-gradient-to-b from-orange-500 via-orange-400/40 to-transparent" />
             {[
-              { y: '2016', t: 'Class A CDL — began driving professionally', d: 'Years on the road taught us how the industry really works — and where it falls short.' },
+              { y: '2016', t: 'Class A CDL: began driving professionally', d: 'Years on the road taught us how the industry really works, and where it falls short.' },
               { y: '2023', t: 'Transitioned into dispatch operations', d: 'Translated road experience into operations. Saw both sides of every load.' },
-              { y: '2026', t: 'Launched SFam Logistics LLC — FMCSA MC# 1810116', d: 'Launched a brokerage built on the values we wished existed when we drove.' }
+              { y: '2026', t: 'Launched SFam Logistics LLC, FMCSA MC# 1810116', d: 'Launched a brokerage built on the values we wished existed when we drove.' }
             ].map((m, i) => (
               <Reveal key={m.y} delay={i * 120}>
                 <div className="relative pl-20 pb-8 last:pb-0">
@@ -259,7 +259,7 @@ export default function About() {
         <div className="container-x max-w-3xl">
           <div className="bg-white/[0.05] border border-white/15 rounded-2xl p-10 text-center">
             <h2 className="font-display italic font-black text-2xl mb-3 text-white">Want to <span className="text-orange-500">Work With Us?</span></h2>
-            <p className="text-white/75 mb-6 max-w-xl mx-auto text-sm">Whether you&apos;re a shipper, carrier, or freight agent — we&apos;d love to hear from you.</p>
+            <p className="text-white/75 mb-6 max-w-xl mx-auto text-sm">Whether you&apos;re a shipper, carrier, or freight agent, we&apos;d love to hear from you.</p>
             <div className="flex flex-wrap gap-3 justify-center">
               <Link to="/quote" className="inline-flex items-center gap-2 px-7 py-3 rounded-full bg-gradient-to-r from-orange-400 to-orange-500 text-brand-navy font-bold text-sm uppercase tracking-wider hover:-translate-y-0.5 transition">Request a Quote <ArrowRight className="w-4 h-4" /></Link>
               <Link to="/contact" className="inline-flex items-center gap-2 px-7 py-3 rounded-full border-2 border-white/30 text-white text-sm font-bold uppercase tracking-wider hover:bg-orange-400 hover:text-brand-navy transition">Contact Us</Link>

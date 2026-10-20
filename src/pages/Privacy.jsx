@@ -6,7 +6,7 @@ export default function Privacy() {
     <>
       <PageMeta
         title="Privacy Policy"
-        description="SFam Logistics LLC privacy policy — how we collect, use, store, and protect your personal information. FMCSA-authorized freight brokerage operating under MC 1810116 and USDOT 4555943."
+        description="SFam Logistics LLC privacy policy: how we collect, use, store, and protect your personal information. FMCSA-authorized freight brokerage operating under MC 1810116 and USDOT 4555943."
         path="/privacy"
       />
       <PageHero eyebrow="Legal" title="Privacy Policy" subtitle="How SFam Logistics LLC collects, uses, and protects your information." />
@@ -42,7 +42,7 @@ export default function Privacy() {
           <p>We do not sell, rent, trade, or otherwise transfer your personal information to third parties for marketing or commercial purposes.</p>
 
           <h2 className="text-2xl font-display font-bold text-white mt-6">3. Document Storage and Security</h2>
-          <p>Documents uploaded through our website or submitted directly to SFam — including insurance certificates, W-9 forms, MC authority documents, and related files — are stored securely through our transportation management and administrative systems. Access to stored documents is restricted exclusively to authorized SFam Logistics LLC personnel. We implement reasonable technical and administrative safeguards to protect your information against unauthorized access, disclosure, alteration, or destruction.</p>
+          <p>Documents uploaded through our website or submitted directly to SFam, including insurance certificates, W-9 forms, MC authority documents, and related files, are stored securely through our transportation management and administrative systems. Access to stored documents is restricted exclusively to authorized SFam Logistics LLC personnel. We implement reasonable technical and administrative safeguards to protect your information against unauthorized access, disclosure, alteration, or destruction.</p>
 
           <h2 className="text-2xl font-display font-bold text-white mt-6">4. Cookies and Analytics</h2>
           <p>Our website may use cookies and third-party analytics tools to understand how visitors interact with our site and to improve site performance and user experience. Cookies are small data files stored on your device. You may disable cookies through your browser settings; however, doing so may affect certain functionality of our website.</p>

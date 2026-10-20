@@ -47,13 +47,13 @@ export default function Contact() {
   return (
     <>
       <PageMeta
-        title="Contact SFam Logistics — 1 (888) 698-5556 · Bothell, WA"
-        description="Contact SFam Logistics LLC — toll-free 1 (888) 698-5556, info@sfamlogistics.com. Headquartered at 22722 29th Drive SE, Suite 100, Bothell, WA 98021. Office hours Mon-Fri 7AM-5PM PST. 24/7 dispatch for active loads."
+        title="Contact SFam Logistics | 1 (888) 698-5556 · Bothell, WA"
+        description="Contact SFam Logistics LLC, toll-free 1 (888) 698-5556, info@sfamlogistics.com. Headquartered at 22722 29th Drive SE, Suite 100, Bothell, WA 98021. Office hours Mon-Fri 7AM-5PM PT, with after-hours support for loads in transit."
         keywords="contact SFam Logistics, freight broker contact, freight broker phone number, Bothell freight broker contact, info@sfamlogistics.com, 1-888-698-5556, freight broker email"
         path="/contact"
         jsonLd={contactJsonLd}
       />
-      <PageHero eyebrow="Contact Us" title={<>Let&apos;s <span className="text-orange-400">Talk Freight</span></>} subtitle="Phone, email, or message form — we answer fast." image={IMG.dispatchDesk} />
+      <PageHero eyebrow="Contact Us" title={<>Let&apos;s <span className="text-orange-400">Talk Freight</span></>} subtitle="Phone, email, or message form. We answer fast." image={IMG.dispatchDesk} />
 
       {/* ===== 1. CONTACT INFO + FORM ===== */}
       <section className="section">
@@ -104,7 +104,7 @@ export default function Contact() {
         </div>
       </section>
 
-      {/* ===== 1b. FREIGHT QUOTES — quote inbox shown separately from general contact ===== */}
+      {/* ===== 1b. FREIGHT QUOTES: quote inbox shown separately from general contact ===== */}
       <section className="section pt-0">
         <div className="container-x max-w-4xl">
           <Reveal>
@@ -181,8 +181,8 @@ export default function Contact() {
           </Reveal>
           <div className="space-y-4">
             {[
-              { q: 'How fast do you respond?', a: 'During business hours (Mon–Fri, 7AM–5PM PST), we respond to web inquiries within one hour. Phone calls are answered immediately.' },
-              { q: 'Do you operate after hours?', a: 'Yes — our dispatch team is available 24/7 for active loads, hot loads, and emergency capacity needs.' }
+              { q: 'How fast do you respond?', a: 'During business hours (Mon–Fri, 7AM–5PM PT), we respond within 1 business hour. Phone calls are answered immediately.' },
+              { q: 'Do you operate after hours?', a: 'Yes. Office hours are Mon-Fri 7AM-5PM PT, with after-hours support for loads in transit.' }
             ].map((f, i) => (
               <Reveal key={f.q} delay={i * 80}>
                 <details className="glass p-6 group cursor-pointer hover:border-orange-400/40 transition">

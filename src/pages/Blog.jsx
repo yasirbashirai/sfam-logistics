@@ -6,6 +6,7 @@ import { PageHero, Orbs } from '../components/Section.jsx'
 import Reveal from '../components/Reveal.jsx'
 import { blogPosts } from '../data/site.js'
 import IMG from '../data/images.js'
+import { useSubmissions } from '../context/SubmissionsContext.jsx'
 import { breadcrumbLd, SITE_URL } from '../data/seo.js'
 
 const blogJsonLd = [
@@ -15,7 +16,7 @@ const blogJsonLd = [
     '@type': 'Blog',
     '@id': SITE_URL + '/blog#blog',
     url: SITE_URL + '/blog',
-    name: 'SFam Logistics Blog — Freight Industry Insights',
+    name: 'SFam Logistics Blog | Freight Industry Insights',
     description: 'Practical guides for shippers, carriers, and freight agents from SFam Logistics LLC.',
     publisher: { '@id': SITE_URL + '/#organization' },
     inLanguage: 'en-US',
@@ -35,35 +36,52 @@ const postImages = {
   'how-to-choose-a-freight-broker': IMG.blogShipping,
   'ftl-vs-ltl': IMG.blogIndustry,
   'carrier-onboarding-checklist': IMG.blogCarriers,
-  'becoming-a-freight-agent': IMG.teamMeeting
+  // Own photo so it never repeats the carrier-checklist card beside it
+  'becoming-a-freight-agent': '/images/services-dry-van-freight.jpg'
 }
 
 export default function Blog() {
   const [filter, setFilter] = useState('All Topics')
   const [nlEmail, setNlEmail] = useState('')
   const [nlDone, setNlDone] = useState(false)
+  const [nlSaving, setNlSaving] = useState(false)
+  const [nlError, setNlError] = useState('')
+  const { add } = useSubmissions()
 
   const featured = blogPosts[0]
   const rest = blogPosts.slice(1)
   const categories = ['All Topics', 'Shippers', 'Carriers', 'Agents', 'Industry', 'Education']
   const filtered = filter === 'All Topics' ? rest : rest.filter(p => p.tag === filter)
 
-  const handleNewsletter = (e) => {
+  // Saves to the same subscribers list as the footer form (Admin > Subscribers).
+  const handleNewsletter = async (e) => {
     e.preventDefault()
-    setNlDone(true)
-    setNlEmail('')
+    if (!nlEmail || nlSaving) return
+    setNlSaving(true)
+    setNlError('')
+    try {
+      const row = await add('subscribers', { email: nlEmail, source: '/blog' }, { fallback: false })
+      if (!row) {
+        setNlError('We couldn\'t save your email right now. Please try again in a minute.')
+        return
+      }
+      setNlDone(true)
+      setNlEmail('')
+    } finally {
+      setNlSaving(false)
+    }
   }
 
   return (
     <>
       <PageMeta
-        title="Freight Industry Insights — SFam Logistics Blog"
-        description="Practical freight industry guides from SFam Logistics. FTL vs LTL, how to choose a freight broker, carrier onboarding checklists, freight agent career paths, and more — written by people who have actually moved the load."
+        title="Freight Industry Insights | SFam Logistics Blog"
+        description="Practical freight industry guides from SFam Logistics. FTL vs LTL, how to choose a freight broker, carrier onboarding checklists, freight agent career paths, and more, written by people who have actually moved the load."
         keywords="freight blog, freight industry insights, FTL vs LTL, how to choose a freight broker, carrier onboarding, freight agent career, freight broker tips, trucking blog, logistics blog"
         path="/blog"
         jsonLd={blogJsonLd}
       />
-      <PageHero eyebrow="Blog & Resources" title={<>Insights From <span className="text-orange-400">The Road</span></>} subtitle="Practical guides for shippers, carriers, and freight agents — written by people who've actually moved the load." image={IMG.cityLights} />
+      <PageHero eyebrow="Blog & Resources" title={<>Insights From <span className="text-orange-400">The Road</span></>} subtitle="Practical guides for shippers, carriers, and freight agents, written by people who've actually moved the load." image={IMG.cityLights} />
 
       {/* ===== 1. FEATURED ===== */}
       <section className="section">
@@ -162,15 +180,16 @@ export default function Blog() {
             <div className="relative">
               <div className="badge mb-3 mx-auto">Stay Informed</div>
               <h2 className="font-display italic font-black text-2xl mb-3">Get Freight Insights <span className="text-orange-400">In Your Inbox</span></h2>
-              <p className="text-white/70 mb-6 max-w-md mx-auto text-sm">Industry tips, rate trends, and SFam updates. No spam — ever.</p>
+              <p className="text-white/70 mb-6 max-w-md mx-auto text-sm">Industry tips, rate trends, and SFam updates. No spam, ever.</p>
               {nlDone ? (
                 <div className="text-emerald-400 font-bold text-sm">Subscribed! Thanks for signing up.</div>
               ) : (
                 <form onSubmit={handleNewsletter} className="flex gap-2 max-w-sm mx-auto">
                   <input className="input flex-1 !py-2.5 text-sm" type="email" placeholder="your@email.com" value={nlEmail} onChange={e => setNlEmail(e.target.value)} required />
-                  <button type="submit" className="btn-primary !px-6 text-sm">Subscribe</button>
+                  <button type="submit" disabled={nlSaving} className="btn-primary !px-6 text-sm disabled:opacity-70">{nlSaving ? 'Saving...' : 'Subscribe'}</button>
                 </form>
               )}
+              {nlError && <p className="mt-3 text-sm text-red-300" role="alert">{nlError}</p>}
             </div>
           </div>
         </div>

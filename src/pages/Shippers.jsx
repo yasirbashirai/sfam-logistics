@@ -26,7 +26,7 @@ export default function Shippers() {
   return (
     <>
       <PageMeta
-        title="Freight Solutions for Shippers — Produce, Reefer & Dry Van"
+        title="Freight Solutions for Shippers | Produce, Reefer & Dry Van"
         description="We help shippers move produce, refrigerated, and dry van freight in the Pacific Northwest and nationwide. Request a spot quote or ask about recurring loads."
         keywords="freight broker for shippers, produce shipping, refrigerated shipping, dry van shipping, Pacific Northwest freight, spot quote, recurring freight, Washington freight broker"
         path="/shippers"

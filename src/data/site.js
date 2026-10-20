@@ -1,6 +1,6 @@
 export const company = {
   name: 'SFam Logistics LLC',
-  tagline: 'We Know the Road — Because We\'ve Been On It.',
+  tagline: 'We know the road. We\'ve driven it.',
   // Company slogan (client-approved exact wording). Kept separate from page headlines.
   slogan: 'Stronger Together, Family Forever.',
   // Short positioning line used in the footer on every page.
@@ -12,7 +12,7 @@ export const company = {
   quoteEmail: 'quotes@sfamlogistics.com',
   quoteEmailHref: 'mailto:quotes@sfamlogistics.com',
   address: '22722 29th Drive SE, Suite 100, Bothell, WA 98021 US',
-  hours: 'Mon – Fri • 7:00 AM – 5:00 PM PST',
+  hours: 'Mon – Fri • 7:00 AM – 5:00 PM PT',
   mc: '1810116',
   usdot: '4555943',
   social: {
@@ -32,13 +32,13 @@ export const termsPdf = '/terms'
 // The four main freight services shown on Home, Services and Shippers (client-approved
 // copy, in this exact order). Each links to the quote form with its freight type preselected.
 export const focusServices = [
-  { key: 'produce', name: 'Produce Freight', icon: 'Sprout', freightType: 'Produce',
+  { key: 'produce', image: '/images/services-produce-freight.jpg', name: 'Produce Freight', icon: 'Sprout', freightType: 'Produce',
     text: 'We help arrange transportation for fresh produce. Tell us your product, shipping date, and temperature requirements.' },
-  { key: 'refrigerated', name: 'Refrigerated Freight', icon: 'Snowflake', freightType: 'Refrigerated',
+  { key: 'refrigerated', image: '/images/services-refrigerated-freight.jpg', name: 'Refrigerated Freight', icon: 'Snowflake', freightType: 'Refrigerated',
     text: 'We help arrange transportation for temperature-sensitive freight. Tell us the required temperature and shipment details.' },
-  { key: 'dry-van', name: 'Dry Van Freight', icon: 'Truck', freightType: 'Dry Van',
+  { key: 'dry-van', image: '/images/services-dry-van-freight.jpg', name: 'Dry Van Freight', icon: 'Truck', freightType: 'Dry Van',
     text: 'We help arrange dry van transportation for packaged goods and palletized freight.' },
-  { key: 'other', name: 'Other Freight Needs', icon: 'Boxes', freightType: 'Other',
+  { key: 'other', image: '/images/services-other-freight-needs.jpg', name: 'Other Freight Needs', icon: 'Boxes', freightType: 'Other',
     text: 'Need to move another type of freight? Send us the details so we can review transportation options.' }
 ]
 
@@ -47,15 +47,15 @@ export const services = [
   { slug: 'full-truckload', name: 'Full Truckload (FTL)', short: 'Dedicated trailers, faster transit, single-shipment focus.', icon: 'Truck',
     long: 'When your freight needs the entire trailer, FTL is the fastest, safest, and most cost-effective option. We coordinate dry van, reefer, and flatbed FTL shipments across the United States with vetted carriers and live communication from pickup to delivery.' },
   { slug: 'less-than-truckload', name: 'Less-Than-Truckload (LTL)', short: 'Pay for the space you use. Smart freight consolidation.', icon: 'Boxes',
-    long: 'LTL is perfect for shipments between 150 and 15,000 lbs. We work with national LTL carriers to consolidate freight, reduce cost, and keep transit predictable — backed by tracking and proactive updates.' },
+    long: 'LTL is perfect for shipments between 150 and 15,000 lbs. We work with national LTL carriers to consolidate freight, reduce cost, and keep transit predictable, backed by tracking and proactive updates.' },
   { slug: 'reefer', name: 'Refrigerated (Reefer)', short: 'Temperature-controlled freight, monitored and protected.', icon: 'Snowflake',
-    long: 'Produce, pharma, frozen goods, and any temperature-sensitive load — moved with reefer-certified carriers, monitored temperatures, and clean-trailer protocols.' },
+    long: 'Produce, pharma, frozen goods, and any temperature-sensitive load, moved with reefer-certified carriers, monitored temperatures, and clean-trailer protocols.' },
   { slug: 'flatbed', name: 'Flatbed & Open Deck', short: 'Steel, machinery, building materials, oversized loads.', icon: 'PackageOpen',
-    long: 'Step decks, double drops, conestoga, and standard flatbeds — with experienced carriers who understand securement, tarping, and permitting.' },
+    long: 'Step decks, double drops, conestoga, and standard flatbeds, with experienced carriers who understand securement, tarping, and permitting.' },
   { slug: 'dedicated', name: 'Dedicated Freight', short: 'Recurring lanes, dedicated capacity, predictable cost.', icon: 'Route',
     long: 'High-volume shippers get dedicated capacity solutions: weekly lane commitments, round-trip planning, and fleet-style reliability without the asset cost.' },
   { slug: 'expedited', name: 'Expedited & Time-Critical', short: 'Hot loads, team drivers, mission-critical delivery.', icon: 'Zap',
-    long: 'Sprinter vans, straight trucks, and team drivers for shipments that absolutely cannot be late. 24/7 dispatch coverage and live load tracking.' }
+    long: 'Sprinter vans, straight trucks, and team drivers for shipments that absolutely cannot be late. After-hours support for loads in transit and live load tracking.' }
 ]
 
 export const blogPosts = [
@@ -65,11 +65,11 @@ export const blogPosts = [
 
 1. Verify Their FMCSA Authority
 
-Every legitimate freight broker must hold an active MC (Motor Carrier) number and be registered with the Federal Motor Carrier Safety Administration (FMCSA). Visit the SAFER website (safer.fmcsa.dot.gov) and look up the broker's MC or DOT number. Confirm their authority is active — not "pending" or "revoked." At SFam Logistics, our MC is 1810116 and our USDOT is 4555943. We encourage every shipper to verify before working with any broker.
+Every legitimate freight broker must hold an active MC (Motor Carrier) number and be registered with the Federal Motor Carrier Safety Administration (FMCSA). Visit the SAFER website (safer.fmcsa.dot.gov) and look up the broker's MC or DOT number. Confirm their authority is active, not "pending" or "revoked." At SFam Logistics, our MC is 1810116 and our USDOT is 4555943. We encourage every shipper to verify before working with any broker.
 
 2. Check Their Bond and Insurance
 
-Federal law requires freight brokers to carry a BMC-84 surety bond or BMC-85 trust fund of at least $75,000. This bond protects shippers and carriers if the broker fails to pay. Additionally, ask about contingent cargo insurance — this provides an extra layer of protection if a carrier's insurance falls short during a claim. Any broker who hesitates to share these details is a red flag.
+Federal law requires freight brokers to carry a BMC-84 surety bond or BMC-85 trust fund of at least $75,000. This bond protects shippers and carriers if the broker fails to pay. Additionally, ask about contingent cargo insurance. This provides an extra layer of protection if a carrier's insurance falls short during a claim. Any broker who hesitates to share these details is a red flag.
 
 3. Evaluate Their Communication Speed
 
@@ -77,19 +77,19 @@ How fast does the broker respond to your initial inquiry? The answer tells you e
 
 4. Ask About Carrier Vetting
 
-Your freight is only as safe as the carrier hauling it. Ask the broker how they vet carriers. Do they check authority age? Safety scores? Insurance certificates? Do they require a signed broker-carrier agreement? A thorough broker will verify MC authority, confirm active insurance, review CSA scores, require a W-9 for tax compliance, and even call the carrier's listed phone number to confirm identity. Freight fraud is real — MC number cloning is rampant, and a quick phone call can prevent a catastrophic loss.
+Your freight is only as safe as the carrier hauling it. Ask the broker how they vet carriers. Do they check authority age? Safety scores? Insurance certificates? Do they require a signed broker-carrier agreement? A thorough broker will verify MC authority, confirm active insurance, review CSA scores, require a W-9 for tax compliance, and even call the carrier's listed phone number to confirm identity. Freight fraud is real. MC number cloning is rampant, and a quick phone call can prevent a catastrophic loss.
 
 5. Understand Their Pricing Model
 
-Transparent pricing builds trust. Ask the broker if their quotes are all-in or if there are potential accessorial charges (detention, layover, lumper fees, fuel surcharges). A reputable broker discloses all potential costs upfront. If a quote seems too good to be true, it usually is — and you'll find out at the worst possible time, when your freight is already on the truck.
+Transparent pricing builds trust. Ask the broker if their quotes are all-in or if there are potential accessorial charges (detention, layover, lumper fees, fuel surcharges). A reputable broker discloses all potential costs upfront. If a quote seems too good to be true, it usually is, and you'll find out at the worst possible time, when your freight is already on the truck.
 
 6. Look for Industry Specialization
 
-Does the broker specialize in your freight type and lanes? A broker who primarily moves dry van loads may not be the best choice for temperature-sensitive pharmaceuticals. Similarly, a broker with deep capacity in the Midwest may struggle to find reliable carriers for Pacific Northwest lanes. Ask about their core service areas and freight types. At SFam, our founder spent over a decade behind the wheel of a Class A CDL truck — that hands-on experience means we understand the realities of every freight type we broker, from FTL and LTL to reefer, flatbed, and expedited loads.
+Does the broker specialize in your freight type and lanes? A broker who primarily moves dry van loads may not be the best choice for temperature-sensitive pharmaceuticals. Similarly, a broker with deep capacity in the Midwest may struggle to find reliable carriers for Pacific Northwest lanes. Ask about their core service areas and freight types. At SFam, our founder spent a decade behind the wheel of a Class A CDL truck. That hands-on experience means we understand the realities of every freight type we broker, from FTL and LTL to reefer, flatbed, and expedited loads.
 
 7. Check Their Technology and Tracking
 
-In 2026, real-time load tracking should be standard, not a premium feature. Ask whether the broker provides live GPS tracking, automated status updates, and digital proof of delivery (POD). These tools don't just provide peace of mind — they enable you to proactively communicate with your own customers about delivery timelines. A broker without tracking technology is operating in the past.
+In 2026, real-time load tracking should be standard, not a premium feature. Ask whether the broker provides live GPS tracking, automated status updates, and digital proof of delivery (POD). These tools don't just provide peace of mind. They enable you to proactively communicate with your own customers about delivery timelines. A broker without tracking technology is operating in the past.
 
 The Bottom Line
 
@@ -97,20 +97,20 @@ Choosing a freight broker is choosing a business partner. The right broker prote
 
 At SFam Logistics LLC, we welcome scrutiny because we know we'll pass every test. We're FMCSA authorized, BMC-84 bonded, built by drivers, and committed to setting a higher standard in freight brokerage. Request a quote today and experience the difference.` },
   { slug: 'ftl-vs-ltl', title: 'FTL vs LTL: Which One Actually Saves You Money?', date: '2026-03-12', readMin: 7, tag: 'Education',
-    excerpt: 'A practical breakdown of when full truckload beats LTL — and when it absolutely does not.',
+    excerpt: 'A practical breakdown of when full truckload beats LTL, and when it absolutely does not.',
     body: `If you ship freight regularly, you've probably faced this question: should I book a Full Truckload (FTL) or Less-Than-Truckload (LTL)? The answer isn't always obvious, and choosing wrong can cost you thousands of dollars per year. Let's break down the real economics of both options so you can make smarter shipping decisions.
 
 What Is FTL (Full Truckload)?
 
-Full Truckload means your shipment gets an entire trailer — typically a 53-foot dry van, reefer, or flatbed. The truck picks up at your location, drives directly to the destination, and delivers. No stops, no handling, no consolidation with other shippers' freight. FTL is priced per mile and is most cost-effective when your shipment weighs over 10,000 lbs or fills more than half a trailer.
+Full Truckload means your shipment gets an entire trailer, typically a 53-foot dry van, reefer, or flatbed. The truck picks up at your location, drives directly to the destination, and delivers. No stops, no handling, no consolidation with other shippers' freight. FTL is priced per mile and is most cost-effective when your shipment weighs over 10,000 lbs or fills more than half a trailer.
 
 What Is LTL (Less-Than-Truckload)?
 
-LTL shipping consolidates multiple shippers' freight onto a single trailer. You pay for the space your freight occupies — measured by weight, dimensions, and freight class. LTL is ideal for shipments between 150 lbs and 10,000 lbs that don't need an entire trailer. LTL shipments typically move through a hub-and-spoke network, which means your freight may be loaded, unloaded, and reloaded multiple times before delivery.
+LTL shipping consolidates multiple shippers' freight onto a single trailer. You pay for the space your freight occupies, measured by weight, dimensions, and freight class. LTL is ideal for shipments between 150 lbs and 10,000 lbs that don't need an entire trailer. LTL shipments typically move through a hub-and-spoke network, which means your freight may be loaded, unloaded, and reloaded multiple times before delivery.
 
 When FTL Saves You More Money
 
-Here's where conventional wisdom breaks down. Many shippers assume LTL is always cheaper for smaller loads. But once you cross certain thresholds, FTL often wins — even if you're not filling the entire trailer. Here's why:
+Here's where conventional wisdom breaks down. Many shippers assume LTL is always cheaper for smaller loads. But once you cross certain thresholds, FTL often wins, even if you're not filling the entire trailer. Here's why:
 
 Freight Class Reclassification: LTL carriers measure and weigh your freight at their terminals. If your actual dimensions or density differ from what you declared, they'll reclassify your shipment to a higher (more expensive) freight class. This can increase your bill by 30-50% after the fact.
 
@@ -118,7 +118,7 @@ Accessorial Charges: LTL quotes often exclude charges like liftgate delivery ($7
 
 The 6-Pallet Rule: Industry data consistently shows that once a shipment exceeds 6 standard pallets or approximately 8,000 lbs of dense freight, FTL pricing frequently undercuts LTL. At that volume, you're paying LTL rates for most of a trailer anyway, but without the speed and security benefits of FTL.
 
-Damage Risk: Every time LTL freight is handled — loaded, unloaded, sorted, reloaded — there's a risk of damage. FTL freight is loaded once and unloaded once. If you're shipping fragile, high-value, or sensitive goods, the damage risk alone can make FTL the smarter investment.
+Damage Risk: Every time LTL freight is handled, whether it is loaded, unloaded, sorted, or reloaded, there's a risk of damage. FTL freight is loaded once and unloaded once. If you're shipping fragile, high-value, or sensitive goods, the damage risk alone can make FTL the smarter investment.
 
 When LTL Is the Right Choice
 
@@ -136,30 +136,30 @@ The Hybrid Approach
 
 Smart shippers don't commit exclusively to FTL or LTL. They model both options for every shipment and choose based on the specific circumstances. At SFam Logistics, we quote both FTL and LTL on every request so you can see the real cost comparison side by side.
 
-Our 4-step online quote form calculates estimated rates for your specific lane, weight, and freight type — giving you the data to make the right decision every time. No guessing, no surprises.
+Our 4-step online quote form calculates estimated rates for your specific lane, weight, and freight type, giving you the data to make the right decision every time. No guessing, no surprises.
 
 The Bottom Line
 
-Don't default to LTL because your shipment "isn't a full truckload." Run the numbers. Factor in accessorials, handling risk, and transit time. You might be surprised how often FTL is the smarter move — especially once you cross that 6-pallet threshold.
+Don't default to LTL because your shipment "isn't a full truckload." Run the numbers. Factor in accessorials, handling risk, and transit time. You might be surprised how often FTL is the smarter move, especially once you cross that 6-pallet threshold.
 
 Need help deciding? Request a quote from SFam Logistics and we'll model both options for you, free of charge.` },
   { slug: 'carrier-onboarding-checklist', title: 'The Carrier Onboarding Checklist Every Broker Should Use', date: '2026-02-28', readMin: 9, tag: 'Carriers',
-    excerpt: 'A no-nonsense checklist for vetting carriers — built from years on the road.',
-    body: `Freight fraud cost the industry an estimated $800 million in 2025. Double-brokering, identity theft, and MC number cloning are at all-time highs. For freight brokers, a thorough carrier onboarding process isn't just best practice — it's essential for protecting your shippers, your reputation, and your bottom line.
+    excerpt: 'A no-nonsense checklist for vetting carriers, built from years on the road.',
+    body: `Freight fraud cost the industry an estimated $800 million in 2025. Double-brokering, identity theft, and MC number cloning are at all-time highs. For freight brokers, a thorough carrier onboarding process isn't just best practice. It's essential for protecting your shippers, your reputation, and your bottom line.
 
-At SFam Logistics, our onboarding process was built by someone who spent over a decade as a Class A CDL truck driver. That hands-on perspective means we know exactly what legitimate carriers look like — and what the red flags are. Here's the complete checklist we use, and that every broker should implement.
+At SFam Logistics, our onboarding process was built by someone who spent a decade as a Class A CDL truck driver. That hands-on perspective means we know exactly what legitimate carriers look like, and what the red flags are. Here's the complete checklist we use, and that every broker should implement.
 
 Step 1: Verify MC and DOT Authority
 
 Start with the basics. Every carrier must have an active MC (Motor Carrier) number and DOT number. Verify both on the FMCSA SAFER website (safer.fmcsa.dot.gov). Check for:
 
-- Authority Status: Must be "Active" — not "Pending," "Inactive," or "Revoked"
+- Authority Status: Must be "Active", not "Pending," "Inactive," or "Revoked"
 - Authority Age: New authorities (less than 90 days old) warrant extra scrutiny. While new carriers aren't automatically suspect, fraud rings frequently register new MC numbers
 - Operating Status: Confirm the carrier is "Authorized" for property transportation
 
 Step 2: Validate Insurance Certificates
 
-Request the carrier's Certificate of Insurance (COI) directly and verify it independently. Don't just accept a PDF the carrier sends — call the insurance company to confirm coverage is active. Minimum requirements should include:
+Request the carrier's Certificate of Insurance (COI) directly and verify it independently. Don't just accept a PDF the carrier sends. Call the insurance company to confirm coverage is active. Minimum requirements should include:
 
 - $1,000,000 Auto Liability
 - $100,000 Cargo Insurance (minimum; $250K+ preferred for high-value freight)
@@ -201,11 +201,11 @@ Carriers with scores above the intervention threshold in any category should be 
 
 Step 6: Request a Current Photo of the Truck
 
-This step catches more fraud than you'd expect. Ask the carrier to send a current photo of their truck — ideally with the DOT number visible on the door. Legitimate carriers can produce this in minutes. Fraud rings operating from overseas cannot. A carrier who refuses or makes excuses about providing a truck photo is not worth the risk.
+This step catches more fraud than you'd expect. Ask the carrier to send a current photo of their truck, ideally with the DOT number visible on the door. Legitimate carriers can produce this in minutes. Fraud rings operating from overseas cannot. A carrier who refuses or makes excuses about providing a truck photo is not worth the risk.
 
 Step 7: Call the Listed Phone Number
 
-This is the simplest and most effective fraud prevention step in the entire process. Call the phone number listed on the FMCSA registration. If it doesn't match the number the carrier is using to contact you, that's a major red flag. MC number cloning works by impersonating a legitimate carrier's identity — but the real carrier's phone number won't ring to the scammer's phone.
+This is the simplest and most effective fraud prevention step in the entire process. Call the phone number listed on the FMCSA registration. If it doesn't match the number the carrier is using to contact you, that's a major red flag. MC number cloning works by impersonating a legitimate carrier's identity, but the real carrier's phone number won't ring to the scammer's phone.
 
 Step 8: Check Online Presence and Reviews
 
@@ -233,12 +233,12 @@ Maintain a complete file for every onboarded carrier. This should include:
 - CSA/SMS report
 - Notes from verification phone call
 
-At SFam Logistics, every carrier in our network has passed this complete 10-step process. We don't cut corners because we know what's at stake — your freight, your customer's trust, and our reputation.
+At SFam Logistics, every carrier in our network has passed this complete 10-step process. We don't cut corners because we know what's at stake, your freight, your customer's trust, and our reputation.
 
-Ready to haul for a broker that does it right? Visit our Carrier Onboarding page and apply today. Most applications are approved within 24 hours.` },
+Ready to haul for a broker that does it right? Visit our Carrier Onboarding page and apply today. Applications are approved as soon as your MC, USDOT, insurance, and all other vetting requirements have been verified.` },
   { slug: 'becoming-a-freight-agent', title: 'Becoming an Independent Freight Agent: What to Expect', date: '2026-02-10', readMin: 10, tag: 'Agents',
     excerpt: 'Commission splits, book of business, tools, and the mindset that separates top agents from the rest.',
-    body: `The independent freight agent model is one of the most attractive career paths in logistics. You own your book of business, set your own schedule, and earn commission on every load you move — all while leveraging a brokerage's authority, back-office support, and carrier network. But becoming a successful freight agent takes more than enthusiasm. Here's an honest look at what to expect, what you need, and how to thrive.
+    body: `The independent freight agent model is one of the most attractive career paths in logistics. You own your book of business, set your own schedule, and earn commission on every load you move, all while leveraging a brokerage's authority, back-office support, and carrier network. But becoming a successful freight agent takes more than enthusiasm. Here's an honest look at what to expect, what you need, and how to thrive.
 
 What Is an Independent Freight Agent?
 
@@ -260,13 +260,13 @@ What Tools and Support Should a Brokerage Provide?
 
 Not all brokerages support their agents equally. Here's what you should expect from a quality brokerage partnership:
 
-Transportation Management System (TMS): A modern TMS is essential for load management, carrier matching, document storage, and tracking. At SFam, we provide access to AscendTMS — one of the industry's leading cloud-based platforms.
+Transportation Management System (TMS): A modern TMS is essential for load management, carrier matching, document storage, and tracking. At SFam, we provide access to AscendTMS, one of the industry's leading cloud-based platforms.
 
 Carrier Network: You shouldn't have to find carriers on your own. The brokerage should maintain a vetted carrier network and provide access to load boards like DAT for capacity sourcing.
 
-Back-Office Support: Invoicing, collections, accounts receivable, and accounts payable should be handled by the brokerage. Your job is selling and managing relationships — not chasing payments.
+Back-Office Support: Invoicing, collections, accounts receivable, and accounts payable should be handled by the brokerage. Your job is selling and managing relationships, not chasing payments.
 
-Same-Day Pay Options: Through our factoring partner OTR Solutions, carriers can access same-day pay — which makes your loads more attractive and helps you build carrier relationships faster.
+Quick Pay Options: Through our factoring partner OTR Solutions, carriers can access quick pay, which makes your loads more attractive and helps you build carrier relationships faster.
 
 Compliance and Legal: MC authority, BMC-84 bond, insurance, carrier vetting, and regulatory compliance should all be managed by the brokerage.
 
@@ -280,7 +280,7 @@ Sales Experience: Freight brokerage is fundamentally a sales business. You need 
 
 An Existing Book of Business: While not strictly required, agents who bring existing shipper relationships have a significant advantage. You can start generating revenue from day one rather than building from zero.
 
-Discipline and Self-Motivation: As an independent agent, nobody manages your schedule. Top agents treat their business like a business — prospecting daily, following up relentlessly, and tracking their pipeline.
+Discipline and Self-Motivation: As an independent agent, nobody manages your schedule. Top agents treat their business like a business, prospecting daily, following up relentlessly, and tracking their pipeline.
 
 Relationship Skills: In freight, relationships are everything. Shippers stick with agents they trust. Carriers prioritize loads from agents who communicate clearly and pay promptly. Your reputation is your most valuable asset.
 
@@ -290,9 +290,9 @@ A typical day might look like this:
 
 Morning: Review active loads and check for any overnight issues. Follow up with carriers on pickup and delivery status. Update shippers with proactive status reports.
 
-Midday: Prospect for new business — cold calls, email outreach, LinkedIn networking. Follow up on pending quotes. Negotiate rates with carriers for booked loads.
+Midday: Prospect for new business, cold calls, email outreach, LinkedIn networking. Follow up on pending quotes. Negotiate rates with carriers for booked loads.
 
-Afternoon: Quote new shipments for existing customers. Source carriers for upcoming loads. Handle any issues — delays, accessorial disputes, appointment changes.
+Afternoon: Quote new shipments for existing customers. Source carriers for upcoming loads. Handle any issues, delays, accessorial disputes, appointment changes.
 
 Throughout the Day: Communication, communication, communication. The agents who communicate most proactively are the agents who retain customers longest.
 
@@ -300,7 +300,7 @@ Common Mistakes New Agents Make
 
 Underpricing to Win Business: Cutting your margin to get a shipper's first load might win the account, but you'll struggle to raise rates later. Price fairly from the start.
 
-Neglecting Carrier Relationships: Shippers give you freight, but carriers deliver it. Treat carriers well, pay them fairly, and they'll prioritize your loads — especially when capacity is tight.
+Neglecting Carrier Relationships: Shippers give you freight, but carriers deliver it. Treat carriers well, pay them fairly, and they'll prioritize your loads, especially when capacity is tight.
 
 Not Prospecting Consistently: It's easy to stop prospecting when you're busy servicing existing accounts. But your pipeline is your future. The best agents prospect every single day, regardless of how busy they are.
 
@@ -308,12 +308,12 @@ Ignoring Technology: Use your TMS. Track your loads. Automate where possible. Ag
 
 Why SFam Logistics?
 
-SFam Logistics was founded by a former Class A CDL truck driver with over a decade of road experience. That perspective shapes everything we do — from how we vet carriers to how we support our agents. When you partner with SFam, you get:
+SFam Logistics was founded by a former Class A CDL truck driver with a decade of road experience. That perspective shapes everything we do, from how we vet carriers to how we support our agents. When you partner with SFam, you get:
 
 - 70/30+ commission splits
 - Full access to AscendTMS
 - Vetted carrier network and DAT load board access
-- Same-day pay options through OTR Solutions
+- Quick pay options through OTR Solutions
 - Back-office support including invoicing, collections, and compliance
 - A leadership team that understands the realities of the road
 

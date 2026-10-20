@@ -148,8 +148,8 @@ export default function Quote() {
   return (
     <>
       <PageMeta
-        title="Request a Freight Quote — Spot & Recurring Freight"
-        description="Request a freight quote from SFam Logistics. Spot quotes and recurring freight for produce, refrigerated, and dry van shipments — Pacific Northwest focus with nationwide support. Prefer email? quotes@sfamlogistics.com."
+        title="Request a Freight Quote | Spot & Recurring Freight"
+        description="Request a freight quote from SFam Logistics. Spot quotes and recurring freight for produce, refrigerated, and dry van shipments, Pacific Northwest focus with nationwide support. Prefer email? quotes@sfamlogistics.com."
         keywords="freight quote, spot quote, spot rate, recurring freight, produce freight quote, refrigerated freight quote, reefer quote, dry van quote, Pacific Northwest freight broker, freight broker quote"
         path="/quote"
         type="website"
@@ -331,14 +331,14 @@ export default function Quote() {
               <ShieldCheck className="w-6 h-6 text-orange-400" />
               <h3 className="font-display italic font-black text-lg">Real-Time Pricing</h3>
             </div>
-            <p className="text-sm text-white/70 mb-5">We don&apos;t guess on rates. Every quote is priced by our brokerage team using live carrier capacity and current market data — never auto-generated estimates.</p>
+            <p className="text-sm text-white/70 mb-5">We don&apos;t guess on rates. Every quote is priced by our brokerage team using live carrier capacity and current market data, never auto-generated estimates.</p>
 
             <div className="space-y-3 text-sm">
               <div className="flex items-start gap-3 p-3 rounded-xl bg-white/[0.04] border border-white/10">
                 <Clock className="w-5 h-5 text-orange-400 shrink-0 mt-0.5" />
                 <div>
                   <div className="font-bold text-white text-sm">30-Minute Response</div>
-                  <div className="text-xs text-white/60">During business hours, Mon–Fri 7AM–5PM PST.</div>
+                  <div className="text-xs text-white/60">During business hours, Mon–Fri 7AM–5PM PT.</div>
                 </div>
               </div>
               <div className="flex items-start gap-3 p-3 rounded-xl bg-white/[0.04] border border-white/10">
