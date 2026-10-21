@@ -6,6 +6,7 @@ import { organizationLd, websiteLd, faqLd, breadcrumbLd } from '../data/seo.js'
 import Reveal from '../components/Reveal.jsx'
 import GoogleReviews from '../components/GoogleReviews.jsx'
 import { FocusServiceGrid, QuoteEmailLink } from '../components/FocusServices.jsx'
+import Slogan from '../components/Slogan'
 
 const homeFaqs = [
   { q: 'What is SFam Logistics?', a: 'SFam Logistics LLC is an FMCSA-authorized freight brokerage headquartered in Bothell, Washington. We specialize in produce, refrigerated, and dry van freight, with a Pacific Northwest focus and nationwide shipping support.' },
@@ -49,7 +50,7 @@ export default function Home() {
           <Reveal>
             <div className="inline-flex items-center gap-3 mb-6 justify-center">
               <div className="h-px w-10 bg-orange-400" />
-              <span className="text-xs uppercase tracking-[0.25em] text-orange-400 font-bold">Pacific Northwest Freight Brokerage</span>
+              <span className="text-xs uppercase tracking-[0.25em] text-white font-bold">Pacific Northwest Freight Brokerage</span>
               <div className="h-px w-10 bg-orange-400" />
             </div>
           </Reveal>
@@ -66,12 +67,12 @@ export default function Home() {
           </Reveal>
           <Reveal delay={300}>
             {/* Company slogan, kept separate from the headline */}
-            <p className="mt-5 font-display italic font-bold text-orange-300 text-lg sm:text-xl tracking-wide">{company.slogan}</p>
+            <Slogan className="mt-5 text-lg sm:text-xl tracking-wide" />
           </Reveal>
           <Reveal delay={360}>
             <div className="mt-8 flex flex-col sm:flex-row gap-3 sm:gap-4 items-center justify-center">
-              <Link to="/quote" className="btn-primary whitespace-nowrap w-64 sm:w-auto">Request a Quote <ArrowRight className="w-4 h-4" /></Link>
-              <Link to="/carrier-onboarding" className="btn-ghost whitespace-nowrap w-64 sm:w-auto">Become a Carrier Partner <ArrowRight className="w-4 h-4" /></Link>
+              <Link to="/quote" className="btn-primary whitespace-nowrap w-full max-w-[18rem] sm:w-auto">Request a Quote <ArrowRight className="w-4 h-4" /></Link>
+              <Link to="/carrier-onboarding" className="btn-ghost whitespace-nowrap w-full max-w-[18rem] sm:w-auto">Become a Carrier Partner <ArrowRight className="w-4 h-4" /></Link>
             </div>
           </Reveal>
         </div>
@@ -84,13 +85,13 @@ export default function Home() {
             <div className="text-center lg:text-left flex flex-col h-full">
               <div className="self-center lg:self-start inline-flex items-center gap-2 pl-3.5 pr-2.5 py-1.5 rounded-full bg-orange-400/10 border border-orange-400/30 text-orange-300 text-xs font-bold uppercase tracking-[0.1em] mb-4">Who We Are</div>
               <h2 className="font-display italic font-black text-3xl lg:text-4xl mb-3">A freight broker <span className="text-orange-400">built by a driver.</span></h2>
-              <p className="font-display italic font-bold text-orange-300 text-lg mb-4">{company.slogan}</p>
+              <Slogan className="text-lg mb-4" />
               <div className="h-0.5 w-24 bg-gradient-to-r from-orange-400 to-transparent mb-4 mx-auto lg:mx-0" />
               <p className="text-white/80 leading-relaxed mb-4">SFam Logistics LLC is a Washington-based freight brokerage built on a decade of real road experience. We focus on produce, refrigerated, and dry van freight in the Pacific Northwest, with nationwide shipping support, and the kind of clarity, fairness, and follow-through that the industry too often forgets.</p>
               <p className="text-white/80 leading-relaxed mb-6">We are not a faceless broker. SFam was built by a driver who knows both sides of every load, and the agents and partners who join us share one belief: <span className="text-orange-400 font-semibold">freight moves on trust.</span></p>
               <div className="flex flex-row gap-3 mt-auto justify-center lg:justify-start w-full">
-                <Link to="/about" className="btn-ghost !px-4 sm:!px-5 w-40 sm:w-44">Our Story <ArrowRight className="w-4 h-4" /></Link>
-                <Link to="/services" className="btn-ghost !px-4 sm:!px-5 w-40 sm:w-44">View Services</Link>
+                <Link to="/about" className="btn-ghost !px-4 sm:!px-5 flex-1 min-w-0 max-w-44 sm:flex-none sm:w-44">Our Story <ArrowRight className="w-4 h-4" /></Link>
+                <Link to="/services" className="btn-ghost !px-4 sm:!px-5 flex-1 min-w-0 max-w-44 sm:flex-none sm:w-44">View Services</Link>
               </div>
             </div>
           </Reveal>

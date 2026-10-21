@@ -22,6 +22,7 @@ const footerServices = [
   ['Expedited', '/services/expedited']
 ]
 import { useSubmissions } from '../context/SubmissionsContext.jsx'
+import Slogan from './Slogan'
 
 export default function Footer() {
   const { add } = useSubmissions()
@@ -89,7 +90,7 @@ export default function Footer() {
               <img src="/images/sfam-logo.jpg" alt="SFam Logistics" className="w-14 h-14 rounded-xl ring-2 ring-orange-400/40" />
             </Link>
             {/* Company slogan + service focus, shown on every page */}
-            <p className="font-display italic font-bold text-orange-300 text-base mb-2">{company.slogan}</p>
+            <Slogan className="text-base mb-2" />
             <p className="text-white/70 text-sm leading-relaxed mb-3">{company.serviceText}</p>
             <p className="text-white/50 text-xs leading-relaxed italic">&ldquo;{company.tagline}&rdquo;</p>
             <div className="flex gap-3 mt-5">

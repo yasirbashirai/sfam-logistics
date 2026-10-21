@@ -29,7 +29,7 @@ export default function CreativeMarquee() {
             {items.map((it, i) => (
               <div key={i} className="flex items-center gap-3 shrink-0">
                 <it.i className="w-4 h-4 text-orange-400" />
-                <span className={`text-xs sm:text-sm font-bold ${it.keepCase ? 'text-orange-300 tracking-[0.12em]' : 'text-white/70 uppercase tracking-[0.2em]'}`}>{it.t}</span>
+                <span className={`text-xs sm:text-sm font-bold ${it.keepCase ? 'text-white/70 tracking-[0.12em]' : 'text-white/70 uppercase tracking-[0.2em]'}`}>{it.t}</span>
                 <span className="w-1 h-1 rounded-full bg-orange-400/60" />
               </div>
             ))}

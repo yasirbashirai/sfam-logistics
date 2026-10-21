@@ -5,6 +5,7 @@ import { PageHero } from '../components/Section.jsx'
 import Reveal from '../components/Reveal.jsx'
 import { breadcrumbLd, organizationLd } from '../data/seo.js'
 import { company } from '../data/site.js'
+import Slogan from '../components/Slogan'
 
 const aboutJsonLd = [
   breadcrumbLd([{ name: 'Home', path: '/' }, { name: 'About', path: '/about' }]),
@@ -37,7 +38,7 @@ export default function About() {
           <Reveal>
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-orange-400/10 border border-orange-400/30 text-white text-xs font-bold uppercase tracking-[0.15em] mb-4">Our Story</div>
             <h2 className="font-display italic font-black text-3xl mb-3 text-white">Built on Experience. <span className="text-orange-500">Designed for Excellence.</span></h2>
-            <p className="font-display italic font-bold text-orange-400 text-lg mb-4">{company.slogan}</p>
+            <Slogan className="text-lg mb-4" />
             <div className="h-0.5 w-24 bg-gradient-to-r from-orange-400 to-transparent mb-5" />
             <div className="space-y-4 text-white/80 leading-relaxed">
               <p className="text-white/90 font-medium">SFam Logistics is a freight brokerage focused on produce, refrigerated, and dry van transportation. Our main regional focus is the Pacific Northwest. We also work with shippers nationwide.</p>

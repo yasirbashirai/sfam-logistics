@@ -13,7 +13,8 @@ h1,h2,h3,h4,h5 { font-family: 'Exo 2', system-ui, sans-serif; letter-spacing: -0
   .container-x { @apply max-w-7xl mx-auto px-5 sm:px-8; }
 
   /* === ADVANCED BUTTONS === */
-  .btn { @apply relative inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full font-bold uppercase tracking-wider text-sm transition-all duration-300 overflow-hidden; }
+  /* Tighter padding + letter-spacing on phones so long labels keep their arrow icon visible */
+  .btn { @apply relative inline-flex items-center justify-center gap-2 px-5 sm:px-7 py-3.5 rounded-full font-bold uppercase tracking-wide sm:tracking-wider text-sm transition-all duration-300 overflow-hidden; }
 
   .btn-primary {
     @apply btn text-brand-navy;
