@@ -25,7 +25,7 @@ const KEYWORDS = {
   'freight type': 4, 'ltl': 4, 'ftl': 4, 'reefer': 4, 'flatbed': 4, 'expedited': 4, 'service': 4, 'equipment': 4,
   'pay': 5, 'payment': 5, 'net-30': 5, 'net 30': 5, 'invoice': 5, 'how fast pay': 5,
   'mc': 6, 'usdot': 6, 'dot number': 6, 'mc number': 6, 'license': 6, 'authority': 6, 'docket': 6,
-  'same-day': 7, 'same day pay': 7, 'quick-pay': 7, 'quickpay': 7, 'factoring': 7,
+  'quick-pay': 7, 'quickpay': 7, 'factoring': 7,
   'hours': 8, 'open': 8, 'business hours': 8, 'schedule': 8, 'when': 8, 'timing': 8,
   'location': 9, 'address': 9, 'office': 9, 'where are you': 9, 'bothell': 9, 'everett': 9,
   'insurance': 10, 'cargo': 10, 'liability': 10, 'bonded': 10, 'bmc': 10,

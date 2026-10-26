@@ -104,7 +104,7 @@ export default function Footer() {
           <div>
             <h4 className="label mb-5">Company</h4>
             <ul className="space-y-3 text-white/70 text-sm">
-              {[['/about', 'About Us'], ['/services', 'Logistics Services'], ['/shippers', 'Shippers'], ['/carrier-onboarding', 'Become a Carrier Partner'], ['/quote', 'Request a Quote'], ['/track', 'Track Shipment'], ['/blog', 'Blog & Insights'], ['/contact', 'Contact']].map(([to, label]) => (
+              {[['/about', 'About Us'], ['/services', 'Logistics Services'], ['/safety-compliance', 'Safety & Compliance'], ['/shippers', 'Shippers'], ['/carrier-onboarding', 'Become a Carrier Partner'], ['/quote', 'Request a Quote'], ['/track', 'Track Shipment'], ['/blog', 'Blog & Insights'], ['/contact', 'Contact']].map(([to, label]) => (
                 <li key={to}><Link to={to} className="hover:text-orange-300 inline-flex items-center gap-2 group"><ArrowRight className="w-3 h-3 opacity-0 -ml-5 group-hover:opacity-100 group-hover:ml-0 transition-all text-orange-400" /> {label}</Link></li>
               ))}
             </ul>

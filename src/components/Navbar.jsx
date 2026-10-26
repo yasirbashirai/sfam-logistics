@@ -8,7 +8,8 @@ const iconMap = { Truck, Boxes, Snowflake, PackageOpen, Route, Zap }
 const links = [
   { to: '/', label: 'Home' },
   { to: '/about', label: 'About Us' },
-  { to: '/services', label: 'Logistics Services', mega: true },
+  { to: '/services', label: 'Services', mega: true },
+  { to: '/safety-compliance', label: 'Safety & Compliance' },
   { to: '/shippers', label: 'Shippers' },
   { to: '/track', label: 'Track Shipment' },
   { to: '/carrier-onboarding', label: 'Carriers' },
@@ -65,10 +66,10 @@ export default function Navbar() {
           </Link>
 
           {/* Desktop Nav */}
-          <nav className="hidden xl:flex items-center gap-1">
+          <nav className="hidden xl:flex items-center gap-0.5 ml-4">
             {links.map(l => (
               <div key={l.to} className="relative" onMouseEnter={() => l.mega && setMegaOpen(true)} onMouseLeave={() => l.mega && setMegaOpen(false)}>
-                <NavLink to={l.to} end={l.to === '/'} className={({ isActive }) => `relative px-2.5 2xl:px-4 py-2 text-[13px] 2xl:text-sm font-bold uppercase tracking-wide 2xl:tracking-wider whitespace-nowrap transition flex items-center gap-1 ${isActive ? 'text-orange-400' : 'text-white/85 hover:text-orange-300'}`}>
+                <NavLink to={l.to} end={l.to === '/'} className={({ isActive }) => `relative px-2 py-2 text-[13px] font-bold uppercase tracking-wide whitespace-nowrap transition flex items-center gap-1 ${isActive ? 'text-orange-400' : 'text-white/85 hover:text-orange-300'}`}>
                   {({ isActive }) => (
                     <>
                       {l.label}
@@ -106,7 +107,7 @@ export default function Navbar() {
 
           {/* CTA */}
           <div className="hidden xl:flex items-center gap-3">
-            <Link to="/quote" className="btn-primary !px-5 2xl:!px-7 !py-3 text-sm whitespace-nowrap">Request a Quote <ArrowRight className="w-4 h-4" /></Link>
+            <Link to="/quote" className="btn-primary !px-5 !py-3 text-sm whitespace-nowrap">Request a Quote <ArrowRight className="w-4 h-4" /></Link>
           </div>
 
           {/* Mobile toggle */}

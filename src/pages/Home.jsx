@@ -124,6 +124,24 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ============ 3a. SAFETY FIRST: short teaser linking to /safety-compliance ============ */}
+      <section className="section !pt-4 sm:!pt-6">
+        <div className="container-x max-w-4xl">
+          <Reveal>
+            <div className="relative rounded-2xl border border-orange-400/30 bg-white/[0.04] p-8 sm:p-10 text-center overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-orange-400/10 via-transparent to-orange-400/5 pointer-events-none" />
+              <div className="relative">
+                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-orange-400 to-orange-600 grid place-items-center mx-auto mb-5"><ShieldCheck className="w-7 h-7 text-white" /></div>
+                <h2 className="font-display italic font-black text-3xl sm:text-4xl">Safety First. <span className="text-orange-400">Every Shipment.</span></h2>
+                <div className="divider-glow w-24 mx-auto my-5" />
+                <p className="text-white/80 max-w-2xl mx-auto mb-7 leading-relaxed">At SFam Logistics, safety begins with responsible carrier selection, clear communication, and respect for professional drivers. From carrier verification to freight fraud prevention, we take practical measures to support safe and accountable freight transportation.</p>
+                <Link to="/safety-compliance" className="btn-primary">Our Safety Standards <ArrowRight className="w-4 h-4" /></Link>
+              </div>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
       {/* ============ 3b. REGIONAL FOCUS ============ */}
       <section className="section-light !pt-6 sm:!pt-8">
         <div className="container-x max-w-3xl text-center">

@@ -23,9 +23,10 @@ export default function About() {
   return (
     <>
       <PageMeta
-        title="About Us | Driver-Owned Freight Brokerage"
-        description="SFam Logistics is a freight brokerage focused on produce, refrigerated, and dry van transportation, with a Pacific Northwest focus and nationwide shippers. Built on a decade of Class A CDL experience. FMCSA authorized, MC 1810116, USDOT 4555943."
-        keywords="about SFam Logistics, freight brokerage company, driver-owned freight broker, Bothell freight broker, Washington freight company, FMCSA authorized broker, freight brokerage history"
+        title="About SFam Logistics"
+        fullTitle="About SFam Logistics | Driver-Founded Freight Brokerage"
+        description="Learn about SFam Logistics LLC, a Washington-based, FMCSA-authorized freight brokerage specializing in dry van and refrigerated transportation throughout the Pacific Northwest and nationwide."
+        keywords="about SFam Logistics, freight brokerage company, driver-founded freight broker, Bothell freight broker, Washington freight company, FMCSA authorized broker, freight brokerage history"
         path="/about"
         type="website"
         jsonLd={aboutJsonLd}
@@ -41,13 +42,28 @@ export default function About() {
             <Slogan className="text-lg mb-4" />
             <div className="h-0.5 w-24 bg-gradient-to-r from-orange-400 to-transparent mb-5" />
             <div className="space-y-4 text-white/80 leading-relaxed">
-              <p className="text-white/90 font-medium">SFam Logistics is a freight brokerage focused on produce, refrigerated, and dry van transportation. Our main regional focus is the Pacific Northwest. We also work with shippers nationwide.</p>
-              <p>SFam Logistics LLC was founded with a clear purpose: to elevate the standard of freight brokerage.</p>
-              <p>Our foundation is built on a decade of real-industry experience behind the wheel as a Class A CDL truck driver. This perspective provides a rare advantage in an industry where critical decisions are often made far from the realities of the road.</p>
-              <p>SFam Logistics LLC is a licensed, FMCSA-authorized freight brokerage. We are a privately held organization, strategically structured for long-term growth, operational stability, and disciplined execution.</p>
-              <p>We approach logistics with precision and intention. Every load, every lane, and every relationship is managed with a focus on reliability, efficiency, and accountability.</p>
-              <p>Our model is built for the future, combining strong brokerage operations today with a clear path toward asset-based capabilities. The result is a logistics partner positioned to deliver consistency at scale without compromising service quality.</p>
-              <p className="text-orange-600 font-semibold italic">What started in the cab of a truck is now building toward something much greater.</p>
+              <p className="text-white/90 font-medium">SFam Logistics LLC was founded with a clear purpose: to build a freight brokerage grounded in real industry experience, accountability, and respect for the people who keep freight moving.</p>
+              <p>Our foundation comes from more than a decade of firsthand experience as a Class A CDL truck driver, including experience in trucking operations and freight management. This background gives us a practical understanding of the challenges faced by shippers, carriers, and drivers.</p>
+              <p>Based in Washington State, SFam Logistics is an FMCSA-authorized property broker providing truckload freight solutions throughout the Pacific Northwest and nationwide, with a primary focus on dry van and refrigerated transportation.</p>
+              <p>We believe successful freight management begins with clear communication, responsible carrier selection, realistic scheduling, and strong business relationships.</p>
+              <p className="text-orange-600 font-semibold italic">Our goal is to build a company where shippers can depend on consistent service, carriers are treated with respect, and every shipment is handled with accountability.</p>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ===== 1b. CORPORATE STRUCTURE ===== */}
+      <section className="section-white">
+        <div className="container-x relative max-w-4xl">
+          <Reveal>
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-orange-400/10 border border-orange-400/30 text-white text-xs font-bold uppercase tracking-[0.15em] mb-4">Our Corporate Structure</div>
+            <h2 className="font-display italic font-black text-3xl mb-4 text-white">Part of <span className="text-orange-500">The Said Group Holdings</span></h2>
+            <div className="h-0.5 w-24 bg-gradient-to-r from-orange-400 to-transparent mb-5" />
+            <div className="space-y-4 text-white/80 leading-relaxed">
+              <p className="text-white/90 font-medium">SFam Logistics LLC is a wholly owned subsidiary of The Said Group Holdings LLC, a privately held holding company established to develop, manage, and support businesses across multiple industries.</p>
+              <p>As part of this corporate structure, SFam Logistics maintains its own business identity, management, and FMCSA freight brokerage authority, with a dedicated focus on transportation and logistics.</p>
+              <p>Our relationship with The Said Group Holdings reflects a long-term commitment to responsible business management, sustainable growth, and building lasting relationships.</p>
+              <p>At SFam Logistics, our focus remains on delivering dependable freight solutions while treating shippers, carriers, and business partners with professionalism and respect.</p>
             </div>
           </Reveal>
         </div>
@@ -187,12 +203,12 @@ export default function About() {
           <div className="relative">
             <div className="absolute left-6 top-0 bottom-0 w-0.5 bg-gradient-to-b from-orange-500 via-orange-400/40 to-transparent" />
             {[
-              { y: '2016', t: 'Class A CDL: began driving professionally', d: 'Years on the road taught us how the industry really works, and where it falls short.' },
-              { y: '2023', t: 'Transitioned into dispatch operations', d: 'Translated road experience into operations. Saw both sides of every load.' },
-              { y: '2026', t: 'Launched SFam Logistics LLC, FMCSA MC# 1810116', d: 'Launched a brokerage built on the values we wished existed when we drove.' }
+              { y: '2016', t: 'Class A CDL / Professional Trucking', d: 'More than a decade of firsthand trucking experience shaped our understanding of freight transportation, carrier operations, and the challenges drivers face on the road.' },
+              { y: '2023', t: 'Trucking Operations and Freight Management', d: 'Expanded industry experience through trucking operations and freight management, developing a deeper understanding of shipment coordination, customer expectations, and carrier relationships.' },
+              { y: '2026', t: 'SFam Logistics LLC', d: 'Established SFam Logistics LLC as an FMCSA-authorized freight brokerage, bringing years of practical trucking experience into a business focused on reliable service, accountability, and long-term partnerships.' }
             ].map((m, i) => (
               <Reveal key={m.y} delay={i * 120}>
-                <div className="relative pl-20 pb-8 last:pb-0">
+                <div className="relative pl-20 pb-8 min-h-[5rem]">
                   <div className="absolute left-0 top-0 w-12 h-12 rounded-xl bg-gradient-to-br from-orange-400 to-orange-600 grid place-items-center text-white font-display italic font-black text-sm shadow-lg shadow-orange-500/30">{m.y}</div>
                   <h3 className="font-display italic font-black text-lg mb-1 text-white">{m.t}</h3>
                   <p className="text-white/75 text-sm">{m.d}</p>

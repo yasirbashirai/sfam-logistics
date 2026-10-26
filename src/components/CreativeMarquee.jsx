@@ -6,7 +6,7 @@ const items = [
   { i: Heart, t: 'SFam - Stronger Together, Family Forever', keepCase: true },
   { i: ShieldCheck, t: 'FMCSA Licensed' },
   { i: FileCheck, t: 'BMC-84 Bonded' },
-  { i: Award, t: 'Cargo Insured' },
+  { i: Award, t: 'Contingent Cargo Coverage' },
   { i: Clock, t: 'After-Hours Support' },
   { i: Truck, t: 'Driver Built' },
   { i: DollarSign, t: 'Quick Pay' },

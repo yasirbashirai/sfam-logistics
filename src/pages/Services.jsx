@@ -103,7 +103,7 @@ export default function Services() {
           </Reveal>
           <Reveal delay={100}>
             <div className="grid sm:grid-cols-2 gap-x-8 gap-y-2">
-              {['Reefer', 'Dry Van', 'Flatbed', 'Step Deck', 'Sprinter Van', 'LTL Pallets', 'Power Only', 'Intermodal'].map(eq => (
+              {['Reefer', 'Dry Van', 'Flatbed', 'Step Deck', 'Sprinter Van', 'Power Only'].map(eq => (
                 <div key={eq} className="flex items-center gap-2 py-2 border-b border-white/15">
                   <CheckCircle2 className="w-4 h-4 text-orange-500 shrink-0" />
                   <span className="text-white/85 text-sm font-medium">{eq}</span>
