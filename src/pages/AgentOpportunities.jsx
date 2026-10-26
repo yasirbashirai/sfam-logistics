@@ -240,7 +240,7 @@ export default function AgentOpportunities() {
                 <Award className="w-8 h-8 text-orange-400 mb-3" />
                 <h3 className="font-display italic font-black text-base mb-3 text-white">Why Choose SFam?</h3>
                 <ul className="space-y-2 text-xs text-white/75">
-                  {['Driver-built leadership', 'Weekly commission pay', 'No territory restrictions', 'Carrier compliance handled', 'Full TMS access', 'Transparent commissions'].map(b => (
+                  {['Driver-founded leadership', 'Weekly commission pay', 'No territory restrictions', 'Carrier compliance handled', 'Full TMS access', 'Transparent commissions'].map(b => (
                     <li key={b} className="flex gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-orange-400 mt-0.5 shrink-0" /> {b}</li>
                   ))}
                 </ul>

@@ -59,7 +59,7 @@ export const organizationLd = {
     { '@type': 'Country', name: 'Canada' },
     { '@type': 'Country', name: 'Mexico' }
   ],
-  serviceArea: { '@type': 'AdministrativeArea', name: 'Continental United States and North America' },
+  serviceArea: { '@type': 'AdministrativeArea', name: 'Pacific Northwest and Nationwide (United States)' },
   openingHoursSpecification: [
     { '@type': 'OpeningHoursSpecification', dayOfWeek: ['Monday','Tuesday','Wednesday','Thursday','Friday'], opens: '07:00', closes: '17:00' }
   ],
@@ -73,7 +73,7 @@ export const organizationLd = {
     { '@type': 'PropertyValue', propertyID: 'MC', name: 'FMCSA Motor Carrier Number', value: MC_NUMBER },
     { '@type': 'PropertyValue', propertyID: 'USDOT', name: 'USDOT Number', value: DOT_NUMBER }
   ],
-  knowsAbout: ['Freight Brokerage','Produce Freight','Refrigerated Freight','Dry Van Freight','Pacific Northwest Freight','Full Truckload (FTL)','Less-than-Truckload (LTL)','Flatbed Freight','Dedicated Freight','Expedited Freight','Cross-Border Shipping','Carrier Dispatch','Logistics Consulting'],
+  knowsAbout: ['Freight Brokerage','Produce Freight','Refrigerated Freight','Dry Van Freight','Pacific Northwest Freight','Full Truckload (FTL)','Flatbed Freight','Dedicated Freight','Expedited Freight','Cross-Border Shipping','Carrier Dispatch','Logistics Consulting'],
   slogan: 'Stronger Together, Family Forever.'
 }
 

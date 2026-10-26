@@ -8,7 +8,7 @@ const items = [
   { i: FileCheck, t: 'BMC-84 Bonded' },
   { i: Award, t: 'Contingent Cargo Coverage' },
   { i: Clock, t: 'After-Hours Support' },
-  { i: Truck, t: 'Driver Built' },
+  { i: Truck, t: 'Driver-Founded' },
   { i: DollarSign, t: 'Quick Pay' },
   { i: Globe, t: 'Pacific Northwest Focus' },
   { i: Truck, t: 'Produce · Reefer · Dry Van' },

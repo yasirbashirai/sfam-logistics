@@ -17,7 +17,6 @@ const footerServices = [
   ['Refrigerated (Reefer)', '/services/reefer'],
   ['Dry Van', quoteLink('Dry Van')],
   ['Full Truckload (FTL)', '/services/full-truckload'],
-  ['Less-Than-Truckload (LTL)', '/services/less-than-truckload'],
   ['Flatbed', '/services/flatbed'],
   ['Expedited', '/services/expedited']
 ]

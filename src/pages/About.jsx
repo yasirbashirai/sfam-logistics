@@ -110,7 +110,7 @@ export default function About() {
           <Reveal>
             <div>
               <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-orange-400/10 border border-orange-400/30 text-white text-xs font-bold uppercase tracking-[0.15em] mb-3">For Carriers</div>
-              <h2 className="font-display italic font-black text-3xl mb-4 text-white">Built by a Driver. <span className="text-orange-500">Designed for Your Success.</span></h2>
+              <h2 className="font-display italic font-black text-3xl mb-4 text-white">Founded by a Driver. <span className="text-orange-500">Designed for Your Success.</span></h2>
               <div className="h-0.5 w-24 bg-gradient-to-r from-orange-400 to-transparent mb-5" />
               <div className="space-y-3 text-white/80 leading-relaxed">
                 <p>SFam Logistics LLC was built with a deep understanding of what it means to be on the road.</p>
@@ -161,7 +161,7 @@ export default function About() {
               <div className="bg-white/[0.06] backdrop-blur-xl border border-white/10 rounded-xl p-6 h-full hover:border-orange-400/40 transition">
                 <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-orange-400 to-orange-600 grid place-items-center mb-4"><Eye className="w-5 h-5 text-white" /></div>
                 <h3 className="font-display italic font-black text-lg mb-2">Our Vision</h3>
-                <p className="text-white/70 leading-relaxed text-sm">To become a premier transportation and logistics partner across North America, known for operational excellence, trusted relationships, and scalable, long-term solutions.</p>
+                <p className="text-white/70 leading-relaxed text-sm">To become a premier transportation and logistics partner serving the Pacific Northwest and nationwide, known for operational excellence, trusted relationships, and scalable, long-term solutions.</p>
               </div>
             </Reveal>
           </div>
