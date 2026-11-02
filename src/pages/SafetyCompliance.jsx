@@ -1,10 +1,11 @@
 import { Link } from 'react-router-dom'
-import { ArrowRight, ShieldCheck, UserCheck, PhoneOff, ShieldAlert, PackageCheck, Thermometer, Satellite, ClipboardList, Handshake } from 'lucide-react'
+import { ArrowRight, ArrowUpRight, ShieldCheck, UserCheck, PhoneOff, ShieldAlert, PackageCheck, Thermometer, Satellite, ClipboardList, Handshake, AlertTriangle } from 'lucide-react'
 import PageMeta from '../components/PageMeta.jsx'
 import { PageHero, Orbs } from '../components/Section.jsx'
 import Reveal from '../components/Reveal.jsx'
 import Slogan from '../components/Slogan'
 import IMG from '../data/images.js'
+import { company } from '../data/site.js'
 import { breadcrumbLd } from '../data/seo.js'
 
 const DESCRIPTION = 'Learn how SFam Logistics approaches carrier verification, ELD-based tracking, driver safety, freight fraud prevention, cargo protection, and responsible freight brokerage operations.'
@@ -46,7 +47,7 @@ export default function SafetyCompliance() {
         path="/safety-compliance"
         jsonLd={safetyJsonLd}
       />
-      <PageHero eyebrow="Safety & Compliance" title={<>Safety &amp; <span className="text-orange-400">Compliance</span></>} subtitle="Safety, accountability, and responsible freight management in every shipment." image={IMG.highwayMountains}>
+      <PageHero eyebrow="Safety & Compliance" title={<>Safety &amp; <span className="text-orange-400">Compliance</span></>} subtitle="Responsible freight management, from carrier selection through delivery." image={IMG.highwayMountains}>
         <a href="#standards" className="btn-primary">Our Safety Standards <ArrowRight className="w-4 h-4" /></a>
       </PageHero>
 
@@ -72,7 +73,7 @@ export default function SafetyCompliance() {
           <Reveal>
             <div className="text-center max-w-2xl mx-auto mb-10">
               <div className="badge mb-3 mx-auto">Our Safety Standards</div>
-              <h2 className="font-display italic font-black text-3xl sm:text-4xl">Our Safety <span className="text-orange-400">Standards</span></h2>
+              <h2 className="font-display italic font-black text-3xl sm:text-4xl">Practical standards.<br /><span className="text-orange-400">Shared responsibility.</span></h2>
               <div className="divider-glow w-24 mx-auto mt-4" />
             </div>
           </Reveal>
@@ -90,24 +91,42 @@ export default function SafetyCompliance() {
         </div>
       </section>
 
-      {/* ===== 3. OUR COMMITMENT ===== */}
+      {/* ===== 3. OUR COMMITMENT + REPORT A CONCERN (two-column, per client's ChatGPT mock) ===== */}
       <section className="section-white">
-        <div className="container-x max-w-3xl">
-          <Reveal>
-            <div className="bg-white/[0.05] border border-orange-400/30 rounded-2xl p-8 sm:p-10 text-center">
-              <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-orange-400 to-orange-600 grid place-items-center mx-auto mb-5"><Handshake className="w-7 h-7 text-white" /></div>
-              <h2 className="font-display italic font-black text-3xl mb-4 text-white">Our <span className="text-orange-500">Commitment</span></h2>
-              <p className="text-white/80 leading-relaxed max-w-2xl mx-auto mb-5 text-base sm:text-lg">At SFam Logistics, safety is a shared responsibility. We are committed to working with shippers and carriers who value professionalism, accountability, and responsible transportation practices.</p>
-              <div className="flex flex-wrap items-baseline justify-center gap-x-2 text-lg sm:text-xl mb-7">
-                <span className="font-display italic font-black text-white">SFam -</span>
-                <Slogan />
+        <div className="container-x">
+          <div className="grid lg:grid-cols-2 gap-6 lg:gap-8 items-stretch">
+            {/* Left: commitment statement + slogan */}
+            <Reveal>
+              <div className="bg-white/[0.05] border border-orange-400/30 rounded-2xl p-8 sm:p-10 h-full">
+                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-orange-400 to-orange-600 grid place-items-center mb-5"><Handshake className="w-7 h-7 text-white" /></div>
+                <div className="badge mb-3">Our Commitment</div>
+                <h2 className="font-display italic font-black text-3xl mb-4 text-white">Safety is a <span className="text-orange-500">shared responsibility.</span></h2>
+                <p className="text-white/80 leading-relaxed mb-6 text-base sm:text-lg">At SFam Logistics, safety is a shared responsibility. We are committed to working with shippers and carriers who value professionalism, accountability, and responsible transportation practices.</p>
+                <div className="flex flex-wrap items-baseline gap-x-2 text-lg sm:text-xl mb-7">
+                  <span className="font-display italic font-black text-white">SFam -</span>
+                  <Slogan />
+                </div>
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <Link to="/quote" className="btn-primary">Request a Quote <ArrowRight className="w-4 h-4" /></Link>
+                  <Link to="/carrier-onboarding" className="btn-ghost">Become a Carrier Partner</Link>
+                </div>
               </div>
-              <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                <Link to="/quote" className="btn-primary">Request a Quote <ArrowRight className="w-4 h-4" /></Link>
-                <Link to="/carrier-onboarding" className="btn-ghost">Become a Carrier Partner</Link>
+            </Reveal>
+
+            {/* Right: report a safety concern (routes to the Contact form, which saves to the admin dashboard) */}
+            <Reveal delay={120}>
+              <div className="bg-white/[0.05] border border-white/10 rounded-2xl p-8 sm:p-10 h-full flex flex-col">
+                <div className="w-14 h-14 rounded-2xl bg-white/10 border border-orange-400/40 grid place-items-center mb-5"><AlertTriangle className="w-7 h-7 text-orange-400" /></div>
+                <h3 className="font-display italic font-black text-2xl mb-4 text-white">Report a safety concern</h3>
+                <p className="text-white/80 leading-relaxed mb-4 text-base sm:text-lg">Use our contact form to report incidents, service concerns or suspected misconduct. Please include the load number, date, location and a short description of what happened.</p>
+                <p className="text-white/70 leading-relaxed mb-7 text-[15px]"><strong className="text-white">Immediate danger or emergency?</strong> Call 911 or your local emergency service first. Drivers, please park safely before contacting us.</p>
+                <div className="mt-auto flex flex-col sm:flex-row gap-3">
+                  <Link to="/contact" className="btn-primary">Report a Concern <ArrowUpRight className="w-4 h-4" /></Link>
+                  <a href={company.phoneHref} className="btn-ghost">Call {company.phone}</a>
+                </div>
               </div>
-            </div>
-          </Reveal>
+            </Reveal>
+          </div>
         </div>
       </section>
     </>
