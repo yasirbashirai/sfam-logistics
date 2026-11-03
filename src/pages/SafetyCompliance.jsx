@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { ArrowRight, ArrowUpRight, ShieldCheck, UserCheck, PhoneOff, ShieldAlert, PackageCheck, Thermometer, Satellite, ClipboardList, Handshake, AlertTriangle } from 'lucide-react'
+import { ArrowRight, ArrowUpRight, ShieldCheck, UserRound, PhoneOff, ShieldAlert, Package, Thermometer, MapPin, ClipboardList, Handshake, AlertTriangle } from 'lucide-react'
 import PageMeta from '../components/PageMeta.jsx'
 import { PageHero, Orbs } from '../components/Section.jsx'
 import Reveal from '../components/Reveal.jsx'
@@ -27,13 +27,13 @@ const safetyJsonLd = [
 // The eight safety standards, wording exactly as provided by the client.
 const standards = [
   { i: ShieldCheck, t: 'Carrier Verification', d: 'We review carrier operating authority, insurance information, and available safety records as part of our carrier onboarding and selection process.' },
-  { i: UserCheck, t: 'Experienced Drivers', d: 'SFam Logistics requires a minimum of two years of commercial driving experience for drivers assigned to shipments arranged through our brokerage.' },
+  { i: UserRound, t: 'Experienced Drivers', d: 'SFam Logistics requires a minimum of two years of commercial driving experience for drivers assigned to shipments arranged through our brokerage.' },
   { i: PhoneOff, t: 'No Calls While Driving', d: 'Driver safety comes first. We do not expect drivers to answer calls, respond to messages, or provide updates while operating a commercial vehicle. Communication should take place when the driver is safely parked.' },
   { i: ShieldAlert, t: 'Freight Fraud Prevention', d: 'We take measures to verify carrier identities, prevent unauthorized load transfers, and identify potential double-brokering activity.' },
-  { i: PackageCheck, t: 'Cargo Protection', d: 'We review carrier insurance requirements and communicate shipment-specific handling instructions to help protect customer freight.' },
+  { i: Package, t: 'Cargo Protection', d: 'We review carrier insurance requirements and communicate shipment-specific handling instructions to help protect customer freight.' },
   { i: Thermometer, t: 'Refrigerated Freight Management', d: 'For temperature-sensitive shipments, we communicate required temperature settings, equipment expectations, and handling instructions to participating carriers.' },
-  { i: Satellite, t: 'ELD-Based Shipment Tracking', d: 'Where supported and authorized by the carrier, SFam Logistics uses ELD-connected tracking or other approved tracking methods to monitor shipment progress, improve visibility, and identify potential delays. Tracking is used for freight coordination and does not replace the carrier’s responsibility for driver safety or hours-of-service compliance.' },
-  { i: ClipboardList, t: 'Incident Reporting', d: 'We expect prompt reporting of accidents, cargo damage, theft, temperature deviations, and other shipment-related incidents so appropriate action can be taken.' }
+  { i: MapPin, t: 'ELD-Based Shipment Tracking', d: 'Where supported and authorized by the carrier, SFam Logistics uses ELD-connected tracking or other approved tracking methods to monitor shipment progress, improve visibility, and identify potential delays. Tracking is used for freight coordination and does not replace the carrier’s responsibility for driver safety or hours-of-service compliance.' },
+  { i: AlertTriangle, t: 'Incident Reporting', d: 'We expect prompt reporting of accidents, cargo damage, theft, temperature deviations, and other shipment-related incidents so appropriate action can be taken.' }
 ]
 
 export default function SafetyCompliance() {
@@ -66,25 +66,24 @@ export default function SafetyCompliance() {
         </div>
       </section>
 
-      {/* ===== 2. EIGHT SAFETY STANDARDS ===== */}
-      <section id="standards" className="section scroll-mt-40">
-        <Orbs />
-        <div className="container-x relative">
+      {/* ===== 2. EIGHT SAFETY STANDARDS =====
+          Light band + 2-column white cards with line icons, matched to the client's ChatGPT mock. */}
+      <section id="standards" className="py-14 sm:py-20 bg-[#f4f3ef] text-brand-navy scroll-mt-40">
+        <div className="container-x max-w-6xl">
           <Reveal>
-            <div className="text-center max-w-2xl mx-auto mb-10">
-              <div className="badge mb-3 mx-auto">Our Safety Standards</div>
-              <h2 className="font-display italic font-black text-3xl sm:text-4xl">Practical standards.<br /><span className="text-orange-400">Shared responsibility.</span></h2>
-              <div className="divider-glow w-24 mx-auto mt-4" />
+            <div className="mb-10 sm:mb-12">
+              <div className="text-xs font-bold uppercase tracking-[0.2em] text-[#8a5a1c] mb-3">Our Safety Standards</div>
+              <h2 className="font-display font-black text-3xl sm:text-5xl leading-tight text-brand-navy">Practical standards.<br />Shared responsibility.</h2>
             </div>
           </Reveal>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+          <div className="grid md:grid-cols-2 gap-5 sm:gap-6">
             {standards.map(({ i: Icon, t, d }, idx) => (
-              <Reveal key={t} delay={(idx % 4) * 80}>
-                <div className="bg-white/[0.06] backdrop-blur-xl border border-white/10 rounded-xl p-6 h-full hover:border-orange-400/40 transition">
-                  <div className="w-11 h-11 rounded-lg bg-gradient-to-br from-orange-400 to-orange-600 grid place-items-center mb-4"><Icon className="w-5 h-5 text-white" /></div>
-                  <h3 className="font-display italic font-black text-lg mb-2 text-white">{t}</h3>
-                  <p className="text-white/75 leading-relaxed text-[15px]">{d}</p>
-                </div>
+              <Reveal key={t} delay={(idx % 2) * 80}>
+                <article className="bg-white border border-black/10 p-7 sm:p-8 h-full transition hover:border-[#8a5a1c]/40 hover:shadow-lg">
+                  <Icon className="w-8 h-8 text-[#8a5a1c] mb-6" strokeWidth={1.6} aria-hidden="true" />
+                  <h3 className="font-sans not-italic font-bold text-xl sm:text-2xl tracking-normal mb-4 text-brand-navy">{t}</h3>
+                  <p className="text-slate-700 leading-[1.8] text-base">{d}</p>
+                </article>
               </Reveal>
             ))}
           </div>
