@@ -67,22 +67,23 @@ export default function SafetyCompliance() {
       </section>
 
       {/* ===== 2. EIGHT SAFETY STANDARDS =====
-          Light band + 2-column white cards with line icons, matched to the client's ChatGPT mock. */}
-      <section id="standards" className="py-14 sm:py-20 bg-[#f4f3ef] text-brand-navy scroll-mt-40">
-        <div className="container-x max-w-6xl">
+          Navy band + 2-column glass cards (site card style) with line icons, matched to the client's ChatGPT mock. */}
+      <section id="standards" className="section scroll-mt-40">
+        <Orbs />
+        <div className="container-x relative max-w-6xl">
           <Reveal>
             <div className="mb-10 sm:mb-12">
-              <div className="text-xs font-bold uppercase tracking-[0.2em] text-[#8a5a1c] mb-3">Our Safety Standards</div>
-              <h2 className="font-display font-black text-3xl sm:text-5xl leading-tight text-brand-navy">Practical standards.<br />Shared responsibility.</h2>
+              <div className="text-xs font-bold uppercase tracking-[0.2em] text-orange-400 mb-3">Our Safety Standards</div>
+              <h2 className="font-display font-black text-3xl sm:text-5xl leading-tight text-white">Practical standards.<br /><span className="text-orange-400">Shared responsibility.</span></h2>
             </div>
           </Reveal>
           <div className="grid md:grid-cols-2 gap-5 sm:gap-6">
             {standards.map(({ i: Icon, t, d }, idx) => (
               <Reveal key={t} delay={(idx % 2) * 80}>
-                <article className="bg-white border border-black/10 p-7 sm:p-8 h-full transition hover:border-[#8a5a1c]/40 hover:shadow-lg">
-                  <Icon className="w-8 h-8 text-[#8a5a1c] mb-6" strokeWidth={1.6} aria-hidden="true" />
-                  <h3 className="font-sans not-italic font-bold text-xl sm:text-2xl tracking-normal mb-4 text-brand-navy">{t}</h3>
-                  <p className="text-slate-700 leading-[1.8] text-base">{d}</p>
+                <article className="bg-white/[0.06] backdrop-blur-xl border border-white/10 rounded-xl p-7 sm:p-8 h-full transition hover:border-orange-400/40">
+                  <Icon className="w-8 h-8 text-orange-400 mb-6" strokeWidth={1.6} aria-hidden="true" />
+                  <h3 className="font-sans not-italic font-bold text-xl sm:text-2xl tracking-normal mb-4 text-white">{t}</h3>
+                  <p className="text-white/75 leading-[1.8] text-base">{d}</p>
                 </article>
               </Reveal>
             ))}
