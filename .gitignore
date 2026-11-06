@@ -10,3 +10,12 @@ server/sfam.db-*
 server/uploads/*
 !server/uploads/.gitkeep
 .vercel
+
+# Local-only handover / deploy artefacts (contain PII + secrets)
+handover-*/
+sfam logistics deploy final/
+sfam logistics deploy final.zip
+employee-platform/
+social-media-kit/
+_shot.mjs
+CREDENTIALS*.md
